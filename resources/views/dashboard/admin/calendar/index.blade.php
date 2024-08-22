@@ -2,63 +2,20 @@
 
 @section('content')
     <div class="col-lg-10">
-        <div class="welcome-and-user-name">
-            <h6>Welcome Back,</h6>
-            <h5>Admin</h5>
-        </div>
-        <div class="maindashboard-box">
-            <div class="four-things-align">
-                <div class="box">
-                    <div class="text">
-                        <h6>Revenue</h6>
-                        <div class="price-box">
-                            <h5>$3,250</h5>
-                            <h6>+55%</h6>
-                        </div>
-                    </div>
-                    <div class="img-box">
-                        <img src="{{ asset('./assets/images/dashboard-img-01.png') }}" alt="">
-                    </div>
-                </div>
-                <div class="box">
-                    <div class="text">
-                        <h6>Approved Appointments</h6>
-                        <div class="price-box">
-                            <h5>12</h5>
-                            <h6>+5%</h6>
-                        </div>
-                    </div>
-                    <div class="img-box">
-                        <img src="{{ asset('./assets/images/dashboard-img-02.png') }}" alt="">
-                    </div>
-                </div>
-                <div class="box">
-                    <div class="text">
-                        <h6>Appointments</h6>
-                        <div class="price-box price-box-in-minus">
-                            <h5>14</h5>
-                            <h6>-14%</h6>
-                        </div>
-                    </div>
-                    <div class="img-box">
-                        <img src="{{ asset('./assets/images/dashboard-img-03.png') }}" alt="">
-                    </div>
-                </div>
-                <div class="box">
-                    <div class="text">
-                        <h6>Pending Appointments</h6>
-                        <div class="price-box">
-                            <h5>02</h5>
-                        </div>
-                    </div>
-                    <div class="img-box img-box-gray">
-                        <img src="{{ asset('./assets/images/dashboard-img-03.png') }}" alt="">
-                    </div>
-                </div>
+        <div class="two-thing-align-staff-addstaff">
+            <div class="box">
+                <h6>Staff Members</h6>
+                <h5>Navy Dave</h5>
+            </div>
+            <div class="box">
+                <a href="#" class="t-btn">Add Staff</a>
             </div>
         </div>
-        <div class="main-table-box">
-            <h3>Appointments</h3>
+        <div class="main-calendar-box main-calendar-box-list">
+            <h5>Calendar ( Appointments )</h5>
+            <input type="date" placeholder="May 2024">
+        </div>
+        <div class="main-table-box main-table-box-list">
             <table>
                 <tr>
                     <th>User</th>
@@ -70,7 +27,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
+                                <img src="assets/images/person-01.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Esthera Jackson</h5>
@@ -99,7 +56,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
+                                <img src="assets/images/person-02.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Alexa Liras</h5>
@@ -128,7 +85,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
+                                <img src="assets/images/person-01.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Esthera Jackson</h5>
@@ -157,7 +114,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
+                                <img src="assets/images/person-02.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Alexa Liras</h5>
@@ -186,7 +143,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
+                                <img src="assets/images/person-01.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Esthera Jackson</h5>
@@ -215,7 +172,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
+                                <img src="assets/images/person-02.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Alexa Liras</h5>
@@ -244,7 +201,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
+                                <img src="assets/images/person-01.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Esthera Jackson</h5>
@@ -273,7 +230,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
+                                <img src="assets/images/person-02.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Alexa Liras</h5>
@@ -302,7 +259,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
+                                <img src="assets/images/person-01.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Esthera Jackson</h5>
@@ -331,7 +288,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
+                                <img src="assets/images/person-02.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Alexa Liras</h5>
@@ -360,7 +317,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
+                                <img src="assets/images/person-01.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Esthera Jackson</h5>
@@ -389,7 +346,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
+                                <img src="assets/images/person-02.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Alexa Liras</h5>
@@ -418,7 +375,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
+                                <img src="assets/images/person-01.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Esthera Jackson</h5>
@@ -447,7 +404,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
+                                <img src="assets/images/person-02.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Alexa Liras</h5>
@@ -476,7 +433,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
+                                <img src="assets/images/person-01.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Esthera Jackson</h5>
@@ -505,7 +462,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
+                                <img src="assets/images/person-02.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Alexa Liras</h5>
@@ -530,11 +487,11 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
+                                            <tr>
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
+                                <img src="assets/images/person-01.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Esthera Jackson</h5>
@@ -563,7 +520,7 @@
                     <td>
                         <div class="person-box">
                             <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
+                                <img src="assets/images/person-02.png" alt="">
                             </div>
                             <div class="box">
                                 <h5>Alexa Liras</h5>

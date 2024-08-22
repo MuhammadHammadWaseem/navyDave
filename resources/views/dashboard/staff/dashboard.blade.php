@@ -4,22 +4,10 @@
     <div class="col-lg-10">
         <div class="welcome-and-user-name">
             <h6>Welcome Back,</h6>
-            <h5>Admin</h5>
+            <h5>Staff</h5>
         </div>
         <div class="maindashboard-box">
             <div class="four-things-align">
-                <div class="box">
-                    <div class="text">
-                        <h6>Revenue</h6>
-                        <div class="price-box">
-                            <h5>$3,250</h5>
-                            <h6>+55%</h6>
-                        </div>
-                    </div>
-                    <div class="img-box">
-                        <img src="{{ asset('./assets/images/dashboard-img-01.png') }}" alt="">
-                    </div>
-                </div>
                 <div class="box">
                     <div class="text">
                         <h6>Approved Appointments</h6>

@@ -66,8 +66,8 @@ class RolesAndPermissionsSeeder extends Seeder
         $user->assignRole($userRole);
 
         // Assign permissions to roles
-        $adminRole->givePermissionTo($permissions);
-        $staffRole->givePermissionTo(['read roles and permissions']);
-        $userRole->givePermissionTo(['read roles and permissions']);
+        $adminRole->givePermissionTo($adminRole);
+        $staffRole->givePermissionTo($staffRole);
+        $userRole->givePermissionTo($userRole);
     }
 }

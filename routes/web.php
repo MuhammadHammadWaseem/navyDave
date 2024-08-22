@@ -1,9 +1,16 @@
 <?php
 
+use Faker\Provider\ar_EG\Payment;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StaffController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\StaffAuthController;
-use App\Http\Controllers\Auth\UserAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,29 +27,37 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login');
+Route::post('login', [AdminAuthController::class, 'login'])->name('login.post');
+Route::get('logout', [AdminAuthController::class, 'logout'])->name('logout');
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login');
-    Route::post('login', [AdminAuthController::class, 'login'])->name('login.post');
     Route::get('register', [AdminAuthController::class, 'showRegisterForm'])->name('register');
     Route::post('register', [AdminAuthController::class, 'register']);
 
     Route::middleware(['role:admin'])->group(function () {
+        Route::get('calendar', [CalendarController::class, 'index'])->name('calendar');
+        Route::get('staff', [StaffController::class, 'index'])->name('staff');
+        Route::get('staff/create', [StaffController::class, 'create'])->name('staff.create');
         Route::get('dashboard', [AdminAuthController::class, 'dashboard'])->name('dashboard');
-        Route::get('logout', [AdminAuthController::class, 'logout'])->name('logout');
+        Route::get('payment', [PaymentController::class, 'index'])->name('payment');
+        Route::get('service', [ServiceController::class, 'index'])->name('service');
+        Route::get('customer', [CustomerController::class, 'index'])->name('customer');
+        Route::get('community', [CommunityController::class, 'index'])->name('community');
     });
 });
 
 // Staff Routes
 Route::prefix('staff')->name('staff.')->group(function () {
-    Route::get('login', [StaffAuthController::class, 'showLoginForm'])->name('login');
-    Route::post('login', [StaffAuthController::class, 'login']);
     Route::get('register', [StaffAuthController::class, 'showRegisterForm'])->name('register');
     Route::post('register', [StaffAuthController::class, 'register']);
 
     Route::middleware(['role:staff'])->group(function () {
-        // Routes only Staff can access
+        Route::get('dashboard', [StaffAuthController::class, 'dashboard'])->name('dashboard');
+        Route::get('appointment', [StaffAuthController::class, 'appointment'])->name('appointment');
+        Route::get('calendar', [StaffAuthController::class, 'calendar'])->name('calendar');
+        Route::get('community', [StaffAuthController::class, 'community'])->name('community');
     });
 });
 
@@ -55,6 +70,10 @@ Route::prefix('user')->name('user.')->group(function () {
 
     Route::middleware(['role:user'])->group(function () {
         // Routes only Users can access
+        Route::get('dashboard', [UserAuthController::class, 'dashboard'])->name('dashboard');
+        Route::get('calendar', [UserAuthController::class, 'calendar'])->name('calendar');
+        Route::get('staff', [UserAuthController::class, 'staff'])->name('staff');
+        Route::get('community', [UserAuthController::class, 'community'])->name('community');
     });
 });
 

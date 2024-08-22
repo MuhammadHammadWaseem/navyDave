@@ -31,7 +31,12 @@ class AdminAuthController extends Controller
             // Check if the user has the 'admin' role
             if (Auth::user()->hasRole('admin')) {
                 return redirect()->route('admin.dashboard'); // Redirect to admin dashboard
-            } else {
+            } else if(Auth::user()->hasRole('staff')) {
+                return redirect()->route('staff.dashboard');
+            } else if(Auth::user()->hasRole('user')) {
+                return redirect()->route('user.dashboard');
+            }
+            else {
                 Auth::logout(); // Log out if not an admin
                 return redirect()->route('admin.login')->withErrors('Unauthorized access.');
             }
@@ -74,7 +79,7 @@ class AdminAuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('admin.login');
+        return redirect()->route('login');
     }
 
     public function dashboard()

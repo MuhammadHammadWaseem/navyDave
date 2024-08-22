@@ -45,7 +45,7 @@
                             </div>
                             <div class="logout-setting-bell-all">
                                 <div class="logout-box">
-                                    <a href="{{ route('admin.logout') }}"><i class="fa fa-user" aria-hidden="true"></i>Logout</a>
+                                    <a href="{{ route('logout') }}"><i class="fa fa-user" aria-hidden="true"></i>Logout</a>
                                 </div>
                                 <div class="setting-box">
                                     <a href="#"><i class="fa fa-cog" aria-hidden="true"></i></a>
@@ -67,24 +67,39 @@
                 <div class="col-lg-2">
                     <div class="left-all-links">
                         <ul>
+                            @if (auth()->user()->hasRole('admin'))
                             <li><a href="{{ route('admin.dashboard') }}" class="dashboard-active"><span><img src="{{ asset('./assets/images/Dashboard.png') }}" alt=""></span>Dashboard</a></li>
-                            <li><a href="calendar.html"><span><img src="{{ asset('./assets/images/Calendar.png') }}" alt=""></span>Calendar</a></li>
-                            <li><a href="#"><span><img src="{{ asset('./assets/images/Payments.png') }}" alt=""></span>Payments</a></li>
-                            <li><a href="#"><span><img src="{{ asset('./assets/images/Services.png') }}" alt=""></span>Services</a></li>
-                            <li><a href="#"><span><img src="{{ asset('./assets/images/Customers.png') }}" alt=""></span>Customers</a></li>
-                            <li><a href="#"><span><img src="{{ asset('./assets/images/Customers.png') }}" alt=""></span>Staff Members</a></li>
-                            <li><a href="#"><span><img src="{{ asset('./assets/images/Customers.png') }}" alt=""></span>Community</a></li>
+                            <li><a href="{{ route('admin.calendar') }}"><span><img src="{{ asset('./assets/images/Calendar.png') }}" alt=""></span>Calendar</a></li>
+                            <li><a href="{{ route('admin.payment') }}"><span><img src="{{ asset('./assets/images/Payments.png') }}" alt=""></span>Payments</a></li>
+                            <li><a href="{{ route('admin.service') }}"><span><img src="{{ asset('./assets/images/Services.png') }}" alt=""></span>Services</a></li>
+                            <li><a href="{{ route('admin.customer') }}"><span><img src="{{ asset('./assets/images/Customers.png') }}" alt=""></span>Customers</a></li>
+                            <li><a href="{{ route('admin.staff') }}"><span><img src="{{ asset('./assets/images/Customers.png') }}" alt=""></span>Staff Members</a></li>
+                            <li><a href="{{ route('admin.community') }}"><span><img src="{{ asset('./assets/images/Customers.png') }}" alt=""></span>Community</a></li>
+                            @endif
+                            @if (auth()->user()->hasRole('user'))
+                            <li><a href="{{ route('user.dashboard') }}" class="dashboard-active"><span><img src="{{ asset('./assets/images/Dashboard.png') }}" alt=""></span>Dashboard</a></li>
+                            <li><a href="{{ route('user.calendar') }}"><span><img src="{{ asset('./assets/images/Calendar.png') }}" alt=""></span>Calendar</a></li>
+                            <li><a href="{{ route('user.staff') }}"><span><img src="{{ asset('./assets/images/Customers.png') }}" alt=""></span>Staff Members</a></li>
+                            <li><a href="{{ route('user.community') }}"><span><img src="{{ asset('./assets/images/Customers.png') }}" alt=""></span>Community</a></li>
+                            @endif
+
+                            @if (auth()->user()->hasRole('staff'))
+                            <li><a href="{{ route('staff.dashboard') }}" class="dashboard-active"><span><img src="{{ asset('./assets/images/Dashboard.png') }}" alt=""></span>Dashboard</a></li>
+                            <li><a href="{{ route('staff.calendar') }}"><span><img src="{{ asset('./assets/images/Calendar.png') }}" alt=""></span>Calendar</a></li>
+                            <li><a href="{{ route('staff.appointment') }}"><span><img src="{{ asset('./assets/images/Customers.png') }}" alt=""></span>Appointments</a></li>
+                            <li><a href="{{ route('staff.community') }}"><span><img src="{{ asset('./assets/images/Customers.png') }}" alt=""></span>Community</a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
-                
+
                 @yield('content')
-                
+
             </div>
         </div>
     </section>
 
-    
+
 
     <script src="assets/js/wow-animate.js"></script>
     <script src="assets/js/lib.js"></script>
@@ -113,6 +128,6 @@
         });
 
     </script>
-    
+
 </body>
 </html>
