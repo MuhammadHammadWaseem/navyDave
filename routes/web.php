@@ -37,6 +37,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('register', [AdminAuthController::class, 'register']);
 
     Route::middleware(['role:admin'])->group(function () {
+        Route::get('profile', [AdminAuthController::class, 'profile'])->name('profile');
+        Route::post('profile/update/{id}', [AdminAuthController::class, 'profileupdate'])->name('profile.update');
         Route::get('calendar', [CalendarController::class, 'index'])->name('calendar');
         Route::get('staff', [StaffController::class, 'index'])->name('staff');
         Route::get('staff/create', [StaffController::class, 'create'])->name('staff.create');
@@ -55,6 +57,8 @@ Route::prefix('staff')->name('staff.')->group(function () {
 
     Route::middleware(['role:staff'])->group(function () {
         Route::get('dashboard', [StaffAuthController::class, 'dashboard'])->name('dashboard');
+        Route::get('profile', [StaffAuthController::class, 'profile'])->name('profile');
+        Route::post('profile/update/{id}', [StaffAuthController::class, 'profileupdate'])->name('profile.update');
         Route::get('appointment', [StaffAuthController::class, 'appointment'])->name('appointment');
         Route::get('calendar', [StaffAuthController::class, 'calendar'])->name('calendar');
         Route::get('community', [StaffAuthController::class, 'community'])->name('community');
@@ -71,6 +75,8 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::middleware(['role:user'])->group(function () {
         // Routes only Users can access
         Route::get('dashboard', [UserAuthController::class, 'dashboard'])->name('dashboard');
+        Route::get('profile', [UserAuthController::class, 'profile'])->name('profile');
+        Route::post('profile/update/{id}', [UserAuthController::class, 'profileupdate'])->name('profile.update');
         Route::get('calendar', [UserAuthController::class, 'calendar'])->name('calendar');
         Route::get('staff', [UserAuthController::class, 'staff'])->name('staff');
         Route::get('community', [UserAuthController::class, 'community'])->name('community');

@@ -1,0 +1,37 @@
+@extends('dashboard.layouts.master')
+
+@section('content')
+    <div class="col-lg-10">
+        @if ($errors->count() > 0)
+            <div class="alert alert-danger">
+                @foreach ($errors->all() as $error)
+                    <p>{{ $error }}</p>
+                @endforeach
+            </div>
+        @endif
+
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <div class="text">
+            <h2>{{ $user->name }}</h2>
+        </div>
+        <div class="form-box">
+            <form action="profile/update/{{ $user->id }}" method="POST">
+                @csrf
+                <input type="text" placeholder="Full Name" value="{{ $user->name }}" name="name">
+                <input type="email" placeholder="Type Your Email" value="{{ $user->email }}" name="email">
+                <input type="tel" placeholder="Type Your Phone Number" value="{{ $user->phone ? $user->phone : '' }}"
+                    name="phone">
+                <input type="text" placeholder="Address" value="{{ $user->address ? $user->address->address : '' }}"
+                    name="address">
+                <input type="text" placeholder="City" value="{{ $user->city ? $user->city->name : '' }}" name="city">
+                <input type="text" placeholder="Change Password" name="password">
+                <button type="submit">Update Profile</button>
+            </form>
+        </div>
+    </div>
+@endsection

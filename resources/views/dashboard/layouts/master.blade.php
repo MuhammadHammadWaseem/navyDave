@@ -69,6 +69,7 @@
                         <ul>
                             @if (auth()->user()->hasRole('admin'))
                             <li><a href="{{ route('admin.dashboard') }}" class="dashboard-active"><span><img src="{{ asset('./assets/images/Dashboard.png') }}" alt=""></span>Dashboard</a></li>
+                            <li><a href="{{ route('admin.profile') }}"><span><img src="{{ asset('./assets/images/Profile.png') }}" alt=""></span>Profile</a></li>
                             <li><a href="{{ route('admin.calendar') }}"><span><img src="{{ asset('./assets/images/Calendar.png') }}" alt=""></span>Calendar</a></li>
                             <li><a href="{{ route('admin.payment') }}"><span><img src="{{ asset('./assets/images/Payments.png') }}" alt=""></span>Payments</a></li>
                             <li><a href="{{ route('admin.service') }}"><span><img src="{{ asset('./assets/images/Services.png') }}" alt=""></span>Services</a></li>
@@ -78,6 +79,7 @@
                             @endif
                             @if (auth()->user()->hasRole('user'))
                             <li><a href="{{ route('user.dashboard') }}" class="dashboard-active"><span><img src="{{ asset('./assets/images/Dashboard.png') }}" alt=""></span>Dashboard</a></li>
+                            <li><a href="{{ route('user.profile') }}"><span><img src="{{ asset('./assets/images/Profile.png') }}" alt=""></span>Profile</a></li>
                             <li><a href="{{ route('user.calendar') }}"><span><img src="{{ asset('./assets/images/Calendar.png') }}" alt=""></span>Calendar</a></li>
                             <li><a href="{{ route('user.staff') }}"><span><img src="{{ asset('./assets/images/Customers.png') }}" alt=""></span>Staff Members</a></li>
                             <li><a href="{{ route('user.community') }}"><span><img src="{{ asset('./assets/images/Customers.png') }}" alt=""></span>Community</a></li>
@@ -85,6 +87,7 @@
 
                             @if (auth()->user()->hasRole('staff'))
                             <li><a href="{{ route('staff.dashboard') }}" class="dashboard-active"><span><img src="{{ asset('./assets/images/Dashboard.png') }}" alt=""></span>Dashboard</a></li>
+                            <li><a href="{{ route('staff.profile') }}"><span><img src="{{ asset('./assets/images/Profile.png') }}" alt=""></span>Profile</a></li>
                             <li><a href="{{ route('staff.calendar') }}"><span><img src="{{ asset('./assets/images/Calendar.png') }}" alt=""></span>Calendar</a></li>
                             <li><a href="{{ route('staff.appointment') }}"><span><img src="{{ asset('./assets/images/Customers.png') }}" alt=""></span>Appointments</a></li>
                             <li><a href="{{ route('staff.community') }}"><span><img src="{{ asset('./assets/images/Customers.png') }}" alt=""></span>Community</a></li>
