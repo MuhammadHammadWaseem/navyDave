@@ -1,5 +1,18 @@
 @extends('dashboard.layouts.master')
+<style>
+    .main-box-navy .left-all-links ul li a.staff-active, .main-box-navy .left-all-links ul li a:hover {
+  background-color: white;
+  font-weight: 600;
+}
 
+.main-box-navy .left-all-links ul li a.staff-active span,.main-box-navy .left-all-links ul li a:hover span {
+  background-color: #2CC374;
+}
+
+.main-box-navy .left-all-links ul li a.staff-active span img,.main-box-navy .left-all-links ul li a:hover span img {
+  filter: invert(0) hue-rotate(465deg) brightness(10.5);
+}
+</style>
 @section('content')
 <div class="col-lg-10">
     <div class="main-calendar-box main-calendar-box-list customers-box">

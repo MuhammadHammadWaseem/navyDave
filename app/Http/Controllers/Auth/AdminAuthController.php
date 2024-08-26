@@ -94,6 +94,10 @@ class AdminAuthController extends Controller
         return view('dashboard.admin.auth.profile', compact('user'));
 
     }
+    public function appointment(){
+        return view('dashboard.admin.appointment.index');
+        }
+
     public function profileupdate(Request $request)
     {
         // Retrieve the authenticated user

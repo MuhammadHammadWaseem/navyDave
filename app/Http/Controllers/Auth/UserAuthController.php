@@ -27,12 +27,17 @@ class UserAuthController extends Controller
     return view('dashboard.user.community.index');
     }
 
+    public function appointment(){
+        return view('dashboard.user.appointment.index');
+    }
+
     public function profile()
   {
       $user = auth()->user();
       return view('dashboard.user.profile.profile', compact('user'));
 
   }
+
   public function profileupdate(Request $request)
   {
       // Retrieve the authenticated user

@@ -40,6 +40,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('profile', [AdminAuthController::class, 'profile'])->name('profile');
         Route::post('profile/update/{id}', [AdminAuthController::class, 'profileupdate'])->name('profile.update');
         Route::get('calendar', [CalendarController::class, 'index'])->name('calendar');
+        Route::get('appointment', [AdminAuthController::class, 'appointment'])->name('appointment');
         Route::get('staff', [StaffController::class, 'index'])->name('staff');
         Route::get('staff/create', [StaffController::class, 'create'])->name('staff.create');
         Route::get('dashboard', [AdminAuthController::class, 'dashboard'])->name('dashboard');
@@ -78,6 +79,7 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::get('profile', [UserAuthController::class, 'profile'])->name('profile');
         Route::post('profile/update/{id}', [UserAuthController::class, 'profileupdate'])->name('profile.update');
         Route::get('calendar', [UserAuthController::class, 'calendar'])->name('calendar');
+        Route::get('appointment', [UserAuthController::class, 'appointment'])->name('appointment');
         Route::get('staff', [UserAuthController::class, 'staff'])->name('staff');
         Route::get('community', [UserAuthController::class, 'community'])->name('community');
     });
