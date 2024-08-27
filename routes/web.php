@@ -27,7 +27,7 @@ use App\Http\Controllers\GuestController;
 
 // Guest Route
 Route::get('/',[GuestController::class, 'index'])->name('home');
-Route::get('/home',[GuestController::class, 'home']);
+Route::get('/home',[GuestController::class, 'home'])->name('index');
 Route::get('about',[GuestController::class, 'about'])->name('about');
 Route::get('pricing',[GuestController::class, 'pricing'])->name('pricing');
 Route::get('appointment',[GuestController::class, 'appointment'])->name('appointment');

@@ -35,7 +35,7 @@
                 <div class="col-lg-8">
                     <div class="header-nav">
                         <ul>
-                            <li><a href="{{ route('home') }}" class="home-active">Home</a></li>
+                            <li><a href="{{ route('index') }}" class="home-active">Home</a></li>
                             <li><a href="{{ route('about') }}" class="about-active">About</a></li>
                             <li><a href="{{ route('pricing') }}" class="pricing-active">Pricings</a></li>
                             <li><a href="{{ route('appointment') }}" class="appointment-active">Appointments</a></li>
