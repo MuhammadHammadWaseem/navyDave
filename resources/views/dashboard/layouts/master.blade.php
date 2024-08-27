@@ -7,7 +7,7 @@
     <title>{{ config('app.name') }}</title>
     <link rel="icon" href="{{ asset('./assets/images/favicon.png') }}" type="favicon.png" sizes="32x32">
     <link rel="stylesheet" href="{{ asset('./assets/css/lib.css') }}">
-    <link rel="stylesheet" href="{{ asset('./assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('./assets/css/adminStyle.css') }}">
     <link rel="preconnect" href="https://fonts.gstatic.com/">
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
