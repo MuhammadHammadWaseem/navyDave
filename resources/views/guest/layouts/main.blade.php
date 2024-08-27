@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NAVY DAVE GOLF</title>
-    <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="favicon.png" sizes="32x32">
+    <link rel="icon" href="{{ asset('./assets/images/favicon.png') }}" type="favicon.png" sizes="32x32">
     <link rel="stylesheet" href="{{ asset('./assets/css/lib.css') }}">
     <link rel="stylesheet" href="{{ asset('./assets/css/style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-2">
                     <div class="header-logo">
-                        <a href="index.html"><img src="{{ asset('assets/images/header-logo.png') }}"
+                        <a href="index.html"><img src="{{ asset('./assets/images/header-logo.png') }}"
                                 alt=""></a>
                     </div>
                 </div>
@@ -47,11 +47,11 @@
                 <div class="col-lg-2">
                     <div class="header-cart-search">
                         <ul>
-                            <li><a href="#"><img src="{{ asset('assets/images/shopping-cart.png') }}"
+                            <li><a href="#"><img src="{{ asset('./assets/images/shopping-cart.png') }}"
                                         alt=""></a></li>
-                            <li><a href="#"><img src="{{ asset('assets/images/search-icon.png') }}"
+                            <li><a href="#"><img src="{{ asset('./assets/images/search-icon.png') }}"
                                         alt=""></a></li>
-                            <li><a href="#"><img src="{{ asset('assets/images/person-user.png') }}"
+                            <li><a href="#"><img src="{{ asset('./assets/images/person-user.png') }}"
                                         alt=""></a></li>
                         </ul>
                     </div>
@@ -67,7 +67,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4">
                     <div class="main-footer-logo">
-                        <a href="index.html"> <img src="{{ asset('assets/images/header-logo.png') }}"
+                        <a href="index.html"> <img src="{{ asset('./assets/images/header-logo.png') }}"
                                 alt=""></a>
                     </div>
                     <div class="links-email-number">
