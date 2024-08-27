@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-lg-2">
                     <div class="header-logo">
-                        <a href="index.html"><img src="{{ asset('./assets/images/header-logo.png') }}" alt=""></a>
+                        <a href="{{ route('admin.dashboard') }}"><img src="{{ asset('./assets/images/header-logo.png') }}" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-10">

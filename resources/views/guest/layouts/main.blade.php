@@ -28,7 +28,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-2">
                     <div class="header-logo">
-                        <a href="index.html"><img src="{{ asset('./assets/images/header-logo.png') }}"
+                        <a href="{{ route('index') }}"><img src="{{ asset('./assets/images/header-logo.png') }}"
                                 alt=""></a>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4">
                     <div class="main-footer-logo">
-                        <a href="index.html"> <img src="{{ asset('./assets/images/header-logo.png') }}"
+                        <a href="{{ route('index') }}"> <img src="{{ asset('./assets/images/header-logo.png') }}"
                                 alt=""></a>
                     </div>
                     <div class="links-email-number">
@@ -124,7 +124,7 @@
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <div class="site-copy-right">
-                        <p>All rights reserved by <a href="index.html">NAVY DAVE GOLF</a> </p>
+                        <p>All rights reserved by <a href="{{ route('index') }}">NAVY DAVE GOLF</a> </p>
                     </div>
                 </div>
             </div>
