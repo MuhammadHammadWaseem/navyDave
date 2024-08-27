@@ -24,9 +24,6 @@ use App\Http\Controllers\GuestController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
 // Guest Route
 Route::get('/',[GuestController::class, 'home'])->name('home');
