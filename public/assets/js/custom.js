@@ -1,5 +1,5 @@
 // blogslider start
-$(".blogslid").slick({
+$(".testi-slider").slick({
     dots: true,
     arrows: true,
     autoplay: true,
@@ -8,7 +8,7 @@ $(".blogslid").slick({
     nextArrow: '<button class="slide-arrow next-arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></button>',
     speed: 300,
     slidesToShow: 3,
-    slidesToScroll: 4,
+    slidesToScroll: 1,
     responsive: [
         {
             breakpoint: 1024,

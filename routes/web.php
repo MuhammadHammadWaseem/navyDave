@@ -11,6 +11,7 @@ use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\StaffAuthController;
+use App\Http\Controllers\GuestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,13 +24,33 @@ use App\Http\Controllers\Auth\StaffAuthController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+// Guest Route
+Route::get('/',[GuestController::class, 'home'])->name('home');
+Route::get('about',[GuestController::class, 'about'])->name('about');
+Route::get('pricing',[GuestController::class, 'pricing'])->name('pricing');
+Route::get('appointment',[GuestController::class, 'appointment'])->name('appointment');
+Route::get('appointment/p1', function () {
+    return view('guest.appointment.index1');
 });
+Route::get('appointment/p2', function () {
+    return view('guest.appointment.index2');
+});
+Route::get('appointment/p3', function () {
+    return view('guest.appointment.index3');
+});
+Route::get('appointment/p4', function () {
+    return view('guest.appointment.index4');
+});
+Route::get('contact',[GuestController::class, 'contact'])->name('contact');
 
 Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AdminAuthController::class, 'login'])->name('login.post');
 Route::get('logout', [AdminAuthController::class, 'logout'])->name('logout');
+// Guest Route End
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {
