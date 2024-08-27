@@ -4,15 +4,15 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
-$requestUri = $_SERVER['REQUEST_URI'];
+// $requestUri = $_SERVER['REQUEST_URI'];
 
-// Automatically prepend /public to all requests if not already present
-// if (strpos($requestUri, '/public') !== 0) {
-//     $newUrl = '/public' . $requestUri;
-//     header("Location: $newUrl");
-//     exit();
-// }
-if (preg_match('/^\/assets\//', $requestUri) && strpos($requestUri, '/public') === false) { $newUrl = '/public' . $requestUri; header("Location: $newUrl"); exit(); }
+// // Automatically prepend /public to all requests if not already present
+// // if (strpos($requestUri, '/public') !== 0) {
+// //     $newUrl = '/public' . $requestUri;
+// //     header("Location: $newUrl");
+// //     exit();
+// // }
+// if (preg_match('/^\/assets\//', $requestUri) && strpos($requestUri, '/public') === false) { $newUrl = '/public' . $requestUri; header("Location: $newUrl"); exit(); }
 /*
 |--------------------------------------------------------------------------
 | Check If The Application Is Under Maintenance
