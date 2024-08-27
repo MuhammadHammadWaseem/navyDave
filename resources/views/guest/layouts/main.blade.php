@@ -32,7 +32,7 @@
                                 alt=""></a>
                     </div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-8 disple-none-mb">
                     <div class="header-nav">
                         <ul>
                             <li><a href="{{ route('home') }}" class="home-active">Home</a></li>
@@ -46,7 +46,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-2 disple-none-mb">
                     <div class="header-cart-search">
                         <ul>
                             <li><a href="#"><img src="{{ asset('./assets/images/shopping-cart.png') }}"
@@ -58,6 +58,34 @@
                         </ul>
                     </div>
                 </div>
+                <div class="super-container">
+                    <div class="slide-container">
+                      <div class="stripe toggle-nav js-nav">
+                        <div class="hamburger-box">
+                          <div class="bun top"></div>
+                          <div class="meat"></div>
+                          <div class="bun bottom"></div>
+                        </div>
+                      </div>
+                      <div class="nav-wrap">
+                        <nav class="menu">
+                          <ul>
+                            <li><a href="{{ route('home') }}" class="home-active">Home</a></li>
+                            <li><a href="{{ route('about') }}" class="about-active">About</a></li>
+                            <li><a href="{{ route('pricing') }}" class="pricing-active">Pricings</a></li>
+                            <li><a href="{{ route('appointment') }}" class="appointment-active">Appointments</a></li>
+                            <li><a href="{{ route('blogs') }}" class="blog-active">Blogs</a></li>
+                            <li><a href="{{ route('faq') }}" class="faq-active">FAQ</a></li>
+                            <li><a href="{{ route('contact') }}" class="contact-active">Contact Us</a></li>
+                            <li><a href="{{ route('login') }}">login</a></li>
+                            <li><a href="#"><img src="{{ asset('./assets/images/shopping-cart.png') }}" alt=""></a></li>
+                            <li><a href="#"><img src="{{ asset('./assets/images/search-icon.png') }}" alt=""></a></li>
+                            <li><a href="#"><img src="{{ asset('./assets/images/person-user.png') }}" alt=""></a></li>
+                          </ul>
+                        </nav>
+                      </div>
+                    </div>
+                  </div>
             </div>
         </div>
     </header>
