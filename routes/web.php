@@ -45,6 +45,10 @@ Route::get('appointment/p4', function () {
     return view('guest.appointment.index4');
 });
 Route::get('contact',[GuestController::class, 'contact'])->name('contact');
+Route::get('blogs',[GuestController::class, 'blogs'])->name('blogs');
+Route::get('blog/details',[GuestController::class, 'blogDetails'])->name('blog-details');
+Route::get('faq',[GuestController::class, 'faq'])->name('faq');
+
 
 Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AdminAuthController::class, 'login'])->name('login.post');

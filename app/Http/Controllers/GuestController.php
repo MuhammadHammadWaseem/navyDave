@@ -16,12 +16,10 @@ class GuestController extends Controller
     }
     public function about()
     {
-
         return view('guest.about');
     }
     public function pricing()
     {
-
         return view('guest.pricing');
     }
 
@@ -32,5 +30,17 @@ class GuestController extends Controller
     public function appointment()
     {
         return view('guest.appointment.index');
+    }
+    public function blogs()
+    {
+        return view('guest.blogs');
+    }
+    public function blogDetails()
+    {
+        return view('guest.blog-details');
+    }
+    public function faq()
+    {
+        return view('guest.faq');
     }
 }

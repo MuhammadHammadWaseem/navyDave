@@ -83,7 +83,7 @@
                          <label for="html">
                             <div class="main-label-content">
                                 <div class="img-box">
-                                    <img src="assets/images/input-radio-img-person.jpg" alt="">
+                                    <img src="{{ asset('./assets/images/input-radio-img-person.jpg') }}" alt="">
                                 </div>
                                 <div class="content">
                                     <h4>Golf Coaching Session</h4>

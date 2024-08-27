@@ -39,6 +39,8 @@
                             <li><a href="{{ route('about') }}" class="about-active">About</a></li>
                             <li><a href="{{ route('pricing') }}" class="pricing-active">Pricings</a></li>
                             <li><a href="{{ route('appointment') }}" class="appointment-active">Appointments</a></li>
+                            <li><a href="{{ route('blogs') }}" class="blog-active">Blogs</a></li>
+                            <li><a href="{{ route('faq') }}" class="faq-active">FAQ</a></li>
                             <li><a href="{{ route('contact') }}" class="contact-active">Contact Us</a></li>
                             <li><a href="{{ route('login') }}">login</a></li>
                         </ul>
@@ -83,13 +85,13 @@
                     </div>
                     <div class="footer-links">
                         <ul>
-                            <li><a href="index.html">Home</a></li>
-                            <li><a href="pricings.html">Pricings</a></li>
-                            <li><a href="about.html">About</a></li>
-                            <li><a href="Appointment(P1).html">Appointments</a></li>
-                            <li><a href="contact-us.html">Contact Us</a></li>
-                            <li><a href="blogs.html">Blogs</a></li>
-                            <li><a href="faqs.html">FAQs</a></li>
+                            <li><a href="{{ route('index') }}">Home</a></li>
+                            <li><a href="{{ route('pricing') }}">Pricings</a></li>
+                            <li><a href="{{ route('about') }}">About</a></li>
+                            <li><a href="{{ route('appointment') }}">Appointments</a></li>
+                            <li><a href="{{ route('contact') }}">Contact Us</a></li>
+                            <li><a href="{{ route('blogs') }}">Blogs</a></li>
+                            <li><a href="#">FAQs</a></li>
                         </ul>
                     </div>
                 </div>

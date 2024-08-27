@@ -75,7 +75,7 @@
                     </ul>
                  </div>
                  <div class="text">
-                    <img src="assets/images/single-check.png" alt="">
+                    <img src="{{ asset('./assets/images/single-check.png ')}}" alt="">
                     <h3>Appointment Booked</h3>
                  </div>
                  <div class="appointment-booked-details">
