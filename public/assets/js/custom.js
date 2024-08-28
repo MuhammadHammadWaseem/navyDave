@@ -11,9 +11,9 @@ $(".testi-slider").slick({
     slidesToScroll: 1,
     responsive: [
         {
-            breakpoint: 1024,
+            breakpoint: 993,
             settings: {
-                slidesToShow: 3,
+                slidesToShow: 2,
             },
         },
         {
