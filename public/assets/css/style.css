@@ -370,8 +370,8 @@ header .header-nav ul li a::after {
 }
 
 .home-sec-02.home-sec-07 .pricing-box {
-  max-width: 520px;
-  height: 600px;
+  max-width: 500px;
+  height: 450px;
   background-color: #E0E0E0;
   border: 1px solid #CCCCCC;
   border-radius: 50px;
@@ -379,7 +379,7 @@ header .header-nav ul li a::after {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  padding: 50px;
+  padding: 30px;
 }
 
 .home-sec-02.home-sec-07 .pricing-box .pricing-box-content h4 {
@@ -755,11 +755,11 @@ footer .container {
 
 
 .contact-us-sec-01 .text-box {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    row-gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 20px;
 }
 
 .contact-us-sec-01 .text-box ul li {
@@ -1600,22 +1600,22 @@ header .header-nav ul li a {
   padding: 0px 70px;
 }
 .home-sec-02.home-sec-07 .pricing-box.hot {
-  margin-left: -350px;
-  margin-top: 300px;
+  margin-left: -400px;
+  margin-top: 100px;
 }
 .home-sec-02.home-sec-07 .pricing-box .pricing-box-content h4 {
   font-size: 25px;
 }
 .home-sec-02.home-sec-07 .pricing-box .pricing-box-content h5 {
-  font-size: 50px;
+  font-size: 40px;
 }
 .home-sec-02.home-sec-07 .pricing-box .pricing-box-content p {
-  font-size: 25px;
+  font-size: 20px;
 }
 .home-sec-02.home-sec-07 .pricing-box .sessions-box p {
-  column-gap: 15px;
-  margin-bottom: 15px;
-  font-size: 25px;
+  column-gap: 10px;
+  margin-bottom: 10px;
+  font-size: 20px;
 }
 .home-sec-02.home-sec-07 .pricing-box .sessions-box p img {
   max-width: 45px;
@@ -1733,8 +1733,13 @@ footer .row.footer-btm-line {
   font-size: 16px;
 }
 .contact-us-sec-02 {
-  padding: 50px 0;
+  padding: 100px 0;
 }
+.contact-us-sec-02 .text h3 {
+  font-size: 35px;
+  font-weight: 600;
+}
+
 .contact-us-sec-02 .iframe-map-box iframe {
   width: 90%;
   border-radius: 10px !important;
