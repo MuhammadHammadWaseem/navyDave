@@ -16,6 +16,9 @@
         href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 </head>
 
 <body>
@@ -60,32 +63,36 @@
                 </div>
                 <div class="super-container">
                     <div class="slide-container">
-                      <div class="stripe toggle-nav js-nav">
-                        <div class="hamburger-box">
-                          <div class="bun top"></div>
-                          <div class="meat"></div>
-                          <div class="bun bottom"></div>
+                        <div class="stripe toggle-nav js-nav">
+                            <div class="hamburger-box">
+                                <div class="bun top"></div>
+                                <div class="meat"></div>
+                                <div class="bun bottom"></div>
+                            </div>
                         </div>
-                      </div>
-                      <div class="nav-wrap">
-                        <nav class="menu">
-                          <ul>
-                            <li><a href="{{ route('home') }}" class="home-active">Home</a></li>
-                            <li><a href="{{ route('about') }}" class="about-active">About</a></li>
-                            <li><a href="{{ route('pricing') }}" class="pricing-active">Pricings</a></li>
-                            <li><a href="{{ route('appointment') }}" class="appointment-active">Appointments</a></li>
-                            <li><a href="{{ route('blogs') }}" class="blog-active">Blogs</a></li>
-                            <li><a href="{{ route('faq') }}" class="faq-active">FAQ</a></li>
-                            <li><a href="{{ route('contact') }}" class="contact-active">Contact Us</a></li>
-                            <li><a href="{{ route('login') }}">login</a></li>
-                            <li><a href="#"><img src="{{ asset('./assets/images/shopping-cart.png') }}" alt=""></a></li>
-                            <li><a href="#"><img src="{{ asset('./assets/images/search-icon.png') }}" alt=""></a></li>
-                            <li><a href="#"><img src="{{ asset('./assets/images/person-user.png') }}" alt=""></a></li>
-                          </ul>
-                        </nav>
-                      </div>
+                        <div class="nav-wrap">
+                            <nav class="menu">
+                                <ul>
+                                    <li><a href="{{ route('home') }}" class="home-active">Home</a></li>
+                                    <li><a href="{{ route('about') }}" class="about-active">About</a></li>
+                                    <li><a href="{{ route('pricing') }}" class="pricing-active">Pricings</a></li>
+                                    <li><a href="{{ route('appointment') }}"
+                                            class="appointment-active">Appointments</a></li>
+                                    <li><a href="{{ route('blogs') }}" class="blog-active">Blogs</a></li>
+                                    <li><a href="{{ route('faq') }}" class="faq-active">FAQ</a></li>
+                                    <li><a href="{{ route('contact') }}" class="contact-active">Contact Us</a></li>
+                                    <li><a href="{{ route('login') }}">login</a></li>
+                                    <li><a href="#"><img src="{{ asset('./assets/images/shopping-cart.png') }}"
+                                                alt=""></a></li>
+                                    <li><a href="#"><img src="{{ asset('./assets/images/search-icon.png') }}"
+                                                alt=""></a></li>
+                                    <li><a href="#"><img src="{{ asset('./assets/images/person-user.png') }}"
+                                                alt=""></a></li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
-                  </div>
+                </div>
             </div>
         </div>
     </header>
@@ -168,7 +175,6 @@
     <script src="{{ asset('./assets/js/custom.js') }}"></script>
     <!-- Update jQuery to a newer version -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
     <!-- Slick Carousel -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 
@@ -191,7 +197,7 @@
             $('.testi-slider').slick({
 
                 autoplay: true,
-                
+
 
             });
         });

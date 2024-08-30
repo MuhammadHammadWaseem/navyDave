@@ -67,6 +67,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('staff', [StaffController::class, 'index'])->name('staff');
         Route::post('staff/store', [StaffController::class, 'store'])->name('staff.store');
         Route::get('staff/show', [StaffController::class, 'show'])->name('staff.show');
+        Route::get('staff/edit/{id}', [StaffController::class, 'edit'])->name('staff.edit');
+        Route::post('staff/update/{id}', [StaffController::class, 'update'])->name('staff.update');
+        Route::delete('staff/delete/{id}', [StaffController::class, 'destroy'])->name('staff.destroy');
 
         Route::get('dashboard', [AdminAuthController::class, 'dashboard'])->name('dashboard');
         Route::get('payment', [PaymentController::class, 'index'])->name('payment');

@@ -10,8 +10,7 @@ class Staff extends Model
     use HasFactory ;
     protected $table = 'staff';
 
-    const STATUS = [1 =>'active',
-        2=>'inactive'];
+    const STATUS = [1 =>'active', 2=>'inactive'];
    protected $fillable = ['user_id', 'image', 'service_id','status','notes'];
 
     public function user()

@@ -16,6 +16,7 @@
         filter: invert(0) hue-rotate(465deg) brightness(10.5);
     }
 </style>
+</head>
 @section('content')
     <div class="col-lg-10">
         <div class="main-calendar-box main-calendar-box-list customers-box">
@@ -54,7 +55,7 @@
             </div>
         </div>
         <div class="main-table-box main-table-box-list services-table">
-            <table>
+            <table id="myTable" class="display">
                 <thead>
                     <tr>
                         <th>
@@ -149,8 +150,12 @@
 
 <!-- jQuery CDN -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
     $(document).ready(function() {
+        showStaff();
         // Ensure that the modal is cleaned up correctly when it's hidden
         $('#exampleModal').on('hidden.bs.modal', function() {
             $('.modal-backdrop').remove(); // Remove the backdrop
@@ -158,13 +163,8 @@
         });
     });
 
-
-
-
     function saveStaff() {
-
         var saveStaff = $("#saveStaff");
-
         var formData = new FormData(saveStaff[0]);
         formData.append('_token', '{{ csrf_token() }}');
 
@@ -176,99 +176,69 @@
             processData: false,
             contentType: false,
             success: function(response) {
-                console.log('Server response:', response);
                 if (response.success) {
-                    $('#exampleModal').modal('hide');
+
+                    $('#exampleModal').hide();
+                    $('.modal-backdrop').hide();
                     $('#saveStaff').trigger('reset');
-                    saveStaff.reset();
+                    showStaff();
                 } else {
-                    console.log('Failed to add staff. Please try again.');
+                    // Handle validation errors
+                    showValidationErrors(response.errors);
                 }
             },
             error: function(xhr, status, error) {
                 console.error('AJAX error:', xhr.responseText);
-                alert('An error occurred. Please try again.');
             }
         });
     }
 
-    $.ajax({
-        url: "{{ route('admin.staff.show') }}",
-        type: "GET",
-        dataType: "json",
-        success: function(response) {
-            console.log('Server response:', response);
+    function showValidationErrors(errors) {
+        // Clear previous errors
+        $('.text-danger').remove();
 
-            if (response.data) {
-                populateTable(response.data);
-                updatePagination(response);
-            } else {
-                console.error('No data found in response.');
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Error fetching data:', error);
-            alert('An error occurred while fetching the data.');
-        }
-    });
-
-    function updatePagination(response) {
-        const paginationBox = document.querySelector('.pagination-box ul');
-        paginationBox.innerHTML = ''; // Clear existing pagination links
-
-        const {
-            current_page,
-            last_page,
-            prev_page_url,
-            next_page_url
-        } = response;
-
-        // Previous Page Link
-        if (prev_page_url) {
-            paginationBox.innerHTML += `<li><a href="${prev_page_url}">&lt;</a></li>`;
-        } else {
-            paginationBox.innerHTML += `<li><a href="#" class="disabled">&lt;</a></li>`;
-        }
-
-        // Page Numbers
-        for (let i = 1; i <= last_page; i++) {
-            if (i === current_page) {
-                paginationBox.innerHTML += `<li><a href="#" class="active">${i}</a></li>`;
-            } else {
-                paginationBox.innerHTML += `<li><a href="#" data-page="${i}">${i}</a></li>`;
-            }
-        }
-
-        // Next Page Link
-        if (next_page_url) {
-            paginationBox.innerHTML += `<li><a href="${next_page_url}">&gt;</a></li>`;
-        } else {
-            paginationBox.innerHTML += `<li><a href="#" class="disabled">&gt;</a></li>`;
-        }
-
-        // Add event listeners for pagination links
-        paginationBox.querySelectorAll('a[data-page]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const page = this.getAttribute('data-page');
-                fetchPage(page);
-            });
+        // Loop through the errors and display them
+        $.each(errors, function(field, messages) {
+            var inputField = $('[name=' + field + ']');
+            inputField.after('<span class="text-danger">' + messages.join('<br>') + '</span>');
         });
     }
 
-    function fetchPage(page) {
+    function showStaff() {
         $.ajax({
-            url: `{{ route('admin.staff.show') }}?page=${page}`,
+            url: "{{ route('admin.staff.show') }}",
             type: "GET",
             dataType: "json",
             success: function(response) {
-                console.log('Page response:', response);
-                if (response.data) {
-                    populateTable(response.data);
-                    updatePagination(response);
-                } else {
-                    console.error('No data found in response.');
-                }
+                console.log('Server response:', response);
+                let table = $('#myTable').DataTable();
+                table.clear();
+                // Append new data
+                response.data.forEach(item => {
+                    table.row.add([
+                        `<div class="align-box">
+                        <div class="input-box-check">
+                            <input type="checkbox">
+                        </div>
+                        <p>${item.id}</p>
+                    </div>`,
+                        `<img src="{{ Storage::url('${item.image}') }}" alt="Staff Image" style="width: 100px; height: auto;">`,
+                        item.service_id,
+                        item.user.name,
+                        item.user.email,
+                        item.user.phone ? item.user.phone : 'N/A',
+                        item.status,
+                        `<div class="action-box">
+                        <ul>
+                            <li><a href="{{ url('admin/staff/edit') }}/${item.id}"><img src="{{ asset('assets/images/pencil.png') }}" alt=""></a></li>
+                            <li><button onclick="deleteStaff(${item.id})"><img src="{{ asset('assets/images/delete.png') }}" alt=""></button></li>
+                        </ul>
+                    </div>`
+                    ]);
+                });
+
+                // Redraw the DataTable
+                table.draw();
             },
             error: function(xhr, status, error) {
                 console.error('Error fetching data:', error);
@@ -278,38 +248,44 @@
     }
 
 
-    function populateTable(data) {
-        const tableBody = document.querySelector('.services-table table tbody');
-        tableBody.innerHTML = ''; // Clear existing rows
-
-        data.forEach(item => {
-            const row = document.createElement('tr');
-
-            row.innerHTML = `
-            <td>
-                <div class="align-box">
-                    <div class="input-box-check">
-                        <input type="checkbox">
-                    </div>
-                    <p>${item.id}</p>
-                </div>
-            </td>
-            <td><img src="{{ asset('storage/') }}/${item.image}" alt="Staff Image" style="width: 100px; height: auto;"></td>
-            <td>${item.service_id}</td>
-            <td>${item.user.name}</td>
-            <td>${item.user.email}</td>
-            <td>${item.user.phone ? item.user.phone : 'N/A'}</td>
-            <td>${item.status}</td>
-            <td>
-                <div class="action-box">
-                    <ul>
-                        <li><a href="${item.id}"><img src="{{ asset('assets/images/pencil.png') }}" alt=""></a></li>
-                        <li><a href="${item.id}"><img src="{{ asset('assets/images/delete.png') }}" alt=""></a></li>
-                    </ul>
-                </div>
-            </td>
-        `;
-            tableBody.appendChild(row);
+    function deleteStaff(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ route('admin.staff.destroy', '') }}/" + id,
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        _method: 'DELETE'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Staff deleted successfully.',
+                                'success'
+                            );
+                            toastr.success('Staff deleted successfully!');
+                            showStaff(); // Refresh the staff list or update the UI as needed
+                        } else {
+                            toastr.error('Failed to delete staff. Please try again.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        toastr.error('An error occurred while trying to delete the staff.');
+                        console.error('Error:', error);
+                    }
+                });
+            }
         });
     }
 </script>
