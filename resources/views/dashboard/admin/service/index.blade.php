@@ -81,11 +81,11 @@
                             <td>
                                 <div class="action-box">
                                     <ul>
-                                        <li><a href="#"><img src="assets/images/pencil.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/duplicate.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/calendar-box.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/cross.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/delete.png  " alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/pencil.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/duplicate.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/calendar-box.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/cross.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/delete.png') }}" alt=""></a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -104,11 +104,11 @@
                             <td>
                                 <div class="action-box">
                                     <ul>
-                                        <li><a href="#"><img src="assets/images/pencil.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/duplicate.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/calendar-box.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/cross.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/delete.png  " alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/pencil.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/duplicate.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/calendar-box.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/cross.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/delete.png"') }}" alt=""></a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -126,11 +126,11 @@
                             <td>
                                 <div class="action-box">
                                     <ul>
-                                        <li><a href="#"><img src="assets/images/pencil.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/duplicate.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/calendar-box.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/cross.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/delete.png  " alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/pencil.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/duplicate.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/calendar-box.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/cross.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/delete.png"') }}" alt=""></a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -148,11 +148,11 @@
                             <td>
                                 <div class="action-box">
                                     <ul>
-                                        <li><a href="#"><img src="assets/images/pencil.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/duplicate.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/calendar-box.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/cross.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/delete.png  " alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/pencil.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/duplicate.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/calendar-box.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/cross.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/delete.png') }}" alt=""></a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -170,11 +170,11 @@
                             <td>
                                 <div class="action-box">
                                     <ul>
-                                        <li><a href="#"><img src="assets/images/pencil.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/duplicate.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/calendar-box.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/cross.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/delete.png  " alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/pencil.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/duplicate.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/calendar-box.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/cross.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/delete.png') }}" alt=""></a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -192,11 +192,11 @@
                             <td>
                                 <div class="action-box">
                                     <ul>
-                                        <li><a href="#"><img src="assets/images/pencil.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/duplicate.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/calendar-box.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/cross.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/delete.png  " alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/pencil.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/duplicate.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/calendar-box.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/cross.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/delete.png') }}" alt=""></a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -214,11 +214,11 @@
                             <td>
                                 <div class="action-box">
                                     <ul>
-                                        <li><a href="#"><img src="assets/images/pencil.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/duplicate.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/calendar-box.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/cross.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/delete.png  " alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/pencil.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/duplicate.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/calendar-box.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/cross.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/delete.png') }}" alt=""></a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -236,11 +236,11 @@
                             <td>
                                 <div class="action-box">
                                     <ul>
-                                        <li><a href="#"><img src="assets/images/pencil.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/duplicate.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/calendar-box.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/cross.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/delete.png  " alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/pencil.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/duplicate.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/calendar-box.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/cross.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/delete.png') }}" alt=""></a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -258,11 +258,11 @@
                             <td>
                                 <div class="action-box">
                                     <ul>
-                                        <li><a href="#"><img src="assets/images/pencil.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/duplicate.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/calendar-box.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/cross.png" alt=""></a></li>
-                                        <li><a href="#"><img src="assets/images/delete.png  " alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/pencil.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/duplicate.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/calendar-box.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/cross.png') }}" alt=""></a></li>
+                                        <li><a href="#"><img src="{{ asset('./assets/images/delete.png') }}" alt=""></a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -323,9 +323,9 @@
   </div>
 
 
-    <script src="assets/js/wow-animate.js"></script>
-    <script src="assets/js/lib.js"></script>
-    <script src="assets/js/custom.js"></script>
+    <script src="{{ asset('./assets/js/wow-animate.js"></script>
+    <script src="{{ asset('./assets/js/lib.js"></script>
+    <script src="{{ asset('./assets/js/custom.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js"></script>
     <script type="text/javascript">

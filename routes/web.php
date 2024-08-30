@@ -63,8 +63,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('profile/update/{id}', [AdminAuthController::class, 'profileupdate'])->name('profile.update');
         Route::get('calendar', [CalendarController::class, 'index'])->name('calendar');
         Route::get('appointment', [AdminAuthController::class, 'appointment'])->name('appointment');
+        // Store Staff
         Route::get('staff', [StaffController::class, 'index'])->name('staff');
-        Route::get('staff/create', [StaffController::class, 'create'])->name('staff.create');
+        Route::post('staff/store', [StaffController::class, 'store'])->name('staff.store');
+        Route::get('staff/show', [StaffController::class, 'show'])->name('staff.show');
+
         Route::get('dashboard', [AdminAuthController::class, 'dashboard'])->name('dashboard');
         Route::get('payment', [PaymentController::class, 'index'])->name('payment');
         Route::get('service', [ServiceController::class, 'index'])->name('service');
