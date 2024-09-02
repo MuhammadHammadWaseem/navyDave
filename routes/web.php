@@ -73,7 +73,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('dashboard', [AdminAuthController::class, 'dashboard'])->name('dashboard');
         Route::get('payment', [PaymentController::class, 'index'])->name('payment');
+        //Service
         Route::get('service', [ServiceController::class, 'index'])->name('service');
+        Route::get('service/show', [ServiceController::class, 'show'])->name('service.show');
+        Route::get('service/create', [ServiceController::class, 'create'])->name('service.create');
+        Route::post('service/store', [ServiceController::class, 'store'])->name('service.store');
+        Route::get('service/{id}/edit', [ServiceController::class, 'edit'])->name('service.edit');
+        Route::post('service/update/{id}', [ServiceController::class, 'update'])->name('service.update');
+        Route::delete('service/delete/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
+        // Create Category
+        Route::post('/categories/store', [ServiceController::class, 'storeCategory'])->name('categories.store');
+
+
         Route::get('customer', [CustomerController::class, 'index'])->name('customer');
         Route::get('community', [CommunityController::class, 'index'])->name('community');
     });
