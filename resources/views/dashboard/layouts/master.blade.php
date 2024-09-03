@@ -105,6 +105,10 @@
                                         class="service-assign-active"><span><img
                                                 src="{{ asset('./assets/images/Services.png') }}"
                                                 alt=""></span>Services Assign</a></li>
+                                <li><a href="{{ route('admin.slot') }}"
+                                        class="slots-active"><span><img
+                                                src="{{ asset('./assets/images/Services.png') }}"
+                                                alt=""></span>Appointment Slots</a></li>
                                 <li><a href="{{ route('admin.customer') }}" class="customer-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>Customers</a></li>

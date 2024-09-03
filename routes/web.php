@@ -13,6 +13,7 @@ use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\StaffAuthController;
+use App\Http\Controllers\SlotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,9 +91,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Create Category
         Route::post('/categories/store', [ServiceController::class, 'storeCategory'])->name('categories.store');
-
-
+        // Slots
+        Route::get('slot', [SlotController::class, 'index'])->name('slot');
+        Route::get('slot/create', [SlotController::class, 'create'])->name('slot.create');
+        Route::post('slot/store', [SlotController::class, 'store'])->name('slot.store');
+        Route::post('slot/delete/{id}', [SlotController::class, 'destroy'])->name('slot.destroy');
+        Route::get('slot/edit/{id}', [SlotController::class, 'edit'])->name('slot.edit');
+        Route::post('slot/update/{id}', [SlotController::class, 'update'])->name('slot.update');
+        
+        // Customer
         Route::get('customer', [CustomerController::class, 'index'])->name('customer');
+        
         Route::get('community', [CommunityController::class, 'index'])->name('community');
     });
 });
