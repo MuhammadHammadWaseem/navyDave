@@ -26,7 +26,6 @@ class StaffController extends Controller
                 'last_name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
                 'phone' => 'required|string|max:20',
-                'service_id' => 'required|integer',
                 'status' => 'required|string',
                 'notes' => 'nullable|string',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:3048',
@@ -56,7 +55,6 @@ class StaffController extends Controller
                     $staff = Staff::create([
                         'user_id' => $user->id,
                         'image' => $validated['image'] ?? null,
-                        'service_id' => $validated['service_id'],
                         'status' => $validated['status'],
                         'notes' => $validated['notes'] ?? null,
                     ]);
@@ -113,7 +111,6 @@ public function update(Request $request, $id)
             'first_name' => 'nullable|string|max:255',
             'email' => 'nullable|email',
             'phone' => 'nullable|string|max:20',
-            'service_id' => 'nullable|integer',
             'status' => 'nullable|string',
             'notes' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:3048',
@@ -148,7 +145,6 @@ public function update(Request $request, $id)
         // Update the staff entry with new information
         $staff->update([
             'image' => $validated['image'] ?? $staff->image,
-            'service_id' => $validated['service_id'],
             'status' => $validated['status'],
             'notes' => $validated['notes'] ?? $staff->notes,
         ]);

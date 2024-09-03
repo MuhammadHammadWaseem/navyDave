@@ -2,6 +2,8 @@
 
 use Faker\Provider\ar_EG\Payment;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ServiceAssign;
+use App\Http\Controllers\GuestController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ServiceController;
@@ -11,7 +13,6 @@ use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\StaffAuthController;
-use App\Http\Controllers\GuestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +82,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('service/{id}/edit', [ServiceController::class, 'edit'])->name('service.edit');
         Route::post('service/update/{id}', [ServiceController::class, 'update'])->name('service.update');
         Route::delete('service/delete/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
+        // Service Assign
+        Route::get('service-assign', [ServiceAssign::class, 'index'])->name('service.assign');
+        Route::post('service-assign/store', [ServiceAssign::class, 'store'])->name('service.assign.store');
+        Route::get('service-assign/show', [ServiceAssign::class, 'show'])->name('service.assign.show');
+        Route::delete('service-assign/delete/{id}', [ServiceAssign::class, 'destroy'])->name('service.assign.destroy');
+
         // Create Category
         Route::post('/categories/store', [ServiceController::class, 'storeCategory'])->name('categories.store');
 
@@ -123,4 +130,3 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::get('community', [UserAuthController::class, 'community'])->name('community');
     });
 });
-

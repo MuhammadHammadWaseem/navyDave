@@ -67,7 +67,7 @@
                             </div>
                         </th>
                         <th>Image</th>
-                        <th>Service</th>
+                        {{-- <th>Service</th> --}}
                         <th>Staff Name</th>
                         <th>Email</th>
                         <th>Phone</th>
@@ -117,13 +117,6 @@
                         </div>
                         <div class="form-group">
                             <input type="tel" name="phone" class="form-control" placeholder="Phone">
-                        </div>
-                        <div class="form-group">
-                            <select name="service_id" class="form-control">
-                                <option value="">Services</option>
-                                <option value="1">Service 01</option>
-                                <option value="2">Service 02</option>
-                            </select>
                         </div>
                         <div class="form-group">
                             <select name="status" class="form-control">
@@ -223,7 +216,7 @@
                         <p>${item.id}</p>
                     </div>`,
                         `<img src="{{ Storage::url('${item.image}') }}" alt="Staff Image" style="width: 100px; height: auto;">`,
-                        item.service_id,
+                        // item.service_id,
                         item.user.name,
                         item.user.email,
                         item.user.phone ? item.user.phone : 'N/A',
@@ -268,16 +261,18 @@
                         _method: 'DELETE'
                     },
                     success: function(response) {
+                        $('#myTable').DataTable({
+                            destroy: true
+                        });
+                        showStaff();
                         if (response.success) {
                             Swal.fire(
                                 'Deleted!',
                                 'Staff deleted successfully.',
                                 'success'
                             );
-                            toastr.success('Staff deleted successfully!');
-                            showStaff(); // Refresh the staff list or update the UI as needed
                         } else {
-                            toastr.error('Failed to delete staff. Please try again.');
+                           
                         }
                     },
                     error: function(xhr, status, error) {
