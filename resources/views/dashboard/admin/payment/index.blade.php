@@ -67,12 +67,14 @@
     <div class="main-table-box main-table-box-list">
         <table>
             <tr>
-                <th>User</th>
-                <th>Services + Instructor</th>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Staff Member</th>
+                <th>Service</th>
                 <th>Method</th>
+                <th>Status</th>
                 <th>Amount</th>
-                <th>Payment Status</th>
-                <th>Appointments At</th>
+                <th>Appointment On</th>
             </tr>
             <tr>
                 <td>

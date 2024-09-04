@@ -37,9 +37,11 @@
     <div class="main-table-box main-table-box-list">
         <table>
             <tr>
-                <th>User</th>
-                <th>Details</th>
-                <th>Appointments</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Recent Appointment</th>
+                <th>Total Appointments</th>
             </tr>
             <tr>
                 <td>

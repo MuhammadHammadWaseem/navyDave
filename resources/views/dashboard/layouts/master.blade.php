@@ -25,7 +25,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
+    <!-- FullCalendar CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css' rel='stylesheet' />
 </head>
 
 <body>
@@ -95,6 +96,9 @@
                                 <li><a href="{{ route('admin.appointment') }}" class="appointment-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>Appointments</a></li>
+                                <li><a href="{{ route('admin.blog') }}" class="blog-active"><span><img
+                                                src="{{ asset('./assets/images/Customers.png') }}"
+                                                alt=""></span>Blogs</a></li>
                                 <li><a href="{{ route('admin.payment') }}" class="payment-active"><span><img
                                                 src="{{ asset('./assets/images/Payments.png') }}"
                                                 alt=""></span>Payments</a></li>
@@ -105,10 +109,10 @@
                                         class="service-assign-active"><span><img
                                                 src="{{ asset('./assets/images/Services.png') }}"
                                                 alt=""></span>Services Assign</a></li>
-                                <li><a href="{{ route('admin.slot') }}"
-                                        class="slots-active"><span><img
+                                <li><a href="{{ route('admin.slot') }}" class="slots-active"><span><img
                                                 src="{{ asset('./assets/images/Services.png') }}"
                                                 alt=""></span>Appointment Slots</a></li>
+
                                 <li><a href="{{ route('admin.customer') }}" class="customer-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>Customers</a></li>
@@ -182,8 +186,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
-
-
+    <!-- FullCalendar JS -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js'></script>
     <!-- DataTables Buttons JS -->
     <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>

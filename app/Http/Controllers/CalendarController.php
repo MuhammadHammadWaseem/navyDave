@@ -10,4 +10,9 @@ class CalendarController extends Controller
     {
         return view('dashboard.admin.calendar.index');
     }
+
+    public function view()
+    {
+        return view('dashboard.admin.calendar.view');
+    }
 }

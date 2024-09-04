@@ -3,6 +3,8 @@
 use Faker\Provider\ar_EG\Payment;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceAssign;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\SlotController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\PaymentController;
@@ -13,7 +15,6 @@ use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\StaffAuthController;
-use App\Http\Controllers\SlotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +65,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('profile', [AdminAuthController::class, 'profile'])->name('profile');
         Route::post('profile/update/{id}', [AdminAuthController::class, 'profileupdate'])->name('profile.update');
         Route::get('calendar', [CalendarController::class, 'index'])->name('calendar');
+        Route::get('calendar/view', [CalendarController::class, 'view'])->name('calendar.view');
         Route::get('appointment', [AdminAuthController::class, 'appointment'])->name('appointment');
         // Store Staff
         Route::get('staff', [StaffController::class, 'index'])->name('staff');
@@ -98,11 +100,21 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('slot/delete/{id}', [SlotController::class, 'destroy'])->name('slot.destroy');
         Route::get('slot/edit/{id}', [SlotController::class, 'edit'])->name('slot.edit');
         Route::post('slot/update/{id}', [SlotController::class, 'update'])->name('slot.update');
-        
+
         // Customer
         Route::get('customer', [CustomerController::class, 'index'])->name('customer');
-        
+
         Route::get('community', [CommunityController::class, 'index'])->name('community');
+        // Blogs
+        Route::get('blog', [BlogController::class, 'index'])->name('blog');
+        Route::get('blog/create', [BlogController::class, 'create'])->name('blog.create');
+        Route::post('blog/store', [BlogController::class, 'store'])->name('blog.store');
+        Route::get('blog/edit/{id}', [BlogController::class, 'edit'])->name('blog.edit');
+        Route::post('blog/update/{id}', [BlogController::class, 'update'])->name('blog.update');
+        Route::delete('blog/delete/{id}', [BlogController::class, 'destroy'])->name('blog.destroy');
+        Route::get('blog/show/{id}', [BlogController::class, 'show'])->name('blog.show');
+        Route::get('blog/show-all', [BlogController::class, 'showAll'])->name('blog.show.all');
+
     });
 });
 
