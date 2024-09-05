@@ -31,10 +31,14 @@
         color: white;
         border-color: #50bc7a;
     }
+
+    .main-calendar-box.slots-mana table td {
+        height: auto !important;
+    }
 </style>
 @section('content')
     <div class="col-lg-10">
-        <div class="main-calendar-box main-calendar-box-list customers-box">
+        <div class="main-calendar-box main-calendar-box-list customers-box slots-mana">
             {{-- Display Success Message --}}
             @if (session('success'))
                 <div class="alert alert-success">
@@ -46,8 +50,8 @@
                 <a href="{{ route('admin.slot.create') }}" class="t-btn">Add Slot</a>
             </div>
 
-            <table class="table table-bordered">
-                <thead>
+            <table class="table table-striped" id="Table">
+                <thead class="thead-dark">
                     <tr>
                         <th>Id</th>
                         <th>Staff</th>
@@ -97,3 +101,10 @@
         </div>
     </div>
 @endsection
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#Table').DataTable();
+    });
+</script>
