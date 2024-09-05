@@ -49,6 +49,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>Id</th>
                         <th>Staff</th>
                         <th>Service</th>
                         <th>Available On</th>
@@ -61,6 +62,7 @@
                 <tbody>
                     @foreach ($slots as $slot)
                         <tr>
+                            <td>{{ $slot->id }}</td>
                             <td>{{ $slot->staff->user->name }}</td>
                             <td>{{ $slot->service->name }}</td>
                             <td>{{ $slot->available_on }}</td>
