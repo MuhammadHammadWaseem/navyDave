@@ -94,10 +94,10 @@
                                                 src="{{ asset('./assets/images/Calendar.png') }}"
                                                 alt=""></span>Calendar</a></li>
                                 <li><a href="{{ route('admin.appointment') }}" class="appointment-active"><span><img
-                                                src="{{ asset('./assets/images/Customers.png') }}"
+                                                src="{{ asset('./assets/images/appointment.png') }}"
                                                 alt=""></span>Appointments</a></li>
                                 <li><a href="{{ route('admin.blog') }}" class="blog-active"><span><img
-                                                src="{{ asset('./assets/images/Customers.png') }}"
+                                                src="{{ asset('./assets/images/blog.png') }}"
                                                 alt=""></span>Blogs</a></li>
                                 <li><a href="{{ route('admin.payment') }}" class="payment-active"><span><img
                                                 src="{{ asset('./assets/images/Payments.png') }}"
@@ -107,17 +107,17 @@
                                                 alt=""></span>Services</a></li>
                                 <li><a href="{{ route('admin.service.assign') }}"
                                         class="service-assign-active"><span><img
-                                                src="{{ asset('./assets/images/Services.png') }}"
+                                                src="{{ asset('./assets/images/service-assign.png') }}"
                                                 alt=""></span>Services Assign</a></li>
                                 <li><a href="{{ route('admin.slot') }}" class="slots-active"><span><img
-                                                src="{{ asset('./assets/images/Services.png') }}"
+                                                src="{{ asset('./assets/images/appointment-slot.png') }}"
                                                 alt=""></span>Appointment Slots</a></li>
 
                                 <li><a href="{{ route('admin.customer') }}" class="customer-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>Customers</a></li>
                                 <li><a href="{{ route('admin.staff') }}" class="staff-active"><span><img
-                                                src="{{ asset('./assets/images/Customers.png') }}"
+                                                src="{{ asset('./assets/images/staff.png') }}"
                                                 alt=""></span>Staff Members</a></li>
                                 <li><a href="{{ route('admin.community') }}" class="community-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
