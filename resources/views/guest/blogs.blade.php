@@ -16,110 +16,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-md-12">
-                    <div class="main-blog-box">
-                        <a href="{{ route('blog-details') }}">
-                            <img src="{{ asset('./assets/images/main-blg-img.png') }}" alt="">
-                            <div class="content">
-                                <h4>Title</h4>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                    has been the industry's standard dummy text ever since the 1500s....</p>
-                                <h6>Category</h6>
-                            </div>
-                        </a>
+                @foreach ($blogs as $blog)
+                    <div class="col-lg-6 col-md-12">
+                        <div class="main-blog-box">
+                            <a href="{{ route('blog-details',['id' => $blog->id]) }}">
+                                <img src="{{ Storage::url($blog->image) }}" alt="" height="100" width="100">
+                                <div class="content">
+                                    <h4>{{ $blog->title }}</h4>
+                                    <p title="{{ $blog->short_description }}">{{ \Illuminate\Support\Str::words($blog->short_description, 30, '...') }}</p>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <div class="main-blog-box">
-                        <a href="{{ route('blog-details') }}">
-                            <img src="{{ asset('./assets/images/main-blg-img.png') }}" alt="">
-                            <div class="content">
-                                <h4>Title</h4>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                    has been the industry's standard dummy text ever since the 1500s....</p>
-                                <h6>Category</h6>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <div class="main-blog-box">
-                        <a href="{{ route('blog-details') }}">
-                            <img src="{{ asset('./assets/images/main-blg-img.png') }}" alt="">
-                            <div class="content">
-                                <h4>Title</h4>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                    has been the industry's standard dummy text ever since the 1500s....</p>
-                                <h6>Category</h6>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <div class="main-blog-box">
-                        <a href="{{ route('blog-details') }}">
-                            <img src="{{ asset('./assets/images/main-blg-img.png') }}" alt="">
-                            <div class="content">
-                                <h4>Title</h4>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                    has been the industry's standard dummy text ever since the 1500s....</p>
-                                <h6>Category</h6>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <div class="main-blog-box">
-                        <a href="{{ route('blog-details') }}">
-                            <img src="{{ asset('./assets/images/main-blg-img.png') }}" alt="">
-                            <div class="content">
-                                <h4>Title</h4>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                    has been the industry's standard dummy text ever since the 1500s....</p>
-                                <h6>Category</h6>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <div class="main-blog-box">
-                        <a href="{{ route('blog-details') }}">
-                            <img src="{{ asset('./assets/images/main-blg-img.png') }}" alt="">
-                            <div class="content">
-                                <h4>Title</h4>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                    has been the industry's standard dummy text ever since the 1500s....</p>
-                                <h6>Category</h6>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <div class="main-blog-box">
-                        <a href="{{ route('blog-details') }}">
-                            <img src="{{ asset('./assets/images/main-blg-img.png') }}" alt="">
-                            <div class="content">
-                                <h4>Title</h4>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                    has been the industry's standard dummy text ever since the 1500s....</p>
-                                <h6>Category</h6>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <div class="main-blog-box">
-                        <a href="{{ route('blog-details') }}">
-                            <img src="{{ asset('./assets/images/main-blg-img.png') }}" alt="">
-                            <div class="content">
-                                <h4>Title</h4>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                    has been the industry's standard dummy text ever since the 1500s....</p>
-                                <h6>Category</h6>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>

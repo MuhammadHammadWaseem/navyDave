@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
 use Illuminate\Http\Request;
 
 class GuestController extends Controller
@@ -28,12 +29,14 @@ class GuestController extends Controller
         return view('guest.appointment.index');
     }
     public function blogs()
-    {
-        return view('guest.blogs');
+    {   $blogs = Blog::all();
+        return view('guest.blogs' ,compact('blogs'));
     }
-    public function blogDetails()
+    public function blogDetails($id)
     {
-        return view('guest.blog-details');
+        $Blog = Blog::findOrFail($id);
+        $blogs = Blog::all();
+        return view('guest.blog-details')->with(compact('blogs','Blog'));
     }
     public function faq()
     {

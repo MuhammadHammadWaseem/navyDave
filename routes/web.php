@@ -47,7 +47,7 @@ Route::get('appointment/p4', function () {
 });
 Route::get('contact',[GuestController::class, 'contact'])->name('contact');
 Route::get('blogs',[GuestController::class, 'blogs'])->name('blogs');
-Route::get('blog/details',[GuestController::class, 'blogDetails'])->name('blog-details');
+Route::get('blog/details/{id}',[GuestController::class, 'blogDetails'])->name('blog-details');
 Route::get('faq',[GuestController::class, 'faq'])->name('faq');
 
 
