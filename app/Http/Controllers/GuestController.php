@@ -94,12 +94,13 @@ class GuestController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'nullable|email|max:255',
-            'phone' => 'nullable|string|max:15',
+            'phone' => 'nullable|string',
             'location' => 'nullable|string|max:255',
             'note' => 'nullable|string',
         ]);
-        Appointment::create($validated);
+        $data = Appointment::create($validated);
 
-        return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
+        $appointment = Appointment::find($data->id)->with('slot', 'staff.user', 'service')->latest()->first();
+        return response()->json(['success' => true, 'message' => 'Appointment created successfully', 'data' => $appointment]);
     }
 }

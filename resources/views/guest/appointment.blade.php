@@ -33,7 +33,7 @@
                 <div class="col-md-12">
                     <div class="main-steps-form">
                         <ul>
-                            <li><a href="{{ route('appointment') }}" class="active-services">
+                            <li><a href="#" class="active-services">
                                     <div class="svg-box">
                                         <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -48,7 +48,7 @@
                                     <p>Service</p>
                                 </a>
                             </li>
-                            <li><a href="appointment/p1">
+                            <li><a href="#">
                                     <div class="svg-box">
                                         <svg width="51" height="50" viewBox="0 0 51 50" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -63,7 +63,7 @@
                                     <p>Staff</p>
                                 </a>
                             </li>
-                            <li><a href="appointment/p2">
+                            <li><a href="#">
                                     <div class="svg-box">
                                         <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -78,7 +78,7 @@
                                     <p>Date & Time</p>
                                 </a>
                             </li>
-                            <li><a href="appointment/p3">
+                            <li><a href="#">
                                     <div class="svg-box">
                                         <svg width="51" height="50" viewBox="0 0 51 50" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -93,7 +93,7 @@
                                     <p>Basic Details</p>
                                 </a>
                             </li>
-                            <li><a href="appointment/p4">
+                            <li><a href="#">
                                     <div class="svg-box">
                                         <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -108,8 +108,8 @@
                         </ul>
                     </div>
 
-                    <form action="">
-                        <div class="tab">
+                    <form id="regForm" method="POST">
+                        <div class="tab d-none">
                             <div class="text">
                                 <h3>Category</h3>
 
@@ -131,20 +131,6 @@
                                             <div id="services-box">
 
                                             </div>
-                                            {{-- <div class="input-radio-box">
-                                                    <input type="radio" id="html" name="fav_language" value="HTML" checked>
-                                                    <label for="html">
-                                                        <div class="main-label-content">
-                                                            <div class="img-box">
-                                                                <img src="{{ Storage::url($s->image) }}" width="50px" height="50px" alt="Service Image">
-                                                            </div>
-                                                            <div class="content">
-                                                                <h4>{{ $s->name }}</h4>
-                                                                <p>Duration <b>: {{ $s->duration  }} {{ $s->type_duration }}</b> </p>
-                                                            </div>
-                                                        </div>
-                                                    </label>
-                                                </div> --}}
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="tabs-2" role="tabpanel">
@@ -296,7 +282,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab">
+                        <div class="tab d-none">
                             <div class="text">
                                 <h3>Staff Members</h3>
                             </div>
@@ -314,13 +300,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab">
+                        <div class="tab d-none">
                             <div class="text">
                                 <h3>Available Date & Time</h3>
                             </div>
                             <div class="two-appointment-box-align">
                                 <div class="input-date-box">
-                                    <input type="date" onchange="getSlotsForDate(this.value)" name="appointment_date" id="appointment_date" placeholder="Your Date">
+                                    <input type="date" onchange="getSlotsForDate(this.value)" name="appointment_date"
+                                        id="appointment_date" placeholder="Your Date">
                                 </div>
                                 <div class="main-check-box-click main-check-box-click-time">
                                     <div class="text">
@@ -332,37 +319,43 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab">
+                        <div class="tab d-none">
                             <div class="text">
                                 <h3>Basic Details</h3>
                             </div>
                             <div class="appointment-form-box">
-                                    <div class="two-input-align">
-                                        <input type="text" placeholder="First Name *" name="first_name" id="first_name" required>
-                                        <input type="text" placeholder="Last Name *" name="last_name" id="last_name" required>
-                                    </div>
-                                    <div class="two-input-align">
-                                        <input type="email" placeholder="Email Address *" name="email" id="email" required>
-                                        <input type="tel" placeholder="Phone Number *" name="phone" id="phone" required>
-                                    </div>
-                                    <div class="signle-input-box">
-                                        <select name="location" id="location">
-                                            <option selected value="3728 E Welton LnGilbert, AZ 85295, USA">3728 E Welton LnGilbert, AZ 85295, USA</option>
-                                        </select>
-                                    </div>
-                                    <div class="signle-input-box">
-                                        <textarea placeholder="Note" name="note" id="note"></textarea>
-                                    </div>
+                                <div class="two-input-align">
+                                    <input type="text" placeholder="First Name *" name="first_name" id="first_name"
+                                        required>
+                                    <input type="text" placeholder="Last Name *" name="last_name" id="last_name"
+                                        required>
+                                </div>
+                                <div class="two-input-align">
+                                    <input type="email" placeholder="Email Address *" name="email" id="email"
+                                        required>
+                                    <input type="tel" placeholder="Phone Number *" name="phone" id="phone"
+                                        required>
+                                </div>
+                                <div class="signle-input-box">
+                                    <select name="location" id="location">
+                                        <option selected value="3728 E Welton LnGilbert, AZ 85295, USA">3728 E Welton
+                                            LnGilbert, AZ 85295, USA</option>
+                                    </select>
+                                </div>
+                                <div class="signle-input-box">
+                                    <textarea placeholder="Note" name="note" id="note"></textarea>
+                                </div>
                             </div>
                         </div>
-                        <div class="tab">
+
+
+                        <div class="d-none" id="submitted-box">
                             <div class="text">
                                 <img src="assets/images/single-check.png" alt="">
                                 <h3>Appointment Booked</h3>
                             </div>
                             <div class="appointment-booked-details">
                                 <ul>
-                                    <li>Category : Golf Training Session </li>
                                     <li>Staff Member : Navy Dave ( Instructor ) </li>
                                     <li>Date & Time : 20 June 2024 in 09 : 00 AM - 11 : 00 AM</li>
                                     <li>Name : First_Name+Last_Name</li>
@@ -371,6 +364,23 @@
                                     <li>Location : Somewhere</li>
                                     <li>Note : If Any</li>
                                 </ul>
+                            </div>
+                            <button class="t-btn" id="goBackBtn">Go Back</button>
+                        </div>
+                        <div class="d-none" id="error-box">
+                            <div class="text">
+                                <img src="assets/images/warning.png" alt="">
+                                <h3>Error</h3>
+                            </div>
+                            <div class="appointment-booked-details">
+                                <ul id="errorList">
+                                    <!-- Validation errors will be listed here -->
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="d-none" id="loadingTab">
+                            <div class="appointment-booked-details">
+                                <p>Loading.....</p>
                             </div>
                         </div>
 
@@ -383,10 +393,10 @@
 
 
                         <div style="text-align:center;margin-top:40px;">
-                            <span class="step"></span>
-                            <span class="step"></span>
-                            <span class="step"></span>
-                            <span class="step"></span>
+                            <div class="step"></div>
+                            <div class="step"></div>
+                            <div class="step"></div>
+                            <div class="step"></div>
                         </div>
                     </form>
 
@@ -402,68 +412,225 @@
         var currentTab = 0;
         showTab(currentTab);
 
-        function showTab(n) {
 
-            var x = document.getElementsByClassName("tab");
-            x[n].style.display = "block";
-
-            if (n == 0) {
-                document.getElementById("prevBtn").style.display = "none";
-            } else {
-                document.getElementById("prevBtn").style.display = "inline";
-            }
-            if (n == (x.length - 1)) {
-                document.getElementById("nextBtn").innerHTML = "Submit";
-            } else {
-                document.getElementById("nextBtn").innerHTML = "Next";
+        function fixStepIndicator(n) {
+            var i, x = document.getElementsByClassName("step");
+            console.log("Current step index:", n, "Total steps:", x.length);
+            for (i = 0; i < x.length; i++) {
+                x[i].className = x[i].className.replace(" active", "");
             }
 
-            fixStepIndicator(n)
+            if (n >= 0 && n < x.length) {
+                x[n].className += " active";
+            } else {
+                console.error("Step index is out of bounds:", n);
+            }
         }
 
         function nextPrev(n) {
-
             var x = document.getElementsByClassName("tab");
 
-            if (n == 1 && !validateForm()) return false;
+            // Hide the error tab when moving between tabs
+            var errorTab = document.getElementById("error-box");
+            errorTab.classList.add("d-none"); // This hides the error tab
 
-            x[currentTab].style.display = "none";
-
-            currentTab = currentTab + n;
-
-            if (currentTab >= x.length) {
-
-                document.getElementById("regForm").submit();
-                return false;
+            // Prevent going out of bounds for previous navigation
+            if (currentTab + n < 0) {
+                return; // Do nothing if trying to go back from the first tab
             }
 
+            // Validate the form before moving to the next tab
+            if (n == 1 && !validateForm()) return false;
+
+            // Hide the current tab
+            x[currentTab].style.display = "none";
+
+            // Increment or decrement currentTab
+            currentTab += n;
+
+            // Prevent currentTab from exceeding the last tab (index 3 if 4 tabs)
+            if (currentTab >= x.length) {
+                currentTab = x.length - 1; // Stay at the last tab
+
+                // If it's the last tab and form is valid, submit via AJAX
+                if (validateForm()) {
+                    submitFormWithAjax();
+                    return false; // Prevent default form submission
+                }
+            }
+
+            // Show the correct tab
             showTab(currentTab);
         }
 
-        function validateForm() {
 
+        function showTab(n) {
+            var x = document.getElementsByClassName("tab");
+
+            // Hide the error tab when showing a new tab
+            var errorTab = document.getElementById("error-box");
+            errorTab.classList.add("d-none"); // This hides the error tab
+
+            // Ensure index n is within bounds
+            if (n >= 0 && n < x.length) {
+                // Remove the 'd-none' class if it exists to make sure the tab is visible
+                x[n].classList.remove("d-none");
+                x[n].style.display = "block";
+
+                // Handle previous button display
+                if (n == 0) {
+                    document.getElementById("prevBtn").style.display = "none";
+                } else {
+                    document.getElementById("prevBtn").style.display = "inline";
+                }
+
+                // Handle next button text
+                if (n == (x.length - 1)) {
+                    document.getElementById("nextBtn").innerHTML = "Submit";
+                } else {
+                    document.getElementById("nextBtn").innerHTML = "Next";
+                }
+
+                // Update step indicator
+                fixStepIndicator(n);
+            } else {
+                console.error("currentTab is out of bounds:", n);
+            }
+        }
+
+
+        function validateForm() {
             var x, y, i, valid = true;
             x = document.getElementsByClassName("tab");
+
+            // Ensure currentTab is within bounds
+            if (currentTab < 0 || currentTab >= x.length) {
+                console.error("currentTab is out of bounds:", currentTab);
+                return false; // Or handle the error as needed
+            }
+
             y = x[currentTab].getElementsByTagName("input");
 
             for (i = 0; i < y.length; i++) {
-
                 if (y[i].value == "") {
-
                     y[i].className += " invalid";
-
                     valid = false;
                 }
             }
 
-            if (valid) {
-                document.getElementsByClassName("step")[currentTab].className += " finish";
+            // Check if currentTab is within bounds
+            var steps = document.getElementsByClassName("step");
+            if (valid && currentTab < steps.length) {
+                steps[currentTab].className += " finish";
             }
+
             return valid;
         }
 
-        function fixStepIndicator(n) {
 
+        function submitFormWithAjax() {
+            var form = document.getElementById("regForm");
+
+            var loadingTab = document.getElementById("loadingTab");
+            var successTab = document.getElementById("submitted-box");
+            var errorTab = document.getElementById("error-box");
+            var submitButton = document.getElementById("nextBtn");
+            var prevButton = document.getElementById("prevBtn");
+
+            // Reset the UI
+            successTab.classList.add("d-none");
+            errorTab.classList.add("d-none");
+            loadingTab.classList.remove("d-none");
+
+            $.ajax({
+                type: "POST",
+                url: "appointment/create",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: $(form).serialize(),
+                success: function(data) {
+                    loadingTab.classList.add("d-none");
+                    successTab.classList.remove("d-none");
+
+                    console.log(data.data);
+                    document.querySelector("#submitted-box .appointment-booked-details ul").innerHTML = `
+                        <li>Staff Member : ${data.data.staff.user.name}</li>
+                        <li>Date & Time : ${data.data.appointment_date}</li>
+                        <li>Name : ${data.data.first_name} ${data.data.last_name}</li>
+                        <li>Email Address : ${data.data.email}</li>
+                        <li>Phone Number : ${data.data.phone}</li>
+                        <li>Location : ${data.data.location}</li>
+                        <li>Note : ${data.data.note}</li>
+                    `;
+
+                    // Hide the submit button after success
+                    submitButton.style.display = "none";
+                    prevButton.style.display = "none";
+
+                    form.reset();
+
+                    // Clear radio button selections
+                    var radios = form.querySelectorAll("input[type='radio']");
+                    radios.forEach(function(radio) {
+                        radio.checked = false;
+                    });
+
+                    $("#service_id").val(null).trigger('change');
+                    $("#staff_id").val(null).trigger('change');
+                
+                    // Clear validation error highlights (if you are adding "invalid" class for validation)
+                    var inputs = form.querySelectorAll("input, textarea");
+                    inputs.forEach(function(input) {
+                        input.classList.remove("invalid");
+                    });
+
+
+                },
+                error: function(xhr, status, error) {
+                    loadingTab.classList.add("d-none");
+
+                    if (xhr.status === 422) { // Validation errors
+                        var errors = xhr.responseJSON.errors;
+                        var errorList = document.getElementById("errorList");
+
+                        if (errorList) {
+                            errorList.innerHTML = ""; // Clear previous errors
+
+                            // Loop through and display each validation error
+                            for (var field in errors) {
+                                if (errors.hasOwnProperty(field)) {
+                                    errors[field].forEach(function(message) {
+                                        var errorItem = document.createElement("li");
+                                        errorItem.textContent = message;
+                                        errorList.appendChild(errorItem);
+                                    });
+                                }
+                            }
+                        }
+
+                        errorTab.classList.remove("d-none");
+                    } else {
+                        console.error("Form submission failed:", error);
+                        errorTab.classList.remove("d-none");
+                    }
+                }
+            });
+        }
+
+        // Handle "Go Back" button click event to reset the form and hide the success tab
+        document.getElementById("goBackBtn").addEventListener("click", function() {
+            window.location.reload();
+            // var successTab = document.getElementById("submitted-box");
+            // var submitButton = document.getElementById("nextBtn");
+
+            // successTab.classList.add("d-none"); // Hide success tab
+            // submitButton.style.display = "inline"; // Show the submit button again
+            // currentTab = 0; // Reset to the first tab
+            // showTab(currentTab); // Show the first tab (or the first step in a multi-step form)
+        });
+
+        function fixStepIndicator(n) {
             var i, x = document.getElementsByClassName("step");
             for (i = 0; i < x.length; i++) {
                 x[i].className = x[i].className.replace(" active", "");
@@ -471,9 +638,8 @@
 
             x[n].className += " active";
         }
-    </script>
 
-    <script>
+
         function getServices(id) {
             $.ajax({
                 type: "GET",
@@ -579,8 +745,8 @@
 
                         $("#slots-box").append(`
                             <div class="input-radio-box">
-                                <input type="radio" id="html50" name="fav_language" value="HTML" checked>
-                                <label for="html">
+                                <input type="radio" id="slot_id" name="slot_id" value="${element.id}">
+                                <label for="slot_id">
                                     <div class="main-label-content">
                                         <div class="content">
                                             <h4>${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
@@ -598,7 +764,7 @@
             });
         }
 
-        function getSlotsForDate(data){
+        function getSlotsForDate(data) {
             var staff_id = $("input[name='staff_id']:checked").val();
             var service_id = $("input[name='service_id']:checked").val();
             var date = data;
