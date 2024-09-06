@@ -31,12 +31,13 @@ use App\Http\Controllers\Auth\StaffAuthController;
  Route::post('/like/{type}/{id}', [CommunityController::class, 'like'])->name('like');
  Route::post('/unlike/{type}/{id}', [CommunityController::class, 'unlike'])->name('unlike');
  Route::post('post', [CommunityController::class, 'post'])->name('post');
- 
+
 // Guest Route
 Route::get('/',[GuestController::class, 'home'])->name('home');
 Route::get('about',[GuestController::class, 'about'])->name('about');
 Route::get('pricing',[GuestController::class, 'pricing'])->name('pricing');
 Route::get('appointment',[GuestController::class, 'appointment'])->name('appointment');
+Route::post('appointment/create',[GuestController::class, 'appointmentCreate'])->name('appointment.create');
 Route::get('contact',[GuestController::class, 'contact'])->name('contact');
 Route::get('blogs',[GuestController::class, 'blogs'])->name('blogs');
 Route::get('blog/details/{id}',[GuestController::class, 'blogDetails'])->name('blog-details');
@@ -97,6 +98,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('slot/delete/{id}', [SlotController::class, 'destroy'])->name('slot.destroy');
         Route::get('slot/edit/{id}', [SlotController::class, 'edit'])->name('slot.edit');
         Route::post('slot/update/{id}', [SlotController::class, 'update'])->name('slot.update');
+        Route::post('slot/getServices', [SlotController::class, 'getServices'])->name('slot.getServices');
+
 
         // Customer
         Route::get('customer', [CustomerController::class, 'index'])->name('customer');

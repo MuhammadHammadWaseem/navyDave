@@ -320,7 +320,7 @@
                             </div>
                             <div class="two-appointment-box-align">
                                 <div class="input-date-box">
-                                    <input type="date" onchange="getSlotsForDate(this.value)" placeholder="Your Date">
+                                    <input type="date" onchange="getSlotsForDate(this.value)" name="appointment_date" id="appointment_date" placeholder="Your Date">
                                 </div>
                                 <div class="main-check-box-click main-check-box-click-time">
                                     <div class="text">
@@ -329,17 +329,6 @@
                                     <div id="slots-box">
 
                                     </div>
-                                    {{-- <div class="input-radio-box">
-                                        <input type="radio" id="html50" name="fav_language" value="HTML" checked>
-                                        <label for="html">
-                                            <div class="main-label-content">
-                                                <div class="content">
-                                                    <h4>09 : 00 AM - 11 : 00 AM</h4>
-                                                    <p>0 Slot Left</b> </p>
-                                                </div>
-                                            </div>
-                                        </label>
-                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -348,22 +337,22 @@
                                 <h3>Basic Details</h3>
                             </div>
                             <div class="appointment-form-box">
-                                <form action="">
                                     <div class="two-input-align">
-                                        <input type="text" placeholder="First Name *" required>
-                                        <input type="text" placeholder="Last Name *" required>
+                                        <input type="text" placeholder="First Name *" name="first_name" id="first_name" required>
+                                        <input type="text" placeholder="Last Name *" name="last_name" id="last_name" required>
                                     </div>
                                     <div class="two-input-align">
-                                        <input type="email" placeholder="Email Address *" required>
-                                        <input type="tel" placeholder="Phone Number *" required>
+                                        <input type="email" placeholder="Email Address *" name="email" id="email" required>
+                                        <input type="tel" placeholder="Phone Number *" name="phone" id="phone" required>
                                     </div>
                                     <div class="signle-input-box">
-                                        <input type="text" placeholder="Location">
+                                        <select name="location" id="location">
+                                            <option selected value="3728 E Welton LnGilbert, AZ 85295, USA">3728 E Welton LnGilbert, AZ 85295, USA</option>
+                                        </select>
                                     </div>
                                     <div class="signle-input-box">
-                                        <textarea placeholder="Note"></textarea>
+                                        <textarea placeholder="Note" name="note" id="note"></textarea>
                                     </div>
-                                </form>
                             </div>
                         </div>
                         <div class="tab">
@@ -573,7 +562,6 @@
         }
 
         function getSlots(id) {
-            console.log(id);
             staffID = id;
             serviceID = $("input[name='service_id']:checked").val();
 

@@ -1262,11 +1262,11 @@ footer .container {
   width: 100%;
 }
 
-.appointment-sec-01 .appointment-form-box form {
+.appointment-sec-01 .appointment-form-box  {
   width: 100%;
 }
 
-.appointment-sec-01 .appointment-form-box form input,.appointment-sec-01 .appointment-form-box form textarea {
+.appointment-sec-01 .appointment-form-box  input,.appointment-sec-01 .appointment-form-box  textarea {
   width: 100%;
   background-color: #E2E2E2;
   border: 1px solid #00000036;
@@ -1277,13 +1277,23 @@ footer .container {
   color: black;
   margin: 10px 0;
 }
+.appointment-sec-01 .appointment-form-box  select {
+  width: 100%;
+  background-color: #E2E2E2;
+  border: 1px solid #00000036;
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 14px;
+  color: black;
+  margin: 10px 0;
+}
 
-.appointment-sec-01 .appointment-form-box form .two-input-align {
+.appointment-sec-01 .appointment-form-box  .two-input-align {
   display: flex;
   column-gap: 20px;
 }
 
-.appointment-sec-01 .appointment-form-box form textarea {
+.appointment-sec-01 .appointment-form-box  textarea {
   height: 150px;
 }
 
@@ -1515,6 +1525,23 @@ div.hamburger-box.active .bottom {
   .super-container {
     display: none;
 }
+
+.appointment-sec-01 .appointment-form-box  .two-input-align {
+  display: flex;
+  column-gap: 20px;
+  flex-direction: column;
+  }
+  .appointment-sec-01 .appointment-form-box form input {
+  width: 100%;
+  background-color: #E2E2E2;
+  border: 1px solid #00000036;
+  height: 40px;
+  border-radius: 10px;
+  padding: 15px;
+  font-size: 12px;
+  color: black;
+  margin: 5px 0;
+  }
 
 
 
@@ -2317,22 +2344,7 @@ height: 60px;
 display: flex;
 padding: 15px;
 }
-.appointment-sec-01 .appointment-form-box form .two-input-align {
-display: flex;
-column-gap: 20px;
-flex-direction: column;
-}
-.appointment-sec-01 .appointment-form-box form input {
-width: 100%;
-background-color: #E2E2E2;
-border: 1px solid #00000036;
-height: 40px;
-border-radius: 10px;
-padding: 15px;
-font-size: 12px;
-color: black;
-margin: 5px 0;
-}
+
 .appointment-sec-01 .appointment-form-box form textarea {
 height: 100px;
 }

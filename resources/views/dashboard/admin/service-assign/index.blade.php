@@ -130,7 +130,7 @@
 
                         <div class="form-group">
                             <select class="form-control" name="staff" id="staff">
-                                <option value="" disabled>Select Staff</option>
+                                <option selected disabled>Select Staff</option>
                                 <!-- Other options -->
                                 @foreach ($staff as $sta)
                                     <option value="{{ $sta->id }}">{{ $sta->user->name }}</option>

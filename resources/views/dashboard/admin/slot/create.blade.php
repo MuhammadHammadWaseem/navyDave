@@ -65,9 +65,9 @@
                             <select name="service_id" id="service_id"
                                 class="form-control @error('service_id') is-invalid @enderror">
                                 <option value="" disabled selected>Select Service</option>
-                                @foreach ($services as $service)
+                                {{-- @foreach ($services as $service)
                                     <option value="{{ $service->id }}">{{ $service->name }}</option>
-                                @endforeach
+                                @endforeach --}}
                             </select>
                             @error('service_id')
                                 <span class="invalid-feedback" role="alert">
@@ -99,8 +99,8 @@
                                 </span>
                             @enderror
                         </div>
-                        
-                    </div>     
+
+                    </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="available_from">Available From <span class="text-danger">*</span></label>
@@ -125,13 +125,43 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                        </div>        
-                </div>
+                        </div>
+                    </div>
 
                 </div>
-               
+
                 <button type="submit" class="btn btn-primary">Create Slot</button>
             </form>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $("#staff_id").on('change', function() {
+            var staff_id = $(this).val();
+            $.ajax({
+                url: "{{ route('admin.slot.getServices') }}",
+                type: "POST",
+                data: {
+                    staff_id: staff_id
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    $("#service_id").empty();
+                    $("#service_id").append(
+                        `<option value="" disabled selected>Select Service</option>`);
+                    response.forEach(element => {
+                        $("#service_id").append(
+                            `<option value="${element.id}">${element.name}</option>`);
+                    })
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        })
+    </script>
 @endsection

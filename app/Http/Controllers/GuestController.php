@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Service;
 use App\Models\ServiceAssign;
 use App\Models\Slot;
+use App\Models\Appointment;
 
 class GuestController extends Controller
 {
@@ -59,10 +60,15 @@ class GuestController extends Controller
 
     public function getStaff($id)
     {
-        $staff = ServiceAssign::where('service_id', $id)->get();
-        $staffs = Staff::with('user')->whereIn('id', $staff->pluck('staff_id'))->where('status', 'Active')->get();
+        $staffAssignments = ServiceAssign::where('service_id', $id)->pluck('staff_id');
+        $staffs = Staff::with('user')
+            ->whereIn('id', $staffAssignments)
+            ->where('status', 'Active')
+            ->get();
+
         return response()->json($staffs);
     }
+
     public function getSlots(Request $request)
     {
         $todayName = date('l');
@@ -76,5 +82,24 @@ class GuestController extends Controller
 
         $slots = Slot::where('staff_id', $request->staff_id)->where('service_id', $request->service_id)->where('available_on', $dayName)->get();
         return response()->json($slots);
+    }
+
+    public function appointmentCreate(Request $request)
+    {
+        $validated = $request->validate([
+            'service_id' => 'required|integer',
+            'staff_id' => 'required|integer',
+            'slot_id' => 'required|integer',
+            'appointment_date' => 'required|date',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:15',
+            'location' => 'nullable|string|max:255',
+            'note' => 'nullable|string',
+        ]);
+        Appointment::create($validated);
+
+        return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
     }
 }
