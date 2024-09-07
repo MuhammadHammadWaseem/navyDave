@@ -28,9 +28,14 @@ use App\Http\Controllers\Auth\StaffAuthController;
 */
 
  // Community like and unlike
- Route::post('/like/{type}/{id}', [CommunityController::class, 'like'])->name('like');
- Route::post('/unlike/{type}/{id}', [CommunityController::class, 'unlike'])->name('unlike');
- Route::post('post', [CommunityController::class, 'post'])->name('post');
+    Route::post('/like/{type}/{id}', [CommunityController::class, 'like'])->name('like');
+    Route::post('/unlike/{type}/{id}', [CommunityController::class, 'unlike'])->name('unlike');
+    Route::post('post', [CommunityController::class, 'post'])->name('post');
+    Route::get('post/get', [CommunityController::class, 'postGet'])->name('post.get');
+
+    Route::get('/comments/{post}', [CommunityController::class,'fetchReplies'])->name('comments.get');
+    Route::post('/comment/{post}', [CommunityController::class,'commentPost'])->name('post.comments');
+
 
 // Guest Route
 Route::get('/',[GuestController::class, 'home'])->name('home');
