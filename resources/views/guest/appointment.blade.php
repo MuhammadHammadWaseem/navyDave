@@ -362,6 +362,7 @@
                                     <li>Email Address : someone@example.com</li>
                                     <li>Phone Number : (XX) XXX XXXXXXX</li>
                                     <li>Location : Somewhere</li>
+                                    <li>Price : $0.00</li>
                                     <li>Note : If Any</li>
                                 </ul>
                             </div>
@@ -415,7 +416,6 @@
 
         function fixStepIndicator(n) {
             var i, x = document.getElementsByClassName("step");
-            console.log("Current step index:", n, "Total steps:", x.length);
             for (i = 0; i < x.length; i++) {
                 x[i].className = x[i].className.replace(" active", "");
             }
@@ -552,8 +552,7 @@
                 success: function(data) {
                     loadingTab.classList.add("d-none");
                     successTab.classList.remove("d-none");
-
-                    console.log(data.data);
+                    
                     document.querySelector("#submitted-box .appointment-booked-details ul").innerHTML = `
                         <li>Staff Member : ${data.data.staff.user.name}</li>
                         <li>Date & Time : ${data.data.appointment_date}</li>
@@ -561,6 +560,7 @@
                         <li>Email Address : ${data.data.email}</li>
                         <li>Phone Number : ${data.data.phone}</li>
                         <li>Location : ${data.data.location}</li>
+                        <li>Price : $${data.data.price}</li>
                         <li>Note : ${data.data.note}</li>
                     `;
 
@@ -578,7 +578,7 @@
 
                     $("#service_id").val(null).trigger('change');
                     $("#staff_id").val(null).trigger('change');
-                
+
                     // Clear validation error highlights (if you are adding "invalid" class for validation)
                     var inputs = form.querySelectorAll("input, textarea");
                     inputs.forEach(function(input) {
@@ -618,16 +618,8 @@
             });
         }
 
-        // Handle "Go Back" button click event to reset the form and hide the success tab
         document.getElementById("goBackBtn").addEventListener("click", function() {
             window.location.reload();
-            // var successTab = document.getElementById("submitted-box");
-            // var submitButton = document.getElementById("nextBtn");
-
-            // successTab.classList.add("d-none"); // Hide success tab
-            // submitButton.style.display = "inline"; // Show the submit button again
-            // currentTab = 0; // Reset to the first tab
-            // showTab(currentTab); // Show the first tab (or the first step in a multi-step form)
         });
 
         function fixStepIndicator(n) {
@@ -675,6 +667,7 @@
                                         <div class="content">
                                             <h4>${element.name}</h4>
                                             <p>Duration <b>: ${element.duration} ${element.type_duration}</b> </p>
+                                            <p>Price <b>: $${element.price}</b></p>
                                         </div>
                                     </div>
                                 </label>

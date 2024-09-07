@@ -10,6 +10,10 @@ use App\Models\Service;
 use App\Models\ServiceAssign;
 use App\Models\Slot;
 use App\Models\Appointment;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AppointmentCreated;
+use App\Jobs\SendMail;
 
 class GuestController extends Controller
 {
@@ -98,9 +102,40 @@ class GuestController extends Controller
             'location' => 'nullable|string|max:255',
             'note' => 'nullable|string',
         ]);
-        $data = Appointment::create($validated);
 
-        $appointment = Appointment::find($data->id)->with('slot', 'staff.user', 'service')->latest()->first();
-        return response()->json(['success' => true, 'message' => 'Appointment created successfully', 'data' => $appointment]);
+        DB::beginTransaction();
+
+        try {
+            // Retrieve the price from the Service model
+            $service = Service::findOrFail($validated['service_id']);
+            $validated['price'] = $service->price;
+            // Create the appointment
+            $data = Appointment::create($validated);
+
+            // Load the appointment with relationships
+            $appointment = Appointment::with('slot', 'staff.user', 'service')->findOrFail($data->id);
+
+            // Prepare email data
+            $userEmail = $validated['email'];
+            $staffEmail = $appointment->staff->user->email;
+            $adminEmail = 'hw13604@gmail.com';
+
+            // Send email
+            if ($userEmail) {
+                SendMail::dispatch($userEmail, $appointment, 'user');
+            }
+            SendMail::dispatch($staffEmail, $appointment, 'staff');
+            SendMail::dispatch($adminEmail, $appointment, 'admin');
+
+            // Commit the transaction
+            DB::commit();
+            return response()->json(['success' => true, 'message' => 'Appointment created successfully', 'data' => $appointment]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => 'Failed to create appointment', 'error' => $e->getMessage()], 500);
+        }
     }
+
+
 }

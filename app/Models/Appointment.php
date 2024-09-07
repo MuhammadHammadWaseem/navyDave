@@ -18,6 +18,7 @@ class Appointment extends Model
         'email',
         'phone',
         'location',
+        'price',
         'note',
         'status',
     ];

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('location')->nullable();
+            $table->decimal('price', 8, 2);
             $table->enum('status', ['pending', 'confirmed', 'completed', 'canceled'])->default('pending');
             $table->text('note')->nullable();
             $table->timestamps();
