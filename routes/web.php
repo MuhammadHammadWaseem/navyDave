@@ -27,28 +27,25 @@ use App\Http\Controllers\Auth\StaffAuthController;
 |
 */
 
-
+ // Community like and unlike
+ Route::post('/like/{type}/{id}', [CommunityController::class, 'like'])->name('like');
+ Route::post('/unlike/{type}/{id}', [CommunityController::class, 'unlike'])->name('unlike');
+ Route::post('post', [CommunityController::class, 'post'])->name('post');
+ 
 // Guest Route
 Route::get('/',[GuestController::class, 'home'])->name('home');
 Route::get('about',[GuestController::class, 'about'])->name('about');
 Route::get('pricing',[GuestController::class, 'pricing'])->name('pricing');
 Route::get('appointment',[GuestController::class, 'appointment'])->name('appointment');
-Route::get('appointment/p1', function () {
-    return view('guest.appointment.index1');
-});
-Route::get('appointment/p2', function () {
-    return view('guest.appointment.index2');
-});
-Route::get('appointment/p3', function () {
-    return view('guest.appointment.index3');
-});
-Route::get('appointment/p4', function () {
-    return view('guest.appointment.index4');
-});
 Route::get('contact',[GuestController::class, 'contact'])->name('contact');
 Route::get('blogs',[GuestController::class, 'blogs'])->name('blogs');
 Route::get('blog/details/{id}',[GuestController::class, 'blogDetails'])->name('blog-details');
 Route::get('faq',[GuestController::class, 'faq'])->name('faq');
+
+Route::get('get-services/{id}',[GuestController::class, 'getServices'])->name('get-services');
+Route::get('get-staff/{id}',[GuestController::class, 'getStaff'])->name('get-staff');
+Route::get('get-slots',[GuestController::class, 'getSlots'])->name('get-slots');
+Route::get('get-slots-for-date',[GuestController::class, 'getSlotsForDate'])->name('get-slots-for-date');
 
 
 Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login');

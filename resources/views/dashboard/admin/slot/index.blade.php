@@ -70,8 +70,9 @@
                             <td>{{ $slot->staff->user->name }}</td>
                             <td>{{ $slot->service->name }}</td>
                             <td>{{ $slot->available_on }}</td>
-                            <td>{{ $slot->available_from }}</td>
-                            <td>{{ $slot->available_to }}</td>
+                            <td>{{ date('g:i a', strtotime($slot->available_from)) }}</td>
+                            <td>{{ date('g:i a', strtotime($slot->available_to)) }}</td>
+
                             <td>
                                 <div class="action-box">
                                     <ul>

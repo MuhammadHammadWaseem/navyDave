@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('available_on'); 
             $table->time('available_from'); 
             $table->time('available_to'); 
+            $table->integer('booked')->default(0);
             $table->timestamps(); 
         });
     }
