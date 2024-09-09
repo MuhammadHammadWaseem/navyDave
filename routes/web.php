@@ -15,6 +15,7 @@ use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\StaffAuthController;
+use App\Http\Controllers\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,7 +106,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('slot/update/{id}', [SlotController::class, 'update'])->name('slot.update');
         Route::post('slot/getServices', [SlotController::class, 'getServices'])->name('slot.getServices');
 
-
         // Customer
         Route::get('customer', [CustomerController::class, 'index'])->name('customer');
 
@@ -120,6 +120,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('blog/show/{id}', [BlogController::class, 'show'])->name('blog.show');
         Route::get('blog/show-all', [BlogController::class, 'showAll'])->name('blog.show.all');
 
+        //Appointments
+        Route::get('index', [AppointmentController::class, 'index'])->name('appointment.index');
     });
 });
 
