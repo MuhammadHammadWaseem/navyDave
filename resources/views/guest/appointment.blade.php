@@ -33,7 +33,8 @@
                 <div class="col-md-12">
                     <div class="main-steps-form">
                         <ul>
-                            <li><a href="#" class="active-services">
+                            {{-- class="active-services" --}}
+                            <li><a>
                                     <div class="svg-box">
                                         <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -48,7 +49,7 @@
                                     <p>Service</p>
                                 </a>
                             </li>
-                            <li><a href="#">
+                            <li><a>
                                     <div class="svg-box">
                                         <svg width="51" height="50" viewBox="0 0 51 50" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -63,7 +64,7 @@
                                     <p>Staff</p>
                                 </a>
                             </li>
-                            <li><a href="#">
+                            <li><a>
                                     <div class="svg-box">
                                         <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -78,7 +79,7 @@
                                     <p>Date & Time</p>
                                 </a>
                             </li>
-                            <li><a href="#">
+                            <li><a>
                                     <div class="svg-box">
                                         <svg width="51" height="50" viewBox="0 0 51 50" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -93,7 +94,7 @@
                                     <p>Basic Details</p>
                                 </a>
                             </li>
-                            <li><a href="#">
+                            <li><a>
                                     <div class="svg-box">
                                         <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -687,6 +688,7 @@
                 url: "get-staff/" + id,
                 success: function(data) {
                     $("#staff-box").empty();
+                    $("#appointment_date").val(null);
                     data.forEach(element => {
                         $("#staff-box").append(`
                             <div class="input-radio-box">
@@ -733,17 +735,18 @@
                 },
                 success: function(data) {
                     $("#slots-box").empty();
+                    $("#appointment_date").val(null);
 
                     data.forEach(element => {
 
                         $("#slots-box").append(`
                             <div class="input-radio-box">
-                                <input type="radio" id="slot_id" name="slot_id" value="${element.id}">
+                                <input type="radio" id="slot_id" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
                                 <label for="slot_id">
                                     <div class="main-label-content">
                                         <div class="content">
-                                            <h4>${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
-                                            <p>0 Slot Left</b> </p>
+                                            <h4 style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
+                                            <p style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${element.is_booked ? 'Slot Booked' : '1 slot left'}</p>
                                         </div>
                                     </div>
                                 </label>
@@ -776,12 +779,12 @@
                     data.forEach(element => {
                         $("#slots-box").append(`
                             <div class="input-radio-box">
-                                <input type="radio" id="slot_id" name="slot_id" value="${element.id}">
+                                <input type="radio" id="slot_id" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
                                 <label for="slot_id">
                                     <div class="main-label-content">
                                         <div class="content">
-                                            <h4>${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
-                                            <p>0 Slot Left</b> </p>
+                                            <h4 style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
+                                            <p style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${element.is_booked ? 'Slot Booked' : '1 slot left'}</p>
                                         </div>
                                     </div>
                                 </label>
