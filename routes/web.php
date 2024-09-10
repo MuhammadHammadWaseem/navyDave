@@ -122,6 +122,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         //Appointments
         Route::get('index', [AppointmentController::class, 'index'])->name('appointment.index');
+        Route::get('get-appointment', [AppointmentController::class, 'getAppointment'])->name('appointment.get');
+        Route::post('edit-appointment', [AppointmentController::class, 'edit'])->name('appointment.edit');
     });
 });
 

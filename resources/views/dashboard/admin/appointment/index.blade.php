@@ -50,6 +50,9 @@
     </style>
     @section('content')
         <div class="col-lg-10">
+            @if (session()->has('success'))
+                <div class="alert alert-success">{{ session()->get('success') }}</div>
+            @endif
             <div class="main-calendar-box main-calendar-box-list customers-box mt-0 mb-0">
                 <div class="two-things-align">
                     <h5> Appointments</h5>
@@ -80,6 +83,39 @@
             </div>
         </div>
 
+        <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form id="statusForm" action="{{ route('admin.appointment.edit') }}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Update Status</h5>
+                            <button type="button" class="close" id="close2" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            @csrf
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select class="form-control" name="status" id="status">
+                                    <option value="pending">Pending</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="canceled">Canceled</option>
+                                </select>
+                                <input type="hidden" name="id" id="id">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="">Update Status</button>
+                            <button type="button" class="btn btn-secondary" id="cancel"
+                                data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             function formatTime(timeString) {
@@ -88,6 +124,24 @@
                 let ampm = hours >= 12 ? 'pm' : 'am';
                 hours = hours % 12 || 12; // convert 24-hour format to 12-hour format
                 return `${hours}:${minute} ${ampm}`;
+            }
+
+            function showEditModal(id) {
+                $.ajax({
+                    url: "{{ route('admin.appointment.get') }}",
+                    type: "get",
+                    data: {
+                        id: id
+                    },
+                    success: function(response) {
+                        $("#statusModal").modal('show');
+                        $("#status").find('option[value="' + response.status + '"]').attr('selected', true);
+                        $("#id").val(response.id);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
             }
 
             function getData() {
@@ -112,7 +166,7 @@
                                     <td>
                                         <div class="action-box">
                                             <ul>
-                                                <li><a href="#"><img src="{{ asset('assets/images/pencil.png') }}" alt=""></a>
+                                                <li><a onclick="showEditModal(${element.id})"><img src="{{ asset('assets/images/pencil.png') }}" alt=""></a>
                                                 </li>
                                                 <li><a href="#"><img src="{{ asset('assets/images/delete.png') }}" alt=""></a>
                                                 </li>
@@ -128,6 +182,10 @@
                     }
                 });
             }
+
+            $("#cancel , #close2").click(function() {
+                $("#statusModal").modal('hide');
+            });
             $(document).ready(function() {
                 getData();
 
