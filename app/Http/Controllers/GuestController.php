@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\AppointmentCreated;
 use App\Jobs\SendMail;
 use Illuminate\Support\Facades\Log;
+use Stripe\Stripe;
+use Session;
+use Stripe\StripeClient;
+use App\Models\Payment;
 
 class GuestController extends Controller
 {
@@ -82,7 +86,7 @@ class GuestController extends Controller
         $slotIds = Appointment::where('appointment_date', $now)->where('status', '!=', 'canceled')->pluck('slot_id');
 
         $slots = Slot::where('staff_id', $request->staff_id)->where('service_id', $request->service_id)->where('available_on', $todayName)->get();
-        foreach($slots as $slot){
+        foreach ($slots as $slot) {
             $slot->is_booked = $slotIds->contains($slot->id) ? true : false;
         }
         return response()->json($slots);
@@ -96,7 +100,7 @@ class GuestController extends Controller
         $slotIds = Appointment::where('appointment_date', $data)->where('status', '!=', 'canceled')->pluck('slot_id');
 
         $slots = Slot::where('staff_id', $request->staff_id)->where('service_id', $request->service_id)->where('available_on', $dayName)->get();
-        foreach($slots as $slot){
+        foreach ($slots as $slot) {
             $slot->is_booked = $slotIds->contains($slot->id) ? true : false;
         }
         return response()->json($slots);
@@ -149,6 +153,136 @@ class GuestController extends Controller
             DB::rollBack();
             return response()->json(['success' => false, 'message' => 'Failed to create appointment', 'error' => $e->getMessage()], 500);
         }
+    }
+
+
+    public function appointmentStripe(Request $request)
+    {
+        $validated = $request->validate([
+            'service_id' => 'required|integer',
+            'staff_id' => 'required|integer',
+            'slot_id' => 'required|integer',
+            'appointment_date' => 'required|date',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string',
+            'location' => 'nullable|string|max:255',
+            'note' => 'nullable|string',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            // Retrieve the price from the Service model
+            $service = Service::findOrFail($validated['service_id']);
+            $validated['price'] = $service->price;
+
+            // ------------------- <-- Stripe Payment --> ------------------- \\
+
+            $total = $validated['price'];
+
+            Session::put('SessionData', $validated);
+
+            $stripeSecretKey = env('STRIPE_SECRET_KEY', 'sk_test_51LkfAQH65lvSBiDK232wi93QAEfeM0XgS8s62kRse0LGoKn2pHxZhMu23pA4w5CyqeR7jaichrCsgnSQdz5S7NPD00GOpROogE');
+            $stripe = new StripeClient([
+                'api_key' => $stripeSecretKey,
+            ]);
+
+            $checkoutSession = $stripe->checkout->sessions->create([
+                'success_url' => route('payment.success'),
+                'cancel_url' => route('payment.fail'),
+                'payment_method_types' => ['card'],
+                'mode' => 'payment',
+                'line_items' => [
+                    [
+                        'price_data' => [
+                            'currency' => 'USD',
+                            'unit_amount' => $total * 100,
+                            'product_data' => [
+                                'name' => 'Your Product Name',
+                                'description' => 'Your Product Description',
+                            ],
+                        ],
+                        'quantity' => 1,
+                    ],
+                ],
+                'customer_email' => $validated['email'] ?? 'default@example.com',
+            ]);
+
+            Session::put('stripe_checkout_id', $checkoutSession->id);
+
+            // Commit the transaction
+            DB::commit();
+            // return redirect()->away($checkoutSession->url);
+            return redirect($checkoutSession->url);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => 'Failed to create appointment', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function stripeSuccess(Request $request)
+    {
+        $validated = Session::get('SessionData');
+
+        DB::beginTransaction();
+
+        try {
+            // Retrieve the price from the Service model
+            $service = Service::findOrFail($validated['service_id']);
+            $validated['price'] = $service->price;
+
+            // Create the appointment
+            $data = Appointment::create($validated);
+
+            // Load the appointment with relationships
+            $appointment = Appointment::with('slot', 'staff.user', 'service')->findOrFail($data->id);
+
+            // Retrieve the Stripe session to get payment details
+            $stripeSecretKey = env('STRIPE_SECRET_KEY', 'sk_test_51LkfAQH65lvSBiDK232wi93QAEfeM0XgS8s62kRse0LGoKn2pHxZhMu23pA4w5CyqeR7jaichrCsgnSQdz5S7NPD00GOpROogE');
+            $stripe = new StripeClient([
+                'api_key' => $stripeSecretKey,
+            ]);
+            $sessionId = Session::get('stripe_checkout_id');
+            $session = $stripe->checkout->sessions->retrieve($sessionId);
+            
+            // Save payment data
+            Payment::create([
+                'appointment_id' => $appointment->id,
+                'payment_id' => $session->payment_intent, // Payment Intent ID
+                'amount' => $session->amount_total, // Total amount in cents
+                'currency' => $session->currency, // Currency
+                'status' => $session->payment_status, // Payment status (e.g., 'paid')
+            ]);
+        
+            // Prepare email data
+            $userEmail = $validated['email'];
+            $staffEmail = $appointment->staff->user->email;
+            $adminEmail = 'hw13604@gmail.com';
+
+            // Send email
+            if ($userEmail) {
+                SendMail::dispatch($userEmail, $appointment, 'user');
+            }
+            SendMail::dispatch($staffEmail, $appointment, 'staff');
+            SendMail::dispatch($adminEmail, $appointment, 'admin');
+
+            // Commit the transaction
+            DB::commit();
+            // return response()->json(['success' => true, 'message' => 'Appointment created successfully', 'data' => $appointment]);
+            return redirect()->route('appointment')->with('success', 'Appointment created successfully');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // return response()->json(['success' => false, 'message' => 'Failed to create appointment', 'error' => $e->getMessage()], 500);
+            return redirect()->route('appointment')->with('error', 'Failed to create appointment');
+        }
+    }
+
+    public function paymentFail()
+    {
+        return redirect()->route('appointment')->with('error', 'Payment failed');
     }
 
 

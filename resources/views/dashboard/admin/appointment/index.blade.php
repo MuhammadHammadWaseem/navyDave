@@ -71,6 +71,7 @@
                             <th class="text-center">Date</th>
                             <th class="text-center">Time</th>
                             <th class="text-center">Price</th>
+                            <th class="text-center">Payment</th>
                             <th class="text-center">Status</th>
                             <th class="text-center">Created at</th>
                             <th class="text-center">Actions</th>
@@ -171,6 +172,7 @@
                                     <td class="text-center">${element.appointment_date}</td>
                                     <td class="text-center">${formatTime(element.slot.available_from) + ' - ' + formatTime(element.slot.available_to)}</td>
                                     <td class="text-center">$${element.price}</td>
+                                    <td class="text-center">${element.payment ? element.payment.status : '-' }</td>
                                     <td class="text-center">${element.status}</td>
                                     <td class="text-center">${createdAtFormatted}</td>
                                     <td class="text-center">

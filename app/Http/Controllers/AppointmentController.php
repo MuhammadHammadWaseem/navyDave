@@ -12,7 +12,7 @@ class AppointmentController extends Controller
 {
     public function index(Request $request)
     {
-        $appointment = Appointment::with('service.category', 'staff.user', 'slot')->get();
+        $appointment = Appointment::with('service.category', 'staff.user', 'slot', 'payment')->get();
         return response()->json($appointment);
     }
     public function getAppointment(Request $request)

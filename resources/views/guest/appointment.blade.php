@@ -9,6 +9,11 @@
     }
 </style>
 @section('content')
+    @if (Session::has('success'))
+        <div class="alert alert-success">
+            {{ Session::get('success') }}
+        </div>
+    @endif
     <section class="hero-banner other-pages-banner">
         <div class="container">
             <div class="row">
@@ -109,7 +114,9 @@
                         </ul>
                     </div>
 
-                    <form id="regForm" method="POST">
+                    <form id="regForm" method="POST" action="{{ route('appointment.stripe') }}">
+
+                        @csrf
                         <div class="tab d-none">
                             <div class="text">
                                 <h3>Category</h3>
@@ -543,80 +550,82 @@
             errorTab.classList.add("d-none");
             loadingTab.classList.remove("d-none");
 
-            $.ajax({
-                type: "POST",
-                url: "appointment/create",
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: $(form).serialize(),
-                success: function(data) {
-                    loadingTab.classList.add("d-none");
-                    successTab.classList.remove("d-none");
-                    
-                    document.querySelector("#submitted-box .appointment-booked-details ul").innerHTML = `
-                        <li>Staff Member : ${data.data.staff.user.name}</li>
-                        <li>Date & Time : ${data.data.appointment_date}</li>
-                        <li>Name : ${data.data.first_name} ${data.data.last_name}</li>
-                        <li>Email Address : ${data.data.email}</li>
-                        <li>Phone Number : ${data.data.phone}</li>
-                        <li>Location : ${data.data.location}</li>
-                        <li>Price : $${data.data.price}</li>
-                        <li>Note : ${data.data.note}</li>
-                    `;
+            form.submit();
 
-                    // Hide the submit button after success
-                    submitButton.style.display = "none";
-                    prevButton.style.display = "none";
+            // $.ajax({
+            //     type: "POST",
+            //     url: "appointment/stripe",
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     },
+            //     data: $(form).serialize(),
+            //     success: function(data) {
+            //         loadingTab.classList.add("d-none");
+            //         successTab.classList.remove("d-none");
 
-                    form.reset();
+            //         document.querySelector("#submitted-box .appointment-booked-details ul").innerHTML = `
+        //             <li>Staff Member : ${data.data.staff.user.name}</li>
+        //             <li>Date & Time : ${data.data.appointment_date}</li>
+        //             <li>Name : ${data.data.first_name} ${data.data.last_name}</li>
+        //             <li>Email Address : ${data.data.email}</li>
+        //             <li>Phone Number : ${data.data.phone}</li>
+        //             <li>Location : ${data.data.location}</li>
+        //             <li>Price : $${data.data.price}</li>
+        //             <li>Note : ${data.data.note}</li>
+        //         `;
 
-                    // Clear radio button selections
-                    var radios = form.querySelectorAll("input[type='radio']");
-                    radios.forEach(function(radio) {
-                        radio.checked = false;
-                    });
+            //         // Hide the submit button after success
+            //         submitButton.style.display = "none";
+            //         prevButton.style.display = "none";
 
-                    $("#service_id").val(null).trigger('change');
-                    $("#staff_id").val(null).trigger('change');
+            //         form.reset();
 
-                    // Clear validation error highlights (if you are adding "invalid" class for validation)
-                    var inputs = form.querySelectorAll("input, textarea");
-                    inputs.forEach(function(input) {
-                        input.classList.remove("invalid");
-                    });
+            //         // Clear radio button selections
+            //         var radios = form.querySelectorAll("input[type='radio']");
+            //         radios.forEach(function(radio) {
+            //             radio.checked = false;
+            //         });
+
+            //         $("#service_id").val(null).trigger('change');
+            //         $("#staff_id").val(null).trigger('change');
+
+            //         // Clear validation error highlights (if you are adding "invalid" class for validation)
+            //         var inputs = form.querySelectorAll("input, textarea");
+            //         inputs.forEach(function(input) {
+            //             input.classList.remove("invalid");
+            //         });
 
 
-                },
-                error: function(xhr, status, error) {
-                    loadingTab.classList.add("d-none");
+            //     },
+            //     error: function(xhr, status, error) {
+            //         loadingTab.classList.add("d-none");
 
-                    if (xhr.status === 422) { // Validation errors
-                        var errors = xhr.responseJSON.errors;
-                        var errorList = document.getElementById("errorList");
+            //         if (xhr.status === 422) { // Validation errors
+            //             var errors = xhr.responseJSON.errors;
+            //             var errorList = document.getElementById("errorList");
 
-                        if (errorList) {
-                            errorList.innerHTML = ""; // Clear previous errors
+            //             if (errorList) {
+            //                 errorList.innerHTML = ""; // Clear previous errors
 
-                            // Loop through and display each validation error
-                            for (var field in errors) {
-                                if (errors.hasOwnProperty(field)) {
-                                    errors[field].forEach(function(message) {
-                                        var errorItem = document.createElement("li");
-                                        errorItem.textContent = message;
-                                        errorList.appendChild(errorItem);
-                                    });
-                                }
-                            }
-                        }
+            //                 // Loop through and display each validation error
+            //                 for (var field in errors) {
+            //                     if (errors.hasOwnProperty(field)) {
+            //                         errors[field].forEach(function(message) {
+            //                             var errorItem = document.createElement("li");
+            //                             errorItem.textContent = message;
+            //                             errorList.appendChild(errorItem);
+            //                         });
+            //                     }
+            //                 }
+            //             }
 
-                        errorTab.classList.remove("d-none");
-                    } else {
-                        console.error("Form submission failed:", error);
-                        errorTab.classList.remove("d-none");
-                    }
-                }
-            });
+            //             errorTab.classList.remove("d-none");
+            //         } else {
+            //             console.error("Form submission failed:", error);
+            //             errorTab.classList.remove("d-none");
+            //         }
+            //     }
+            // });
         }
 
         document.getElementById("goBackBtn").addEventListener("click", function() {

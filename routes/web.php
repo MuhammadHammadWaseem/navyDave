@@ -44,6 +44,11 @@ Route::get('about',[GuestController::class, 'about'])->name('about');
 Route::get('pricing',[GuestController::class, 'pricing'])->name('pricing');
 Route::get('appointment',[GuestController::class, 'appointment'])->name('appointment');
 Route::post('appointment/create',[GuestController::class, 'appointmentCreate'])->name('appointment.create');
+// Stripe
+Route::post('appointment/stripe',[GuestController::class, 'appointmentStripe'])->name('appointment.stripe');
+Route::get('/payment/success', [GuestController::class, 'stripeSuccess'])->name('payment.success');
+Route::get('/payment/fail', [GuestController::class, 'paymentFail'])->name('payment.fail');
+
 Route::get('contact',[GuestController::class, 'contact'])->name('contact');
 Route::get('blogs',[GuestController::class, 'blogs'])->name('blogs');
 Route::get('blog/details/{id}',[GuestController::class, 'blogDetails'])->name('blog-details');
