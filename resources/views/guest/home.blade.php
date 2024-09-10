@@ -13,7 +13,7 @@
                 <div class="text">
                     <h1>Your <span>Swing</span>, Our<br> Mission </h1>
                     <p>Customized Golf Instruction To Improve Your Swing & Better Your Game</p>
-                    <a href="#" class="t-btn">Book Appointment</a>
+                    <a href="{{ route('appointment') }}" class="t-btn">Book Appointment</a>
                 </div>
             </div>
         </div>

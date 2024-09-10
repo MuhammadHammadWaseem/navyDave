@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Appointment;
+use App\Jobs\SendStatusMail;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AppointmentStatusUpdated;
 
 class AppointmentController extends Controller
 {
@@ -22,6 +25,16 @@ class AppointmentController extends Controller
         $appointment = Appointment::findOrFail($request->id);
         $appointment->status = $request->status;
         $appointment->save();
+
+        $userEmail = $appointment->email;
+        $staffEmail = $appointment->staff->user->email;
+        $adminEmail = 'hw13604@gmail.com';
+
+        // Email Work
+        SendStatusMail::dispatch($userEmail, $appointment, 'user');
+        SendStatusMail::dispatch($staffEmail, $appointment, 'staff');
+        SendStatusMail::dispatch($adminEmail, $appointment, 'admin');
+
         return redirect()->back()->with('success', 'Status updated successfully!');
     }
 }

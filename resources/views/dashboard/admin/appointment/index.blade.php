@@ -62,17 +62,18 @@
                 <table class="table table-striped" id="Table1">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>User</th>
-                            <th>Email</th>
-                            <th>Service</th>
-                            <th>Category</th>
-                            <th>Day</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Price</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">User</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Staff</th>
+                            <th class="text-center">Service</th>
+                            <th class="text-center">Day</th>
+                            <th class="text-center">Date</th>
+                            <th class="text-center">Time</th>
+                            <th class="text-center">Price</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Created at</th>
+                            <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="Table">
@@ -83,7 +84,8 @@
             </div>
         </div>
 
-        <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+        <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <form id="statusForm" action="{{ route('admin.appointment.edit') }}" method="post">
@@ -144,6 +146,12 @@
                 });
             }
 
+            function formatDate(dateString) {
+                let date = new Date(dateString);
+                return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD
+            }
+
+
             function getData() {
                 $.ajax({
                     url: "{{ route('admin.appointment.index') }}",
@@ -151,30 +159,30 @@
                     success: function(response) {
                         $("#Table").empty();
                         response.forEach(element => {
+                            let createdAtFormatted = formatDate(element.created_at);
                             $('#Table').append(`
                                 <tr>
-                                    <td>${element.id}</td>
-                                    <td>${element.first_name + ' ' + element.last_name}</td>
-                                    <td>${element.email}</td>
-                                    <td>${element.service.name}</td>
-                                    <td>${element.service.category.name}</td>
-                                    <td>${element.slot.available_on}</td>
-                                    <td>${element.appointment_date}</td>
-                                    <td>${formatTime(element.slot.available_from) + ' - ' + formatTime(element.slot.available_to)}</td>
-                                    <td>$${element.price}</td>
-                                    <td>${element.status}</td>
-                                    <td>
-                                        <div class="action-box">
+                                    <td class="text-center">${element.id}</td>
+                                    <td class="text-center">${element.first_name + ' ' + element.last_name}</td>
+                                    <td class="text-center">${element.email}</td>
+                                    <td class="text-center">${element.staff.user.name}</td>
+                                    <td class="text-center">${element.service.name}</td>
+                                    <td class="text-center">${element.slot.available_on}</td>
+                                    <td class="text-center">${element.appointment_date}</td>
+                                    <td class="text-center">${formatTime(element.slot.available_from) + ' - ' + formatTime(element.slot.available_to)}</td>
+                                    <td class="text-center">$${element.price}</td>
+                                    <td class="text-center">${element.status}</td>
+                                    <td class="text-center">${createdAtFormatted}</td>
+                                    <td class="text-center">
+                                        <div class="action-box mt-2">
                                             <ul>
                                                 <li><a onclick="showEditModal(${element.id})"><img src="{{ asset('assets/images/pencil.png') }}" alt=""></a>
-                                                </li>
-                                                <li><a href="#"><img src="{{ asset('assets/images/delete.png') }}" alt=""></a>
                                                 </li>
                                             </ul>
                                         </div>
                                     </td>
                                 </tr>
-                                `);
+                            `);
                         })
                     },
                     error: function(error) {
@@ -195,28 +203,31 @@
                         buttons: [{
                                 extend: 'copy',
                                 text: 'Copy Data',
-                                className: 't-btn' // Only use your custom class
+                                className: 't-btn'
                             },
                             {
                                 extend: 'csv',
                                 text: 'Export to CSV',
-                                className: 't-btn' // Only use your custom class
+                                className: 't-btn'
                             },
                             {
                                 extend: 'excel',
                                 text: 'Export to Excel',
-                                className: 't-btn' // Only use your custom class
+                                className: 't-btn'
                             },
                             {
                                 extend: 'pdf',
                                 text: 'Export to PDF',
-                                className: 't-btn' // Only use your custom class
+                                className: 't-btn'
                             },
                             {
                                 extend: 'print',
                                 text: 'Print Table',
-                                className: 't-btn' // Only use your custom class
+                                className: 't-btn'
                             }
+                        ],
+                        "order": [
+                            [0, "desc"]
                         ]
                     });
                 }, 1000);

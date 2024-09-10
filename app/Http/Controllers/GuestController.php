@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AppointmentCreated;
 use App\Jobs\SendMail;
+use Illuminate\Support\Facades\Log;
 
 class GuestController extends Controller
 {

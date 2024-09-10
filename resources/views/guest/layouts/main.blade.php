@@ -127,7 +127,7 @@
                             <li><a href="{{ route('appointment') }}">Appointments</a></li>
                             <li><a href="{{ route('contact') }}">Contact Us</a></li>
                             <li><a href="{{ route('blogs') }}">Blogs</a></li>
-                            <li><a href="#">FAQs</a></li>
+                            <li><a href="{{ route('faq') }}">FAQs</a></li>
                         </ul>
                     </div>
                 </div>
