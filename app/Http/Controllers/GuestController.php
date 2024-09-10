@@ -79,7 +79,7 @@ class GuestController extends Controller
         $todayName = date('l');
 
         $now = now()->format('Y-m-d');
-        $slotIds = Appointment::where('appointment_date', $now)->pluck('slot_id');
+        $slotIds = Appointment::where('appointment_date', $now)->where('status', '!=', 'canceled')->pluck('slot_id');
 
         $slots = Slot::where('staff_id', $request->staff_id)->where('service_id', $request->service_id)->where('available_on', $todayName)->get();
         foreach($slots as $slot){
@@ -93,7 +93,7 @@ class GuestController extends Controller
 
         $data = $request->date;
         $data = date('Y-m-d', strtotime($data));
-        $slotIds = Appointment::where('appointment_date', $data)->pluck('slot_id');
+        $slotIds = Appointment::where('appointment_date', $data)->where('status', '!=', 'canceled')->pluck('slot_id');
 
         $slots = Slot::where('staff_id', $request->staff_id)->where('service_id', $request->service_id)->where('available_on', $dayName)->get();
         foreach($slots as $slot){
