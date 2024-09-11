@@ -1,458 +1,129 @@
 @extends('dashboard.layouts.master')
+
 <style>
-    .main-box-navy .left-all-links ul li a.payment-active, .main-box-navy .left-all-links ul li a:hover {
-  background-color: white;
-  font-weight: 600;
-}
+    .main-box-navy .left-all-links ul li a.payment-active,
+    .main-box-navy .left-all-links ul li a:hover {
+        background-color: white;
+        font-weight: 600;
+    }
 
-.main-box-navy .left-all-links ul li a.payment-active span,.main-box-navy .left-all-links ul li a:hover span {
-  background-color: #2CC374;
-}
+    .main-box-navy .left-all-links ul li a.payment-active span,
+    .main-box-navy .left-all-links ul li a:hover span {
+        background-color: #2CC374;
+    }
 
-.main-box-navy .left-all-links ul li a.payment-active span img,.main-box-navy .left-all-links ul li a:hover span img {
-  filter: invert(0) hue-rotate(465deg) brightness(10.5);
-}
+    .main-box-navy .left-all-links ul li a.payment-active span img,
+    .main-box-navy .left-all-links ul li a:hover span img {
+        filter: invert(0) hue-rotate(465deg) brightness(10.5);
+    }
+
+    .dt-buttons {
+        margin-bottom: 15px;
+    }
+
+    .dt-buttons button.dt-button {
+        background-color: #48bb78 !important;
+        font-size: 14px !important;
+        color: white !important;
+        padding: 10px 20px !important;
+        border-radius: 15px !important;
+        transition: .3s !important;
+        border: none !important;
+    }
+
+    .dt-buttons button.dt-button:hover {
+        background-color: black !important;
+        color: white !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        height: 40px !important;
+        border: 1px solid #00000040 !important;
+        border-radius: 15px !important;
+        padding: 10px !important;
+        font-size: 12px !important;
+        color: #CACACA !important;
+        background-color: white !important;
+        max-width: 250px !important;
+        width: 250px !important;
+        padding-left: 30px !important;
+    }
 </style>
-@section('content')
-<div class="col-lg-10">
-    <div class="main-calendar-box main-calendar-box-list customers-box">
-       <div class="two-things-align">
-        <h5>Payments</h5>
-       </div>
-        <div class="three-things-align">
-            <div class="main-search-form">
-                <form action="">
-                    <div class="form-align-box">
-                        <div class="input-box">
-                            <input type="date" placeholder="Transaction Date">
-                        </div>
-                        <div class="select-box">
-                            <select name="staff-member" id="staff-member">
-                                <option value="staff-member">Staff Member</option>
-                                <option value="staff-member-01">staff-member-01</option>
-                                <option value="staff-member-02">staff-member-02</option>
-                                <option value="staff-member-03">staff-member-03</option>
-                              </select>
-                        </div>
-                        <div class="select-box">
-                            <select name="Services" id="Services">
-                                <option value="Services">Services</option>
-                                <option value="Services-01">Services-01</option>
-                                <option value="Services-02">Services-02</option>
-                                <option value="Services-03">Services-03</option>
-                              </select>
-                        </div>
-                        <div class="select-box">
-                            <select name="Payment Status" id="Payment Status">
-                                <option value="Payment Status">Payment Status</option>
-                                <option value="Payment Status-01">Payment Status-01</option>
-                                <option value="Payment Status-02">Payment Status-02</option>
-                                <option value="Payment Status-03">Payment Status-03</option>
-                              </select>
-                        </div>
-                        <div class="input-box">
-                            <input type="text" placeholder="Customer Name">
-                        </div>
-                        <div class="two-btns-align">
-                            <a href="#" class="t-btn">Apply Filters</a>
-                            <a href="#" class="t-btn t-btn-gray">Export List</a>
-                            <a href="#" class="t-btn t-btn-gray">Reset</a>
-                        </div>
-                    </div>
-                </form>
-            </div>
 
+@section('content')
+    <div class="col-lg-10">
+        <div class="main-calendar-box main-calendar-box-list customers-box">
+            <div class="two-things-align">
+                <h5>Payments</h5>
+            </div>
+        </div>
+        <div class="main-table-box main-table-box-list">
+            <table id="Table1">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        <th>Staff Member</th>
+                        <th>Service</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        <th>Appointment On</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach ($appointments as $payment)
+                        <tr>
+                            <td>{{ $payment->created_at }}</td>
+                            <td>{{ $payment->first_name }} {{ $payment->last_name }}</td>
+                            <td>{{ $payment->staff->user->name }}</td>
+                            <td>{{ $payment->service->name }}</td>
+                            <td>{{ $payment->payment->status }}</td>
+                            <td>{{ number_format($payment->payment->amount / 100, 2) }}</td>
+                            <td>{{ $payment->appointment_date }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
-    <div class="main-table-box main-table-box-list">
-        <table>
-            <tr>
-                <th>Date</th>
-                <th>Customer</th>
-                <th>Staff Member</th>
-                <th>Service</th>
-                <th>Method</th>
-                <th>Status</th>
-                <th>Amount</th>
-                <th>Appointment On</th>
-            </tr>
-            <tr>
-                <td>
-                    <div class="person-box">
-                        <div class="box">
-                            <img src="assets/images/person-01.png" alt="">
-                        </div>
-                        <div class="box">
-                            <h5>Esthera Jackson</h5>
-                            <h6>esthera@simmmple.com</h6>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="date-time-box">
-                        <h5>Golf Coaching Session</h5>
-                        <h6>By Navy Dave</h6>
-                    </div>
-                </td>
-                <td>
-                    <div class="day-box">
-                        <p>Mannual ( By Admin )</p>
-                    </div>
-                </td>
-                <td>$0.00</td>
-                <td><div class="select-box table-select">
-                    <select name="Paid" id="Paid">
-                        <option value="Paid">Paid</option>
-                        <option value="Unpaid">Unpaid</option>
-                      </select>
-                </div>
-            </td>
-            <td>June 27, 2024 7:49 pm</td>
-            </tr>
 
-            <tr>
-                <td>
-                    <div class="person-box">
-                        <div class="box">
-                            <img src="assets/images/person-01.png" alt="">
-                        </div>
-                        <div class="box">
-                            <h5>Esthera Jackson</h5>
-                            <h6>esthera@simmmple.com</h6>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="date-time-box">
-                        <h5>Golf Coaching Session</h5>
-                        <h6>By Navy Dave</h6>
-                    </div>
-                </td>
-                <td>
-                    <div class="day-box">
-                        <p>Mannual ( By Admin )</p>
-                    </div>
-                </td>
-                <td>$0.00</td>
-                <td><div class="select-box table-select">
-                    <select name="Paid" id="Paid">
-                        <option value="Paid">Paid</option>
-                        <option value="Unpaid">Unpaid</option>
-                      </select>
-                </div>
-            </td>
-            <td>June 27, 2024 7:49 pm</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="person-box">
-                        <div class="box">
-                            <img src="assets/images/person-01.png" alt="">
-                        </div>
-                        <div class="box">
-                            <h5>Esthera Jackson</h5>
-                            <h6>esthera@simmmple.com</h6>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="date-time-box">
-                        <h5>Golf Coaching Session</h5>
-                        <h6>By Navy Dave</h6>
-                    </div>
-                </td>
-                <td>
-                    <div class="day-box">
-                        <p>Mannual ( By Admin )</p>
-                    </div>
-                </td>
-                <td>$0.00</td>
-                <td><div class="select-box table-select">
-                    <select name="Paid" id="Paid">
-                        <option value="Paid">Paid</option>
-                        <option value="Unpaid">Unpaid</option>
-                      </select>
-                </div>
-            </td>
-            <td>June 27, 2024 7:49 pm</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="person-box">
-                        <div class="box">
-                            <img src="assets/images/person-01.png" alt="">
-                        </div>
-                        <div class="box">
-                            <h5>Esthera Jackson</h5>
-                            <h6>esthera@simmmple.com</h6>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="date-time-box">
-                        <h5>Golf Coaching Session</h5>
-                        <h6>By Navy Dave</h6>
-                    </div>
-                </td>
-                <td>
-                    <div class="day-box">
-                        <p>Mannual ( By Admin )</p>
-                    </div>
-                </td>
-                <td>$0.00</td>
-                <td><div class="select-box table-select">
-                    <select name="Paid" id="Paid">
-                        <option value="Paid">Paid</option>
-                        <option value="Unpaid">Unpaid</option>
-                      </select>
-                </div>
-            </td>
-            <td>June 27, 2024 7:49 pm</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="person-box">
-                        <div class="box">
-                            <img src="assets/images/person-01.png" alt="">
-                        </div>
-                        <div class="box">
-                            <h5>Esthera Jackson</h5>
-                            <h6>esthera@simmmple.com</h6>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="date-time-box">
-                        <h5>Golf Coaching Session</h5>
-                        <h6>By Navy Dave</h6>
-                    </div>
-                </td>
-                <td>
-                    <div class="day-box">
-                        <p>Mannual ( By Admin )</p>
-                    </div>
-                </td>
-                <td>$0.00</td>
-                <td><div class="select-box table-select">
-                    <select name="Paid" id="Paid">
-                        <option value="Paid">Paid</option>
-                        <option value="Unpaid">Unpaid</option>
-                      </select>
-                </div>
-            </td>
-            <td>June 27, 2024 7:49 pm</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="person-box">
-                        <div class="box">
-                            <img src="assets/images/person-01.png" alt="">
-                        </div>
-                        <div class="box">
-                            <h5>Esthera Jackson</h5>
-                            <h6>esthera@simmmple.com</h6>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="date-time-box">
-                        <h5>Golf Coaching Session</h5>
-                        <h6>By Navy Dave</h6>
-                    </div>
-                </td>
-                <td>
-                    <div class="day-box">
-                        <p>Mannual ( By Admin )</p>
-                    </div>
-                </td>
-                <td>$0.00</td>
-                <td><div class="select-box table-select">
-                    <select name="Paid" id="Paid">
-                        <option value="Paid">Paid</option>
-                        <option value="Unpaid">Unpaid</option>
-                      </select>
-                </div>
-            </td>
-            <td>June 27, 2024 7:49 pm</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="person-box">
-                        <div class="box">
-                            <img src="assets/images/person-01.png" alt="">
-                        </div>
-                        <div class="box">
-                            <h5>Esthera Jackson</h5>
-                            <h6>esthera@simmmple.com</h6>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="date-time-box">
-                        <h5>Golf Coaching Session</h5>
-                        <h6>By Navy Dave</h6>
-                    </div>
-                </td>
-                <td>
-                    <div class="day-box">
-                        <p>Mannual ( By Admin )</p>
-                    </div>
-                </td>
-                <td>$0.00</td>
-                <td><div class="select-box table-select">
-                    <select name="Paid" id="Paid">
-                        <option value="Paid">Paid</option>
-                        <option value="Unpaid">Unpaid</option>
-                      </select>
-                </div>
-            </td>
-            <td>June 27, 2024 7:49 pm</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="person-box">
-                        <div class="box">
-                            <img src="assets/images/person-01.png" alt="">
-                        </div>
-                        <div class="box">
-                            <h5>Esthera Jackson</h5>
-                            <h6>esthera@simmmple.com</h6>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="date-time-box">
-                        <h5>Golf Coaching Session</h5>
-                        <h6>By Navy Dave</h6>
-                    </div>
-                </td>
-                <td>
-                    <div class="day-box">
-                        <p>Mannual ( By Admin )</p>
-                    </div>
-                </td>
-                <td>$0.00</td>
-                <td><div class="select-box table-select">
-                    <select name="Paid" id="Paid">
-                        <option value="Paid">Paid</option>
-                        <option value="Unpaid">Unpaid</option>
-                      </select>
-                </div>
-            </td>
-            <td>June 27, 2024 7:49 pm</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="person-box">
-                        <div class="box">
-                            <img src="assets/images/person-01.png" alt="">
-                        </div>
-                        <div class="box">
-                            <h5>Esthera Jackson</h5>
-                            <h6>esthera@simmmple.com</h6>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="date-time-box">
-                        <h5>Golf Coaching Session</h5>
-                        <h6>By Navy Dave</h6>
-                    </div>
-                </td>
-                <td>
-                    <div class="day-box">
-                        <p>Mannual ( By Admin )</p>
-                    </div>
-                </td>
-                <td>$0.00</td>
-                <td><div class="select-box table-select">
-                    <select name="Paid" id="Paid">
-                        <option value="Paid">Paid</option>
-                        <option value="Unpaid">Unpaid</option>
-                      </select>
-                </div>
-            </td>
-            <td>June 27, 2024 7:49 pm</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="person-box">
-                        <div class="box">
-                            <img src="assets/images/person-01.png" alt="">
-                        </div>
-                        <div class="box">
-                            <h5>Esthera Jackson</h5>
-                            <h6>esthera@simmmple.com</h6>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="date-time-box">
-                        <h5>Golf Coaching Session</h5>
-                        <h6>By Navy Dave</h6>
-                    </div>
-                </td>
-                <td>
-                    <div class="day-box">
-                        <p>Mannual ( By Admin )</p>
-                    </div>
-                </td>
-                <td>$0.00</td>
-                <td><div class="select-box table-select">
-                    <select name="Paid" id="Paid">
-                        <option value="Paid">Paid</option>
-                        <option value="Unpaid">Unpaid</option>
-                      </select>
-                </div>
-            </td>
-            <td>June 27, 2024 7:49 pm</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="person-box">
-                        <div class="box">
-                            <img src="assets/images/person-01.png" alt="">
-                        </div>
-                        <div class="box">
-                            <h5>Esthera Jackson</h5>
-                            <h6>esthera@simmmple.com</h6>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="date-time-box">
-                        <h5>Golf Coaching Session</h5>
-                        <h6>By Navy Dave</h6>
-                    </div>
-                </td>
-                <td>
-                    <div class="day-box">
-                        <p>Mannual ( By Admin )</p>
-                    </div>
-                </td>
-                <td>$0.00</td>
-                <td><div class="select-box table-select">
-                    <select name="Paid" id="Paid">
-                        <option value="Paid">Paid</option>
-                        <option value="Unpaid">Unpaid</option>
-                      </select>
-                </div>
-            </td>
-            <td>June 27, 2024 7:49 pm</td>
-            </tr>
-        </table>
-    </div>
-    <div class="pagination-box">
-        <ul>
-            <li><a href="#">&lt;</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">...</a></li>
-            <li><a href="#">9</a></li>
-            <li><a href="#">10</a></li>
-            <li><a href="#">&gt;</a></li>
-        </ul>
-    </div>
-</div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#Table1").DataTable({
+                dom: 'Bfrtip',
+                buttons: [{
+                        extend: 'copy',
+                        text: 'Copy Data',
+                        className: 't-btn'
+                    },
+                    {
+                        extend: 'csv',
+                        text: 'Export to CSV',
+                        className: 't-btn'
+                    },
+                    {
+                        extend: 'excel',
+                        text: 'Export to Excel',
+                        className: 't-btn'
+                    },
+                    {
+                        extend: 'pdf',
+                        text: 'Export to PDF',
+                        className: 't-btn'
+                    },
+                    {
+                        extend: 'print',
+                        text: 'Print Table',
+                        className: 't-btn'
+                    }
+                ],
+                "order": [
+                    [0, "desc"]
+                ]
+            });
+        });
+    </script>
 @endsection

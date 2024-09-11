@@ -74,7 +74,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('profile', [AdminAuthController::class, 'profile'])->name('profile');
         Route::post('profile/update/{id}', [AdminAuthController::class, 'profileupdate'])->name('profile.update');
         Route::get('calendar', [CalendarController::class, 'index'])->name('calendar');
-        Route::get('calendar/view', [CalendarController::class, 'view'])->name('calendar.view');
         Route::get('appointment', [AdminAuthController::class, 'appointment'])->name('appointment');
         // Store Staff
         Route::get('staff', [StaffController::class, 'index'])->name('staff');

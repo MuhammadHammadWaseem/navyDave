@@ -120,9 +120,9 @@
                                                 src="{{ asset('./assets/images/appointment-slot.png') }}"
                                                 alt=""></span>Appointment Slots</a></li>
 
-                                <li><a href="{{ route('admin.customer') }}" class="customer-active"><span><img
+                                {{-- <li><a href="{{ route('admin.customer') }}" class="customer-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
-                                                alt=""></span>Customers</a></li>
+                                                alt=""></span>Customers</a></li> --}}
                                 <li><a href="{{ route('admin.staff') }}" class="staff-active"><span><img
                                                 src="{{ asset('./assets/images/staff.png') }}"
                                                 alt=""></span>Staff Members</a></li>

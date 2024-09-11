@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Appointment;
+use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -85,7 +87,12 @@ class AdminAuthController extends Controller
 
     public function dashboard()
     {
-        return view('dashboard.admin.dashboard');
+        $revenue = Payment::sum('amount') / 100;
+        $approvedAppointments = Appointment::where('status', 'confirmed')->count();
+        $totalAppointments = Appointment::count();
+        $pendingAppointments = Appointment::where('status', 'pending')->count();
+        $appointments = Appointment::with('slot','payment')->orderBy('id', 'desc')->take(10)->get();
+        return view('dashboard.admin.dashboard', compact('revenue', 'approvedAppointments', 'totalAppointments', 'pendingAppointments', 'appointments'));
     }
 
     public function profile()
