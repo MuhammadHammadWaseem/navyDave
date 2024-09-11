@@ -24,7 +24,8 @@ class GuestController extends Controller
 {
     public function home()
     {
-        return view('guest.home');
+        $services = Service::with('category')->orderBy('id', 'desc')->take(2)->get();
+        return view('guest.home', compact('services'));
     }
     public function about()
     {
@@ -32,7 +33,8 @@ class GuestController extends Controller
     }
     public function pricing()
     {
-        return view('guest.pricing');
+        $services = Service::with('category')->orderBy('id', 'desc')->get();
+        return view('guest.pricing', compact('services'));
     }
 
     public function contact()

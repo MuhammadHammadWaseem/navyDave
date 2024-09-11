@@ -455,6 +455,7 @@ header .header-nav ul li a::after {
 
 .home-sec-02.home-sec-07 .pricing-box.hot .pricing-box-content {
   position: relative;
+  width: 100%;
 }
 
 .home-sec-02.home-sec-07 .pricing-box.hot .hot-box p {

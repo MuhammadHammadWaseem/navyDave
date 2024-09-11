@@ -35,9 +35,6 @@
                     <h2>Meet <span> Navy Dave</span></h2>
                     <p>Navy Dave, with 30 years of golf experience, believes in cultivating your unique 'perfect swing'. In his state-of-the-art studio, he offers personalized instruction emphasizing your individual style and strengths to ensure you play your best golf.</p>
                     <div class="two-thing-aline">
-                       <div class="btn-box">
-                        <a href="#" class="t-btn">Learn More</a>
-                       </div>
                        <div class="video-btn-box">
                         <a href="#">
                             <img src="assets/images/video-icon.png" alt="">
