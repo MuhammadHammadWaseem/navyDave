@@ -129,6 +129,9 @@
                                 <li><a href="{{ route('admin.community') }}" class="community-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>Community</a></li>
+                                <li><a href="{{ route('admin.setting') }}" class="setting-active"><span><img
+                                                src="{{ asset('./assets/images/setting.png') }}"
+                                                alt=""></span>Setting</a></li>
                             @endif
                             @if (auth()->user()->hasRole('user'))
                                 <li><a href="{{ route('user.dashboard') }}" class="dashboard-active"><span><img

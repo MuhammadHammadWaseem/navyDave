@@ -341,8 +341,8 @@
     // Fetch Post
 
     // Your JavaScript code
-    let currentPage = 1;
-    let lastPage = 1;
+    let currentPage = 0;
+    let lastPage = 0;
 
     // Load more posts
     function loadMore() {
@@ -350,6 +350,7 @@
             url: `/post/get?page=${currentPage + 1}`,
             type: 'GET',
             success: function(response) {
+                console.log(response);
                 const postContainer = document.getElementById('post-container');
 
                 lastPage = response.last_page;
@@ -360,11 +361,22 @@
 
                 response.data.forEach(post => {
                     let imageSection = '';
+                    let videoSection = '';
                     if (post.image) {
                         imageSection = `<div class="three-images-align">
                             <a href="${post.image}" data-fancybox="images" tabindex="0">
-                                <img src="{{ Storage::url('$post.image') }}}" alt="" class="d-flex flex-wrap" style="width: 100px; height: 100px;">
+                                <img src="{{ Storage::url('${post.image}') }}" alt="" >
                             </a>
+
+                            </video>
+                        </div>`;
+                    }
+
+                    if (post.video) {
+                        videoSection = `<div class="three-images-align">
+                            <video  poster="assets/images/video-poster.png" controls>
+                                <source src="${post.video}" type="video/mp4">
+                             </video>
                         </div>`;
                     }
 
@@ -376,7 +388,7 @@
                         <div class="two-text-align">
                             <h6>${post.user.name}</h6>
                         </div>
-                        <p>${post.content}</p>
+                        <p>${post.content}</p>                        
                     </div>
                 </div>
 

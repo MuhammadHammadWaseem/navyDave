@@ -9,13 +9,14 @@ use App\Http\Controllers\GuestController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\StaffAuthController;
-use App\Http\Controllers\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,7 @@ Route::get('/payment/success', [GuestController::class, 'stripeSuccess'])->name(
 Route::get('/payment/fail', [GuestController::class, 'paymentFail'])->name('payment.fail');
 
 Route::get('contact',[GuestController::class, 'contact'])->name('contact');
+Route::post('contact',[GuestController::class, 'contactStore'])->name('contact.store')->middleware('throttle:5,1');
 Route::get('blogs',[GuestController::class, 'blogs'])->name('blogs');
 Route::get('blog/details/{id}',[GuestController::class, 'blogDetails'])->name('blog-details');
 Route::get('faq',[GuestController::class, 'faq'])->name('faq');
@@ -128,6 +130,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('index', [AppointmentController::class, 'index'])->name('appointment.index');
         Route::get('get-appointment', [AppointmentController::class, 'getAppointment'])->name('appointment.get');
         Route::post('edit-appointment', [AppointmentController::class, 'edit'])->name('appointment.edit');
+
+        // Setting
+        Route::get('setting', [SettingController::class, 'index'])->name('setting');
+        Route::get('setting/create', [SettingController::class, 'create'])->name('setting.create');
+        Route::post('setting/store', [SettingController::class, 'store'])->name('setting.store');
+        Route::get('setting/show', [SettingController::class, 'show'])->name('setting.show');
+        Route::get('setting/edit/{id}', [SettingController::class, 'edit'])->name('setting.edit');
+        Route::post('setting/update/{id}', [SettingController::class, 'update'])->name('setting.update');
     });
 });
 
