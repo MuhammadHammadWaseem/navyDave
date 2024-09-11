@@ -1897,6 +1897,10 @@ footer .copy-right p {
 .disple-none-mb{
   display: none;
 }
+.alert {
+
+  top: 70px;
+}
 
 .super-container {
   display: block;
