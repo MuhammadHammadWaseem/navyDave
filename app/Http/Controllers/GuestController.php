@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendMessage;
 use App\Models\Blog;
 use App\Models\Staff;
 use Illuminate\Http\Request;
@@ -19,6 +20,8 @@ use Stripe\Stripe;
 use Session;
 use Stripe\StripeClient;
 use App\Models\Payment;
+use Validator;
+use Illuminate\Support\Facades\Crypt;
 
 class GuestController extends Controller
 {
@@ -40,6 +43,34 @@ class GuestController extends Controller
     public function contact()
     {
         return view('guest.contact');
+    }
+    public function contactStore(Request $request)
+    {
+        // Validate inputs
+        $validator = Validator::make($request->all(), [
+            'fullname' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string|max:5000',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        
+        // Send email
+        $data = [
+            'fullname' => $request->fullname,
+            'email' => $request->email,
+            'subject' => $request->subject,
+            'message' => $request->message,
+        ];
+
+        // Send email
+        $adminEmail = 'hw13604@gmail.com';
+        SendMessage::dispatch($adminEmail, $data);
+
+        return redirect()->back()->with('success', 'Your message has been sent successfully.');
     }
     public function appointment()
     {
@@ -248,7 +279,7 @@ class GuestController extends Controller
             ]);
             $sessionId = Session::get('stripe_checkout_id');
             $session = $stripe->checkout->sessions->retrieve($sessionId);
-            
+
             // Save payment data
             Payment::create([
                 'appointment_id' => $appointment->id,
@@ -257,7 +288,7 @@ class GuestController extends Controller
                 'currency' => $session->currency, // Currency
                 'status' => $session->payment_status, // Payment status (e.g., 'paid')
             ]);
-        
+
             // Prepare email data
             $userEmail = $validated['email'];
             $staffEmail = $appointment->staff->user->email;
