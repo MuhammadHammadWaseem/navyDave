@@ -141,6 +141,9 @@ Route::prefix('staff')->name('staff.')->group(function () {
         Route::get('profile', [StaffAuthController::class, 'profile'])->name('profile');
         Route::post('profile/update/{id}', [StaffAuthController::class, 'profileupdate'])->name('profile.update');
         Route::get('appointment', [StaffAuthController::class, 'appointment'])->name('appointment');
+        Route::get('get-appointment', [StaffAuthController::class, 'getAppointment'])->name('appointment.get');
+        Route::get('show-appointment', [StaffAuthController::class, 'showAppointment'])->name('appointment.show');
+        Route::post('edit-appointment', [StaffAuthController::class, 'edit'])->name('appointment.edit');
         Route::get('calendar', [StaffAuthController::class, 'calendar'])->name('calendar');
         Route::get('community', [StaffAuthController::class, 'community'])->name('community');
     });

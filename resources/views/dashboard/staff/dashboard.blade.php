@@ -17,7 +17,7 @@
     <div class="col-lg-10">
         <div class="welcome-and-user-name">
             <h6>Welcome Back,</h6>
-            <h5>Staff</h5>
+            <h5>{{ Auth::user()->name }} (Staff)</h5>
         </div>
         <div class="maindashboard-box">
             <div class="four-things-align">
@@ -25,8 +25,7 @@
                     <div class="text">
                         <h6>Approved Appointments</h6>
                         <div class="price-box">
-                            <h5>12</h5>
-                            <h6>+5%</h6>
+                            <h5>{{ $approvedAppointments }}</h5>
                         </div>
                     </div>
                     <div class="img-box">
@@ -37,8 +36,7 @@
                     <div class="text">
                         <h6>Appointments</h6>
                         <div class="price-box price-box-in-minus">
-                            <h5>14</h5>
-                            <h6>-14%</h6>
+                            <h5>{{ $totalAppointments }}</h5>
                         </div>
                     </div>
                     <div class="img-box">
@@ -49,7 +47,7 @@
                     <div class="text">
                         <h6>Pending Appointments</h6>
                         <div class="price-box">
-                            <h5>02</h5>
+                            <h5>{{ $pendingAppointments }}</h5>
                         </div>
                     </div>
                     <div class="img-box img-box-gray">
@@ -62,533 +60,41 @@
             <h3>Appointments</h3>
             <table>
                 <tr>
-                    <th>User</th>
-                    <th>Date & Time</th>
-                    <th>STATUS</th>
-                    <th>Day</th>
+                    <th class="text-start">User</th>
+                    <th class="text-start">Date & Time</th>
+                    <th class="text-start">STATUS</th>
+                    <th class="text-start">Day</th>
                 </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
+
+                @foreach ($appointments as $a)
+                    <tr>
+                        <td class="text-start">
+                            <div class="person-box">
+                                <div class="box">
+                                    <h5>{{ $a->first_name }} {{ $a->last_name }}</h5>
+                                    <h6>{{ $a->email }}</h6>
+                                </div>
                             </div>
-                            <div class="box">
-                                <h5>Esthera Jackson</h5>
-                                <h6>esthera@simmmple.com</h6>
+                        </td>
+                        <td class="text-start">
+                            <div class="date-time-box">
+                                <h5>{{ \Carbon\Carbon::parse($a->slot->available_from)->format('h : i A') }} -
+                                    {{ \Carbon\Carbon::parse($a->slot->available_to)->format('h : i A') }}</h5>
+                                <h6>{{ $a->appointment_date }}</h6>
                             </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="paid-text">Paid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
+                        </td>
+                        <td class="text-start">
+                            <div class="paid-unpaid-box">
+                                <p class="paid-text">{{ $a->payment ? 'Paid' : 'Unpaid' }} - {{ $a->status }}</p>
                             </div>
-                            <div class="box">
-                                <h5>Alexa Liras</h5>
-                                <h6>alexa@simmmple.com</h6>
+                        </td>
+                        <td class="text-start">
+                            <div class="day-box">
+                                <p>{{ $a->slot->available_on }}</p>
                             </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="unpaid-text">Unpaid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
-                            </div>
-                            <div class="box">
-                                <h5>Esthera Jackson</h5>
-                                <h6>esthera@simmmple.com</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="paid-text">Paid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
-                            </div>
-                            <div class="box">
-                                <h5>Alexa Liras</h5>
-                                <h6>alexa@simmmple.com</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="unpaid-text">Unpaid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
-                            </div>
-                            <div class="box">
-                                <h5>Esthera Jackson</h5>
-                                <h6>esthera@simmmple.com</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="paid-text">Paid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
-                            </div>
-                            <div class="box">
-                                <h5>Alexa Liras</h5>
-                                <h6>alexa@simmmple.com</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="unpaid-text">Unpaid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
-                            </div>
-                            <div class="box">
-                                <h5>Esthera Jackson</h5>
-                                <h6>esthera@simmmple.com</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="paid-text">Paid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
-                            </div>
-                            <div class="box">
-                                <h5>Alexa Liras</h5>
-                                <h6>alexa@simmmple.com</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="unpaid-text">Unpaid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
-                            </div>
-                            <div class="box">
-                                <h5>Esthera Jackson</h5>
-                                <h6>esthera@simmmple.com</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="paid-text">Paid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
-                            </div>
-                            <div class="box">
-                                <h5>Alexa Liras</h5>
-                                <h6>alexa@simmmple.com</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="unpaid-text">Unpaid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
-                            </div>
-                            <div class="box">
-                                <h5>Esthera Jackson</h5>
-                                <h6>esthera@simmmple.com</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="paid-text">Paid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
-                            </div>
-                            <div class="box">
-                                <h5>Alexa Liras</h5>
-                                <h6>alexa@simmmple.com</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="unpaid-text">Unpaid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
-                            </div>
-                            <div class="box">
-                                <h5>Esthera Jackson</h5>
-                                <h6>esthera@simmmple.com</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="paid-text">Paid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
-                            </div>
-                            <div class="box">
-                                <h5>Alexa Liras</h5>
-                                <h6>alexa@simmmple.com</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="unpaid-text">Unpaid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
-                            </div>
-                            <div class="box">
-                                <h5>Esthera Jackson</h5>
-                                <h6>esthera@simmmple.com</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="paid-text">Paid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
-                            </div>
-                            <div class="box">
-                                <h5>Alexa Liras</h5>
-                                <h6>alexa@simmmple.com</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="unpaid-text">Unpaid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-01.png') }}" alt="">
-                            </div>
-                            <div class="box">
-                                <h5>Esthera Jackson</h5>
-                                <h6>esthera@simmmple.com</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="paid-text">Paid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="person-box">
-                            <div class="box">
-                                <img src="{{ asset('./assets/images/person-02.png') }}" alt="">
-                            </div>
-                            <div class="box">
-                                <h5>Alexa Liras</h5>
-                                <h6>alexa@simmmple.com</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="date-time-box">
-                            <h5>09 : 00 AM - 11 : 00 AM</h5>
-                            <h6>14/06/21</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="paid-unpaid-box">
-                            <p class="unpaid-text">Unpaid</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="day-box">
-                            <p>Monday</p>
-                        </div>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                @endforeach
             </table>
         </div>
     </div>
