@@ -68,35 +68,24 @@
                     @foreach ($settings as $item)
                         <tr>
                             <td>{{ $item->id ?? '' }}</td>
-                            <td><img src="{{ Storage::url($item->logo) ?? '' }} " width="100" height="100"
-                                alt=""></td>
-                                <td>{{ $item->app_name ?? '' }}</td>
-                                <td>{{ $item->phone ?? '' }}</td>
-                                <td>{{ $item->location?? '' }}</td>
-                                <td>{{ $item->email?? '' }}</td>
-                                <td>{{ $item->copyright?? '' }}</td>
-                                <td>{{ $item->facebook_link?? '' }}</td>
-                                <td>{{ $item->twitter_link?? '' }}</td>
-                                <td>{{ $item->instagram_link?? '' }}</td>
-                                <td><a href="{{ route('admin.setting.edit', $item->id) }}" class="t-btn"><img src="{{ asset('assets/images/pencil.png') }}" alt=""></a></td>
+                            <td><img src="{{ Storage::url($item->logo) ?? '' }} " width="100%" height="auto"
+                                    alt=""></td>
+                            <td>{{ $item->app_name ?? '' }}</td>
+                            <td>{{ $item->phone ?? '' }}</td>
+                            <td>{{ $item->location ?? '' }}</td>
+                            <td>{{ $item->email ?? '' }}</td>
+                            <td>{{ $item->copyright ?? '' }}</td>
+                            <td>{{ $item->facebook_link ?? '' }}</td>
+                            <td>{{ $item->twitter_link ?? '' }}</td>
+                            <td>{{ $item->instagram_link ?? '' }}</td>
+                            <td><a href="{{ route('admin.setting.edit', $item->id) }}" class="t-btn"><img
+                                        src="{{ asset('assets/images/pencil.png') }}" alt=""></a></td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
 
-
-        {{-- <div class="pagination-box">
-            <ul>
-                <li><a href="#">&lt;</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">...</a></li>
-                <li><a href="#">9</a></li>
-                <li><a href="#">10</a></li>
-                <li><a href="#">&gt;</a></li>
-            </ul>
-        </div> --}}
     </div>
 @endsection
 

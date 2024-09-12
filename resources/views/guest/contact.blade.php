@@ -33,7 +33,7 @@
                     <div class="text-box">
                         <img src="assets/images/map.png" alt="">
                         <ul>
-                            <li><a href="#">3728 E Welton Lane, Gilbert,<br> Arizona 85295 </a></li>
+                            <li><a href="#">{{ $settings[0]->location }}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -41,8 +41,8 @@
                     <div class="text-box">
                         <img src="assets/images/phone-img.png" alt="">
                         <ul>
-                            <li>Telephone : <a href="tel:+1 4802384724">+1(480) 238-4724</a></li>
-                            <li>Email Address :<br> <a href="mailto:navydavegolf@gmail.com">navydavegolf@gmail.com</a></li>
+                            <li>Telephone : <a href="tel:{{ $settings[0]->phone }}">{{ $settings[0]->phone }}</a></li>
+                            <li>Email Address :<br> <a href="mailto:{{ $settings[0]->email }}">{{ $settings[0]->email }}</a></li>
                         </ul>
                     </div>
                 </div>

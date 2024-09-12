@@ -346,8 +346,7 @@
                                 </div>
                                 <div class="signle-input-box">
                                     <select name="location" id="location">
-                                        <option selected value="3728 E Welton LnGilbert, AZ 85295, USA">3728 E Welton
-                                            LnGilbert, AZ 85295, USA</option>
+                                        <option selected value="{{ $settings[0]->location }}">{{ $settings[0]->location }}</option>
                                     </select>
                                 </div>
                                 <div class="signle-input-box">

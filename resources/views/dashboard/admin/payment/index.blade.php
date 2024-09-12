@@ -78,8 +78,8 @@
                             <td>{{ $payment->first_name }} {{ $payment->last_name }}</td>
                             <td>{{ $payment->staff->user->name }}</td>
                             <td>{{ $payment->service->name }}</td>
-                            <td>{{ $payment->payment->status }}</td>
-                            <td>{{ number_format($payment->payment->amount / 100, 2) }}</td>
+                            <td>{{ optional($payment->payment)->status ?? 'No Payment' }}</td>
+                            <td>{{ optional($payment->payment)->amount ? number_format($payment->payment->amount / 100, 2) : '0.00' }}</td>
                             <td>{{ $payment->appointment_date }}</td>
                         </tr>
                     @endforeach
