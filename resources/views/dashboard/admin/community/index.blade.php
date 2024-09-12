@@ -362,58 +362,64 @@
                 response.data.forEach(post => {
                     let imageSection = '';
                     let videoSection = '';
-                    if (post.image) {
-                        imageSection = `<div class="three-images-align">
-                            <a href="${post.image}" data-fancybox="images" tabindex="0">
-                                <img src="{{ Storage::url('${post.image}') }}" alt="" >
-                            </a>
 
-                            </video>
-                        </div>`;
+                    // Loop through images
+                    if (post.images) {
+                        post.images.forEach(image => {
+                            imageSection += `
+                                <div class="three-images-align">
+                                    <a href="${image.path}" data-fancybox="images" tabindex="0">
+                                        <img src="{{ Storage::url('${image.path}') }}" width="100px" height="100px" alt="" >
+                                    </a>
+                                </div>`;
+                        });
                     }
 
-                    if (post.video) {
-                        videoSection = `<div class="three-images-align">
-                            <video  poster="assets/images/video-poster.png" controls>
-                                <source src="${post.video}" type="video/mp4">
-                             </video>
-                        </div>`;
+                    // Loop through videos
+                    if (post.videos) {
+                        post.videos.forEach(video => {
+                            videoSection += `
+                            <div class="three-images-align">
+                                <video  poster="{{ Storage::url('${video.path}') }}" controls>
+                                    <source src="{{ Storage::url('${video.path}') }}" type="video/mp4">
+                                 </video>
+                            </div>`;
+                        });
                     }
 
                     postContainer.innerHTML += `
-                            <div class="shadow-box">
-                <div class="person-box">
-                    <img src="{{ asset('assets/images/tony-stark-img.png') }}" alt="">
-                    <div class="text">
-                        <div class="two-text-align">
-                            <h6>${post.user.name}</h6>
+                    <div class="shadow-box">
+                        <div class="person-box">
+                            <img src="{{ asset('assets/images/tony-stark-img.png') }}" alt="">
+                            <div class="text">
+                                <div class="two-text-align">
+                                    <h6>${post.user.name}</h6>
+                                </div>
+                                <p>${post.content}</p>
+                                
+                                ${imageSection}
+                                ${videoSection}
+                            </div>
                         </div>
-                        <p>${post.content}</p>                        
-                    </div>
-                </div>
-
-                <div class="input-box-three-icons">
-                    <div class="large-input-box large-input-box-small">
-                        <input type="text" placeholder="Write something here..." id="comment_input" class="d-none">
-                        <img class="flow-img" src="{{ asset('assets/images/input-box-edit.png') }}" alt="" id="comment_png" style="display: none">
-                        <button id="comment_post" class="btn btn-primary d-none" onclick="submitComment(${post.id}, this)">
-                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                    <div class="three-things-align">
-                        <ul>
-                            <li><a href="#"><img src="{{ asset('assets/images/thums.png') }}" alt=""></a></li>
-                            <li><button><img src="{{ asset('assets/images/message.png') }}" alt="" id="comment" onclick="comment(${post.id}, this)"></button></li>
-                            <li><a href="#"><img src="{{ asset('assets/images/back.png') }}" alt=""></a></li>
-                        </ul>
-                    </div>
-
-                    <!-- This will display the replies -->
-                    <div class="reply-container"></div>
-                </div>
-            </div>`;
+                        <div class="input-box-three-icons">
+                            <div class="large-input-box large-input-box-small">
+                                <input type="text" placeholder="Write something here..." id="comment_input" class="d-none">
+                                <img class="flow-img" src="{{ asset('assets/images/input-box-edit.png') }}" alt="" id="comment_png" style="display: none">
+                                <button id="comment_post" class="btn btn-primary d-none" onclick="submitComment(${post.id}, this)">
+                                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="three-things-align">
+                                <ul>
+                                    <li><a href="#"><img src="{{ asset('assets/images/thums.png') }}" alt=""></a></li>
+                                    <li><button><img src="{{ asset('assets/images/message.png') }}" alt="" id="comment" onclick="comment(${post.id}, this)"></button></li>
+                                    <li><a href="#"><img src="{{ asset('assets/images/back.png') }}" alt=""></a></li>
+                                </ul>
+                            </div>
+                            <div class="reply-container"></div>
+                        </div>
+                    </div>`;
                 });
-
                 currentPage++;
             },
             error: function(xhr) {
@@ -424,69 +430,70 @@
 
     // Function to toggle comment input and fetch replies
     function comment(id, element) {
-    const parentBox = $(element).closest('.input-box-three-icons');
+        const parentBox = $(element).closest('.input-box-three-icons');
 
-    // Toggle comment input
-    parentBox.find("#comment_input").toggleClass("d-block d-none");
-    parentBox.find("#comment_post").toggleClass("d-block");
-    parentBox.find("#comment_png").toggle();
+        // Toggle comment input
+        parentBox.find("#comment_input").toggleClass("d-block d-none");
+        parentBox.find("#comment_post").toggleClass("d-block");
+        parentBox.find("#comment_png").toggle();
 
-    // Fetch existing replies and display them under the comment
-    $.ajax({
-        url: `/comments/${id}`, // Endpoint to fetch replies for the post
-        type: 'GET',
-        success: function(response) {
-            let repliesHtml = '';
-            response.replies.forEach(reply => {
-                repliesHtml += `
-                <div class="reply-box">
-                    <p><strong>${reply.user.name}</strong>: ${reply.comment}</p>
-                </div>`;
-            });
+        // Fetch existing replies and display them under the comment
+        $.ajax({
+            url: `/comments/${id}`, // Endpoint to fetch replies for the post
+            type: 'GET',
+            success: function(response) {
+                let repliesHtml = '';
+                response.replies.forEach(reply => {
+                    repliesHtml += `
+                        <div class="reply-box">
+                            <p><strong>${reply.user.name}</strong>: ${reply.comment}</p>
+                        </div>
+                    `;
+                });
 
-            // Append replies under the comment input box
-            parentBox.find(".reply-container").html(repliesHtml);
-        },
-        error: function(xhr) {
-            alert('An error occurred while fetching replies.');
-        }
-    });
-}
+                // Append replies under the comment input box
+                parentBox.find(".reply-container").html(repliesHtml);
+            },
+            error: function(xhr) {
+                alert('An error occurred while fetching replies.');
+            }
+        });
+    }
 
 
     // Function to submit comment
     function submitComment(postId, element) {
-    const parentBox = $(element).closest('.input-box-three-icons');
-    const commentContent = parentBox.find("#comment_input").val();
+        const parentBox = $(element).closest('.input-box-three-icons');
+        const commentContent = parentBox.find("#comment_input").val();
 
-    $.ajax({
-        url: `/comment/${postId}`, // Post comment endpoint
-        type: 'POST',
-        data: {
-            content: commentContent,
-            post_id: postId,
-            _token: '{{ csrf_token() }}' // Add CSRF token for Laravel
-        },
-        success: function(response) {
-            console.log('Comment added:', response);
+        $.ajax({
+            url: `/comment/${postId}`, // Post comment endpoint
+            type: 'POST',
+            data: {
+                content: commentContent,
+                post_id: postId,
+                _token: '{{ csrf_token() }}' // Add CSRF token for Laravel
+            },
+            success: function(response) {
+                console.log('Comment added:', response);
 
-            // Optionally, append the new comment directly under the post
-            parentBox.find(".reply-container").append(`
+                // Optionally, append the new comment directly under the post
+                parentBox.find(".reply-container").append(`
                 <div class="reply-box">
                     <p><strong>${response.comment.user.name}</strong>: ${response.comment.comment}</p>
                 </div>
             `);
 
-            // Clear the input field
-            parentBox.find("#comment_input").val('').toggleClass("d-none d-block");
-            parentBox.find("#comment_png").hide();
-        },
-        error: function(xhr) {
-            alert('An error occurred while submitting the comment.');
-        }
-    });
-}
+                // Clear the input field
+                parentBox.find("#comment_input").val('').toggleClass("d-none d-block");
+                parentBox.find("#comment_png").hide();
+            },
+            error: function(xhr) {
+                alert('An error occurred while submitting the comment.');
+            }
+        });
+    }
 
-
+    // Call the loadMore function initially
     loadMore();
 </script>

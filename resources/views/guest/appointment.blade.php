@@ -346,7 +346,7 @@
                                 </div>
                                 <div class="signle-input-box">
                                     <select name="location" id="location">
-                                        <option selected value="{{ $settings[0]->location }}">{{ $settings[0]->location }}</option>
+                                        <option selected value="{{ $settings[0]->location ?? '-' }}">{{ $settings[0]->location ?? '-' }}</option>
                                     </select>
                                 </div>
                                 <div class="signle-input-box">

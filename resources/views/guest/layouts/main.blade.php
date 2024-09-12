@@ -32,7 +32,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-2">
                     <div class="header-logo">
-                        <a href="{{ route('home') }}"><img src="{{ Storage::url($settings[0]->logo) }}"
+                        <a href="{{ route('home') }}"><img src="{{ Storage::url($settings[0]->logo ?? '') }}"
                                 alt=""></a>
                     </div>
                 </div>
@@ -105,12 +105,12 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4">
                     <div class="main-footer-logo">
-                        <a href="{{ route('home') }}"> <img src="{{ Storage::url($settings[0]->logo) }}" alt="Logo"></a>
+                        <a href="{{ route('home') }}"> <img src="{{ Storage::url($settings[0]->logo ?? '') }}" alt="Logo"></a>
                     </div>
                     <div class="links-email-number">
                         <ul>
-                            <li><a href="tel:{{ $settings[0]->phone }}">{{ $settings[0]->phone }}</a></li>
-                            <li><a href="mailto:{{ $settings[0]->email }}">{{ $settings[0]->email }}</a></li>
+                            <li><a href="tel:{{ $settings[0]->phone ?? '-' }}">{{ $settings[0]->phone ?? '-' }}</a></li>
+                            <li><a href="mailto:{{ $settings[0]->email ?? '-' }}">{{ $settings[0]->email ?? '-' }}</a></li>
                         </ul>
                     </div>
                 </div>

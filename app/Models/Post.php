@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Video;
+use App\Models\Image;
 
 class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'content', 'image', 'video'];
+    protected $fillable = ['user_id', 'content'];
 
     public function user() {
         return $this->belongsTo(User::class);
@@ -21,6 +23,17 @@ class Post extends Model
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+
+    // Define the relationship to videos
+    public function videos()
+    {
+        return $this->hasMany(Video::class);
     }
 
 }

@@ -6,6 +6,8 @@ use App\Models\Post;
 use App\Models\Comment;
 use App\Events\PostCreated;
 use Illuminate\Http\Request;
+use App\Models\Image;
+use App\Models\Video;
 
 class CommunityController extends Controller
 {
@@ -16,7 +18,7 @@ class CommunityController extends Controller
 
     public function postGet(Request $request)
     {
-        $posts = Post::with('user', 'likes', 'comments')->latest('created_at')->paginate(10);
+        $posts = Post::with('user', 'likes', 'comments', 'images', 'videos')->latest('created_at')->paginate(10);
         return response()->json($posts);
     }
 
@@ -34,26 +36,35 @@ class CommunityController extends Controller
         $imagePath = null;
         $videoPath = null;
 
+        // Create a new post
+        $post = Post::create([
+            'user_id' => $userId,
+            'content' => $request->input('content', ''),
+            'image_id' => $imagePath,
+            'video_id' => $videoPath
+        ]);
+
         // Handle file uploads
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
                 if (in_array($file->getClientOriginalExtension(), ['jpeg', 'png', 'jpg', 'gif'])) {
                     // Store images in 'community/images' folder
                     $imagePath = $file->store('community/images', 'public');
+                    Image::create([
+                        'path' => $imagePath,
+                        'post_id' => $post->id
+                    ]);
                 } elseif (in_array($file->getClientOriginalExtension(), ['mp4', 'avi', 'mov'])) {
                     // Store videos in 'community/videos' folder
                     $videoPath = $file->store('community/videos', 'public');
+                    Video::create([
+                        'path' => $videoPath,
+                        'post_id' => $post->id
+                    ]);
                 }
             }
         }
-
-        // Create a new post
-        $post = Post::create([
-            'user_id' => $userId,
-            'content' => $request->input('content', ''),
-            'image' => $imagePath,
-            'video' => $videoPath
-        ]);
+        
 
         // Dispatch an event to broadcast the new post
 

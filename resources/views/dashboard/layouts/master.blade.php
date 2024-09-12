@@ -44,7 +44,7 @@
                 <div class="col-lg-2">
                     <div class="header-logo">
                         <a href="{{ route('admin.dashboard') }}">
-                            <img src="{{ Storage::url($settings[0]->logo) }}" alt="Logo">
+                            <img src="{{ Storage::url($settings[0]->logo ?? '') }}" alt="Logo">
                         </a>
                     </div>
                 </div>
