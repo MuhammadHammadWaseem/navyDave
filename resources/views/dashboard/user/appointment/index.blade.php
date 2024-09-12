@@ -40,7 +40,6 @@
                             <a href="#" class="t-btn">Search Serivce</a>
                             <a href="#" class="t-btn t-btn-gray">Export List</a>
                             <a href="#" class="t-btn t-btn-gray">Reset</a>
-                            <a href="{{ route('admin.staff.create') }}" class="t-btn t-btn-gray">Create</a>
                         </div>
                     </div>
                 </form>

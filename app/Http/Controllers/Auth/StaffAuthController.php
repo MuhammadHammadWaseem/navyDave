@@ -84,8 +84,8 @@ class StaffAuthController extends Controller
         $user = auth()->user();
         // Validate the incoming request
         $validator = Validator::make($request->all(), [
-            'name' => 'nullable|string|max:255',
-            'email' => 'nullable|email|max:255|unique:users,email,' . $user->id,
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'phone' => 'nullable|string|max:15',
             'address' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
@@ -98,12 +98,12 @@ class StaffAuthController extends Controller
 
         // Update the user's profile
         $user->update([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'phone' => $request->input('phone'),
-            'address' => $request->input('address'),
-            'city' => $request->input('city'),
-            'password' => Hash::make($request->input('password')),
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'city' => $request->city,
+            'password' => Hash::make($request->password),
         ]);
         // Redirect back with a success message
         return redirect()->route('staff.profile')->with('success', 'Profile updated successfully.');
