@@ -49,16 +49,6 @@
 
 @section('content')
     <div class="col-lg-10">
-        <div class="two-thing-align-staff-addstaff">
-            <div class="box">
-                <h6>Staff Members</h6>
-                <h5>Navy Dave</h5>
-            </div>
-            <div class="box">
-                <a href="#" class="t-btn">Add Staff</a>
-            </div>
-        </div>
-
         <!-- Calendar Section -->
         <div class="main-calendar-box main-calendar-box-list">
             <h5>Calendar (Appointments)</h5>
