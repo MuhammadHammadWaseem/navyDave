@@ -31,17 +31,17 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="title">Title:</label>
-                                <input type="text" class="form-control" id="title" name="title"
-                                    value="{{ old('title', isset($blog) ? $blog->title : '') }}">
+                                <input type="text" class="form-control w-100" id="title" name="title"
+                                    value="{{ old('title', isset($blog) ? $blog->title : '') }}"  >
                             </div>
 
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="slug">Slug:</label>
-                                <input type="text" class="form-control" id="slug" name="slug"
+                                <input type="text" class="form-control w-100" id="slug" name="slug"
                                     value="{{ isset($blog) ? $blog->slug : '' }}">
-                                <small>Slug will be generated automatically.</small>
+                                <small class="form-text text-danger">Slug will be generated automatically.</small>
                             </div>
                         </div>
                     </div>
@@ -69,15 +69,15 @@
                     @endif
                     <div class="form-group">
                         <label>Page Title</label>
-                        <input class="form-control" name="page_title" required
+                        <input class="form-control w-50" name="page_title" required
                             value="{{ isset($blog) ? $blog->page_title : '' }}">
-                        <small>This title belongs to the browser's tab</small>
+                        <small class="form-text text-danger">This title belongs to the browser's tab</small>
                     </div>
 
                     <div class="form-group">
                         <label>Meta Description</label>
-                        <input class="form-control" name="meta_tag" value="{{ isset($blog) ? $blog->meta_tag : '' }}">
-                        <small>Please write complete meta tag</small>
+                        <input class="form-control w-50" name="meta_tag" value="{{ isset($blog) ? $blog->meta_tag : '' }}">
+                        <small class="form-text text-danger">Please write complete meta tag</small>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>

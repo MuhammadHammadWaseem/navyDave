@@ -29,7 +29,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="image">Image</label>
-                            <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" placeholder="Upload image">
+                            <input type="file" class="w-100 form-control @error('image') is-invalid @enderror" id="image" name="image" placeholder="Upload image">
                             @error('image')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -42,7 +42,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">Service Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Add Name" >
+                            <input type="text" class="w-100 form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Add Name" >
                             @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -79,7 +79,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="price">Price <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('price') is-invalid @enderror" id="price" name="price" placeholder="Add price" >
+                            <input type="number" class="w-100 form-control @error('price') is-invalid @enderror" id="price" name="price" placeholder="Add price" >
                             @error('price')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -94,7 +94,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="duration">Duration <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('duration') is-invalid @enderror" id="duration" name="duration" placeholder="Add duration" >
+                            <input type="number" class="w-100 form-control @error('duration') is-invalid @enderror" id="duration" name="duration" placeholder="Add duration" >
                             @error('duration')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -126,7 +126,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="buffer_time_before">Buffer Time Before</label>
-                            <input type="number" class="form-control @error('buffer_time_before') is-invalid @enderror" id="buffer_time_before" name="buffer_time_before" placeholder="Add buffer time before">
+                            <input type="number" class="w-100 form-control @error('buffer_time_before') is-invalid @enderror" id="buffer_time_before" name="buffer_time_before" placeholder="Add buffer time before">
                             @error('buffer_time_before')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -157,7 +157,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="buffer_time_after">Buffer Time After</label>
-                            <input type="number" class="form-control @error('buffer_time_after') is-invalid @enderror" id="buffer_time_after" name="buffer_time_after" placeholder="Add buffer time after">
+                            <input type="number" class="w-100 form-control @error('buffer_time_after') is-invalid @enderror" id="buffer_time_after" name="buffer_time_after" placeholder="Add buffer time after">
                             @error('buffer_time_after')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -188,7 +188,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="min_capacity">Minimum Capacity <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('min_capacity') is-invalid @enderror" id="min_capacity" name="min_capacity" placeholder="Add minimum capacity" >
+                            <input type="number" class="w-100 form-control @error('min_capacity') is-invalid @enderror" id="min_capacity" name="min_capacity" placeholder="Add minimum capacity" >
                             @error('min_capacity')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -201,7 +201,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="max_capacity">Maximum Capacity <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('max_capacity') is-invalid @enderror" id="max_capacity" name="max_capacity" placeholder="Add maximum capacity" >
+                            <input type="number" class="w-100 form-control @error('max_capacity') is-invalid @enderror" id="max_capacity" name="max_capacity" placeholder="Add maximum capacity" >
                             @error('max_capacity')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -249,7 +249,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="new_category_name">Category Name</label>
-                        <input type="text" class="form-control" id="new_category_name"
+                        <input type="text" class="w-100 form-control" id="new_category_name"
                             placeholder="Enter category name">
                     </div>
                 </div>

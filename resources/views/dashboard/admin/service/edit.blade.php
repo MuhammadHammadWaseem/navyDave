@@ -43,7 +43,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="image">Image</label>
-                            <input type="file" class="form-control @error('image') is-invalid @enderror" id="image"
+                            <input type="file" class="w-100 form-control @error('image') is-invalid @enderror" id="image"
                                 name="image">
                             @error('image')
                                 <span class="invalid-feedback" role="alert">
@@ -51,7 +51,7 @@
                                 </span>
                             @enderror
                             @if (isset($service) && $service->image)
-                                <img src="{{ Storage::url($service->image) }}" alt="Service Image" width="100"
+                                <img src="{{ Storage::url($service->image) }}" class="mt-3 " alt="Service Image" width="100"
                                     height="100">
                             @endif
                         </div>
@@ -61,7 +61,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">Service Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                            <input type="text" class="w-100 form-control @error('name') is-invalid @enderror" id="name"
                                 name="name" value="{{ old('name', $service->name ?? '') }}" placeholder="Add Name">
                             @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -104,7 +104,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="price">Price <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('price') is-invalid @enderror" id="price"
+                            <input type="number" class="w-100 form-control @error('price') is-invalid @enderror" id="price"
                                 name="price" value="{{ old('price', $service->price ?? '') }}" placeholder="Add price">
                             @error('price')
                                 <span class="invalid-feedback" role="alert">
@@ -120,7 +120,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="duration">Duration <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('duration') is-invalid @enderror"
+                            <input type="number" class="w-100 form-control @error('duration') is-invalid @enderror"
                                 id="duration" name="duration" value="{{ old('duration', $service->duration ?? '') }}"
                                 placeholder="Add duration">
                             @error('duration')
@@ -161,7 +161,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="buffer_time_before">Buffer Time Before</label>
-                            <input type="number" class="form-control @error('buffer_time_before') is-invalid @enderror"
+                            <input type="number" class="w-100 form-control @error('buffer_time_before') is-invalid @enderror"
                                 id="buffer_time_before" name="buffer_time_before"
                                 value="{{ old('buffer_time_before', $service->buffer_time_before ?? '') }}"
                                 placeholder="Add buffer time before">
@@ -200,7 +200,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="buffer_time_after">Buffer Time After</label>
-                            <input type="number" class="form-control @error('buffer_time_after') is-invalid @enderror"
+                            <input type="number" class="w-100 form-control @error('buffer_time_after') is-invalid @enderror"
                                 id="buffer_time_after" name="buffer_time_after"
                                 value="{{ old('buffer_time_after', $service->buffer_time_after ?? '') }}"
                                 placeholder="Add buffer time after">
@@ -239,7 +239,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="min_capacity">Minimum Capacity <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('min_capacity') is-invalid @enderror"
+                            <input type="number" class="w-100 form-control @error('min_capacity') is-invalid @enderror"
                                 id="min_capacity" name="min_capacity"
                                 value="{{ old('min_capacity', $service->min_capacity ?? '') }}"
                                 placeholder="Add minimum capacity">
@@ -255,7 +255,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="max_capacity">Maximum Capacity <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('max_capacity') is-invalid @enderror"
+                            <input type="number" class="w-100 form-control @error('max_capacity') is-invalid @enderror"
                                 id="max_capacity" name="max_capacity"
                                 value="{{ old('max_capacity', $service->max_capacity ?? '') }}"
                                 placeholder="Add maximum capacity">

@@ -32,7 +32,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="logo">Logo</label>
-                            <input type="file" class="form-control @error('logo') is-invalid @enderror" id="logo" name="logo">
+                            <input type="file" class="w-100 form-control @error('logo') is-invalid @enderror" id="logo" name="logo">
                             @if(isset($setting->logo))
                                 <img src="{{ asset('storage/'.$setting->logo) }}" alt="Current Logo" style="width:100px;height:100px;">
                             @endif
@@ -46,7 +46,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="app_name">App Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('app_name') is-invalid @enderror" id="app_name" name="app_name" value="{{ old('app_name', $setting->app_name ?? '') }}">
+                            <input type="text" class="w-100 form-control @error('app_name') is-invalid @enderror" id="app_name" name="app_name" value="{{ old('app_name', $setting->app_name ?? '') }}">
                             @error('app_name')
                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
@@ -57,7 +57,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="phone">Phone <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone', $setting->phone ?? '') }}">
+                            <input type="text" class="w-100 form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone', $setting->phone ?? '') }}">
                             @error('phone')
                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
@@ -70,7 +70,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="location">Location</label>
-                            <input type="text" class="form-control @error('location') is-invalid @enderror" id="location" name="location" value="{{ old('location', $setting->location ?? '') }}">
+                            <input type="text" class="w-100 form-control @error('location') is-invalid @enderror" id="location" name="location" value="{{ old('location', $setting->location ?? '') }}">
                             @error('location')
                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
@@ -81,7 +81,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="email">Email <span class="text-danger">*</span></label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $setting->email ?? '') }}">
+                            <input type="email" class="w-100 form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $setting->email ?? '') }}">
                             @error('email')
                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
@@ -92,7 +92,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="copyright">Copyright <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('copyright') is-invalid @enderror" id="copyright" name="copyright" value="{{ old('copyright', $setting->copyright ?? '') }}">
+                            <input type="text" class="w-100 form-control @error('copyright') is-invalid @enderror" id="copyright" name="copyright" value="{{ old('copyright', $setting->copyright ?? '') }}">
                             @error('copyright')
                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
@@ -105,7 +105,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="twitter_link">Twitter Link</label>
-                            <input type="text" class="form-control @error('twitter_link') is-invalid @enderror" id="twitter_link" name="twitter_link" value="{{ old('twitter_link', $setting->twitter_link ?? '') }}">
+                            <input type="text" class="w-100 form-control @error('twitter_link') is-invalid @enderror" id="twitter_link" name="twitter_link" value="{{ old('twitter_link', $setting->twitter_link ?? '') }}">
                             @error('twitter_link')
                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
@@ -116,7 +116,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="instagram_link">Instagram Link</label>
-                            <input type="text" class="form-control @error('instagram_link') is-invalid @enderror" id="instagram_link" name="instagram_link" value="{{ old('instagram_link', $setting->instagram_link ?? '') }}">
+                            <input type="text" class="w-100 form-control @error('instagram_link') is-invalid @enderror" id="instagram_link" name="instagram_link" value="{{ old('instagram_link', $setting->instagram_link ?? '') }}">
                             @error('instagram_link')
                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
@@ -127,7 +127,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="facebook_link">Facebook Link</label>
-                            <input type="text" class="form-control @error('facebook_link') is-invalid @enderror" id="facebook_link" name="facebook_link" value="{{ old('facebook_link', $setting->facebook_link ?? '') }}">
+                            <input type="text" class="w-100 form-control @error('facebook_link') is-invalid @enderror" id="facebook_link" name="facebook_link" value="{{ old('facebook_link', $setting->facebook_link ?? '') }}">
                             @error('facebook_link')
                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
