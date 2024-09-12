@@ -32,7 +32,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-2">
                     <div class="header-logo">
-                        <a href="{{ route('home') }}"><img src="{{ asset('./assets/images/header-logo.png') }}"
+                        <a href="{{ route('home') }}"><img src="{{ Storage::url($setting[0]->logo) }}"
                                 alt=""></a>
                     </div>
                 </div>
@@ -105,13 +105,12 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4">
                     <div class="main-footer-logo">
-                        <a href="{{ route('home') }}"> <img src="{{ asset('./assets/images/header-logo.png') }}"
-                                alt=""></a>
+                        <a href="{{ route('home') }}"> <img src="{{ Storage::url($setting[0]->logo) }}" alt="Logo"></a>
                     </div>
                     <div class="links-email-number">
                         <ul>
-                            <li><a href="tel:+1 (480) 238-4724">+1 (480) 238-4724</a></li>
-                            <li><a href="mailto:navydavegolf@gmail.com">navydavegolf@gmail.com</a></li>
+                            <li><a href="tel:{{ $setting[0]->phone }}">{{ $setting[0]->phone }}</a></li>
+                            <li><a href="mailto:{{ $setting[0]->email }}">{{ $setting[0]->email }}</a></li>
                         </ul>
                     </div>
                 </div>
