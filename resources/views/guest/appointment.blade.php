@@ -315,7 +315,7 @@
                             <div class="two-appointment-box-align">
                                 <div class="input-date-box">
                                     <input type="date" onchange="getSlotsForDate(this.value)" name="appointment_date"
-                                        id="appointment_date" placeholder="Your Date">
+                                        id="appointment_date" placeholder="Your Date" min="{{ date('Y-m-d') }}">
                                 </div>
                                 <div class="main-check-box-click main-check-box-click-time">
                                     <div class="text">
