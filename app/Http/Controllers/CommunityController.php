@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Image;
 use App\Models\Video;
 use App\Models\Like;
+use Illuminate\Support\Facades\Validator;
 
 class CommunityController extends Controller
 {
@@ -20,12 +21,12 @@ class CommunityController extends Controller
     public function postGet(Request $request)
     {
         $posts = Post::with('user', 'likes', 'comments', 'images', 'videos')->latest('created_at')->paginate(10);
-        
+
         $posts->getCollection()->transform(function ($post) {
             // Check if the authenticated user has liked the post
             $post->hasLiked = $post->likes->where('user_id', auth()->id())->isNotEmpty();
             $post->likeCount = $post->likes->count();
-    
+
             return $post;
         });
 
@@ -35,10 +36,15 @@ class CommunityController extends Controller
     public function post(Request $request)
     {
         // Validate request data
-        $request->validate([
-            'content' => 'nullable|string|max:5000',
-            'files.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,avi,mov|max:20480' // 200MB max
+        $validator = Validator::make($request->all(), [
+            'content' => 'required|string|max:5000',
+            'files.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,avi,mov|max:20480'
         ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
         // Get the authenticated user's ID
         $userId = auth()->id();
 
@@ -109,7 +115,9 @@ class CommunityController extends Controller
     // Check if the user has already liked the post
     $existingLike = $post->likes()->where('user_id', auth()->id())->first();
     if ($existingLike) {
-        return response()->json(['message' => 'You already liked this post.', 'likes' => $post->likes()->count(), 'liked' => true]);
+        // Remove the like
+        $existingLike->delete();
+        return response()->json(['message' => 'Post unliked successfully!', 'likes' => $post->likes()->count(), 'liked' => false]);
     }
 
     // Add a new like
@@ -118,8 +126,9 @@ class CommunityController extends Controller
     // Get the updated like count
     $likes = $post->likes()->count();
 
-    return response()->json(['message' => 'Post liked successfully!', 'likes' => $likes, 'liked' => false]);
+    return response()->json(['message' => 'Post liked successfully!', 'likes' => $likes, 'liked' => true]);
 }
+
 
 
 }

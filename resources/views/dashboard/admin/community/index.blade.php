@@ -200,14 +200,14 @@
             <div class="shadow-box">
                 <div class="three-link-align">
                     <div class="box">
-                        <button id="write-post"> <img src="{{ asset('assets/images/write-a-post.png') }}"
-                                alt=""></button>
+                        <button id="write-post" style="background: #ffffff!important;"> <img
+                                src="{{ asset('assets/images/write-a-post.png') }}" alt=""></button>
                     </div>
                     <div class="box">
                         <label id="upload-photo" for="file-input" style="cursor: pointer">
                             <img src="{{ asset('assets/images/upload-photo.png') }}" alt="">
                         </label>
-                        <input type="file" id="file-input" class="d-none" multiple name="image" />
+                        <input type="file" id="file-input" class="d-none" multiple name="image[]" />
                     </div>
                     <div class="box">
                         <label id="upload-video" for="video-input" style="cursor: pointer">
@@ -240,23 +240,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script>
-        // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = false;
-
-        var pusher = new Pusher('3af0341c542582fe2550', {
-            cluster: "ap2",
-            encrypted: false,
-            useTls: false,
-        });
-
-        var channel = pusher.subscribe('community-feed');
-        channel.bind('post-created', function(data) {
-            console.log(JSON.stringify(data));
-        });
-    </script>
-
-    <script>
         $(document).ready(function() {
+            Pusher.logToConsole = false;
+
+            var pusher = new Pusher('3af0341c542582fe2550', {
+                cluster: "ap2",
+                encrypted: false,
+                useTls: false,
+            });
+
+            var channel = pusher.subscribe('community-feed');
+            channel.bind('post-created', function(data) {
+                console.log(JSON.stringify(data));
+            });
+
             writepost();
             uploadimage();
             removeImage();
@@ -355,8 +352,23 @@
                         $("#uploaded-files").empty();
                         $("#uploaded-images").empty();
                     },
-                    error: function(xhr) {
-                        alert('An error occurred while submitting the post.');
+                    error: function(error) {
+                        // Check if the error response contains JSON (validation errors)
+                        if (error.status === 400 && error.responseJSON) {
+                            let errors = error.responseJSON;
+
+                            // Iterate over the error content and print each message
+                            if (errors.content && Array.isArray(errors.content)) {
+                                errors.content.forEach(function(message) {
+                                    toastr.error(
+                                    message); // Use toastr or console.log(message) to display the errors
+                                });
+                            } else {
+                                toastr.error('An unexpected error occurred.');
+                            }
+                        } else {
+                            toastr.error('An unexpected error occurred.');
+                        }
                     }
                 });
             });
@@ -442,13 +454,13 @@
                             <div class="three-things-align">
                                 <ul>
                                 <li>
-                                    <button>
+                                    <button style="background: #ffffff!important;">
                                         <img src="${likeButtonImage}" alt="Like" id="like-btn-${post.id}" onclick="like(${post.id}, this)">
                                     </button>
                                     <span id="like-count-${post.id}">${post.likeCount}</span> Likes
                                 </li>
                                 <li>
-                                    <button><img src="{{ asset('assets/images/message.png') }}" alt="Comment" id="comment" onclick="comment(${post.id}, this)"></button>
+                                    <button style="background: #ffffff!important;"><img src="{{ asset('assets/images/message.png') }}" alt="Comment" id="comment" onclick="comment(${post.id}, this)"></button>
                                     <span id="comment-count-${post.id}">${post.comments.length}</span> Comments
                                 </li>
                             </ul>
@@ -500,30 +512,34 @@
         }
 
 
-        // Function to like post
         function like(id, element) {
-            const parentBox = $(element).closest('.input-box-three-icons');
+    const parentBox = $(element).closest('.input-box-three-icons');
 
-            $.ajax({
-                url: `/like/${id}`,
-                type: 'POST',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    // Update like count dynamically
-                    const likeCountElement = document.getElementById(`like-count-${id}`);
-                    likeCountElement.textContent = response.likes;
+    $.ajax({
+        url: `/like/${id}`,
+        type: 'POST',
+        data: {
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            // Update like count dynamically
+            const likeCountElement = document.getElementById(`like-count-${id}`);
+            likeCountElement.textContent = response.likes;
 
-                    // Change the like button image
-                    const likeButton = document.getElementById(`like-btn-${id}`);
-                    likeButton.src = "{{ asset('assets/images/liked.png') }}"; // Set colorful liked image
-                },
-                error: function(xhr) {
-                    alert('An error occurred while liking the post.');
-                }
-            });
+            // Change the like button image based on whether the post was liked or unliked
+            const likeButton = document.getElementById(`like-btn-${id}`);
+            if (response.liked) {
+                likeButton.src = "{{ asset('assets/images/liked.png') }}"; // Set colorful liked image
+            } else {
+                likeButton.src = "{{ asset('assets/images/thums.png') }}"; // Set default like image
+            }
+        },
+        error: function(xhr) {
+            alert('An error occurred while liking/unliking the post.');
         }
+    });
+}
+
 
 
 
