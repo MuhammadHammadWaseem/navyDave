@@ -205,16 +205,16 @@
                     </div>
                     <div class="box">
                         <label id="upload-photo" for="file-input" style="cursor: pointer">
-                            <img src="{{ asset('assets/images/upload-photo.png') }}" alt="">
+                            <img src="{{ asset('assets/images/upload-media.png') }}" width="100%" height="40px" alt="">
                         </label>
-                        <input type="file" id="file-input" class="d-none" multiple name="image[]" />
+                        <input type="file" id="file-input" class="d-none" multiple  name="image[]" />
                     </div>
-                    <div class="box">
+                    {{-- <div class="box">
                         <label id="upload-video" for="video-input" style="cursor: pointer">
                             <img src="{{ asset('assets/images/upload-video.png') }}" alt="">
                         </label>
                         <input type="file" id="video-input" class="d-none" multiple name="video" />
-                    </div>
+                    </div> --}}
 
                 </div>
                 <div class="large-input-box d-none" id="write-post-box">
@@ -268,9 +268,10 @@
                 $("#file-input").on("change", function() {
                     var files = this.files;
 
+                    $("#uploaded-images").empty();
+
                     if (files.length > 0) {
                         $("#write-post-box").toggleClass("d-none").addClass("d-block");
-                        $("#uploaded-images").empty();
 
                         for (var i = 0; i < files.length; i++) {
                             var file = files[i];
@@ -411,9 +412,11 @@
                             post.videos.forEach(video => {
                                 videoSection += `
                             <div class="three-images-align">
-                                <video  poster="{{ Storage::url('${video.path}') }}" controls>
-                                    <source src="{{ Storage::url('${video.path}') }}" type="video/mp4">
-                                 </video>
+                                <video poster="{{ Storage::url('${video.path}') }}" controls preload="none">
+    <source src="{{ Storage::url('${video.path}') }}" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
                             </div>`;
                             });
                         }

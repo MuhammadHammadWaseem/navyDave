@@ -38,7 +38,7 @@ class CommunityController extends Controller
         // Validate request data
         $validator = Validator::make($request->all(), [
             'content' => 'required|string|max:5000',
-            'files.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,avi,mov|max:20480'
+            'files.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,mp4,avi,mov,|max:20480'
         ]);
 
         if ($validator->fails()) {
@@ -63,7 +63,7 @@ class CommunityController extends Controller
         // Handle file uploads
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
-                if (in_array($file->getClientOriginalExtension(), ['jpeg', 'png', 'jpg', 'gif'])) {
+                if (in_array($file->getClientOriginalExtension(), ['jpeg', 'png', 'jpg', 'gif', 'webp',])) {
                     // Store images in 'community/images' folder
                     $imagePath = $file->store('community/images', 'public');
                     Image::create([
