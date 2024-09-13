@@ -243,7 +243,7 @@
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script>
         $(document).ready(function() {
-            Pusher.logToConsole = true;
+            Pusher.logToConsole = false;
 
             var pusher = new Pusher('3af0341c542582fe2550', {
                 cluster: "ap2",
