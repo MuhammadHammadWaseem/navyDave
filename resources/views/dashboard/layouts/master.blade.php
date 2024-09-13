@@ -147,11 +147,6 @@
                                 <li><a href="{{ route('user.appointment') }}" class="appointment-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>Appointments</a></li>
-                                <li><a href="{{ route('user.staff') }}" class="staff-active"><span><img
-                                                src="{{ asset('./assets/images/Customers.png') }}"
-                                                alt=""></span>Staff Members</a></li>
-
-
                                 <li><a href="{{ route('user.community') }}"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>Community</a></li>

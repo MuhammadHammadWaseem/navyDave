@@ -202,6 +202,7 @@ class GuestController extends Controller
             'phone' => 'nullable|string',
             'location' => 'nullable|string|max:255',
             'note' => 'nullable|string',
+            'user_id' => 'nullable',
         ]);
 
         DB::beginTransaction();

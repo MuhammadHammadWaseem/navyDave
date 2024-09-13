@@ -64,6 +64,8 @@ Route::get('get-slots',[GuestController::class, 'getSlots'])->name('get-slots');
 Route::get('get-slots-for-date',[GuestController::class, 'getSlotsForDate'])->name('get-slots-for-date');
 
 
+Route::get('register', [AdminAuthController::class, 'showRegisterForm'])->name('register');
+Route::post('register', [AdminAuthController::class, 'register'])->name('register.post');
 Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AdminAuthController::class, 'login'])->name('login.post');
 Route::get('logout', [AdminAuthController::class, 'logout'])->name('logout');
@@ -71,9 +73,6 @@ Route::get('logout', [AdminAuthController::class, 'logout'])->name('logout');
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('register', [AdminAuthController::class, 'showRegisterForm'])->name('register');
-    Route::post('register', [AdminAuthController::class, 'register']);
-
     Route::middleware(['role:admin'])->group(function () {
         Route::get('profile', [AdminAuthController::class, 'profile'])->name('profile');
         Route::post('profile/update/{id}', [AdminAuthController::class, 'profileupdate'])->name('profile.update');
@@ -145,9 +144,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 // Staff Routes
 Route::prefix('staff')->name('staff.')->group(function () {
-    Route::get('register', [StaffAuthController::class, 'showRegisterForm'])->name('register');
-    Route::post('register', [StaffAuthController::class, 'register']);
-
     Route::middleware(['role:staff'])->group(function () {
         Route::get('dashboard', [StaffAuthController::class, 'dashboard'])->name('dashboard');
         Route::get('profile', [StaffAuthController::class, 'profile'])->name('profile');
@@ -165,9 +161,6 @@ Route::prefix('staff')->name('staff.')->group(function () {
 Route::prefix('user')->name('user.')->group(function () {
     Route::get('login', [UserAuthController::class, 'showLoginForm'])->name('login');
     Route::post('login', [UserAuthController::class, 'login']);
-    Route::get('register', [UserAuthController::class, 'showRegisterForm'])->name('register');
-    Route::post('register', [UserAuthController::class, 'register']);
-
     Route::middleware(['role:user'])->group(function () {
         // Routes only Users can access
         Route::get('dashboard', [UserAuthController::class, 'dashboard'])->name('dashboard');

@@ -54,29 +54,42 @@ class AdminAuthController extends Controller
 
     public function showRegisterForm()
     {
-        return view('auth.admin-register');
+        return view('dashboard.admin.auth.register');
     }
 
     public function register(Request $request)
     {
-        $request->validate([
+        // Validate the form data
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'phone' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
         ]);
 
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Create new user
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'phone' => $request->phone,
+            'city' => $request->city,
+            'address' => $request->address,
         ]);
 
-        $role = Role::findByName('Admin');
-        $user->assignRole($role);
 
-        Auth::login($user);
+        // Create the 'admin' role
+        $userRole = Role::firstOrCreate(['name' => 'user']);
+        // Assign the 'admin' role to the new user
+        $user->assignRole($userRole);
 
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('login')->with('success', 'Registration successful!');
     }
 
     public function logout()

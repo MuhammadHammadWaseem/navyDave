@@ -333,6 +333,11 @@
                             </div>
                             <div class="appointment-form-box">
                                 <div class="two-input-align">
+                                    @if (auth()->check() && auth()->user()->hasRole('user'))
+                                    <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
+                                    @else
+                                    <input type="hidden" name="user_id" id="user_id" value="0">
+                                    @endif
                                     <input type="text" placeholder="First Name *" name="first_name" id="first_name"
                                         required>
                                     <input type="text" placeholder="Last Name *" name="last_name" id="last_name"

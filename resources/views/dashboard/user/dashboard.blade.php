@@ -17,7 +17,7 @@
     <div class="col-lg-10">
         <div class="welcome-and-user-name">
             <h6>Welcome Back,</h6>
-            <h5>User</h5>
+            <h5>{{ Auth::user()->name }}</h5>
         </div>
         <div class="maindashboard-box">
             <div class="four-things-align">

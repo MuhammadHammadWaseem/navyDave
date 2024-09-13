@@ -24,7 +24,7 @@ class UserAuthController extends Controller
     }
 
     public function community(){
-    return view('dashboard.user.community.index');
+    return view('dashboard.admin.community.index');
     }
 
     public function appointment(){
