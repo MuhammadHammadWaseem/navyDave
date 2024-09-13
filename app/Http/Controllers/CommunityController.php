@@ -81,10 +81,11 @@ class CommunityController extends Controller
             }
         }
 
+        $post = Post::with('user', 'likes', 'comments', 'images', 'videos')->find($post->id);
+        // Check if the authenticated user has liked the post
+        $post->hasLiked = $post->likes->where('user_id', auth()->id())->isNotEmpty();
+        $post->likeCount = $post->likes->count();
 
-        // Dispatch an event to broadcast the new post
-
-        // PostCreated::dispatch($post);
         event(new PostCreated($post));
         return response()->json(['message' => 'Post submitted successfully!', 'post' => $post]);
     }

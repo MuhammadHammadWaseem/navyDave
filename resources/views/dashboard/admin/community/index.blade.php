@@ -248,12 +248,96 @@
             var pusher = new Pusher('3af0341c542582fe2550', {
                 cluster: "ap2",
                 encrypted: false,
-                useTls: false,
+                useTls: true,
             });
 
             var channel = pusher.subscribe('community-feed');
             channel.bind('post-created', function(data) {
-                console.log(JSON.stringify(data));
+                console.log("Hamamd", data);
+                // APPEND
+                const postContainer = document.getElementById('post-container');
+
+                if (data.post) {
+                    let imageSection = '';
+                    let videoSection = '';
+
+                    // Loop through images
+                    if (data.post.images) {
+                        data.post.images.forEach(image => {
+                            imageSection += `
+                                <div class="three-images-align">
+                                        <img src="{{ Storage::url('${image.path}') }}" width="100px" height="100px" alt="" >
+                                </div>`;
+                        });
+                    }
+
+                    // Loop through videos
+                    if (data.post.videos) {
+                        data.post.videos.forEach(video => {
+                            videoSection += `
+                            <div class="three-images-align">
+                                <video poster="{{ Storage::url('${video.path}') }}" controls preload="none">
+                                <source src="{{ Storage::url('${video.path}') }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+
+                            </div>`;
+                        });
+                    }
+
+                    const likeButtonImage = data.post.hasLiked ?
+                        "{{ asset('assets/images/liked.png') }}" // Colorful image for liked state
+                        :
+                        "{{ asset('assets/images/thums.png') }}"; // Default image for not liked
+
+                    postContainer.insertAdjacentHTML('afterbegin', `
+                    <div class="shadow-box">
+                        <div class="person-box">
+                            <img src="{{ asset('assets/images/tony-stark-img.png') }}" alt="">
+                            <div class="text">
+                                <div class="two-text-align">
+                                    <h6>${data.post.user.name}</h6>
+                                </div>
+                                <p>${data.post.content}</p>
+                                <div class="post-slider-box">
+                                    <div class="post-slider-imges-box">
+                                        ${imageSection}
+                                        </div>
+                                        <div class="post-slider-imges-box post-slider-videos-box">
+                                            ${videoSection}
+                                        </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-box-three-icons">
+                            <div class="large-input-box large-input-box-small">
+                                <input type="text" placeholder="Write something here..." id="comment_input" class="d-none">
+                                <img class="flow-img" src="{{ asset('assets/images/input-box-edit.png') }}" alt="" id="comment_png" style="display: none">
+                                <button id="comment_post" class="btn btn-primary d-none" onclick="submitComment(${data.post.id}, this)">
+                                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="three-things-align">
+                                <ul>
+                                <li>
+                                    <button style="background: #ffffff!important;">
+                                        <img src="${likeButtonImage}" alt="Like" id="like-btn-${data.post.id}" onclick="like(${data.post.id}, this)">
+                                    </button>
+                                    <span id="like-count-${data.post.id}">0</span> Likes
+                                </li>
+                                <li>
+                                    <button style="background: #ffffff!important;"><img src="{{ asset('assets/images/message.png') }}" alt="Comment" id="comment" onclick="comment(${data.post.id}, this)"></button>
+                                    <span id="comment-count-${data.post.id}">0</span> Comments
+                                </li>
+                            </ul>
+                            </div>
+                            <div class="reply-container"></div>
+                        </div>
+                    </div>`);
+                }
+                // APPEND
+
             });
 
             writepost();
@@ -381,7 +465,7 @@
                                 errors.content.forEach(function(message) {
                                     toastr.error(
                                         message
-                                        ); // Use toastr or console.log(message) to display the errors
+                                    ); // Use toastr or console.log(message) to display the errors
                                 });
                             } else {
                                 toastr.error('An unexpected error occurred.');
