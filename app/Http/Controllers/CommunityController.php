@@ -8,6 +8,7 @@ use App\Events\PostCreated;
 use Illuminate\Http\Request;
 use App\Models\Image;
 use App\Models\Video;
+use App\Models\Like;
 
 class CommunityController extends Controller
 {
@@ -19,6 +20,15 @@ class CommunityController extends Controller
     public function postGet(Request $request)
     {
         $posts = Post::with('user', 'likes', 'comments', 'images', 'videos')->latest('created_at')->paginate(10);
+        
+        $posts->getCollection()->transform(function ($post) {
+            // Check if the authenticated user has liked the post
+            $post->hasLiked = $post->likes->where('user_id', auth()->id())->isNotEmpty();
+            $post->likeCount = $post->likes->count();
+    
+            return $post;
+        });
+
         return response()->json($posts);
     }
 
@@ -64,7 +74,7 @@ class CommunityController extends Controller
                 }
             }
         }
-        
+
 
         // Dispatch an event to broadcast the new post
 
@@ -73,21 +83,43 @@ class CommunityController extends Controller
         return response()->json(['message' => 'Post submitted successfully!', 'post' => $post]);
     }
 
-    public function fetchReplies($postId) {
-        $post = Post::with('comments.user')->find($postId);
-        return response()->json(['comments' => $post->comment]);
+    public function fetchReplies($postId)
+    {
+        $comment = Comment::with('user')->where('post_id', '=', $postId)->get();
+        return response()->json(['comments' => $comment]);
     }
 
-    public function commentPost(Request $request, $postId) {
+    public function commentPost(Request $request, $postId)
+    {
 
         $comment = new Comment();
-        $comment->comment = $request->content;
+        $comment->comment = $request->input('content');
         $comment->user_id = auth()->id();
         $comment->post_id = $postId;
         $comment->save();
 
         $newComment = Comment::with('user')->find($comment->id);
-        return response()->json(['message' => 'Comment submitted successfully!', 'comment' => $newComment]);
+        $count = Comment::where('post_id', '=', $postId)->count();
+        return response()->json(['message' => 'Comment submitted successfully!', 'comment' => $newComment, 'count' => $count]);
     }
+    public function like(Request $request, $postId)
+{
+    $post = Post::findOrFail($postId);
+
+    // Check if the user has already liked the post
+    $existingLike = $post->likes()->where('user_id', auth()->id())->first();
+    if ($existingLike) {
+        return response()->json(['message' => 'You already liked this post.', 'likes' => $post->likes()->count(), 'liked' => true]);
+    }
+
+    // Add a new like
+    $post->likes()->create(['user_id' => auth()->id()]);
+
+    // Get the updated like count
+    $likes = $post->likes()->count();
+
+    return response()->json(['message' => 'Post liked successfully!', 'likes' => $likes, 'liked' => false]);
+}
+
 
 }

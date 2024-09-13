@@ -37,6 +37,8 @@ use App\Http\Controllers\Auth\StaffAuthController;
 
     Route::get('/comments/{post}', [CommunityController::class,'fetchReplies'])->name('comments.get');
     Route::post('/comment/{post}', [CommunityController::class,'commentPost'])->name('post.comments');
+    Route::post('/like/{post}', [CommunityController::class,'like'])->name('post.like');
+
 
 
 // Guest Route

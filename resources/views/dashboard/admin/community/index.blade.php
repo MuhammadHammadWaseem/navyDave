@@ -86,6 +86,112 @@
         background-color: black;
         border-color: black;
     }
+
+    .main-calendar-box.main-calendar-box-list.customers-box .three-things-align {
+        margin-bottom: 36px;
+    }
+
+    .post-slider-box .three-images-align {
+        margin: 0 !important;
+    }
+
+    .shadow-box .person-box {
+        width: 100%;
+    }
+
+    .post-slider-box {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .post-slider-imges-box {
+        width: 1000px;
+        max-width: 1000px;
+        overflow: hidden;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+    }
+
+    .post-slider-imges-box .three-images-align {
+        width: 345px;
+        display: inline-block !important;
+        max-width: 345px;
+    }
+
+    .shadow-box .person-box .text {
+        width: 100%;
+    }
+
+    .post-slider-imges-box .three-images-align img,
+    .post-slider-imges-box .three-images-align video {
+        width: 300px;
+        height: 300px;
+        border: 1px solid #00000052;
+        border-radius: 10px;
+    }
+
+    /* width */
+    .post-slider-imges-box::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+    }
+
+    /* Track */
+    .post-slider-imges-box::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 10px;
+    }
+
+    /* Handle */
+    .post-slider-imges-box::-webkit-scrollbar-thumb {
+        background: #2CC374;
+        border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    .post-slider-imges-box::-webkit-scrollbar-thumb:hover {
+        background: #000000;
+    }
+
+    .shadow-box .input-box-three-icons .large-input-box.large-input-box-small button#comment_post {
+        background-color: #3bc476;
+        border-radius: 5px;
+        border: 1px solid #3bc476;
+        transition: .3s;
+        float: right;
+        margin-top: 10px;
+    }
+
+    .shadow-box .input-box-three-icons .large-input-box.large-input-box-small button#comment_post:hover {
+        background-color: black;
+    }
+
+    .shadow-box .input-box-three-icons .large-input-box.large-input-box-small {
+        width: 80% !important;
+    }
+
+    .shadow-box .input-box-three-icons .three-things-align {
+        width: 18% !important;
+    }
+
+    .shadow-box .input-box-three-icons {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .reply-box p {
+        display: flex;
+        flex-direction: column;
+        font-size: 14px;
+    }
+
+    .reply-box p strong {
+        font-size: 12px;
+    }
 </style>
 @section('content')
     <div class="col-lg-10">
@@ -124,127 +230,60 @@
 
 
             </div>
-
-            {{-- <div class="shadow-box">
-                <div class="person-box">
-                    <img src="assets/images/tony-stark-img.png" alt="">
-                    <div class="text">
-                        <div class="two-text-align">
-                            <h6>Tony Stark</h6>
-                            <a href="#">@tony_stark_3000</a>
-                        </div>
-                        <p>Looking for an amazing scientist who knows how to build a suit
-                            that can fly high in the sky without any problem.</p>
-                    </div>
-                </div>
-                <div class="input-box-three-icons">
-                    <div class="large-input-box large-input-box-small ">
-                        <input type="text" placeholder="Write something here...">
-                        <img class="flow-img" src="{{ asset('assets/images/input-box-edit.png') }}" alt="">
-                    </div>
-                    <div class="three-things-align">
-                        <ul>
-                            <li><a href="#"><img src="{{ asset('assets/images/thums.png') }}" alt=""></a></li>
-                            <li><a href="#"><img src="{{ asset('assets/images/message.png') }}" alt=""></a>
-                            </li>
-                            <li><a href="#"><img src="{{ asset('assets/images/back.png') }}" alt=""></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div> --}}
-
-            {{-- <div class="shadow-box">
-                <div class="person-box">
-                    <img src="assets/images/tony-stark-img.png" alt="">
-                    <div class="text">
-                        <div class="two-text-align">
-                            <h6>Tony Stark</h6>
-                            <a href="#">@tony_stark_3000</a>
-                        </div>
-                        <p>Looking for an amazing scientist who knows how to build a suit
-                            that can fly high in the sky without any problem.</p>
-                    </div>
-                </div>
-                <div class="three-images-align">
-                    <a href="{{ asset('assets/images/gallery-img-01.png') }}" data-fancybox="images" tabindex="0"><img
-                            src="{{ asset('assets/images/gallery-img-01.png') }}" alt=""></a>
-                    <a href="{{ asset('assets/images/gallery-img-02.png') }}" data-fancybox="images" tabindex="0"><img
-                            src="{{ asset('assets/images/gallery-img-02.png') }}" alt=""></a>
-                    <a href="{{ asset('assets/images/gallery-img-03.png') }}" data-fancybox="images" tabindex="0"><img
-                            src="{{ asset('assets/images/gallery-img-03.png') }}" alt=""></a>
-                </div>
-                <div class="input-box-three-icons">
-                    <div class="large-input-box large-input-box-small ">
-                        <input type="text" placeholder="Write something here...">
-                        <img class="flow-img" src="{{ asset('assets/images/input-box-edit.png') }}" alt="">
-                    </div>
-                    <div class="three-things-align">
-                        <ul>
-                            <li><a href="#"><img src="{{ asset('assets/images/thums.png') }}" alt=""></a>
-                            </li>
-                            <li><a href="#"><img src="{{ asset('assets/images/message.png') }}" alt=""></a>
-                            </li>
-                            <li><a href="#"><img src="{{ asset('assets/images/back.png') }}" alt=""></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div> --}}
             <div id="post-container"></div>
 
             <button id="load-more" onclick="loadMore()" class="btn btn-secondary text-center mt-3">Show More</button>
         </div>
     </div>
-@endsection
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-<script>
-    // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = false;
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = false;
 
-    var pusher = new Pusher('3af0341c542582fe2550', {
-        cluster: "ap2",
-        encrypted: false,
-        useTls: false,
-    });
+        var pusher = new Pusher('3af0341c542582fe2550', {
+            cluster: "ap2",
+            encrypted: false,
+            useTls: false,
+        });
 
-    var channel = pusher.subscribe('community-feed');
-    channel.bind('post-created', function(data) {
-        console.log(JSON.stringify(data));
-    });
-</script>
+        var channel = pusher.subscribe('community-feed');
+        channel.bind('post-created', function(data) {
+            console.log(JSON.stringify(data));
+        });
+    </script>
 
-<script>
-    $(document).ready(function() {
-        writepost();
-        uploadimage();
-        removeImage();
+    <script>
+        $(document).ready(function() {
+            writepost();
+            uploadimage();
+            removeImage();
 
-        function writepost() {
-            $("#write-post").click(function() {
-                $("#write-post-box").toggleClass("d-block");
-            });
-        }
+            function writepost() {
+                $("#write-post").click(function() {
+                    $("#write-post-box").toggleClass("d-block");
+                });
+            }
 
-        function uploadimage() {
-            $("#file-input").on("change", function() {
-                var files = this.files;
+            function uploadimage() {
+                $("#file-input").on("change", function() {
+                    var files = this.files;
 
-                if (files.length > 0) {
-                    $("#write-post-box").toggleClass("d-none").addClass("d-block");
-                    $("#uploaded-images").empty();
+                    if (files.length > 0) {
+                        $("#write-post-box").toggleClass("d-none").addClass("d-block");
+                        $("#uploaded-images").empty();
 
-                    for (var i = 0; i < files.length; i++) {
-                        var file = files[i];
+                        for (var i = 0; i < files.length; i++) {
+                            var file = files[i];
 
-                        if (file.type.startsWith('image/')) {
-                            var reader = new FileReader();
+                            if (file.type.startsWith('image/')) {
+                                var reader = new FileReader();
 
-                            reader.onload = (function(file) {
-                                return function(e) {
-                                    $("#uploaded-images").append(`
+                                reader.onload = (function(file) {
+                                    return function(e) {
+                                        $("#uploaded-images").append(`
                                     <div class="position-relative m-2 image-container">
                                         <div class="img-box-with-img-icons">
                                             <div class="icon remove-icon" style="top: 0.5rem; right: 0.5rem; z-index: 10; background: rgba(225, 225, 225, 0.856); cursor: pointer;">
@@ -254,140 +293,125 @@
                                         </div>
                                     </div>
                                 `);
-                                };
-                            })(file);
+                                    };
+                                })(file);
 
-                            reader.readAsDataURL(file);
+                                reader.readAsDataURL(file);
+                            }
                         }
                     }
+                });
+            }
+
+            function removeImage() {
+                $("#uploaded-images").on("click", ".remove-icon", function() {
+                    $(this).closest(".image-container").remove();
+                });
+            }
+
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            // Include CSRF token in AJAX setup
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
                 }
             });
-        }
 
-        function removeImage() {
-            $("#uploaded-images").on("click", ".remove-icon", function() {
-                $(this).closest(".image-container").remove();
+            // Upload Image and content
+            $("#post").click(function() {
+                var formData = new FormData();
+                formData.append('content', $("#post_text").val());
+
+                var imageInput = $("#file-input")[0];
+                var videoInput = $("#video-input")[0];
+
+                if (imageInput && imageInput.files) {
+                    var imageFiles = imageInput.files;
+                    for (var i = 0; i < imageFiles.length; i++) {
+                        formData.append('files[]', imageFiles[i]);
+                    }
+                }
+
+                if (videoInput && videoInput.files) {
+                    var videoFiles = videoInput.files;
+                    for (var i = 0; i < videoFiles.length; i++) {
+                        formData.append('files[]', videoFiles[i]);
+                    }
+                }
+
+                $.ajax({
+                    url: '/post',
+                    type: 'POST',
+                    data: formData, // Pass formData directly here
+                    contentType: false, // Let the browser set the content type
+                    processData: false, // Prevent jQuery from processing data
+                    success: function(response) {
+                        toastr.success('Post submitted successfully!');
+                        $("#write-post-box").addClass("d-none");
+                        $("#post_text").val('');
+                        $("#file-input").val('');
+                        $("#video-input").val('');
+                        $("#uploaded-files").empty();
+                        $("#uploaded-images").empty();
+                    },
+                    error: function(xhr) {
+                        alert('An error occurred while submitting the post.');
+                    }
+                });
             });
-        }
-
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-        // Include CSRF token in AJAX setup
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
-            }
         });
 
-        // Upload Image and content
-        $("#post").click(function() {
-            var formData = new FormData();
-            formData.append('content', $("#post_text").val());
+        // Fetch Post
+        let currentPage = 0;
+        let lastPage = 0;
 
-            var imageInput = $("#file-input")[0];
-            var videoInput = $("#video-input")[0];
-
-            if (imageInput && imageInput.files) {
-                var imageFiles = imageInput.files;
-                for (var i = 0; i < imageFiles.length; i++) {
-                    formData.append('files[]', imageFiles[i]);
-                }
-            }
-
-            if (videoInput && videoInput.files) {
-                var videoFiles = videoInput.files;
-                for (var i = 0; i < videoFiles.length; i++) {
-                    formData.append('files[]', videoFiles[i]);
-                }
-            }
-
+        // Load more posts
+        function loadMore() {
             $.ajax({
-                url: '/post',
-                type: 'POST',
-                data: formData, // Pass formData directly here
-                contentType: false, // Let the browser set the content type
-                processData: false, // Prevent jQuery from processing data
+                url: `/post/get?page=${currentPage + 1}`,
+                type: 'GET',
                 success: function(response) {
-                    toastr.success('Post submitted successfully!');
-                    $("#write-post-box").addClass("d-none");
-                    $("#post_text").val('');
-                    $("#file-input").val('');
-                    $("#video-input").val('');
-                    $("#uploaded-files").empty();
-                },
-                error: function(xhr) {
-                    alert('An error occurred while submitting the post.');
-                }
-            });
-        });
-        // End Work Upload
-        // $.ajax({
-        //         url: '{{ route('post.get') }}',
-        //         type: 'GET',
-        //         contentType: false, // Let the browser set the content type
-        //         processData: false, // Prevent jQuery from processing data
-        //         success: function(response) {
-        //            console.log(response);
-        //         },
-        //         error: function(xhr) {
-        //             alert('An error occurred while submitting the get.');
-        //         }
-        //     });
+                    const postContainer = document.getElementById('post-container');
 
+                    lastPage = response.last_page;
 
-
-    });
-
-    // Fetch Post
-
-    // Your JavaScript code
-    let currentPage = 0;
-    let lastPage = 0;
-
-    // Load more posts
-    function loadMore() {
-        $.ajax({
-            url: `/post/get?page=${currentPage + 1}`,
-            type: 'GET',
-            success: function(response) {
-                console.log(response);
-                const postContainer = document.getElementById('post-container');
-
-                lastPage = response.last_page;
-
-                if (currentPage >= lastPage) {
-                    document.getElementById('load-more').style.display = 'none';
-                }
-
-                response.data.forEach(post => {
-                    let imageSection = '';
-                    let videoSection = '';
-
-                    // Loop through images
-                    if (post.images) {
-                        post.images.forEach(image => {
-                            imageSection += `
-                                <div class="three-images-align">
-                                    <a href="${image.path}" data-fancybox="images" tabindex="0">
-                                        <img src="{{ Storage::url('${image.path}') }}" width="100px" height="100px" alt="" >
-                                    </a>
-                                </div>`;
-                        });
+                    if (currentPage >= lastPage) {
+                        document.getElementById('load-more').style.display = 'none';
                     }
 
-                    // Loop through videos
-                    if (post.videos) {
-                        post.videos.forEach(video => {
-                            videoSection += `
+                    response.data.forEach(post => {
+                        let imageSection = '';
+                        let videoSection = '';
+
+                        // Loop through images
+                        if (post.images) {
+                            post.images.forEach(image => {
+                                imageSection += `
+                                <div class="three-images-align">
+                                        <img src="{{ Storage::url('${image.path}') }}" width="100px" height="100px" alt="" >
+                                </div>`;
+                            });
+                        }
+
+                        // Loop through videos
+                        if (post.videos) {
+                            post.videos.forEach(video => {
+                                videoSection += `
                             <div class="three-images-align">
                                 <video  poster="{{ Storage::url('${video.path}') }}" controls>
                                     <source src="{{ Storage::url('${video.path}') }}" type="video/mp4">
                                  </video>
                             </div>`;
-                        });
-                    }
+                            });
+                        }
 
-                    postContainer.innerHTML += `
+                        const likeButtonImage = post.hasLiked ?
+                            "{{ asset('assets/images/liked.png') }}" // Colorful image for liked state
+                            :
+                            "{{ asset('assets/images/thums.png') }}"; // Default image for not liked
+
+                        postContainer.innerHTML += `
                     <div class="shadow-box">
                         <div class="person-box">
                             <img src="{{ asset('assets/images/tony-stark-img.png') }}" alt="">
@@ -396,9 +420,15 @@
                                     <h6>${post.user.name}</h6>
                                 </div>
                                 <p>${post.content}</p>
-                                
-                                ${imageSection}
-                                ${videoSection}
+                                <div class="post-slider-box">
+                                    <div class="post-slider-imges-box">
+                                        ${imageSection}
+                                        </div>
+                                        <div class="post-slider-imges-box post-slider-videos-box">
+                                            ${videoSection}
+                                        </div>
+                                   
+                                </div>
                             </div>
                         </div>
                         <div class="input-box-three-icons">
@@ -411,89 +441,125 @@
                             </div>
                             <div class="three-things-align">
                                 <ul>
-                                    <li><a href="#"><img src="{{ asset('assets/images/thums.png') }}" alt=""></a></li>
-                                    <li><button><img src="{{ asset('assets/images/message.png') }}" alt="" id="comment" onclick="comment(${post.id}, this)"></button></li>
-                                    <li><a href="#"><img src="{{ asset('assets/images/back.png') }}" alt=""></a></li>
-                                </ul>
+                                <li>
+                                    <button>
+                                        <img src="${likeButtonImage}" alt="Like" id="like-btn-${post.id}" onclick="like(${post.id}, this)">
+                                    </button>
+                                    <span id="like-count-${post.id}">${post.likeCount}</span> Likes
+                                </li>
+                                <li>
+                                    <button><img src="{{ asset('assets/images/message.png') }}" alt="Comment" id="comment" onclick="comment(${post.id}, this)"></button>
+                                    <span id="comment-count-${post.id}">${post.comments.length}</span> Comments
+                                </li>
+                            </ul>
                             </div>
                             <div class="reply-container"></div>
                         </div>
                     </div>`;
-                });
-                currentPage++;
-            },
-            error: function(xhr) {
-                alert('An error occurred while loading more posts.');
-            }
-        });
-    }
+                    });
+                    currentPage++;
+                },
+                error: function(xhr) {
+                    alert('An error occurred while loading more posts.');
+                }
+            });
+        }
 
-    // Function to toggle comment input and fetch replies
-    function comment(id, element) {
-        const parentBox = $(element).closest('.input-box-three-icons');
+        // Function to toggle comment input and fetch replies
+        function comment(id, element) {
+            const parentBox = $(element).closest('.input-box-three-icons');
 
-        // Toggle comment input
-        parentBox.find("#comment_input").toggleClass("d-block d-none");
-        parentBox.find("#comment_post").toggleClass("d-block");
-        parentBox.find("#comment_png").toggle();
+            // Toggle comment input
+            parentBox.find("#comment_input").toggleClass("d-block d-none");
+            parentBox.find("#comment_post").toggleClass("d-block d-none");
+            parentBox.find("#comment_png").toggle();
 
-        // Fetch existing replies and display them under the comment
-        $.ajax({
-            url: `/comments/${id}`, // Endpoint to fetch replies for the post
-            type: 'GET',
-            success: function(response) {
-                let repliesHtml = '';
-                response.replies.forEach(reply => {
-                    repliesHtml += `
+            // Fetch existing replies and display them under the comment
+            $.ajax({
+                url: `/comments/${id}`, // Endpoint to fetch replies for the post
+                type: 'GET',
+                success: function(response) {
+                    let repliesHtml = '';
+                    response.comments.forEach(reply => {
+                        repliesHtml += `
                         <div class="reply-box">
-                            <p><strong>${reply.user.name}</strong>: ${reply.comment}</p>
+                            <div class="comment-box">
+                                <p><strong>${reply.user.name}</strong> ${reply.comment}</p>
+                            </div>
                         </div>
                     `;
-                });
+                    });
 
-                // Append replies under the comment input box
-                parentBox.find(".reply-container").html(repliesHtml);
-            },
-            error: function(xhr) {
-                alert('An error occurred while fetching replies.');
-            }
-        });
-    }
+                    // Append replies under the comment input box
+                    parentBox.find(".reply-container").html(repliesHtml);
+                },
+                error: function(xhr) {
+                    alert('An error occurred while fetching replies.');
+                }
+            });
+        }
 
 
-    // Function to submit comment
-    function submitComment(postId, element) {
-        const parentBox = $(element).closest('.input-box-three-icons');
-        const commentContent = parentBox.find("#comment_input").val();
+        // Function to like post
+        function like(id, element) {
+            const parentBox = $(element).closest('.input-box-three-icons');
 
-        $.ajax({
-            url: `/comment/${postId}`, // Post comment endpoint
-            type: 'POST',
-            data: {
-                content: commentContent,
-                post_id: postId,
-                _token: '{{ csrf_token() }}' // Add CSRF token for Laravel
-            },
-            success: function(response) {
-                console.log('Comment added:', response);
+            $.ajax({
+                url: `/like/${id}`,
+                type: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    // Update like count dynamically
+                    const likeCountElement = document.getElementById(`like-count-${id}`);
+                    likeCountElement.textContent = response.likes;
 
-                // Optionally, append the new comment directly under the post
-                parentBox.find(".reply-container").append(`
-                <div class="reply-box">
-                    <p><strong>${response.comment.user.name}</strong>: ${response.comment.comment}</p>
-                </div>
-            `);
+                    // Change the like button image
+                    const likeButton = document.getElementById(`like-btn-${id}`);
+                    likeButton.src = "{{ asset('assets/images/liked.png') }}"; // Set colorful liked image
+                },
+                error: function(xhr) {
+                    alert('An error occurred while liking the post.');
+                }
+            });
+        }
 
-                // Clear the input field
-                parentBox.find("#comment_input").val('').toggleClass("d-none d-block");
-                parentBox.find("#comment_png").hide();
-            },
-            error: function(xhr) {
-                alert('An error occurred while submitting the comment.');
-            }
-        });
-    }
 
-    // Call the loadMore function initially
-    loadMore();
-</script>
+
+        // Function to submit comment
+        function submitComment(postId, element) {
+            const parentBox = $(element).closest('.input-box-three-icons');
+            const commentContent = parentBox.find("#comment_input").val();
+
+            $.ajax({
+                url: `/comment/${postId}`, // Post comment endpoint
+                type: 'POST',
+                data: {
+                    content: commentContent,
+                    post_id: postId,
+                    _token: '{{ csrf_token() }}' // Add CSRF token for Laravel
+                },
+                success: function(response) {
+                    $('#comment-count-' + postId).text(response.count);
+                    // Optionally, append the new comment directly under the post
+                    parentBox.find(".reply-container").append(`
+                        <div class="reply-box">
+                            <p><strong>${response.comment.user.name}</strong> ${response.comment.comment}</p>
+                        </div>
+                    `);
+
+                    // Clear the input field
+                    parentBox.find("#comment_input").val('').toggleClass("d-none d-block");
+                    parentBox.find("#comment_post").toggleClass("d-block d-none");
+                    parentBox.find("#comment_png").hide();
+                },
+                error: function(xhr) {
+                    alert('An error occurred while submitting the comment.');
+                }
+            });
+        }
+
+        loadMore();
+    </script>
+@endsection

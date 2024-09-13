@@ -69,7 +69,7 @@ class StaffAuthController extends Controller
 
     public function community()
     {
-        return view('dashboard.staff.community.index');
+        return view('dashboard.admin.community.index');
     }
 
     public function profile()

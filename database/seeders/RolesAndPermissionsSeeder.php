@@ -7,6 +7,8 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\PermissionRegistrar;
+use App\Models\Staff;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
@@ -55,6 +57,13 @@ class RolesAndPermissionsSeeder extends Seeder
 
         $staff->assignRole($staffRole);
 
+        Staff::firstOrCreate([
+            'user_id' => $staff->id,
+            'status' => 'active',
+            'notes' => 'Staff Notes',
+            'image' => 'image.png',
+        ]);
+        
         // Create Regular User
         $user = User::firstOrCreate([
             'email' => 'user@example.com',
