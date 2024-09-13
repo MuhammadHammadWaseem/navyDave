@@ -85,7 +85,7 @@ class CommunityController extends Controller
         // Dispatch an event to broadcast the new post
 
         // PostCreated::dispatch($post);
-        event(new \App\Events\PostCreated($post));
+        event(new PostCreated($post));
         return response()->json(['message' => 'Post submitted successfully!', 'post' => $post]);
     }
 

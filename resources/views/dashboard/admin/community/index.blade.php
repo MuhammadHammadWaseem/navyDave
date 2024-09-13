@@ -46,7 +46,8 @@
         top: 5px !important;
     }
 
-    #write-post-box .img-box-with-img-icons img {
+    #write-post-box .img-box-with-img-icons img,
+    #write-post-box .img-box-with-img-icons video {
         width: 200px;
         height: 200px;
         position: absolute;
@@ -205,9 +206,10 @@
                     </div>
                     <div class="box">
                         <label id="upload-photo" for="file-input" style="cursor: pointer">
-                            <img src="{{ asset('assets/images/upload-media.png') }}" width="100%" height="40px" alt="">
+                            <img src="{{ asset('assets/images/upload-media.png') }}" width="100%" height="40px"
+                                alt="">
                         </label>
-                        <input type="file" id="file-input" class="d-none" multiple  name="image[]" />
+                        <input type="file" id="file-input" class="d-none" multiple name="image[]" />
                     </div>
                     {{-- <div class="box">
                         <label id="upload-video" for="video-input" style="cursor: pointer">
@@ -241,7 +243,7 @@
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script>
         $(document).ready(function() {
-            Pusher.logToConsole = false;
+            Pusher.logToConsole = true;
 
             var pusher = new Pusher('3af0341c542582fe2550', {
                 cluster: "ap2",
@@ -296,6 +298,22 @@
 
                                 reader.readAsDataURL(file);
                             }
+
+                            if (file.type.startsWith('video/')) {
+                                $("#uploaded-images").append(`
+                                    <div class="position-relative m-2 image-container">
+                                        <div class="img-box-with-img-icons">
+                                            <div class="icon remove-icon" style="top: 0.5rem; right: 0.5rem; z-index: 10; background: rgba(225, 225, 225, 0.856); cursor: pointer;">
+                                                <i class="fa fa-times" data-file-name="` + file.name + `"></i>
+                                            </div>
+                                            <video class="flow-img" controls preload="none">
+                                                <source src="` + URL.createObjectURL(file) + `" type="video/mp4">
+                                            </video>
+                                        </div>
+                                    </div>
+                                `);
+                            }
+
                         }
                     }
                 });
@@ -362,7 +380,8 @@
                             if (errors.content && Array.isArray(errors.content)) {
                                 errors.content.forEach(function(message) {
                                     toastr.error(
-                                    message); // Use toastr or console.log(message) to display the errors
+                                        message
+                                        ); // Use toastr or console.log(message) to display the errors
                                 });
                             } else {
                                 toastr.error('An unexpected error occurred.');
@@ -413,9 +432,9 @@
                                 videoSection += `
                             <div class="three-images-align">
                                 <video poster="{{ Storage::url('${video.path}') }}" controls preload="none">
-    <source src="{{ Storage::url('${video.path}') }}" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
+                                <source src="{{ Storage::url('${video.path}') }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
 
                             </div>`;
                             });
@@ -516,32 +535,32 @@
 
 
         function like(id, element) {
-    const parentBox = $(element).closest('.input-box-three-icons');
+            const parentBox = $(element).closest('.input-box-three-icons');
 
-    $.ajax({
-        url: `/like/${id}`,
-        type: 'POST',
-        data: {
-            _token: $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            // Update like count dynamically
-            const likeCountElement = document.getElementById(`like-count-${id}`);
-            likeCountElement.textContent = response.likes;
+            $.ajax({
+                url: `/like/${id}`,
+                type: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    // Update like count dynamically
+                    const likeCountElement = document.getElementById(`like-count-${id}`);
+                    likeCountElement.textContent = response.likes;
 
-            // Change the like button image based on whether the post was liked or unliked
-            const likeButton = document.getElementById(`like-btn-${id}`);
-            if (response.liked) {
-                likeButton.src = "{{ asset('assets/images/liked.png') }}"; // Set colorful liked image
-            } else {
-                likeButton.src = "{{ asset('assets/images/thums.png') }}"; // Set default like image
-            }
-        },
-        error: function(xhr) {
-            alert('An error occurred while liking/unliking the post.');
+                    // Change the like button image based on whether the post was liked or unliked
+                    const likeButton = document.getElementById(`like-btn-${id}`);
+                    if (response.liked) {
+                        likeButton.src = "{{ asset('assets/images/liked.png') }}"; // Set colorful liked image
+                    } else {
+                        likeButton.src = "{{ asset('assets/images/thums.png') }}"; // Set default like image
+                    }
+                },
+                error: function(xhr) {
+                    alert('An error occurred while liking/unliking the post.');
+                }
+            });
         }
-    });
-}
 
 
 
