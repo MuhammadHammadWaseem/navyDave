@@ -43,9 +43,19 @@
             <div class="row">
                 <div class="col-lg-2">
                     <div class="header-logo">
-                        <a href="{{ route('admin.dashboard') }}">
-                            <img src="{{ Storage::url($settings[0]->logo ?? '') }}" alt="Logo">
-                        </a>
+                        @if (auth()->check())
+                            <a
+                                href="
+                                @if (auth()->user()->hasRole('admin')) {{ route('admin.dashboard') }} 
+                                @elseif (auth()->user()->hasRole('user')) 
+                                    {{ route('user.dashboard') }} 
+                                @elseif (auth()->user()->hasRole('staff')) 
+                                    {{ route('staff.dashboard') }} @endif">
+                                <img src="{{ Storage::url($settings[0]->logo ?? '') }}" alt="Logo">
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}">Login</a>
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-10">
@@ -60,23 +70,16 @@
                             </div>
                         </div>
                         <div class="input-box-other-details">
-                            <div class="search-box">
-                                <form action="">
-                                    <input type="search" placeholder="Type here...">
-                                    <button><i class="fa fa-search" aria-hidden="true"></i></button>
-                                </form>
-                            </div>
-                            <div class="logout-setting-bell-all">
+                            <div class="logout-setting-bell-all align-items-center">
                                 <div class="logout-box">
                                     <a href="{{ route('logout') }}"><i class="fa fa-user"
                                             aria-hidden="true"></i>Logout</a>
                                 </div>
-                                <div class="setting-box">
-                                    <a href="#"><i class="fa fa-cog" aria-hidden="true"></i></a>
-                                </div>
-                                <div class="bell-notification-box">
-                                    <a href="#"><i class="fa fa-bell" aria-hidden="true"></i></a>
-                                </div>
+                                @if (auth()->user()->hasRole('admin'))
+                                    <div class="setting-box">
+                                        <a href="{{ route('admin.setting') }}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
