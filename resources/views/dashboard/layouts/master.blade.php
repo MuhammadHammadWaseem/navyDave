@@ -63,12 +63,37 @@
                         <div class="page-relation-box">
                             <div class="align-box">
                                 <p>Pages</p>
-                                <p>Dashboard</p>
+                                <p>
+                                    @if (auth()->check())
+                                        @if (auth()->user()->hasRole('admin'))
+                                            {{ ucfirst(request()->path()) }}
+                                        @elseif (auth()->user()->hasRole('user'))
+                                            {{ ucfirst(request()->path()) }}
+                                        @elseif (auth()->user()->hasRole('staff'))
+                                            {{ ucfirst(request()->path()) }}
+                                        @endif
+                                    @else
+                                        Guest Dashboard
+                                    @endif
+                                </p>
                             </div>
                             <div class="page-name">
-                                <h6>Dashboard</h6>
+                                <h6>
+                                    @if (auth()->check())
+                                        @if (auth()->user()->hasRole('admin'))
+                                            Admin Dashboard
+                                        @elseif (auth()->user()->hasRole('user'))
+                                            User Dashboard
+                                        @elseif (auth()->user()->hasRole('staff'))
+                                            Staff Dashboard
+                                        @endif
+                                    @else
+                                        Guest Dashboard
+                                    @endif
+                                </h6>
                             </div>
                         </div>
+
                         <div class="input-box-other-details">
                             <div class="logout-setting-bell-all align-items-center">
                                 <div class="logout-box">
@@ -77,7 +102,8 @@
                                 </div>
                                 @if (auth()->user()->hasRole('admin'))
                                     <div class="setting-box">
-                                        <a href="{{ route('admin.setting') }}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                                        <a href="{{ route('admin.setting') }}"><i class="fa fa-cog"
+                                                aria-hidden="true"></i></a>
                                     </div>
                                 @endif
                             </div>
