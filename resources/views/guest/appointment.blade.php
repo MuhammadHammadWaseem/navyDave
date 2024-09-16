@@ -7,6 +7,79 @@
     .tab {
         display: none;
     }
+    .when-user-logout {
+    background-color: #ffffff;
+    position: relative;
+}
+
+.when-user-logout::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: #0080006b;
+    position: absolute;
+    top: 0;
+    filter: blur(50px);
+    opacity: 50%;
+    z-index: 99;
+}
+
+.when-user-logout::after {
+    content: "Please Login First";
+    font-size: 40px;
+    font-weight: 600;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    color: black;
+    z-index: 9999;
+    -ms-transform: translateY(-50%);
+    transform: translateY(70%);
+    width: 100%;
+    height: 50%;
+}
+
+.when-user-logout ul.nav.nav-tabs {
+    filter: blur(5px);
+}
+
+
+.when-user-logout  .tab-content {
+    filter: blur(5px);
+}
+
+.when-user-logout a {
+    background-color: #3A3A3A;
+    color: white;
+    display: inline-flex;
+    /* padding: 15px 30px; */
+    transition: .3s;
+    font-size: 30px;
+    margin-top: 40px;
+    transform: translateY(550%);
+    position: absolute;
+    z-index: 999999999;
+    top: 0;
+    right: 0;
+    margin: auto;
+    text-align: center;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15%;
+    cursor: pointer;
+    height: 75px;
+}
+
+.when-user-logout a:hover {
+    background-color: green;
+    color: white
+}
+
 </style>
 @section('content')
     @if (Session::has('success'))
@@ -120,10 +193,14 @@
                         <div class="tab d-none">
                             <div class="text">
                                 <h3>Category</h3>
+                                @guest
+                                <div class="when-user-logout">
+                                    <a href="{{ route('login') }}">Login</a>
+                                    @endif
 
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" onclick="getServices(0)" data-toggle="tab"
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" onclick="getServices(0)" data-toggle="tab"
                                             role="tab">All </a>
                                     </li>
                                     @foreach ($categories as $c)
@@ -288,6 +365,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                @guest
+                            </div>
+                            @endif
+
                             </div>
                         </div>
                         <div class="tab d-none">
@@ -397,12 +478,14 @@
                             </div>
                         </div>
 
+                        @auth
                         <div class="two-btns-align">
                             <a href="#appointment" id="prevBtn" onclick="nextPrev(-1)" class="t-btn t-btn-gray"> Go
                                 Back</a>
                             <a href="#appointment" id="nextBtn" onclick="nextPrev(1)" class="t-btn"> Save &
                                 Continue</a>
                         </div>
+                        @endauth
 
 
                         <div style="text-align:center;margin-top:40px;">
@@ -489,6 +572,7 @@
                 x[n].classList.remove("d-none");
                 x[n].style.display = "block";
 
+                @auth
                 // Handle previous button display
                 if (n == 0) {
                     document.getElementById("prevBtn").style.display = "none";
@@ -502,6 +586,7 @@
                 } else {
                     document.getElementById("nextBtn").innerHTML = "Next";
                 }
+                @endauth
 
                 // Update step indicator
                 fixStepIndicator(n);
@@ -546,8 +631,10 @@
             var loadingTab = document.getElementById("loadingTab");
             var successTab = document.getElementById("submitted-box");
             var errorTab = document.getElementById("error-box");
+            @auth
             var submitButton = document.getElementById("nextBtn");
             var prevButton = document.getElementById("prevBtn");
+            @endauth
 
             // Reset the UI
             successTab.classList.add("d-none");

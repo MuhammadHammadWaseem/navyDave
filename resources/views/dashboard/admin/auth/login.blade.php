@@ -33,6 +33,22 @@
             backdrop-filter: blur(16px);
             border: #ccc 1px solid;
         }
+        .col-md-6.offset-md-3.bg-white2.p-5 .register-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.col-md-6.offset-md-3.bg-white2.p-5 .register-btn a {
+    color: black;
+    font-size: 18px;
+    font-weight: 600;
+    transition: .3s;
+}
+
+.col-md-6.offset-md-3.bg-white2.p-5 .register-btn a:hover {
+    color: #4c4d4c;
+}
     </style>
 </head>
 
@@ -83,6 +99,9 @@
 
                         <div class="form-group text-center">
                             <button type="submit" class="btn btn-success w-50">Login</button>
+                        </div>
+                        <div class="register-btn">
+                            <a href="{{ route('register') }}"> Register Now! </a>
                         </div>
                     </form>
 
