@@ -135,7 +135,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">{{ isset($setting) ? 'Update' : 'Submit' }}</button>
+                <button type="submit" class="btn btn-success">{{ isset($setting) ? 'Update' : 'Submit' }}</button>
             </form>
         </div>
     </div>

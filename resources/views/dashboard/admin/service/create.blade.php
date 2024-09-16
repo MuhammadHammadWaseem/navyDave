@@ -57,7 +57,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="category_id">Category
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addCategoryModal">
+                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addCategoryModal">
                                     <span class="fa fa-plus"></span> Add Category
                                 </button>
                             </label>
@@ -226,7 +226,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-success">Submit</button>
             </form>
 
         </div>

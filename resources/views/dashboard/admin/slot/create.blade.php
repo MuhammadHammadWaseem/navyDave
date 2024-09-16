@@ -130,7 +130,7 @@
 
                 </div>
 
-                <button type="submit" class="btn btn-primary">Create Slot</button>
+                <button type="submit" class="btn btn-success">Create Slot</button>
             </form>
         </div>
     </div>

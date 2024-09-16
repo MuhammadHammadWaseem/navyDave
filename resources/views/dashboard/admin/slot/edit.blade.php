@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.master')
 <style>
-    .main-box-navy .left-all-links ul li a.slots-active,
+  .main-box-navy .left-all-links ul li a.slots-active,
     .main-box-navy .left-all-links ul li a:hover {
         background-color: white;
         font-weight: 600;
@@ -77,7 +77,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">           
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="available_on">Available On <span class="text-danger">*</span></label>
                             <select name="available_on" id="available_on"
@@ -122,11 +122,11 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                        </div> 
-                      </div>                    
-                
+                        </div>
+                      </div>
+
             </div>
-                <button type="submit" class="btn btn-primary">Update Slot</button>
+                <button type="submit" class="btn btn-success">Update Slot</button>
             </form>
         </div>
     </div>

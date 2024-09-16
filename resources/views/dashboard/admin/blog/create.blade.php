@@ -79,7 +79,7 @@
                         <input class="form-control w-50" name="meta_tag" value="{{ isset($blog) ? $blog->meta_tag : '' }}">
                         <small class="form-text text-danger">Please write complete meta tag</small>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
                 </form>
         </div>
     </div>

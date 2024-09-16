@@ -2,6 +2,7 @@
 @section('content')
     {{-- <form action=" {{ route('dashboard.admin.staff.update', $staff->id) }}" method="post" enctype="multipart/form-data"> --}}
     <div class="col-lg-10">
+        <div class="ma in-calendar-box main-calendar-box-list customers-box">
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -11,8 +12,7 @@
                 </ul>
             </div>
         @endif
-
-
+<div class="main-table-box main-table-box-list services-table" style="border-radius: 10px;">
         <div class="two-things-align" bis_skin_checked="1">
             <h5>{{ $staff->user->name }}</h5>
         </div>
@@ -51,4 +51,5 @@
         </form>
 
     </div>
+</div></div>
 @endsection
