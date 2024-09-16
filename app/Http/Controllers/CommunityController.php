@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Like;
 use App\Models\Post;
+use App\Models\Image;
+use App\Models\Video;
 use App\Models\Comment;
 use App\Events\PostCreated;
 use Illuminate\Http\Request;
-use App\Models\Image;
-use App\Models\Video;
-use App\Models\Like;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class CommunityController extends Controller
@@ -131,5 +132,23 @@ class CommunityController extends Controller
 }
 
 
+// comment delete
+public function deleteComment($id)
+{
+    // Find the comment by ID
+    $comment = Comment::findOrFail($id);
 
+    // Get the current authenticated user
+    $user = auth()->user();
+    // Check if the user is an admin or the owner of the comment
+    if ($user->hasRole('admin') || $comment->user_id === $user->id) {
+        // User is allowed to delete the comment
+        $comment->delete();
+
+        return response()->json(['message' => 'Comment deleted successfully.', 'comment' => $comment], 200);
+    } else {
+        // User is not authorized to delete the comment
+        return response()->json(['message' => 'You are not authorized to delete this comment.', 'comment' => $comment], 403);
+    }
+}
 }

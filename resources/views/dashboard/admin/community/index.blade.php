@@ -193,6 +193,25 @@
     .reply-box p strong {
         font-size: 12px;
     }
+    .shadow-box .large-input-box.large-input-box-small input {
+    height: 60px;
+    padding-right: 60px;
+}
+.shadow-box .input-box-three-icons .large-input-box.large-input-box-small button#comment_post {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+}
+.comment-box p.d-flex.gap-3.w-100 img.mt-1 {
+    background-color: #000000;
+    width: 35px;
+    height: 35px;
+    object-fit: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .3s;
+}
+
 </style>
 @section('content')
     <div class="col-lg-10">
@@ -229,7 +248,6 @@
                         <!-- Uploaded images will be displayed here -->
                     </div>
                 </div>
-
 
             </div>
             <div id="post-container"></div>
@@ -306,7 +324,7 @@
                                         <div class="post-slider-imges-box post-slider-videos-box">
                                             ${videoSection}
                                         </div>
-                                   
+
                                 </div>
                             </div>
                         </div>
@@ -545,7 +563,7 @@
                                         <div class="post-slider-imges-box post-slider-videos-box">
                                             ${videoSection}
                                         </div>
-                                   
+
                                 </div>
                             </div>
                         </div>
@@ -586,7 +604,8 @@
         // Function to toggle comment input and fetch replies
         function comment(id, element) {
             const parentBox = $(element).closest('.input-box-three-icons');
-
+            const authUserId = {{ auth()->user()->id }};
+            const isAdmin = {{ auth()->user()->hasRole('admin') ? 'true' : 'false' }};
             // Toggle comment input
             parentBox.find("#comment_input").toggleClass("d-block d-none");
             parentBox.find("#comment_post").toggleClass("d-block d-none");
@@ -600,12 +619,19 @@
                     let repliesHtml = '';
                     response.comments.forEach(reply => {
                         repliesHtml += `
-                        <div class="reply-box">
-                            <div class="comment-box">
-                                <p><strong>${reply.user.name}</strong> ${reply.comment}</p>
-                            </div>
-                        </div>
-                    `;
+
+                        <div class="comment-box">
+                            <strong>${reply.user.name}</strong>
+                            <p class="d-flex gap-3 w-100">${reply.comment}`;
+
+                        // Check if the current user is the owner of the comment or an admin
+                        if (reply.user_id === authUserId || isAdmin) {
+                            repliesHtml += `
+                        <img src="/assets/images/delete.png" alt="" width="15px" height="15px"
+                        onclick="deleteReply(${reply.id},this)" class="mt-1">`;
+                        }
+
+                        repliesHtml += `</p></div>`;
                     });
 
                     // Append replies under the comment input box
@@ -613,6 +639,24 @@
                 },
                 error: function(xhr) {
                     alert('An error occurred while fetching replies.');
+                }
+            });
+        }
+
+        // delete comment
+        function deleteReply(id, element) {
+            const deleteUrl = `{{ route('comment.delete', ':id') }}`;
+            const finalUrl = deleteUrl.replace(':id', id);
+
+            $.ajax({
+                url: finalUrl,
+                type: 'POST',
+                success: function(response) {
+                    console.log("Comment deleted successfully:", response.comment.post_id);
+                    comment(response.comment.post_id, element);
+                },
+                error: function(xhr) {
+                    alert('An error occurred: ' + xhr.responseJSON.message);
                 }
             });
         }
@@ -666,9 +710,9 @@
                     $('#comment-count-' + postId).text(response.count);
                     // Optionally, append the new comment directly under the post
                     parentBox.find(".reply-container").append(`
-                        <div class="reply-box">
-                            <p><strong>${response.comment.user.name}</strong> ${response.comment.comment}</p>
-                        </div>
+                        <div class="comment-box">
+                                <strong>${response.comment.user.name} </strong> <p class="d-flex gap-3 w-100">${response.comment.comment}  <img src="{{ asset('assets/images/delete.png') }}" alt=""  width="15px" height="15px" onclick="deleteReply(${response.comment.id},this)" class="mt-1"></p>
+                            </div>
                     `);
 
                     // Clear the input field
