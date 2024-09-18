@@ -12,7 +12,7 @@ $requestUri = $_SERVER['REQUEST_URI'];
 //     header("Location: $newUrl");
 //     exit();
 // }
-// if (preg_match('/^\/assets\//', $requestUri) && strpos($requestUri, '/public') === false) { $newUrl = '/public' . $requestUri; header("Location: $newUrl"); exit(); }
+if (preg_match('/^\/assets\//', $requestUri) && strpos($requestUri, '/public') === false) { $newUrl = '/public' . $requestUri; header("Location: $newUrl"); exit(); }
 /*
 |--------------------------------------------------------------------------
 | Check If The Application Is Under Maintenance

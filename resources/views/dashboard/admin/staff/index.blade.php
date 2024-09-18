@@ -215,8 +215,7 @@
                         </div>
                         <p>${item.id}</p>
                     </div>`,
-                        // `<img src="{{ Storage::url('${item.image}') }}" alt="Staff Image" style="width: 100px; height: auto;">`,
-                        `<img src="{{ asset('storage/${item.image}') }}" alt="Staff Images" style="width: 100px; height: auto;">`,
+                        `<img src="{{ Storage::url('${item.image}') }}" alt="Staff Image" style="width: 100px; height: auto;">`,
                         // item.service_id,
                         item.user.name,
                         item.user.email,
