@@ -29,7 +29,7 @@ class StaffController extends Controller
                 'phone' => 'required|string|max:20',
                 'status' => 'required|string',
                 'notes' => 'nullable|string',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:3048',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4048',
             ]);
             $user = User::create([
                         'name' => $validated['first_name'] . ' ' . $validated['last_name'],
@@ -119,7 +119,7 @@ public function update(Request $request, $id)
             'phone' => 'nullable|string|max:20',
             'status' => 'nullable|string',
             'notes' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:3048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4048',
         ]);
 
         // Find the staff record by ID

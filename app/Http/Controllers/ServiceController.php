@@ -25,7 +25,7 @@ class ServiceController extends Controller
 {
     // Validate the incoming request
     $validated = $request->validate([
-        'image' => 'nullable|image|max:3048|mimes:jpg,jpeg,png,webp',
+        'image' => 'nullable|image|max:4048|mimes:jpg,jpeg,png,webp',
         'name' => 'required|string|max:255',
         'category_id' => 'nullable|integer',
         'price' => 'required|numeric',
@@ -95,7 +95,7 @@ public function update(Request $request, $id)
             'min_capacity' => 'nullable|integer',
             'max_capacity' => 'nullable|integer',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:3048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4048',
         ]);
 
         // Find the service record by ID

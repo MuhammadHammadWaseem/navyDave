@@ -27,6 +27,7 @@ class BlogController extends Controller
         }
         public function store(Request $request)
         {
+            // Validate request data
             $request->validate([
                 'title' => 'required|string|max:255',
                 'slug' => 'required|string|max:255|unique:blogs',
@@ -34,22 +35,25 @@ class BlogController extends Controller
                 'long_description' => 'required|string',
                 'page_title' => 'required|string|max:255',
                 'meta_tag' => 'nullable|string|max:255',
-                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:4048',
             ]);
 
+            // Gather validated data
             $data = $request->only(['title', 'slug', 'short_description', 'long_description', 'page_title', 'meta_tag']);
-            // Handle image upload
-        if ($request->hasFile('image')) {
-            // $imagePath = $request->file('image')->store('public/blog');
-            // $finalPath = explode('public/', $imagePath)[1];
-            // $data['image'] = $finalPath;
 
-            $extension = $request->file('image')->getClientOriginalExtension();
-            $uniqueName = 'blog' . Str::random(40) . '.' . $extension;
-            $request->file('image')->storeAs('public', $uniqueName);
-            $validated['image'] = $uniqueName;
-        }
+            // Handle image upload if available
+            if ($request->hasFile('image')) {
+                // Get file extension
+                $extension = $request->file('image')->getClientOriginalExtension();
+                // Generate unique name with 'blog' prefix
+                $uniqueName = 'blog' . Str::random(40) . '.' . $extension;
+                // Store the image in the 'public' directory
+                $request->file('image')->storeAs('public', $uniqueName);
+                // Save the image name in the $data array (without 'public/')
+                $data['image'] =  $uniqueName;
+            }
 
+            // Create a new blog entry with the data
             Blog::create($data);
 
             return redirect()->route('admin.blog')->with('success', 'Blog created successfully.');
@@ -67,7 +71,7 @@ class BlogController extends Controller
                 'long_description' => 'required|string',
                 'page_title' => 'required|string|max:255',
                 'meta_tag' => 'nullable|string|max:255',
-                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:4048',
             ]);
 
             // Prepare the data for update
@@ -83,11 +87,16 @@ class BlogController extends Controller
                     }
                 }
 
-                // Upload the new image
-                $extension = $request->file('image')->getClientOriginalExtension();
-                $uniqueName = 'blog' . Str::random(40) . '.' . $extension;
-                $request->file('image')->storeAs('public', $uniqueName);
-                $validated['image'] = $uniqueName;
+                if ($request->hasFile('image')) {
+                    // Get file extension
+                    $extension = $request->file('image')->getClientOriginalExtension();
+                    // Generate unique name with 'blog' prefix
+                    $uniqueName = 'blog' . Str::random(40) . '.' . $extension;
+                    // Store the image in the 'public' directory
+                    $request->file('image')->storeAs('public', $uniqueName);
+                    // Save the image name in the $data array (without 'public/')
+                    $data['image'] =  $uniqueName;
+                }
             }
 
             // Update the blog entry with the new data

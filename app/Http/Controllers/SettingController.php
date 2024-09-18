@@ -21,7 +21,7 @@ class SettingController extends Controller
  {
     $validated = $request->validate([
         'app_name' => 'required|string|max:150',
-        'logo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        'logo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4048',
         'phone' => 'required|string|max:20',
         'location' => 'nullable|string|max:255',
         'email' => 'required|email|max:100',
@@ -64,7 +64,7 @@ class SettingController extends Controller
  {
      $validated = $request->validate([
          'app_name' => 'required|string|max:150',
-         'logo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+         'logo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4048',
          'phone' => 'required|string|max:20',
          'location' => 'nullable|string|max:255',
          'email' => 'required|email|max:100',
