@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -41,16 +42,21 @@ class ServiceController extends Controller
 
     // Handle image upload
     if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('public/services');
-        $finalPath = explode('public/', $imagePath)[1];
-        $validated['image'] = $finalPath;
+        // $imagePath = $request->file('image')->store('public','service');
+        // $finalPath = explode('public/', $imagePath)[1];
+        // $validated['image'] = "service".$finalPath;
+
+        $extension = $request->file('image')->getClientOriginalExtension();
+        $uniqueName = 'service' . Str::random(40) . '.' . $extension;
+        $request->file('image')->storeAs('public', $uniqueName);
+        $validated['image'] = $uniqueName;
     } else {
         // Use the default image
         $defaultImagePath = 'assets/images/default-user.webp';
         // Store the default image in the public storage
-        $finalPath = 'services/default-user.webp';
-        Storage::disk('public')->copy($defaultImagePath, $finalPath);
-        $validated['image'] = $finalPath;
+        $uniqueName = 'services/default-user.webp';
+        Storage::disk('public')->copy($defaultImagePath, $uniqueName);
+        $validated['image'] = $uniqueName;
     }
 
     // Create the service
@@ -106,9 +112,14 @@ public function update(Request $request, $id)
             }
 
             // Upload the new image
-            $imagePath = $request->file('image')->store('public/services');
-            $finalPath = explode('public/', $imagePath)[1];
-            $validated['image'] = $finalPath;
+            // $imagePath = $request->file('image')->store('public/services');
+            // $finalPath = explode('public/', $imagePath)[1];
+            // $validated['image'] = $finalPath;
+
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $uniqueName = 'service' . Str::random(40) . '.' . $extension;
+            $request->file('image')->storeAs('public', $uniqueName);
+            $validated['image'] = $uniqueName;
         }
 
         // Update the service entry with new information
