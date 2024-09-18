@@ -71,7 +71,7 @@ class BlogController extends Controller
                 'long_description' => 'required|string',
                 'page_title' => 'required|string|max:255',
                 'meta_tag' => 'nullable|string|max:255',
-                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:4048',
+                'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4048',
             ]);
 
             // Prepare the data for update
