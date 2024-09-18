@@ -36,10 +36,10 @@ class SettingController extends Controller
         // $finalPath = explode('public/', $logoPath)[1];
         // $validated['logo'] = $finalPath;
 
-        $extension = $request->file('image')->getClientOriginalExtension();
+        $extension = $request->file('logo')->getClientOriginalExtension();
         $uniqueName = 'setting' . Str::random(40) . '.' . $extension;
-        $request->file('image')->storeAs('public', $uniqueName);
-        $validated['image'] = $uniqueName;
+        $request->file('logo')->storeAs('public', $uniqueName);
+        $validated['logo'] = $uniqueName;
     }else{
        // Use the default logo
         $defaultlogoPath = 'assets/images/default-user.webp';
@@ -81,10 +81,10 @@ class SettingController extends Controller
         //  $finalPath = explode('public/', $logoPath)[1];
         //  $validated['logo'] = $finalPath;
 
-        $extension = $request->file('image')->getClientOriginalExtension();
+        $extension = $request->file('logo')->getClientOriginalExtension();
         $uniqueName = 'setting' . Str::random(40) . '.' . $extension;
-        $request->file('image')->storeAs('public', $uniqueName);
-        $validated['image'] = $uniqueName;
+        $request->file('logo')->storeAs('public', $uniqueName);
+        $validated['logo'] = $uniqueName;
      }
 
      $setting->update($validated);

@@ -143,9 +143,14 @@ public function update(Request $request, $id)
             }
 
             // Upload the new image
-            $imagePath = $request->file('image')->store('public/staff');
-            $finalPath = explode('public/', $imagePath)[1];
-            $validated['image'] = $finalPath;
+            // $imagePath = $request->file('image')->store('public/staff');
+            // $finalPath = explode('public/', $imagePath)[1];
+            // $validated['image'] = $finalPath;
+
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $uniqueName = 'staff' . Str::random(40) . '.' . $extension;
+            $request->file('image')->storeAs('public', $uniqueName);
+            $validated['image'] = $uniqueName;
         }
 
         // Update the staff entry with new information
