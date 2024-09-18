@@ -24,7 +24,7 @@ class ServiceController extends Controller
 {
     // Validate the incoming request
     $validated = $request->validate([
-        'image' => 'nullable|image|max:3048',
+        'image' => 'nullable|image|max:3048|mimes:jpg,jpeg,png,webp',
         'name' => 'required|string|max:255',
         'category_id' => 'nullable|integer',
         'price' => 'required|numeric',
