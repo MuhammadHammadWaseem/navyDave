@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\BlogRequest;
 use Illuminate\Support\Facades\Storage;
@@ -39,9 +40,14 @@ class BlogController extends Controller
             $data = $request->only(['title', 'slug', 'short_description', 'long_description', 'page_title', 'meta_tag']);
             // Handle image upload
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/blog');
-            $finalPath = explode('public/', $imagePath)[1];
-            $data['image'] = $finalPath;
+            // $imagePath = $request->file('image')->store('public/blog');
+            // $finalPath = explode('public/', $imagePath)[1];
+            // $data['image'] = $finalPath;
+
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $uniqueName = 'blog' . Str::random(40) . '.' . $extension;
+            $request->file('image')->storeAs('public', $uniqueName);
+            $validated['image'] = $uniqueName;
         }
 
             Blog::create($data);
@@ -78,9 +84,10 @@ class BlogController extends Controller
                 }
 
                 // Upload the new image
-                $imagePath = $request->file('image')->store('public/blog');
-                $finalPath = explode('public/', $imagePath)[1];
-                $data['image'] = $finalPath; // Store the new image path in the data array
+                $extension = $request->file('image')->getClientOriginalExtension();
+                $uniqueName = 'blog' . Str::random(40) . '.' . $extension;
+                $request->file('image')->storeAs('public', $uniqueName);
+                $validated['image'] = $uniqueName;
             }
 
             // Update the blog entry with the new data

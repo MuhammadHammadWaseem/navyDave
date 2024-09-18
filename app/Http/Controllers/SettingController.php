@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Setting;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,16 +32,21 @@ class SettingController extends Controller
     ]);
 
     if ($request->hasFile('logo')) {
-        $logoPath = $request->file('logo')->store('public/logo');
-        $finalPath = explode('public/', $logoPath)[1];
-        $validated['logo'] = $finalPath;
+        // $logoPath = $request->file('logo')->store('public/logo');
+        // $finalPath = explode('public/', $logoPath)[1];
+        // $validated['logo'] = $finalPath;
+
+        $extension = $request->file('image')->getClientOriginalExtension();
+        $uniqueName = 'setting' . Str::random(40) . '.' . $extension;
+        $request->file('image')->storeAs('public', $uniqueName);
+        $validated['image'] = $uniqueName;
     }else{
        // Use the default logo
         $defaultlogoPath = 'assets/images/default-user.webp';
         // Store the default logo in the public storage
-        $finalPath = 'staff/default-user.webp';
-        Storage::disk('public')->copy($defaultlogoPath, $finalPath);
-        $validated['logo'] = $finalPath;
+        $uniqueName = 'staff/default-user.webp';
+        Storage::disk('public')->copy($defaultlogoPath, $uniqueName);
+        $validated['logo'] = $uniqueName;
     }
 
     Setting::create($validated);
@@ -71,9 +77,14 @@ class SettingController extends Controller
      $setting = Setting::findOrFail($id);
 
      if ($request->hasFile('logo')) {
-         $logoPath = $request->file('logo')->store('public/logo');
-         $finalPath = explode('public/', $logoPath)[1];
-         $validated['logo'] = $finalPath;
+        //  $logoPath = $request->file('logo')->store('public/logo');
+        //  $finalPath = explode('public/', $logoPath)[1];
+        //  $validated['logo'] = $finalPath;
+
+        $extension = $request->file('image')->getClientOriginalExtension();
+        $uniqueName = 'setting' . Str::random(40) . '.' . $extension;
+        $request->file('image')->storeAs('public', $uniqueName);
+        $validated['image'] = $uniqueName;
      }
 
      $setting->update($validated);

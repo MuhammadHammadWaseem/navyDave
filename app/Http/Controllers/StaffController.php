@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Staff;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
@@ -39,16 +40,21 @@ class StaffController extends Controller
 
                     // Handle image upload
                     if ($request->hasFile('image')) {
-                        $imagePath = $request->file('image')->store('public/staff');
-                        $finalPath = explode('public/', $imagePath)[1];
-                        $validated['image'] = $finalPath;
+                        // $imagePath = $request->file('image')->store('public/staff');
+                        // $finalPath = explode('public/', $imagePath)[1];
+                        // $validated['image'] = $finalPath;
+
+                        $extension = $request->file('image')->getClientOriginalExtension();
+                        $uniqueName = 'staff' . Str::random(40) . '.' . $extension;
+                        $request->file('image')->storeAs('public', $uniqueName);
+                        $validated['image'] = $uniqueName;
                     }else{
                        // Use the default image
                         $defaultImagePath = 'assets/images/default-user.webp';
                         // Store the default image in the public storage
-                        $finalPath = 'staff/default-user.webp';
-                        Storage::disk('public')->copy($defaultImagePath, $finalPath);
-                        $validated['image'] = $finalPath;
+                        $uniqueName = 'staff/default-user.webp';
+                        Storage::disk('public')->copy($defaultImagePath, $uniqueName);
+                        $validated['image'] = $uniqueName;
                     }
 
                     // Create a new staff entry
