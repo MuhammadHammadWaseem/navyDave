@@ -48,6 +48,7 @@ Route::get('about',[GuestController::class, 'about'])->name('about');
 Route::get('pricing',[GuestController::class, 'pricing'])->name('pricing');
 Route::get('appointment',[GuestController::class, 'appointment'])->name('appointment');
 Route::post('appointment/create',[GuestController::class, 'appointmentCreate'])->name('appointment.create');
+Route::get('mailCheck',[GuestController::class, 'mailCheck'])->name('appointment.mailCheck');
 // Stripe
 Route::post('appointment/stripe',[GuestController::class, 'appointmentStripe'])->name('appointment.stripe');
 Route::get('/payment/success', [GuestController::class, 'stripeSuccess'])->name('payment.success');

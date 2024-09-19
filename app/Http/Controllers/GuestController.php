@@ -188,6 +188,25 @@ class GuestController extends Controller
         }
     }
 
+    public function mailCheck(){
+        DB::beginTransaction();
+
+        try {
+            // Load the appointment with relationships
+            $appointment = Appointment::with('slot', 'staff.user', 'service')->first();
+
+            // Send email
+            SendMail::dispatch("hw13604@gmail.com", $appointment, 'user');
+
+            DB::commit();
+            return response()->json(['success' => true, 'message' => 'Appointment created successfully', 'data' => $appointment]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => 'Failed to create appointment', 'error' => $e->getMessage()], 500);
+        }
+    }
+
 
     public function appointmentStripe(Request $request)
     {
