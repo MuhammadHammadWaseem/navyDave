@@ -46,7 +46,6 @@
                             <li><a href="{{ route('blogs') }}" class="blog-active">Blogs</a></li>
                             <li><a href="{{ route('faq') }}" class="faq-active">FAQ</a></li>
                             <li><a href="{{ route('contact') }}" class="contact-active">Contact Us</a></li>
-                            <li><a href="{{ route('login') }}">login</a></li>
                         </ul>
                     </div>
                 </div>
@@ -57,13 +56,21 @@
                                         alt=""></a></li>
                             <li><a href="#"><img src="{{ asset('./assets/images/search-icon.png') }}"
                                         alt=""></a></li> --}}
-                            <li class="drop-dwon-menu"><a href="#"><img src="{{ asset('./assets/images/person-user.png') }}"
-                                        alt=""></a>
+                            <li class="drop-dwon-menu"><a href="#">
+                                    <img src="{{ asset('./assets/images/person-user.png') }}" alt=""></a>
+                                @guest
                                     <ul class="drop-dwon-menu">
-                                        <li><a href="#">login</a></li>
-                                        <li><a href="#">sign up</a></li>
+                                        <li><a href="{{ route('login') }}">login</a></li>
+                                        <li><a href="{{ route('register') }}">sign up</a></li>
                                     </ul>
-                                    </li>
+                                @else
+                                    <ul class="drop-dwon-menu">
+                                        <li><a href="{{ route('user.dashboard') }}">Dashboard</a></li>
+                                        <li><a href="{{ route('user.profile') }}">Profile</a></li>
+                                        <li><a href="{{ route('logout') }}">Logout</a></li>
+                                    </ul>
+                                @endguest
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -87,13 +94,21 @@
                                     <li><a href="{{ route('blogs') }}" class="blog-active">Blogs</a></li>
                                     <li><a href="{{ route('faq') }}" class="faq-active">FAQ</a></li>
                                     <li><a href="{{ route('contact') }}" class="contact-active">Contact Us</a></li>
-                                    <li><a href="{{ route('login') }}">login</a></li>
+                                    @guest
+                                        <li><a href="{{ route('login') }}">login</a></li>
+                                        <li><a href="{{ route('register') }}">sign up</a></li>
+                                    @else
+                                        <li><a href="{{ route('user.dashboard') }}">Dashboard</a></li>
+                                        <li><a href="{{ route('user.profile') }}">Profile</a></li>
+                                        <li><a href="{{ route('logout') }}">Logout</a></li>
+                                    @endguest
+                                    {{-- <li><a href="{{ route('login') }}">login</a></li>
                                     <li><a href="#"><img src="{{ asset('./assets/images/shopping-cart.png') }}"
                                                 alt=""></a></li>
                                     <li><a href="#"><img src="{{ asset('./assets/images/search-icon.png') }}"
                                                 alt=""></a></li>
                                     <li><a href="#"><img src="{{ asset('./assets/images/person-user.png') }}"
-                                                alt=""></a></li>
+                                                alt=""></a></li> --}}
                                 </ul>
                             </nav>
                         </div>
@@ -110,12 +125,16 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4">
                     <div class="main-footer-logo">
-                        <a href="{{ route('home') }}"> <img src="{{ Storage::url($settings[0]->logo ?? '') }}" alt="Logo"></a>
+                        <a href="{{ route('home') }}"> <img src="{{ Storage::url($settings[0]->logo ?? '') }}"
+                                alt="Logo"></a>
                     </div>
                     <div class="links-email-number">
                         <ul>
-                            <li><a href="tel:{{ $settings[0]->phone ?? '-' }}">{{ $settings[0]->phone ?? '-' }}</a></li>
-                            <li><a href="mailto:{{ $settings[0]->email ?? '-' }}">{{ $settings[0]->email ?? '-' }}</a></li>
+                            <li><a href="tel:{{ $settings[0]->phone ?? '-' }}">{{ $settings[0]->phone ?? '-' }}</a>
+                            </li>
+                            <li><a
+                                    href="mailto:{{ $settings[0]->email ?? '-' }}">{{ $settings[0]->email ?? '-' }}</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -173,31 +192,32 @@
 
 
 
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Video Presentation</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <div class="video-box">
-                <video poster="assets/images/video-poster.png" controls="">
-                    <source src="assets/images/main-video.mp4" type="video/mp4">
-                    <source src="assets/images/main-video.mp4" type="video/ogg">
-                </video>
-            </div>
-        </div>
-        {{-- <div class="modal-footer">
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Video Presentation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="video-box">
+                        <video poster="assets/images/video-poster.png" controls="">
+                            <source src="assets/images/main-video.mp4" type="video/mp4">
+                            <source src="assets/images/main-video.mp4" type="video/ogg">
+                        </video>
+                    </div>
+                </div>
+                {{-- <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary">Save changes</button>
         </div> --}}
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 
 
 
