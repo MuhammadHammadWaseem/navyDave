@@ -14,6 +14,11 @@
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
     <style>
         .main-box-navy2 {
             padding: 50px;
@@ -54,12 +59,19 @@
 
 <body>
 
-    <section class="main-box-navy2">
+    <section class="new-form login-form" style="background-image: url({{ asset('./assets/images/new-login-bg.png') }})">
         <div class="container">
-            <div class="row">
-                <div class="col-md-6 offset-md-3 bg-white2 p-5">
-                    <h1 class="text-center pb-5">Login</h1>
-                    @if ($errors->any())
+        <div class="row">
+            <div class="col-md-12">
+                <div class="vertical-align-box">
+                    <div class="logo-box">
+                        <a href="{{ route('home') }}"><img src="{{ Storage::url($settings[0]->logo ?? '') }}"
+                            alt=""></a>    
+                    </div> 
+                    <div class="form-box">
+                        <div class="text">
+                            <h2> <span>Login</span>To Your<br> Account </h2>
+                            @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
                                 @foreach ($errors->all() as $error)
@@ -68,46 +80,33 @@
                             </ul>
                         </div>
                     @endif
-                    <form action="{{ route('login.post') }}" method="POST">
-                        @csrf
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
+                            <form action="{{ route('login.post') }}" method="POST">
+                                @csrf
+                                <div class="single-input-box">
+                                    <input type="text" name="email" placeholder="Username *" aria-label="Email" aria-describedby="basic-addon1" required> 
                                 </div>
-                                <input type="text" class="form-control" name="email" placeholder="Email"
-                                    aria-label="Email" aria-describedby="basic-addon1" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-lock"></i></span>
+                                <div class="single-input-box">
+                                    <input type="text" name="password" placeholder="Password * " aria-label="Password" aria-describedby="basic-addon2" required>
                                 </div>
-                                <input type="password" class="form-control" name="password" placeholder="Password"
-                                    aria-label="Password" aria-describedby="basic-addon2" required>
-                            </div>
-                        </div>
+                                <div class="input-check-box">
+                                    <input type="checkbox" name="remeber-me">
+                                    <label for="remeber-me">Remeber Me</label>
+                                </div>
 
-                        <div class="form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                <label class="custom-control-label" for="customCheck1">Remember me</label>
-                            </div>
-                        </div>
+                                <button type="submit">Login</button>
+                        
+                            </form>    
+                        </div>    
+                    </div>   
 
-                        <div class="form-group text-center">
-                            <button type="submit" class="btn btn-success w-50">Login</button>
-                        </div>
-                        <div class="register-btn">
-                            <a href="{{ route('register') }}"> Register Now! </a>
-                        </div>
-                    </form>
+                    <div class="form-btm-content">
+                        <p>Don’t have an account! <a href="{{ route('register') }}">Create One</a></p>
+                    </div>
+                </div>    
+            </div>    
+        </div>    
+        </div> 
 
-                </div>
-            </div>
-        </div>
     </section>
 
     <script src="{{ asset('./assets/js/wow-animate.js') }}"></script>

@@ -56,7 +56,7 @@
                                         alt=""></a></li>
                             <li><a href="#"><img src="{{ asset('./assets/images/search-icon.png') }}"
                                         alt=""></a></li> --}}
-                            <li class="drop-dwon-menu"><a href="#">
+                            <li class="drop-dwon-menu"><a>
                                     <img src="{{ asset('./assets/images/person-user.png') }}" alt=""></a>
                                 @guest
                                     <ul class="drop-dwon-menu">
@@ -125,18 +125,21 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4">
                     <div class="main-footer-logo">
+
                         <a href="{{ route('home') }}"> <img src="{{ Storage::url($settings[0]->logo ?? '') }}"
                                 alt="Logo"></a>
+
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+
+                                <div class="socail-icons">
+                                    <ul>
+                                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                </div>
                     </div>
-                    <div class="links-email-number">
-                        <ul>
-                            <li><a href="tel:{{ $settings[0]->phone ?? '-' }}">{{ $settings[0]->phone ?? '-' }}</a>
-                            </li>
-                            <li><a
-                                    href="mailto:{{ $settings[0]->email ?? '-' }}">{{ $settings[0]->email ?? '-' }}</a>
-                            </li>
-                        </ul>
-                    </div>
+                  
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <div class="heading-footer">
@@ -150,7 +153,6 @@
                             <li><a href="{{ route('appointment') }}">Appointments</a></li>
                             <li><a href="{{ route('contact') }}">Contact Us</a></li>
                             <li><a href="{{ route('blogs') }}">Blogs</a></li>
-                            <li><a href="{{ route('faq') }}">FAQs</a></li>
                         </ul>
                     </div>
                 </div>
@@ -164,26 +166,35 @@
                             <button><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                         </form>
                     </div>
+                    <div class="links-email-number">
+                        <ul>
+                            <li><a href="tel:{{ $settings[0]->phone ?? '-' }}">{{ $settings[0]->phone ?? '-' }}</a>
+                            </li>
+                            <li><a
+                                    href="mailto:{{ $settings[0]->email ?? '-' }}">{{ $settings[0]->email ?? '-' }}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="row footer-btm-line">
                 <div class="col-lg-4 col-md-4">
-                    <div class="socail-icons">
+                    {{-- <div class="socail-icons">
                         <ul>
                             <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
                             <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                             <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
                         </ul>
-                    </div>
+                    </div> --}}
                 </div>
-                <div class="col-lg-4 col-md-4">
+                {{-- <div class="col-lg-4 col-md-4">
                     <div class="copy-right">
                         <p>Copyright 2024</p>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <div class="site-copy-right">
-                        <p>All rights reserved by <a href="{{ route('home') }}">NAVY DAVE GOLF</a> </p>
+                </div> --}}
+                <div class="col-lg-12 col-md-12">
+                    <div class="site-copy-right text-center">
+                        <p>Copyright 2024 | All rights reserved by <a href="{{ route('home') }}">NAVY DAVE GOLF</a> </p>
                     </div>
                 </div>
             </div>

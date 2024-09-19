@@ -14,6 +14,11 @@
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
     <style>
         .main-box-navy2 {
             padding: 50px;
@@ -33,117 +38,100 @@
             backdrop-filter: blur(16px);
             border: #ccc 1px solid;
         }
+
+        .col-md-6.offset-md-3.bg-white2.p-5 .register-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .col-md-6.offset-md-3.bg-white2.p-5 .register-btn a {
+            color: black;
+            font-size: 18px;
+            font-weight: 600;
+            transition: .3s;
+        }
+
+        .col-md-6.offset-md-3.bg-white2.p-5 .register-btn a:hover {
+            color: #4c4d4c;
+        }
     </style>
 </head>
 
 <body>
 
-    <section class="main-box-navy2">
+    <section class="new-form login-form"
+        style="background-image: url({{ asset('./assets/images/new-register-bg.png') }})">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 offset-md-3 bg-white2 p-5">
-                    <h1 class="text-center pb-5">Register</h1>
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+                <div class="col-md-12">
+                    <div class="vertical-align-box">
+                        <div class="logo-box">
+                            <a href="{{ route('home') }}"><img src="{{ Storage::url($settings[0]->logo ?? '') }}"
+                                    alt=""></a>
                         </div>
-                    @endif
-                    <form action="{{ route('register.post') }}" method="POST">
-                        @csrf
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
-                                </div>
-                                <input type="text" class="form-control" name="name" id="name" 
-                                    placeholder="Name" aria-label="Name" aria-describedby="basic-addon1"
-                                    value="{{ old('name') }}" required>
-                            </div>
-                        </div>
-                    
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-envelope"></i></span>
-                                </div>
-                                <input type="email" class="form-control" name="email" id="email" 
-                                    placeholder="Email" aria-label="Email" aria-describedby="basic-addon1"
-                                    value="{{ old('email') }}" required>
-                            </div>
-                        </div>
-                    
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon3"><i class="fa fa-phone"></i></span>
-                                </div>
-                                <input type="text" class="form-control" name="phone" id="phone"
-                                    placeholder="Phone" aria-label="Phone" aria-describedby="basic-addon3"
-                                    value="{{ old('phone') }}">
-                            </div>
-                        </div>
-                    
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon4"><i class="fa fa-city"></i></span>
-                                </div>
-                                <input type="text" class="form-control" name="city" id="city"
-                                    placeholder="City" aria-label="City" aria-describedby="basic-addon4"
-                                    value="{{ old('city') }}">
-                            </div>
-                        </div>
-                    
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon5"><i class="fa fa-map-marker"></i></span>
-                                </div>
-                                <input type="text" class="form-control" name="address" id="address"
-                                    placeholder="Address" aria-label="Address" aria-describedby="basic-addon5"
-                                    value="{{ old('address') }}">
+                        <div class="form-box">
+                            <div class="text">
+                                <h2>Create A New <br> <span>Account</span> </h2>
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                                <form action="{{ route('register.post') }}" method="POST">
+                                    @csrf
+                                    <div class="single-input-box two-inputs-alin">
+                                        <input type="text" name="name" id="name" placeholder="Name *"
+                                            aria-label="Name" aria-describedby="basic-addon1"
+                                            value="{{ old('name') }}" required>
+                                        <input type="email" name="email" id="email"
+                                            placeholder="Email Address *" aria-label="Email"
+                                            aria-describedby="basic-addon1" value="{{ old('email') }}" required>
+                                    </div>
+                                    <div class="single-input-box two-inputs-alin">
+                                        <input type="tel" name="phone" id="phone" placeholder="Phone Number *"
+                                            aria-label="Phone" aria-describedby="basic-addon3"
+                                            value="{{ old('phone') }}">
+                                        <input type="text" name="city" id="city" placeholder="City *"
+                                            aria-label="City" aria-describedby="basic-addon4"
+                                            value="{{ old('city') }}">
+                                    </div>
+                                    <div class="single-input-box ">
+                                        <input type="text" placeholder="Address *" name="address" id="address"
+                                            aria-label="Address" aria-describedby="basic-addon5"
+                                            value="{{ old('address') }}">
+                                    </div>
+                                    <div class="single-input-box two-inputs-alin">
+                                        <input type="password" placeholder="Password *" name="password" id="password"
+                                            aria-label="Password" aria-describedby="basic-addon2" required>
+                                        <input type="password" placeholder="Confirm Password *"
+                                            name="password_confirmation" id="password_confirmation"
+                                            aria-label="Password Confirmation" aria-describedby="basic-addon3" required>
+
+                                    </div>
+                                    <div class="input-check-box">
+                                        <input type="checkbox" id="show-password" name="remember-me" onclick="togglePassword()">
+                                        <label for="show-password">See password</label>
+                                    </div>
+
+                                    <button type="submit">Register Now</button>
+
+                                </form>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-lock"></i></span>
-                                </div>
-                                <input type="password" class="form-control" name="password" id="password" 
-                                       placeholder="Password" aria-label="Password" aria-describedby="basic-addon2" required>
-                            </div>
+                        <div class="form-btm-content">
+                            <p> <a href="{{ route('login') }}">Back to Login</a></p>
                         </div>
-                        
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon3"><i class="fa fa-lock"></i></span>
-                                </div>
-                                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation"
-                                       placeholder="Confirm Password" aria-label="Password Confirmation" aria-describedby="basic-addon3" required>
-                            </div>
-                        </div>
-                    
-                        <div class="form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck1" name="remember">
-                                <label class="custom-control-label" for="customCheck1">Remember me</label>
-                            </div>
-                        </div>
-                    
-                        <div class="form-group text-center">
-                            <button type="submit" class="btn btn-success w-50">Login</button>
-                        </div>
-                    </form>                    
-
+                    </div>
                 </div>
             </div>
         </div>
+
     </section>
 
     <script src="{{ asset('./assets/js/wow-animate.js') }}"></script>
@@ -151,5 +139,24 @@
     <script src="{{ asset('./assets/js/custom.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js"></script>
+
+    <script>
+        function togglePassword() {
+            var passwordField = document.getElementById("password_confirmation");
+            var passwordField2 = document.getElementById("password");
+
+            var checkbox = document.getElementById("show-password");
+            
+            if (checkbox.checked) {
+                passwordField.type = "text";
+                passwordField2.type = "text";
+            } else {
+                passwordField.type = "password";
+                passwordField2.type = "password";
+            }
+        }
+    </script>
+
 </body>
+
 </html>
