@@ -100,10 +100,38 @@ header .header-nav ul li a:hover {
   justify-content: flex-end;
   align-items: center;
   column-gap: 40px;
+  position: relative;
+}
+
+.header-cart-search ul li.drop-dwon-menu {
+  position: relative;
+  width: 150px;
+}
+
+.header-cart-search ul li.drop-dwon-menu ul.drop-dwon-menu {
+  background-color: #ffffff;
+  position: absolute;
+  width: 100%;
+  right: 0;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  left: -55px;
+  border: 1px solid #2cc374;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px #00000014;
+  display: none;
+  z-index: 999;
+}
+
+.header-cart-search ul li.drop-dwon-menu:hover ul.drop-dwon-menu {
+  display: flex;
+  justify-content: center;
 }
 
 header {
   padding: 30px 0;
+  z-index: 99;
 }
 
 ul,
@@ -222,7 +250,7 @@ header .header-nav ul li a::after {
 .home-sec-02 .two-thing-aline {
   display: flex;
   align-items: center;
-  column-gap: 50px;
+  column-gap: 40px;
 }
 
 .home-sec-02 .two-thing-aline .video-btn-box a {
@@ -232,6 +260,29 @@ header .header-nav ul li a::after {
   font-size: 25px;
   color: #3A3A3A;
 }
+
+.home-sec-02 .two-thing-aline .video-btn-box button {
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+  font-size: 20px;
+  color: #3A3A3A;
+  background-color: rgba(255, 0, 0, 0);
+  padding: 0 !important;
+  border: none !important;
+}
+button:focus,button:focus-visible,button:hover,button:active{
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+  background-color: none !important;
+}
+
+.home-sec-02 .two-thing-aline .video-btn-box button img{
+  width: 40px;
+}
+
+
 
 .home-sec-02 .text p {
   font-size: 30px;
@@ -1328,6 +1379,14 @@ body{
   background: #fff;
   margin:0;
 }
+.header-cart-search ul li.drop-dwon-menu:hover ul.drop-dwon-menu a {
+  color: #3A3A3A;
+  font-weight: 600;
+  transition: .3s ;
+}
+.header-cart-search ul li.drop-dwon-menu:hover ul.drop-dwon-menu a:hover {
+  color:#2CC374;
+}
 ul li{
   list-style-type: none
 }
@@ -1543,6 +1602,16 @@ div.hamburger-box.active .bottom {
   color: black;
   margin: 5px 0;
   }
+  .home-sec-02 .two-thing-aline .btn-box a {
+    margin: 0;
+}
+
+.modal-body .video-box video {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+}
 
 
 
@@ -1564,7 +1633,7 @@ header .header-nav ul li a {
   font-size: 16px;
 }
 .hero-banner .hero-img img {
-  max-width: 550px;
+  max-width: 400px;
 }
 .text h1 br {
   display: none;
@@ -1579,9 +1648,9 @@ header .header-nav ul li a {
   margin: 20px 0px 20px 0px;
 }
 .t-btn {
-  padding: 10px 20px;
-  font-size: 20px;
-  margin-top: 25px;
+  padding: 8px 15px;
+  font-size: 15px;
+  margin-top: 10px;
 }
 .text h2 {
   font-size: 55px;
@@ -1609,11 +1678,11 @@ header .header-nav ul li a {
   font-size: 20px;
 }
 .home-sec-02 .two-thing-aline .video-btn-box a img {
-  max-width: 50px;
+  max-width: 40px;
 }
 .home-sec-02 .two-thing-aline {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   column-gap: 40px;
 }
 .text.text-center h2 {
@@ -1621,7 +1690,7 @@ header .header-nav ul li a {
   margin-bottom: 30px;
 }
 .text h3 {
-  font-size: 25px;
+  font-size: 20px;
 }
 .home-sec-06 .testi-img-box .person-comment p {
   font-size: 13px;
@@ -1775,7 +1844,7 @@ footer .row.footer-btm-line {
   margin-left: 30px;
 }
 .hero-banner {
-  height: 650px;
+  height: 500px;
   position: relative;
   display: flex;
   align-items: center;
@@ -1793,11 +1862,11 @@ footer .row.footer-btm-line {
     max-width: 350px;
 }
 .text h1 {
-  font-size: 60px;
+  font-size: 50px;
   max-width: 500px;
 }
 .hero-banner .text p {
-  font-size: 25px;
+  font-size: 20px;
   max-width: 450px;
   margin: 15px 0px;
 }
@@ -1817,11 +1886,11 @@ footer .row.footer-btm-line {
   margin: 15px 0;
 }
 .text h2 {
-  font-size: 40px;
+  font-size: 35px;
 }
 .text.text-center h2 {
-  font-size: 40px;
-  margin-bottom: 25px;
+  font-size: 30px;
+  margin-bottom: 20px;
 }
 .home-sec-06 .testi-img-box .person-comment p {
   font-size: 13px;
@@ -2399,7 +2468,7 @@ font-size: 14px;
 margin-top: 10px;
 }
 .hero-banner {
-height: 35vh;
+  height: 40vh;
 }
 .text h2 {
 font-size: 25px;
@@ -2567,6 +2636,10 @@ height: 40px;
 
 .slide-container {
   top: -5px;
+}
+
+.hero-banner .text {
+  padding-top: 50px;
 }
 
 }

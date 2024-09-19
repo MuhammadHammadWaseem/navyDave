@@ -89,11 +89,19 @@
                                 <a href="{{ route('about') }}" class="t-btn">Learn More</a>
                             </div>
                             <div class="video-btn-box">
-                                <a href="#">
+
+                                {{-- <a href="#">
                                     <img src="assets/images/video-icon.png" alt="">
                                     Video Presentation
-                                </a>
+                                </a> --}}
+
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    <img src="assets/images/video-icon.png" alt="">  Video Presentation
+                                  </button>
+
                             </div>
+
+
 
                         </div>
                     </div>

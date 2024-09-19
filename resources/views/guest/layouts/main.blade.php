@@ -53,12 +53,17 @@
                 <div class="col-lg-2 disple-none-mb">
                     <div class="header-cart-search">
                         <ul>
-                            <li><a href="#"><img src="{{ asset('./assets/images/shopping-cart.png') }}"
+                            {{-- <li><a href="#"><img src="{{ asset('./assets/images/shopping-cart.png') }}"
                                         alt=""></a></li>
                             <li><a href="#"><img src="{{ asset('./assets/images/search-icon.png') }}"
-                                        alt=""></a></li>
-                            <li><a href="#"><img src="{{ asset('./assets/images/person-user.png') }}"
-                                        alt=""></a></li>
+                                        alt=""></a></li> --}}
+                            <li class="drop-dwon-menu"><a href="#"><img src="{{ asset('./assets/images/person-user.png') }}"
+                                        alt=""></a>
+                                    <ul class="drop-dwon-menu">
+                                        <li><a href="#">login</a></li>
+                                        <li><a href="#">sign up</a></li>
+                                    </ul>
+                                    </li>
                         </ul>
                     </div>
                 </div>
@@ -165,6 +170,34 @@
             </div>
         </div>
     </footer>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Video Presentation</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="video-box">
+                <video poster="assets/images/video-poster.png" controls="">
+                    <source src="assets/images/main-video.mp4" type="video/mp4">
+                    <source src="assets/images/main-video.mp4" type="video/ogg">
+                </video>
+            </div>
+        </div>
+        {{-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div> --}}
+      </div>
+    </div>
+  </div>
 
 
 
