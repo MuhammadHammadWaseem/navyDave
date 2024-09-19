@@ -196,9 +196,14 @@ class GuestController extends Controller
             $appointment = Appointment::with('slot', 'staff.user', 'service')->first();
 
             // Send email
+            Mail::send([], [], function ($message) use ($appointment) {
+                $message->to('hw13604@gmail.com')
+                    ->subject('Appointment Created')
+                    ->html('<h1>Appointment Details</h1><p>Here are the details of your appointment:</p><p>Date: ' . $appointment->date . '</p>');
+            });
             // SendMail::dispatch("hw13604@gmail.com", $appointment, 'user');
-            Mail::to("hw13604@gmail.com")->send(new AppointmentCreated($appointment, "user"));
 
+            // Commit the transaction
             DB::commit();
             return response()->json(['success' => true, 'message' => 'Appointment created successfully', 'data' => $appointment]);
 
