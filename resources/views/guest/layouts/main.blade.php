@@ -161,9 +161,26 @@
                         <h6>Subscribe</h6>
                     </div>
                     <div class="footer-email-submit">
-                        <form action="">
-                            <input type="email" placeholder="Get product updates" required>
-                            <button><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                        @if (Session::has('success'))
+                            <div class="alert alert-success">
+                                {{ Session::get('success') }}
+                            </div>
+                        @endif
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        <form action="{{ route('user.subscribe') }}" method="POST">
+                            @csrf
+                            <input type="email" placeholder="Get product updates" name="email" id="email" required>
+                            <button type="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                         </form>
                     </div>
                     <div class="links-email-number">
@@ -222,10 +239,6 @@
                         </video>
                     </div>
                 </div>
-                {{-- <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div> --}}
             </div>
         </div>
     </div>

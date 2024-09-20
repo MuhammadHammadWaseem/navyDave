@@ -114,7 +114,8 @@
 
                                     </div>
                                     <div class="input-check-box">
-                                        <input type="checkbox" id="show-password" name="remember-me" onclick="togglePassword()">
+                                        <input type="checkbox" id="show-password" name="remember-me"
+                                            onclick="togglePassword()">
                                         <label for="show-password">See password</label>
                                     </div>
 
@@ -146,7 +147,7 @@
             var passwordField2 = document.getElementById("password");
 
             var checkbox = document.getElementById("show-password");
-            
+
             if (checkbox.checked) {
                 passwordField.type = "text";
                 passwordField2.type = "text";

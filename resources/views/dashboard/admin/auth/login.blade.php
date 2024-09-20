@@ -38,22 +38,23 @@
             backdrop-filter: blur(16px);
             border: #ccc 1px solid;
         }
+
         .col-md-6.offset-md-3.bg-white2.p-5 .register-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.col-md-6.offset-md-3.bg-white2.p-5 .register-btn a {
-    color: black;
-    font-size: 18px;
-    font-weight: 600;
-    transition: .3s;
-}
+        .col-md-6.offset-md-3.bg-white2.p-5 .register-btn a {
+            color: black;
+            font-size: 18px;
+            font-weight: 600;
+            transition: .3s;
+        }
 
-.col-md-6.offset-md-3.bg-white2.p-5 .register-btn a:hover {
-    color: #4c4d4c;
-}
+        .col-md-6.offset-md-3.bg-white2.p-5 .register-btn a:hover {
+            color: #4c4d4c;
+        }
     </style>
 </head>
 
@@ -61,51 +62,53 @@
 
     <section class="new-form login-form" style="background-image: url({{ asset('./assets/images/new-login-bg.png') }})">
         <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="vertical-align-box">
-                    <div class="logo-box">
-                        <a href="{{ route('home') }}"><img src="{{ Storage::url($settings[0]->logo ?? '') }}"
-                            alt=""></a>    
-                    </div> 
-                    <div class="form-box">
-                        <div class="text">
-                            <h2> <span>Login</span>To Your<br> Account </h2>
-                            @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="vertical-align-box">
+                        <div class="logo-box">
+                            <a href="{{ route('home') }}"><img src="{{ Storage::url($settings[0]->logo ?? '') }}"
+                                    alt=""></a>
                         </div>
-                    @endif
-                            <form action="{{ route('login.post') }}" method="POST">
-                                @csrf
-                                <div class="single-input-box">
-                                    <input type="text" name="email" placeholder="Username *" aria-label="Email" aria-describedby="basic-addon1" required> 
-                                </div>
-                                <div class="single-input-box">
-                                    <input type="text" name="password" placeholder="Password * " aria-label="Password" aria-describedby="basic-addon2" required>
-                                </div>
-                                <div class="input-check-box">
-                                    <input type="checkbox" name="remeber-me">
-                                    <label for="remeber-me">Remeber Me</label>
-                                </div>
+                        <div class="form-box">
+                            <div class="text">
+                                <h2> <span>Login</span>To Your<br> Account </h2>
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                                <form action="{{ route('login.post') }}" method="POST">
+                                    @csrf
+                                    <div class="single-input-box">
+                                        <input type="text" name="email" placeholder="Username *" aria-label="Email"
+                                            aria-describedby="basic-addon1" required>
+                                    </div>
+                                    <div class="single-input-box">
+                                        <input type="text" name="password" placeholder="Password * "
+                                            aria-label="Password" aria-describedby="basic-addon2" required>
+                                    </div>
+                                    <div class="input-check-box">
+                                        <input type="checkbox" name="remeber-me">
+                                        <label for="remeber-me">Remeber Me</label>
+                                    </div>
 
-                                <button type="submit">Login</button>
-                        
-                            </form>    
-                        </div>    
-                    </div>   
+                                    <button type="submit">Login</button>
 
-                    <div class="form-btm-content">
-                        <p>Don’t have an account! <a href="{{ route('register') }}">Create One</a></p>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="form-btm-content">
+                            <p>Don’t have an account! <a href="{{ route('register') }}">Create One</a></p>
+                        </div>
                     </div>
-                </div>    
-            </div>    
-        </div>    
-        </div> 
+                </div>
+            </div>
+        </div>
 
     </section>
 
@@ -115,4 +118,5 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js"></script>
 </body>
+
 </html>

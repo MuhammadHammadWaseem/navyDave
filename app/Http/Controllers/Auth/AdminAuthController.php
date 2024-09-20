@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Subscriber;
 
 class AdminAuthController extends Controller
 {
@@ -149,6 +150,12 @@ class AdminAuthController extends Controller
         ]);
         // Redirect back with a success message
         return redirect()->route('admin.profile')->with('success', 'Profile updated successfully.');
+    }
+
+    public function subscribers()
+    {
+        $subscribers = Subscriber::all();
+        return view('dashboard.admin.subscribers.index', compact('subscribers'));
     }
 
 

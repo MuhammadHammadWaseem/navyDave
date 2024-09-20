@@ -133,9 +133,6 @@
                                 <li><a href="{{ route('admin.appointment') }}" class="appointment-active"><span><img
                                                 src="{{ asset('./assets/images/appointment.png') }}"
                                                 alt=""></span>Appointments</a></li>
-                                <li><a href="{{ route('admin.blog') }}" class="blog-active"><span><img
-                                                src="{{ asset('./assets/images/blog.png') }}"
-                                                alt=""></span>Blogs</a></li>
                                 <li><a href="{{ route('admin.payment') }}" class="payment-active"><span><img
                                                 src="{{ asset('./assets/images/Payments.png') }}"
                                                 alt=""></span>Payments</a></li>
@@ -149,16 +146,18 @@
                                 <li><a href="{{ route('admin.slot') }}" class="slots-active"><span><img
                                                 src="{{ asset('./assets/images/appointment-slot.png') }}"
                                                 alt=""></span>Appointment Slots</a></li>
-
-                                {{-- <li><a href="{{ route('admin.customer') }}" class="customer-active"><span><img
-                                                src="{{ asset('./assets/images/Customers.png') }}"
-                                                alt=""></span>Customers</a></li> --}}
                                 <li><a href="{{ route('admin.staff') }}" class="staff-active"><span><img
                                                 src="{{ asset('./assets/images/staff.png') }}"
                                                 alt=""></span>Staff Members</a></li>
                                 <li><a href="{{ route('admin.community') }}" class="community-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>Community</a></li>
+                                <li><a href="{{ route('admin.blog') }}" class="blog-active"><span><img
+                                                src="{{ asset('./assets/images/blog.png') }}"
+                                                alt=""></span>Blogs</a></li>
+                                <li><a href="{{ route('admin.subscribers') }}" class="subscribers-active"><span><img
+                                                src="{{ asset('./assets/images/blog.png') }}"
+                                                alt=""></span>Subscribers</a></li>
                                 <li><a href="{{ route('admin.setting') }}" class="setting-active"><span><img
                                                 src="{{ asset('./assets/images/setting.png') }}"
                                                 alt=""></span>Setting</a></li>

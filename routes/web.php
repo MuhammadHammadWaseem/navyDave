@@ -40,6 +40,9 @@ use App\Http\Controllers\Auth\StaffAuthController;
     Route::post('/comment/{id}/delete', [CommunityController::class, 'deleteComment'])->name('comment.delete');
     Route::post('/like/{post}', [CommunityController::class,'like'])->name('post.like');
 
+    // User Subscribe
+    Route::post('subscribe', [UserAuthController::class, 'subscribe'])->name('user.subscribe');
+
 
 
 // Guest Route
@@ -141,6 +144,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('setting/show', [SettingController::class, 'show'])->name('setting.show');
         Route::get('setting/edit/{id}', [SettingController::class, 'edit'])->name('setting.edit');
         Route::post('setting/update/{id}', [SettingController::class, 'update'])->name('setting.update');
+
+        // Subscription
+        Route::get('subscribers', [AdminAuthController::class, 'subscribers'])->name('subscribers');
     });
 });
 
