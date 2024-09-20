@@ -1772,7 +1772,10 @@
     margin-top: 20px;
 }
 
-
+button.btn.btn-primary:active {
+    background-color: #ff000000 !important;
+    color: black !important;
+}
 
   /* mobile-menu-css-end */
 
