@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" />
+
 </head>
 
 <body>
@@ -169,7 +171,7 @@
                         <h6>Subscribe</h6>
                     </div>
                     <div class="footer-email-submit">
-                        @if (Session::has('success'))
+                        {{-- @if (Session::has('success'))
                             <div class="alert alert-success">
                                 {{ Session::get('success') }}
                             </div>
@@ -183,7 +185,7 @@
                                     @endforeach
                                 </ul>
                             </div>
-                        @endif
+                        @endif --}}
 
                         <form action="{{ route('user.subscribe') }}" method="POST">
                             @csrf
@@ -255,6 +257,7 @@
 
 
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
     <script src="{{ asset('./assets/js/wow-animate.js') }}"></script>
     <script src="{{ asset('./assets/js/lib.js') }}"></script>
     <script src="{{ asset('./assets/js/custom.js') }}"></script>

@@ -216,9 +216,9 @@ class GuestController extends Controller
             'appointment_date' => 'required|date',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'nullable|email|max:255',
-            'phone' => 'nullable|string',
-            'location' => 'nullable|string|max:255',
+            'email' => 'required|nullable|email|max:255',
+            'phone' => 'required|nullable|string',
+            'location' => 'required|nullable|string|max:255',
             'note' => 'nullable|string',
             'user_id' => 'nullable',
         ]);
@@ -267,7 +267,8 @@ class GuestController extends Controller
             // Commit the transaction
             DB::commit();
             // return redirect()->away($checkoutSession->url);
-            return redirect($checkoutSession->url);
+            // return redirect($checkoutSession->url);
+            return response()->json(['success' => true, 'message' => 'Payment successful', 'data' => $checkoutSession->url]);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['success' => false, 'message' => 'Failed to create appointment', 'error' => $e->getMessage()], 500);

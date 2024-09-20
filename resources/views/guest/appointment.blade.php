@@ -7,79 +7,79 @@
     .tab {
         display: none;
     }
+
     .when-user-logout {
-    background-color: #ffffff;
-    position: relative;
-}
+        background-color: #ffffff;
+        position: relative;
+    }
 
-.when-user-logout::before {
-    content: "";
-    width: 100%;
-    height: 100%;
-    background-color: #0080006b;
-    position: absolute;
-    top: 0;
-    filter: blur(50px);
-    opacity: 50%;
-    z-index: 99;
-}
+    .when-user-logout::before {
+        content: "";
+        width: 100%;
+        height: 100%;
+        background-color: #0080006b;
+        position: absolute;
+        top: 0;
+        filter: blur(50px);
+        opacity: 50%;
+        z-index: 99;
+    }
 
-.when-user-logout::after {
-    content: "Please Login First";
-    font-size: 40px;
-    font-weight: 600;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    text-align: center;
-    color: black;
-    z-index: 9999;
-    -ms-transform: translateY(-50%);
-    transform: translateY(70%);
-    width: 100%;
-    height: 50%;
-}
+    .when-user-logout::after {
+        content: "Please Login First";
+        font-size: 40px;
+        font-weight: 600;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        text-align: center;
+        color: black;
+        z-index: 9999;
+        -ms-transform: translateY(-50%);
+        transform: translateY(70%);
+        width: 100%;
+        height: 50%;
+    }
 
-.when-user-logout ul.nav.nav-tabs {
-    filter: blur(5px);
-}
+    .when-user-logout ul.nav.nav-tabs {
+        filter: blur(5px);
+    }
 
 
-.when-user-logout  .tab-content {
-    filter: blur(5px);
-}
+    .when-user-logout .tab-content {
+        filter: blur(5px);
+    }
 
-.when-user-logout a {
-    background-color: #3A3A3A;
-    color: white;
-    display: inline-flex;
-    /* padding: 15px 30px; */
-    transition: .3s;
-    font-size: 30px;
-    margin-top: 40px;
-    transform: translateY(550%);
-    position: absolute;
-    z-index: 999999999;
-    top: 0;
-    right: 0;
-    margin: auto;
-    text-align: center;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 15%;
-    cursor: pointer;
-    height: 75px;
-}
+    .when-user-logout a {
+        background-color: #3A3A3A;
+        color: white;
+        display: inline-flex;
+        /* padding: 15px 30px; */
+        transition: .3s;
+        font-size: 30px;
+        margin-top: 40px;
+        transform: translateY(550%);
+        position: absolute;
+        z-index: 999999999;
+        top: 0;
+        right: 0;
+        margin: auto;
+        text-align: center;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 15%;
+        cursor: pointer;
+        height: 75px;
+    }
 
-.when-user-logout a:hover {
-    background-color: green;
-    color: white
-}
-
+    .when-user-logout a:hover {
+        background-color: green;
+        color: white
+    }
 </style>
 @section('content')
     @if (Session::has('success'))
@@ -194,556 +194,571 @@
                             <div class="text">
                                 <h3>Category</h3>
                                 @guest
-                                <div class="when-user-logout">
-                                    <a href="{{ route('login') }}">Login</a>
-                                    @endif
+                                    <div class="when-user-logout">
+                                        <a href="{{ route('login') }}">Login</a>
+                                        @endif
 
-                                    <ul class="nav nav-tabs" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" onclick="getServices(0)" data-toggle="tab"
-                                            role="tab">All </a>
-                                    </li>
-                                    @foreach ($categories as $c)
-                                        <li class="nav-item">
-                                            <a class="nav-link" onclick="getServices({{ $c->id }})" data-toggle="tab"
-                                                role="tab">{{ $c->name }}</a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                <div class="tab-content">
-                                    <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                        <div class="main-check-box-click">
-                                            <div id="services-box">
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" onclick="getServices(0)" data-toggle="tab"
+                                                    role="tab">All </a>
+                                            </li>
+                                            @foreach ($categories as $c)
+                                                <li class="nav-item">
+                                                    <a class="nav-link" onclick="getServices({{ $c->id }})"
+                                                        data-toggle="tab" role="tab">{{ $c->name }}</a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                                <div class="main-check-box-click">
+                                                    <div id="services-box">
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="tabs-2" role="tabpanel">
-                                        <div class="main-check-box-click">
-                                            <div class="input-radio-box">
-                                                <input type="radio" id="html" name="fav_language" value="HTML"
-                                                    checked>
-                                                <label for="html">
-                                                    <div class="main-label-content">
-                                                        <div class="img-box">
-                                                            <img src="assets/images/input-radio-img.jpg" alt="">
-                                                        </div>
-                                                        <div class="content">
-                                                            <h4>Golf Coaching Session</h4>
-                                                            <p>Duration <b>: 2 Hours</b> </p>
-                                                        </div>
                                                     </div>
-                                                </label>
-                                            </div>
-                                            <div class="input-radio-box">
-                                                <input type="radio" id="html-01" name="fav_language" value="HTML-01">
-                                                <label for="html-01">
-                                                    <div class="main-label-content">
-                                                        <div class="img-box">
-                                                            <img src="assets/images/input-radio-img.jpg" alt="">
-                                                        </div>
-                                                        <div class="content">
-                                                            <h4>Golf Coaching Session</h4>
-                                                            <p>Duration <b>: 2 Hours</b> </p>
-                                                        </div>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                            <div class="input-radio-box">
-                                                <input type="radio" id="html-01" name="fav_language"
-                                                    value="HTML-01">
-                                                <label for="html-01">
-                                                    <div class="main-label-content">
-                                                        <div class="img-box">
-                                                            <img src="assets/images/input-radio-img.jpg" alt="">
-                                                        </div>
-                                                        <div class="content">
-                                                            <h4>Golf Coaching Session</h4>
-                                                            <p>Duration <b>: 2 Hours</b> </p>
-                                                        </div>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="tabs-3" role="tabpanel">
-                                        <div class="main-check-box-click">
-                                            <div class="input-radio-box">
-                                                <input type="radio" id="html" name="fav_language" value="HTML"
-                                                    checked>
-                                                <label for="html">
-                                                    <div class="main-label-content">
-                                                        <div class="img-box">
-                                                            <img src="assets/images/input-radio-img.jpg" alt="">
-                                                        </div>
-                                                        <div class="content">
-                                                            <h4>Golf Coaching Session</h4>
-                                                            <p>Duration <b>: 2 Hours</b> </p>
-                                                        </div>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                            <div class="input-radio-box">
-                                                <input type="radio" id="html-01" name="fav_language"
-                                                    value="HTML-01">
-                                                <label for="html-01">
-                                                    <div class="main-label-content">
-                                                        <div class="img-box">
-                                                            <img src="assets/images/input-radio-img.jpg" alt="">
-                                                        </div>
-                                                        <div class="content">
-                                                            <h4>Golf Coaching Session</h4>
-                                                            <p>Duration <b>: 2 Hours</b> </p>
-                                                        </div>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                            <div class="input-radio-box">
-                                                <input type="radio" id="html-01" name="fav_language"
-                                                    value="HTML-01">
-                                                <label for="html-01">
-                                                    <div class="main-label-content">
-                                                        <div class="img-box">
-                                                            <img src="assets/images/input-radio-img.jpg" alt="">
-                                                        </div>
-                                                        <div class="content">
-                                                            <h4>Golf Coaching Session</h4>
-                                                            <p>Duration <b>: 2 Hours</b> </p>
-                                                        </div>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="tabs-4" role="tabpanel">
-                                        <div class="main-check-box-click">
-                                            <div class="input-radio-box">
-                                                <input type="radio" id="html" name="fav_language" value="HTML"
-                                                    checked>
-                                                <label for="html">
-                                                    <div class="main-label-content">
-                                                        <div class="img-box">
-                                                            <img src="assets/images/input-radio-img.jpg" alt="">
-                                                        </div>
-                                                        <div class="content">
-                                                            <h4>Golf Coaching Session</h4>
-                                                            <p>Duration <b>: 2 Hours</b> </p>
-                                                        </div>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                            <div class="input-radio-box">
-                                                <input type="radio" id="html-01" name="fav_language"
-                                                    value="HTML-01">
-                                                <label for="html-01">
-                                                    <div class="main-label-content">
-                                                        <div class="img-box">
-                                                            <img src="assets/images/input-radio-img.jpg" alt="">
-                                                        </div>
-                                                        <div class="content">
-                                                            <h4>Golf Coaching Session</h4>
-                                                            <p>Duration <b>: 2 Hours</b> </p>
-                                                        </div>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                            <div class="input-radio-box">
-                                                <input type="radio" id="html-01" name="fav_language"
-                                                    value="HTML-01">
-                                                <label for="html-01">
-                                                    <div class="main-label-content">
-                                                        <div class="img-box">
-                                                            <img src="assets/images/input-radio-img.jpg" alt="">
-                                                        </div>
-                                                        <div class="content">
-                                                            <h4>Golf Coaching Session</h4>
-                                                            <p>Duration <b>: 2 Hours</b> </p>
-                                                        </div>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                @guest
-                            </div>
-                            @endif
-
-                            </div>
-                        </div>
-                        <div class="tab d-none">
-                            <div class="text">
-                                <h3>Staff Members</h3>
-                            </div>
-                            <div class="main-check-box-click">
-                                <div id="staff-box">
-                                    <div class="input-radio-box">
-                                        <label>
-                                            <div class="main-label-content">
-                                                <div class="content p-3">
-                                                    <h4>No Staff Found</h4>
                                                 </div>
                                             </div>
-                                        </label>
+                                            <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                                <div class="main-check-box-click">
+                                                    <div class="input-radio-box">
+                                                        <input type="radio" id="html" name="fav_language" value="HTML"
+                                                            checked>
+                                                        <label for="html">
+                                                            <div class="main-label-content">
+                                                                <div class="img-box">
+                                                                    <img src="assets/images/input-radio-img.jpg" alt="">
+                                                                </div>
+                                                                <div class="content">
+                                                                    <h4>Golf Coaching Session</h4>
+                                                                    <p>Duration <b>: 2 Hours</b> </p>
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                    <div class="input-radio-box">
+                                                        <input type="radio" id="html-01" name="fav_language"
+                                                            value="HTML-01">
+                                                        <label for="html-01">
+                                                            <div class="main-label-content">
+                                                                <div class="img-box">
+                                                                    <img src="assets/images/input-radio-img.jpg"
+                                                                        alt="">
+                                                                </div>
+                                                                <div class="content">
+                                                                    <h4>Golf Coaching Session</h4>
+                                                                    <p>Duration <b>: 2 Hours</b> </p>
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                    <div class="input-radio-box">
+                                                        <input type="radio" id="html-01" name="fav_language"
+                                                            value="HTML-01">
+                                                        <label for="html-01">
+                                                            <div class="main-label-content">
+                                                                <div class="img-box">
+                                                                    <img src="assets/images/input-radio-img.jpg"
+                                                                        alt="">
+                                                                </div>
+                                                                <div class="content">
+                                                                    <h4>Golf Coaching Session</h4>
+                                                                    <p>Duration <b>: 2 Hours</b> </p>
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                                <div class="main-check-box-click">
+                                                    <div class="input-radio-box">
+                                                        <input type="radio" id="html" name="fav_language"
+                                                            value="HTML" checked>
+                                                        <label for="html">
+                                                            <div class="main-label-content">
+                                                                <div class="img-box">
+                                                                    <img src="assets/images/input-radio-img.jpg"
+                                                                        alt="">
+                                                                </div>
+                                                                <div class="content">
+                                                                    <h4>Golf Coaching Session</h4>
+                                                                    <p>Duration <b>: 2 Hours</b> </p>
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                    <div class="input-radio-box">
+                                                        <input type="radio" id="html-01" name="fav_language"
+                                                            value="HTML-01">
+                                                        <label for="html-01">
+                                                            <div class="main-label-content">
+                                                                <div class="img-box">
+                                                                    <img src="assets/images/input-radio-img.jpg"
+                                                                        alt="">
+                                                                </div>
+                                                                <div class="content">
+                                                                    <h4>Golf Coaching Session</h4>
+                                                                    <p>Duration <b>: 2 Hours</b> </p>
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                    <div class="input-radio-box">
+                                                        <input type="radio" id="html-01" name="fav_language"
+                                                            value="HTML-01">
+                                                        <label for="html-01">
+                                                            <div class="main-label-content">
+                                                                <div class="img-box">
+                                                                    <img src="assets/images/input-radio-img.jpg"
+                                                                        alt="">
+                                                                </div>
+                                                                <div class="content">
+                                                                    <h4>Golf Coaching Session</h4>
+                                                                    <p>Duration <b>: 2 Hours</b> </p>
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tabs-4" role="tabpanel">
+                                                <div class="main-check-box-click">
+                                                    <div class="input-radio-box">
+                                                        <input type="radio" id="html" name="fav_language"
+                                                            value="HTML" checked>
+                                                        <label for="html">
+                                                            <div class="main-label-content">
+                                                                <div class="img-box">
+                                                                    <img src="assets/images/input-radio-img.jpg"
+                                                                        alt="">
+                                                                </div>
+                                                                <div class="content">
+                                                                    <h4>Golf Coaching Session</h4>
+                                                                    <p>Duration <b>: 2 Hours</b> </p>
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                    <div class="input-radio-box">
+                                                        <input type="radio" id="html-01" name="fav_language"
+                                                            value="HTML-01">
+                                                        <label for="html-01">
+                                                            <div class="main-label-content">
+                                                                <div class="img-box">
+                                                                    <img src="assets/images/input-radio-img.jpg"
+                                                                        alt="">
+                                                                </div>
+                                                                <div class="content">
+                                                                    <h4>Golf Coaching Session</h4>
+                                                                    <p>Duration <b>: 2 Hours</b> </p>
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                    <div class="input-radio-box">
+                                                        <input type="radio" id="html-01" name="fav_language"
+                                                            value="HTML-01">
+                                                        <label for="html-01">
+                                                            <div class="main-label-content">
+                                                                <div class="img-box">
+                                                                    <img src="assets/images/input-radio-img.jpg"
+                                                                        alt="">
+                                                                </div>
+                                                                <div class="content">
+                                                                    <h4>Golf Coaching Session</h4>
+                                                                    <p>Duration <b>: 2 Hours</b> </p>
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @guest
+                                        </div>
+                                        @endif
+
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="tab d-none">
-                            <div class="text">
-                                <h3>Available Date & Time</h3>
-                            </div>
-                            <div class="two-appointment-box-align">
-                                <div class="input-date-box">
-                                    <input type="date" onchange="getSlotsForDate(this.value)" name="appointment_date"
-                                        id="appointment_date" placeholder="Your Date" min="{{ date('Y-m-d') }}">
-                                </div>
-                                <div class="main-check-box-click main-check-box-click-time">
+                                <div class="tab d-none">
                                     <div class="text">
-                                        <h6>Available Time Slots</h6>
+                                        <h3>Staff Members</h3>
                                     </div>
-                                    <div id="slots-box">
-
+                                    <div class="main-check-box-click">
+                                        <div id="staff-box">
+                                            <div class="input-radio-box">
+                                                <label>
+                                                    <div class="main-label-content">
+                                                        <div class="content p-3">
+                                                            <h4>No Staff Found</h4>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="tab d-none">
-                            <div class="text">
-                                <h3>Basic Details</h3>
-                            </div>
-                            <div class="appointment-form-box">
-                                <div class="two-input-align">
-                                    @if (auth()->check() && auth()->user()->hasRole('user'))
-                                    <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
-                                    @else
-                                    <input type="hidden" name="user_id" id="user_id" value="0">
-                                    @endif
-                                    <label for="first_name">Input with value</label>
-                                    <input type="text" placeholder="First Name *" name="first_name" id="first_name"
-                                        required>
-                                        <label for="first_name">Input with value</label>
-                                    <input type="text" placeholder="Last Name *" name="last_name" id="last_name"
-                                        required>
+                                <div class="tab d-none">
+                                    <div class="text">
+                                        <h3>Available Date & Time</h3>
+                                    </div>
+                                    <div class="two-appointment-box-align">
+                                        <div class="input-date-box">
+                                            <input type="date" onchange="getSlotsForDate(this.value)" name="appointment_date"
+                                                id="appointment_date" placeholder="Your Date" min="{{ date('Y-m-d') }}">
+                                        </div>
+                                        <div class="main-check-box-click main-check-box-click-time">
+                                            <div class="text">
+                                                <h6>Available Time Slots</h6>
+                                            </div>
+                                            <div id="slots-box">
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="two-input-align">
-                                    <input type="email" placeholder="Email Address *" name="email" id="email"
-                                        required>
-                                    <input type="tel" placeholder="Phone Number *" name="phone" id="phone"
-                                        required>
+                                <div class="tab d-none">
+                                    <div class="text">
+                                        <h3>Basic Details</h3>
+                                    </div>
+                                    <div class="appointment-form-box">
+                                        <div class="two-input-align">
+                                            @if (auth()->check() && auth()->user()->hasRole('user'))
+                                                <input type="hidden" name="user_id" id="user_id"
+                                                    value="{{ auth()->user()->id }}">
+                                            @else
+                                                <input type="hidden" name="user_id" id="user_id" value="0">
+                                            @endif
+                                            <label for="first_name">First Name</label>
+                                            <input type="text" placeholder="First Name *" name="first_name"
+                                                value="{{ auth()->check() ? auth()->user()->name : '' }}" id="first_name">
+                                            <label for="last_name">Last Name</label>
+                                            <input type="text" placeholder="Last Name *" name="last_name" id="last_name">
+                                        </div>
+                                        <div class="two-input-align">
+                                            <label for="email">Email</label>
+                                            <input type="email" placeholder="Email Address *" name="email"
+                                                value="{{ auth()->check() ? auth()->user()->email : '' }}" id="email">
+                                            <label for="phone">Phone</label>
+                                            <input type="tel" placeholder="Phone Number *" name="phone"
+                                                value="{{ auth()->check() ? auth()->user()->phone : '' }}" id="phone">
+                                        </div>
+                                        <div class="signle-input-box">
+                                            <label for="location">Location</label>
+                                            <select name="location" id="location">
+                                                <option selected value="{{ $settings[0]->location ?? '-' }}">
+                                                    {{ $settings[0]->location ?? '-' }}</option>
+                                            </select>
+                                        </div>
+                                        <div class="signle-input-box">
+                                            <label for="note">Note</label>
+                                            <textarea placeholder="Note" name="note" id="note"></textarea>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="signle-input-box">
-                                    <select name="location" id="location">
-                                        <option selected value="{{ $settings[0]->location ?? '-' }}">{{ $settings[0]->location ?? '-' }}</option>
-                                    </select>
+
+
+                                <div class="d-none" id="submitted-box">
+                                    <div class="text">
+                                        <img src="assets/images/single-check.png" alt="">
+                                        <h3>Appointment Booked</h3>
+                                    </div>
+                                    <div class="appointment-booked-details">
+                                        <ul>
+                                            <li>Staff Member : Navy Dave ( Instructor ) </li>
+                                            <li>Date & Time : 20 June 2024 in 09 : 00 AM - 11 : 00 AM</li>
+                                            <li>Name : First_Name+Last_Name</li>
+                                            <li>Email Address : someone@example.com</li>
+                                            <li>Phone Number : (XX) XXX XXXXXXX</li>
+                                            <li>Location : Somewhere</li>
+                                            <li>Price : $0.00</li>
+                                            <li>Note : If Any</li>
+                                        </ul>
+                                    </div>
+                                    <button class="t-btn" id="goBackBtn">Go Back</button>
                                 </div>
-                                <div class="signle-input-box">
-                                    <textarea placeholder="Note" name="note" id="note"></textarea>
+                                <div class="d-none" id="error-box">
+                                    <div class="text">
+                                        <img src="assets/images/warning.png" alt="">
+                                        <h3>Error</h3>
+                                    </div>
+                                    <div class="appointment-booked-details">
+                                        <ul id="errorList">
+                                            <!-- Validation errors will be listed here -->
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                                <div class="d-none" id="loadingTab">
+                                    <div class="appointment-booked-details">
+                                        <p>Loading.....</p>
+                                    </div>
+                                </div>
+
+                                @auth
+                                    <div class="two-btns-align">
+                                        <a href="#appointment" id="prevBtn" onclick="nextPrev(-1)" class="t-btn t-btn-gray"> Go
+                                            Back</a>
+                                        <a href="#appointment" id="nextBtn" onclick="nextPrev(1)" class="t-btn"> Save &
+                                            Continue</a>
+                                    </div>
+                                @endauth
 
 
-                        <div class="d-none" id="submitted-box">
-                            <div class="text">
-                                <img src="assets/images/single-check.png" alt="">
-                                <h3>Appointment Booked</h3>
-                            </div>
-                            <div class="appointment-booked-details">
-                                <ul>
-                                    <li>Staff Member : Navy Dave ( Instructor ) </li>
-                                    <li>Date & Time : 20 June 2024 in 09 : 00 AM - 11 : 00 AM</li>
-                                    <li>Name : First_Name+Last_Name</li>
-                                    <li>Email Address : someone@example.com</li>
-                                    <li>Phone Number : (XX) XXX XXXXXXX</li>
-                                    <li>Location : Somewhere</li>
-                                    <li>Price : $0.00</li>
-                                    <li>Note : If Any</li>
-                                </ul>
-                            </div>
-                            <button class="t-btn" id="goBackBtn">Go Back</button>
-                        </div>
-                        <div class="d-none" id="error-box">
-                            <div class="text">
-                                <img src="assets/images/warning.png" alt="">
-                                <h3>Error</h3>
-                            </div>
-                            <div class="appointment-booked-details">
-                                <ul id="errorList">
-                                    <!-- Validation errors will be listed here -->
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="d-none" id="loadingTab">
-                            <div class="appointment-booked-details">
-                                <p>Loading.....</p>
-                            </div>
+                                <div style="text-align:center;margin-top:40px;">
+                                    <div class="step"></div>
+                                    <div class="step"></div>
+                                    <div class="step"></div>
+                                    <div class="step"></div>
+                                </div>
+                            </form>
+
                         </div>
 
-                        @auth
-                        <div class="two-btns-align">
-                            <a href="#appointment" id="prevBtn" onclick="nextPrev(-1)" class="t-btn t-btn-gray"> Go
-                                Back</a>
-                            <a href="#appointment" id="nextBtn" onclick="nextPrev(1)" class="t-btn"> Save &
-                                Continue</a>
-                        </div>
-                        @endauth
-
-
-                        <div style="text-align:center;margin-top:40px;">
-                            <div class="step"></div>
-                            <div class="step"></div>
-                            <div class="step"></div>
-                            <div class="step"></div>
-                        </div>
-                    </form>
-
+                    </div>
                 </div>
 
-            </div>
-        </div>
+            </section>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    </section>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script>
-        var currentTab = 0;
-        showTab(currentTab);
+            <script>
+                var currentTab = 0;
+                showTab(currentTab);
 
 
-        function fixStepIndicator(n) {
-            var i, x = document.getElementsByClassName("step");
-            for (i = 0; i < x.length; i++) {
-                x[i].className = x[i].className.replace(" active", "");
-            }
+                function fixStepIndicator(n) {
+                    var i, x = document.getElementsByClassName("step");
+                    for (i = 0; i < x.length; i++) {
+                        x[i].className = x[i].className.replace(" active", "");
+                    }
 
-            if (n >= 0 && n < x.length) {
-                x[n].className += " active";
-            } else {
-                console.error("Step index is out of bounds:", n);
-            }
-        }
-
-        function nextPrev(n) {
-            var x = document.getElementsByClassName("tab");
-
-            // Hide the error tab when moving between tabs
-            var errorTab = document.getElementById("error-box");
-            errorTab.classList.add("d-none"); // This hides the error tab
-
-            // Prevent going out of bounds for previous navigation
-            if (currentTab + n < 0) {
-                return; // Do nothing if trying to go back from the first tab
-            }
-
-            // Validate the form before moving to the next tab
-            if (n == 1 && !validateForm()) return false;
-
-            // Hide the current tab
-            x[currentTab].style.display = "none";
-
-            // Increment or decrement currentTab
-            currentTab += n;
-
-            // Prevent currentTab from exceeding the last tab (index 3 if 4 tabs)
-            if (currentTab >= x.length) {
-                currentTab = x.length - 1; // Stay at the last tab
-
-                // If it's the last tab and form is valid, submit via AJAX
-                if (validateForm()) {
-                    submitFormWithAjax();
-                    return false; // Prevent default form submission
+                    if (n >= 0 && n < x.length) {
+                        x[n].className += " active";
+                    } else {
+                        console.error("Step index is out of bounds:", n);
+                    }
                 }
-            }
 
-            // Show the correct tab
-            showTab(currentTab);
-        }
+                function nextPrev(n) {
+                    var x = document.getElementsByClassName("tab");
+
+                    // Hide the error tab when moving between tabs
+                    var errorTab = document.getElementById("error-box");
+                    errorTab.classList.add("d-none"); // This hides the error tab
+
+                    // Prevent going out of bounds for previous navigation
+                    if (currentTab + n < 0) {
+                        return; // Do nothing if trying to go back from the first tab
+                    }
+
+                    // Validate the form before moving to the next tab
+                    if (n == 1 && !validateForm()) return false;
+
+                    // Hide the current tab
+                    x[currentTab].style.display = "none";
+
+                    // Increment or decrement currentTab
+                    currentTab += n;
+
+                    // Prevent currentTab from exceeding the last tab (index 3 if 4 tabs)
+                    if (currentTab >= x.length) {
+                        currentTab = x.length - 1; // Stay at the last tab
+
+                        // If it's the last tab and form is valid, submit via AJAX
+                        if (validateForm()) {
+                            submitFormWithAjax();
+                            return false; // Prevent default form submission
+                        }
+                    }
+
+                    // Show the correct tab
+                    showTab(currentTab);
+                }
 
 
-        function showTab(n) {
-            var x = document.getElementsByClassName("tab");
+                function showTab(n) {
+                    var x = document.getElementsByClassName("tab");
 
-            // Hide the error tab when showing a new tab
-            var errorTab = document.getElementById("error-box");
-            errorTab.classList.add("d-none"); // This hides the error tab
+                    // Hide the error tab when showing a new tab
+                    var errorTab = document.getElementById("error-box");
+                    errorTab.classList.add("d-none"); // This hides the error tab
 
-            // Ensure index n is within bounds
-            if (n >= 0 && n < x.length) {
-                // Remove the 'd-none' class if it exists to make sure the tab is visible
-                x[n].classList.remove("d-none");
-                x[n].style.display = "block";
+                    // Ensure index n is within bounds
+                    if (n >= 0 && n < x.length) {
+                        // Remove the 'd-none' class if it exists to make sure the tab is visible
+                        x[n].classList.remove("d-none");
+                        x[n].style.display = "block";
 
-                @auth
-                // Handle previous button display
-                if (n == 0) {
-                    document.getElementById("prevBtn").style.display = "none";
+                        @auth
+                        // Handle previous button display
+                        if (n == 0) {
+                            document.getElementById("prevBtn").style.display = "none";
+                        } else {
+                            document.getElementById("prevBtn").style.display = "inline";
+                        }
+
+                        // Handle next button text
+                        if (n == (x.length - 1)) {
+                            document.getElementById("nextBtn").innerHTML = "Submit";
+                        } else {
+                            document.getElementById("nextBtn").innerHTML = "Next";
+                        }
+                    @endauth
+
+                    // Update step indicator
+                    fixStepIndicator(n);
                 } else {
-                    document.getElementById("prevBtn").style.display = "inline";
+                    console.error("currentTab is out of bounds:", n);
+                }
                 }
 
-                // Handle next button text
-                if (n == (x.length - 1)) {
-                    document.getElementById("nextBtn").innerHTML = "Submit";
-                } else {
-                    document.getElementById("nextBtn").innerHTML = "Next";
+
+                function validateForm() {
+                    var x, y, i, valid = true;
+                    x = document.getElementsByClassName("tab");
+
+                    // Ensure currentTab is within bounds
+                    if (currentTab < 0 || currentTab >= x.length) {
+                        console.error("currentTab is out of bounds:", currentTab);
+                        return false; // Or handle the error as needed
+                    }
+
+                    y = x[currentTab].getElementsByTagName("input");
+
+                    for (i = 0; i < y.length; i++) {
+                        if (y[i].value == "") {
+                            y[i].className += " invalid";
+                            valid = false;
+                        }
+                    }
+
+                    // Check if currentTab is within bounds
+                    var steps = document.getElementsByClassName("step");
+                    if (valid && currentTab < steps.length) {
+                        steps[currentTab].className += " finish";
+                    }
+
+                    return valid;
                 }
-                @endauth
-
-                // Update step indicator
-                fixStepIndicator(n);
-            } else {
-                console.error("currentTab is out of bounds:", n);
-            }
-        }
 
 
-        function validateForm() {
-            var x, y, i, valid = true;
-            x = document.getElementsByClassName("tab");
+                function submitFormWithAjax() {
+                    var form = document.getElementById("regForm");
 
-            // Ensure currentTab is within bounds
-            if (currentTab < 0 || currentTab >= x.length) {
-                console.error("currentTab is out of bounds:", currentTab);
-                return false; // Or handle the error as needed
-            }
+                    var loadingTab = document.getElementById("loadingTab");
+                    var successTab = document.getElementById("submitted-box");
+                    var errorTab = document.getElementById("error-box");
+                    @auth
+                    var submitButton = document.getElementById("nextBtn");
+                    var prevButton = document.getElementById("prevBtn");
+                    @endauth
 
-            y = x[currentTab].getElementsByTagName("input");
+                // Reset the UI
+                successTab.classList.add("d-none");
+                errorTab.classList.add("d-none");
+                loadingTab.classList.remove("d-none");
 
-            for (i = 0; i < y.length; i++) {
-                if (y[i].value == "") {
-                    y[i].className += " invalid";
-                    valid = false;
+                // form.submit();
+
+                $.ajax({
+                    type: "POST",
+                    url: "appointment/stripe",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: $(form).serialize(),
+                    success: function(data) {
+                        window.location.href = data.data;
+                        loadingTab.classList.add("d-none");
+                        // successTab.classList.remove("d-none");
+
+                        // document.querySelector("#submitted-box .appointment-booked-details ul").innerHTML = `
+                        //     <li>Staff Member : ${data.data.staff.user.name}</li>
+                        //     <li>Date & Time : ${data.data.appointment_date}</li>
+                        //     <li>Name : ${data.data.first_name} ${data.data.last_name}</li>
+                        //     <li>Email Address : ${data.data.email}</li>
+                        //     <li>Phone Number : ${data.data.phone}</li>
+                        //     <li>Location : ${data.data.location}</li>
+                        //     <li>Price : $${data.data.price}</li>
+                        //     <li>Note : ${data.data.note}</li>
+                        // `;
+
+                        // Hide the submit button after success
+                        submitButton.style.display = "none";
+                        prevButton.style.display = "none";
+
+                        form.reset();
+
+                        // Clear radio button selections
+                        var radios = form.querySelectorAll("input[type='radio']");
+                        radios.forEach(function(radio) {
+                            radio.checked = false;
+                        });
+
+                        $("#service_id").val(null).trigger('change');
+                        $("#staff_id").val(null).trigger('change');
+
+                        // Clear validation error highlights (if you are adding "invalid" class for validation)
+                        var inputs = form.querySelectorAll("input, textarea");
+                        inputs.forEach(function(input) {
+                            input.classList.remove("invalid");
+                        });
+
+
+                    },
+                    error: function(xhr, status, error) {
+                        loadingTab.classList.add("d-none");
+
+                        if (xhr.status === 422) { // Validation errors
+                            var errors = xhr.responseJSON.errors;
+                            var errorList = document.getElementById("errorList");
+
+                            if (errorList) {
+                                errorList.innerHTML = ""; // Clear previous errors
+
+                                // Loop through and display each validation error
+                                for (var field in errors) {
+                                    if (errors.hasOwnProperty(field)) {
+                                        errors[field].forEach(function(message) {
+                                            var errorItem = document.createElement("li");
+                                            errorItem.textContent = message;
+                                            errorList.appendChild(errorItem);
+                                        });
+                                    }
+                                }
+                            }
+
+                            errorTab.classList.remove("d-none");
+                        } else {
+                            console.error("Form submission failed:", error);
+                            errorTab.classList.remove("d-none");
+                        }
+                    }
+                });
                 }
-            }
 
-            // Check if currentTab is within bounds
-            var steps = document.getElementsByClassName("step");
-            if (valid && currentTab < steps.length) {
-                steps[currentTab].className += " finish";
-            }
+                document.getElementById("goBackBtn").addEventListener("click", function() {
+                    window.location.reload();
+                });
 
-            return valid;
-        }
+                function fixStepIndicator(n) {
+                    var i, x = document.getElementsByClassName("step");
+                    for (i = 0; i < x.length; i++) {
+                        x[i].className = x[i].className.replace(" active", "");
+                    }
 
-
-        function submitFormWithAjax() {
-            var form = document.getElementById("regForm");
-
-            var loadingTab = document.getElementById("loadingTab");
-            var successTab = document.getElementById("submitted-box");
-            var errorTab = document.getElementById("error-box");
-            @auth
-            var submitButton = document.getElementById("nextBtn");
-            var prevButton = document.getElementById("prevBtn");
-            @endauth
-
-            // Reset the UI
-            successTab.classList.add("d-none");
-            errorTab.classList.add("d-none");
-            loadingTab.classList.remove("d-none");
-
-            form.submit();
-
-            // $.ajax({
-            //     type: "POST",
-            //     url: "appointment/stripe",
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     },
-            //     data: $(form).serialize(),
-            //     success: function(data) {
-            //         loadingTab.classList.add("d-none");
-            //         successTab.classList.remove("d-none");
-
-            //         document.querySelector("#submitted-box .appointment-booked-details ul").innerHTML = `
-        //             <li>Staff Member : ${data.data.staff.user.name}</li>
-        //             <li>Date & Time : ${data.data.appointment_date}</li>
-        //             <li>Name : ${data.data.first_name} ${data.data.last_name}</li>
-        //             <li>Email Address : ${data.data.email}</li>
-        //             <li>Phone Number : ${data.data.phone}</li>
-        //             <li>Location : ${data.data.location}</li>
-        //             <li>Price : $${data.data.price}</li>
-        //             <li>Note : ${data.data.note}</li>
-        //         `;
-
-            //         // Hide the submit button after success
-            //         submitButton.style.display = "none";
-            //         prevButton.style.display = "none";
-
-            //         form.reset();
-
-            //         // Clear radio button selections
-            //         var radios = form.querySelectorAll("input[type='radio']");
-            //         radios.forEach(function(radio) {
-            //             radio.checked = false;
-            //         });
-
-            //         $("#service_id").val(null).trigger('change');
-            //         $("#staff_id").val(null).trigger('change');
-
-            //         // Clear validation error highlights (if you are adding "invalid" class for validation)
-            //         var inputs = form.querySelectorAll("input, textarea");
-            //         inputs.forEach(function(input) {
-            //             input.classList.remove("invalid");
-            //         });
+                    x[n].className += " active";
+                }
 
 
-            //     },
-            //     error: function(xhr, status, error) {
-            //         loadingTab.classList.add("d-none");
+                function getServices(id) {
+                    $.ajax({
+                        type: "GET",
+                        url: "get-services/" + id,
+                        success: function(data) {
+                            $("#services-box").empty();
 
-            //         if (xhr.status === 422) { // Validation errors
-            //             var errors = xhr.responseJSON.errors;
-            //             var errorList = document.getElementById("errorList");
-
-            //             if (errorList) {
-            //                 errorList.innerHTML = ""; // Clear previous errors
-
-            //                 // Loop through and display each validation error
-            //                 for (var field in errors) {
-            //                     if (errors.hasOwnProperty(field)) {
-            //                         errors[field].forEach(function(message) {
-            //                             var errorItem = document.createElement("li");
-            //                             errorItem.textContent = message;
-            //                             errorList.appendChild(errorItem);
-            //                         });
-            //                     }
-            //                 }
-            //             }
-
-            //             errorTab.classList.remove("d-none");
-            //         } else {
-            //             console.error("Form submission failed:", error);
-            //             errorTab.classList.remove("d-none");
-            //         }
-            //     }
-            // });
-        }
-
-        document.getElementById("goBackBtn").addEventListener("click", function() {
-            window.location.reload();
-        });
-
-        function fixStepIndicator(n) {
-            var i, x = document.getElementsByClassName("step");
-            for (i = 0; i < x.length; i++) {
-                x[i].className = x[i].className.replace(" active", "");
-            }
-
-            x[n].className += " active";
-        }
-
-
-        function getServices(id) {
-            $.ajax({
-                type: "GET",
-                url: "get-services/" + id,
-                success: function(data) {
-                    $("#services-box").empty();
-
-                    if (data.length == 0) {
-                        $("#services-box").append(`
+                            if (data.length == 0) {
+                                $("#services-box").append(`
                         <div class="input-radio-box">
                             <label>
                                 <div class="main-label-content">
@@ -754,12 +769,12 @@
                             </label>
                         </div>
                     `);
-                        return;
-                    }
+                                return;
+                            }
 
 
-                    data.forEach(element => {
-                        $("#services-box").append(`
+                            data.forEach(element => {
+                                $("#services-box").append(`
                             <div class="input-radio-box">
                                 <input type="radio" id="service_id" name="service_id" onchange="getStaff(${element.id})" value="${element.id}">
                                 <label for="service_id">
@@ -776,23 +791,23 @@
                                 </label>
                             </div>
                         `);
+                            });
+                        },
+                        error: function(data) {
+                            console.log(data);
+                        }
                     });
-                },
-                error: function(data) {
-                    console.log(data);
                 }
-            });
-        }
 
-        function getStaff(id) {
-            $.ajax({
-                type: "GET",
-                url: "get-staff/" + id,
-                success: function(data) {
-                    $("#staff-box").empty();
-                    $("#appointment_date").val(null);
-                    data.forEach(element => {
-                        $("#staff-box").append(`
+                function getStaff(id) {
+                    $.ajax({
+                        type: "GET",
+                        url: "get-staff/" + id,
+                        success: function(data) {
+                            $("#staff-box").empty();
+                            $("#appointment_date").val(null);
+                            data.forEach(element => {
+                                $("#staff-box").append(`
                             <div class="input-radio-box">
                                 <input type="radio" id="staff_id" name="staff_id" onchange="getSlots(${element.id})" value="${element.id}">
                                 <label for="staff_id">
@@ -808,40 +823,40 @@
                                 </label>
                             </div>
                         `);
+                            });
+                        },
+                        error: function(data) {
+                            console.log(data);
+                        }
                     });
-                },
-                error: function(data) {
-                    console.log(data);
                 }
-            });
-        }
 
-        function formatTime(timeString) {
-            const [hour, minute] = timeString.split(':');
-            let hours = parseInt(hour);
-            let ampm = hours >= 12 ? 'pm' : 'am';
-            hours = hours % 12 || 12; // convert 24-hour format to 12-hour format
-            return `${hours}:${minute} ${ampm}`;
-        }
+                function formatTime(timeString) {
+                    const [hour, minute] = timeString.split(':');
+                    let hours = parseInt(hour);
+                    let ampm = hours >= 12 ? 'pm' : 'am';
+                    hours = hours % 12 || 12; // convert 24-hour format to 12-hour format
+                    return `${hours}:${minute} ${ampm}`;
+                }
 
-        function getSlots(id) {
-            staffID = id;
-            serviceID = $("input[name='service_id']:checked").val();
+                function getSlots(id) {
+                    staffID = id;
+                    serviceID = $("input[name='service_id']:checked").val();
 
-            $.ajax({
-                type: "GET",
-                url: "get-slots",
-                data: {
-                    staff_id: staffID,
-                    service_id: serviceID
-                },
-                success: function(data) {
-                    $("#slots-box").empty();
-                    $("#appointment_date").val(null);
+                    $.ajax({
+                        type: "GET",
+                        url: "get-slots",
+                        data: {
+                            staff_id: staffID,
+                            service_id: serviceID
+                        },
+                        success: function(data) {
+                            $("#slots-box").empty();
+                            $("#appointment_date").val(null);
 
-                    data.forEach(element => {
+                            data.forEach(element => {
 
-                        $("#slots-box").append(`
+                                $("#slots-box").append(`
                             <div class="input-radio-box">
                                 <input type="radio" id="slot_id" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
                                 <label for="slot_id">
@@ -854,32 +869,32 @@
                                 </label>
                             </div>
                         `);
+                            });
+                        },
+                        error: function(data) {
+                            console.log(data);
+                        }
                     });
-                },
-                error: function(data) {
-                    console.log(data);
                 }
-            });
-        }
 
-        function getSlotsForDate(data) {
-            var staff_id = $("input[name='staff_id']:checked").val();
-            var service_id = $("input[name='service_id']:checked").val();
-            var date = data;
+                function getSlotsForDate(data) {
+                    var staff_id = $("input[name='staff_id']:checked").val();
+                    var service_id = $("input[name='service_id']:checked").val();
+                    var date = data;
 
-            $.ajax({
-                type: "GET",
-                url: "get-slots-for-date",
-                data: {
-                    staff_id: staff_id,
-                    service_id: service_id,
-                    date: date
-                },
-                success: function(data) {
-                    $("#slots-box").empty();
+                    $.ajax({
+                        type: "GET",
+                        url: "get-slots-for-date",
+                        data: {
+                            staff_id: staff_id,
+                            service_id: service_id,
+                            date: date
+                        },
+                        success: function(data) {
+                            $("#slots-box").empty();
 
-                    data.forEach(element => {
-                        $("#slots-box").append(`
+                            data.forEach(element => {
+                                $("#slots-box").append(`
                             <div class="input-radio-box">
                                 <input type="radio" id="slot_id" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
                                 <label for="slot_id">
@@ -892,16 +907,51 @@
                                 </label>
                             </div>
                         `);
+                            });
+                        },
+                        error: function(data) {
+                            console.log(data);
+                        }
                     });
-                },
-                error: function(data) {
-                    console.log(data);
                 }
-            });
-        }
 
-        $(document).ready(function() {
-            getServices(0);
-        });
-    </script>
-@endsection
+                $(document).ready(function() {
+                    getServices(0);
+                });
+            </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const phoneInputField = document.querySelector("#phone");
+                    phoneInputField.value = "+1 ";
+                    phoneInputField.addEventListener('keydown', function(e) {
+                        const cursorPosition = this.selectionStart;
+                        if (cursorPosition <= 3 && (e.key === 'Backspace' || e.key === 'Delete')) {
+                            e.preventDefault();
+                        }
+                    });
+                    phoneInputField.addEventListener('click', function() {
+                        if (this.selectionStart < 3) {
+                            this.setSelectionRange(3, 3);
+                        }
+                    });
+                    phoneInputField.addEventListener('input', function() {
+                        if (this.value.indexOf("+1 ") !== 0) {
+                            this.value = "+1 ";
+                        }
+                    });
+
+                    const iti = window.intlTelInput(phoneInputField, {
+                        initialCountry: "us",
+                        geoIpLookup: function(callback) {
+                            fetch('https://ipinfo.io/json')
+                                .then(response => response.json())
+                                .then(data => callback(data.country))
+                                .catch(() => callback('US'));
+                        },
+                        separateDialCode: true,
+                        preferredCountries: ['us', 'gb', 'ca', 'au'],
+                        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
+                    });
+                });
+            </script>
+        @endsection
