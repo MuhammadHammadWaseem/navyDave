@@ -419,8 +419,10 @@
                                     @else
                                     <input type="hidden" name="user_id" id="user_id" value="0">
                                     @endif
+                                    <label for="first_name">Input with value</label>
                                     <input type="text" placeholder="First Name *" name="first_name" id="first_name"
                                         required>
+                                        <label for="first_name">Input with value</label>
                                     <input type="text" placeholder="Last Name *" name="last_name" id="last_name"
                                         required>
                                 </div>

@@ -41,7 +41,7 @@
                     <h2>{{ $user->name }}</h2>
                 </div>
                 <div class="form-box">
-                    <form action="profile/update/{{ $user->id }}" method="POST">
+                    <form action="profile/update/{{ $user->id }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <input type="text" placeholder="Full Name" value="{{ $user->name }}" name="name">
                         <input type="email" placeholder="Type Your Email" value="{{ $user->email }}" name="email">
@@ -51,7 +51,73 @@
                             name="address">
                         <input type="text" placeholder="City" value="{{ $user->city ? $user->city : '' }}"
                             name="city">
+                        <select name="state" class="form-select" id="stste">
+                            <option value="">Select State</option>
+                            @php
+                                $states = [
+                                    'AL' => 'Alabama',
+                                    'AK' => 'Alaska',
+                                    'AZ' => 'Arizona',
+                                    'AR' => 'Arkansas',
+                                    'CA' => 'California',
+                                    'CO' => 'Colorado',
+                                    'CT' => 'Connecticut',
+                                    'DE' => 'Delaware',
+                                    'FL' => 'Florida',
+                                    'GA' => 'Georgia',
+                                    'HI' => 'Hawaii',
+                                    'ID' => 'Idaho',
+                                    'IL' => 'Illinois',
+                                    'IN' => 'Indiana',
+                                    'IA' => 'Iowa',
+                                    'KS' => 'Kansas',
+                                    'KY' => 'Kentucky',
+                                    'LA' => 'Louisiana',
+                                    'ME' => 'Maine',
+                                    'MD' => 'Maryland',
+                                    'MA' => 'Massachusetts',
+                                    'MI' => 'Michigan',
+                                    'MN' => 'Minnesota',
+                                    'MS' => 'Mississippi',
+                                    'MO' => 'Missouri',
+                                    'MT' => 'Montana',
+                                    'NE' => 'Nebraska',
+                                    'NV' => 'Nevada',
+                                    'NH' => 'New Hampshire',
+                                    'NJ' => 'New Jersey',
+                                    'NM' => 'New Mexico',
+                                    'NY' => 'New York',
+                                    'NC' => 'North Carolina',
+                                    'ND' => 'North Dakota',
+                                    'OH' => 'Ohio',
+                                    'OK' => 'Oklahoma',
+                                    'OR' => 'Oregon',
+                                    'PA' => 'Pennsylvania',
+                                    'RI' => 'Rhode Island',
+                                    'SC' => 'South Carolina',
+                                    'SD' => 'South Dakota',
+                                    'TN' => 'Tennessee',
+                                    'TX' => 'Texas',
+                                    'UT' => 'Utah',
+                                    'VT' => 'Vermont',
+                                    'VA' => 'Virginia',
+                                    'WA' => 'Washington',
+                                    'WV' => 'West Virginia',
+                                    'WI' => 'Wisconsin',
+                                    'WY' => 'Wyoming',
+                                ];
+                            @endphp
+                            @foreach ($states as $name)
+                                <option value="{{ $name }}" {{ $user->state == $name ? 'selected' : '' }}>
+                                    {{ $name }}</option>
+                            @endforeach
+                        </select>
                         <input type="text" placeholder="Change Password" name="password">
+                        @if ($user->image)
+                            <img src="{{ Storage::url($user->image) }}" alt="" height="200" width="200">
+                            <input type="hidden" name="old_image" value="{{ $user->image }}">
+                        @endif
+                        <input type="file" name="image" id="image" class="form-control">
                         <button type="submit">Update Profile</button>
                     </form>
                 </div>

@@ -82,35 +82,53 @@
                                         </ul>
                                     </div>
                                 @endif
-                                <form action="{{ route('register.post') }}" method="POST">
+                                <form action="{{ route('register.post') }}" method="POST" autocomplete="off">
                                     @csrf
+                                    <input type="hidden" name="country" value="united states">
                                     <div class="single-input-box two-inputs-alin">
-                                        <input type="text" name="name" id="name" placeholder="Name *"
-                                            aria-label="Name" aria-describedby="basic-addon1"
+                                        <input type="text" name="name" id="name" placeholder="Full Name *"
                                             value="{{ old('name') }}" required>
                                         <input type="email" name="email" id="email"
-                                            placeholder="Email Address *" aria-label="Email"
-                                            aria-describedby="basic-addon1" value="{{ old('email') }}" required>
+                                            placeholder="Email Address *" value="{{ old('email') }}" required>
                                     </div>
                                     <div class="single-input-box two-inputs-alin">
                                         <input type="tel" name="phone" id="phone" placeholder="Phone Number *"
-                                            aria-label="Phone" aria-describedby="basic-addon3"
                                             value="{{ old('phone') }}">
                                         <input type="text" name="city" id="city" placeholder="City *"
-                                            aria-label="City" aria-describedby="basic-addon4"
                                             value="{{ old('city') }}">
+                                    </div>
+                                    <div class="single-input-box two-inputs-alin">
+                                        <input type="text" name="zipcode" id="zipcode" placeholder="Zip Code *" value="{{ old('zipcode') }}" required>
+                                        <select name="state" id="state" required>
+                                            <option value="">Select State *</option>
+                                            @php
+                                                $states = [
+                                                    'AL' => 'Alabama', 'AK' => 'Alaska', 'AZ' => 'Arizona', 'AR' => 'Arkansas', 'CA' => 'California', 
+                                                    'CO' => 'Colorado', 'CT' => 'Connecticut', 'DE' => 'Delaware', 'FL' => 'Florida', 'GA' => 'Georgia', 
+                                                    'HI' => 'Hawaii', 'ID' => 'Idaho', 'IL' => 'Illinois', 'IN' => 'Indiana', 'IA' => 'Iowa', 'KS' => 'Kansas', 
+                                                    'KY' => 'Kentucky', 'LA' => 'Louisiana', 'ME' => 'Maine', 'MD' => 'Maryland', 'MA' => 'Massachusetts', 
+                                                    'MI' => 'Michigan', 'MN' => 'Minnesota', 'MS' => 'Mississippi', 'MO' => 'Missouri', 'MT' => 'Montana', 
+                                                    'NE' => 'Nebraska', 'NV' => 'Nevada', 'NH' => 'New Hampshire', 'NJ' => 'New Jersey', 'NM' => 'New Mexico', 
+                                                    'NY' => 'New York', 'NC' => 'North Carolina', 'ND' => 'North Dakota', 'OH' => 'Ohio', 'OK' => 'Oklahoma', 
+                                                    'OR' => 'Oregon', 'PA' => 'Pennsylvania', 'RI' => 'Rhode Island', 'SC' => 'South Carolina', 'SD' => 'South Dakota', 
+                                                    'TN' => 'Tennessee', 'TX' => 'Texas', 'UT' => 'Utah', 'VT' => 'Vermont', 'VA' => 'Virginia', 'WA' => 'Washington', 
+                                                    'WV' => 'West Virginia', 'WI' => 'Wisconsin', 'WY' => 'Wyoming'
+                                                ];
+                                            @endphp
+                                            @foreach($states as $name)
+                                                <option value="{{ $name }}" {{ old('state') == $name ? 'selected' : '' }}>{{ $name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="single-input-box ">
                                         <input type="text" placeholder="Address *" name="address" id="address"
-                                            aria-label="Address" aria-describedby="basic-addon5"
                                             value="{{ old('address') }}">
                                     </div>
                                     <div class="single-input-box two-inputs-alin">
                                         <input type="password" placeholder="Password *" name="password" id="password"
-                                            aria-label="Password" aria-describedby="basic-addon2" required>
+                                            required>
                                         <input type="password" placeholder="Confirm Password *"
-                                            name="password_confirmation" id="password_confirmation"
-                                            aria-label="Password Confirmation" aria-describedby="basic-addon3" required>
+                                            name="password_confirmation" id="password_confirmation" required>
 
                                     </div>
                                     <div class="input-check-box">

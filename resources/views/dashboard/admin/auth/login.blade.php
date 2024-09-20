@@ -84,7 +84,7 @@
                                 <form action="{{ route('login.post') }}" method="POST">
                                     @csrf
                                     <div class="single-input-box">
-                                        <input type="text" name="email" placeholder="Username *" aria-label="Email"
+                                        <input type="text" name="email" placeholder="Email *" aria-label="Email"
                                             aria-describedby="basic-addon1" required>
                                     </div>
                                     <div class="single-input-box">

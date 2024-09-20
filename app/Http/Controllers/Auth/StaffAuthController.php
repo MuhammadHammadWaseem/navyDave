@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Staff;
 use App\Models\Appointment;
 use App\Jobs\SendStatusMail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class StaffAuthController extends Controller
 {
@@ -90,6 +92,9 @@ class StaffAuthController extends Controller
             'address' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
             'password' => 'nullable|string|min:8',
+            'zipcode' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -103,8 +108,32 @@ class StaffAuthController extends Controller
             'phone' => $request->phone,
             'address' => $request->address,
             'city' => $request->city,
-            'password' => Hash::make($request->password),
+            'zipcode' => $request->input('zipcode'),
+            'state' => $request->input('state'),
         ]);
+
+        // Handle password update
+        if ($request->input('password')) {
+            $user->password = Hash::make($request->input('password'));
+            $user->save();
+        }
+
+        if ($request->hasFile('image')) {
+            // Check if the user has an old image and delete it
+            if ($user->image && Storage::exists('public/' . $user->image)) {
+                Storage::delete('public/' . $user->image);
+            }
+
+
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $uniqueName = 'UserProfile' . Str::random(40) . '.' . $extension;
+            $request->file('image')->storeAs('public', $uniqueName);
+
+            // Update the user's image in the database
+            $user->image = $uniqueName;
+            $user->save();
+        }
+
         // Redirect back with a success message
         return redirect()->route('staff.profile')->with('success', 'Profile updated successfully.');
     }
