@@ -156,7 +156,7 @@
                                                 src="{{ asset('./assets/images/blog.png') }}"
                                                 alt=""></span>Blogs</a></li>
                                 <li><a href="{{ route('admin.subscribers') }}" class="subscribers-active"><span><img
-                                                src="{{ asset('./assets/images/blog.png') }}"
+                                                src="{{ asset('./assets/images/Profile.png') }}"
                                                 alt=""></span>Subscribers</a></li>
                                 <li><a href="{{ route('admin.setting') }}" class="setting-active"><span><img
                                                 src="{{ asset('./assets/images/setting.png') }}"
