@@ -126,7 +126,7 @@ class StaffAuthController extends Controller
 
 
             $extension = $request->file('image')->getClientOriginalExtension();
-            $uniqueName = 'UserProfile' . Str::random(40) . '.' . $extension;
+            $uniqueName = 'StaffProfile' . Str::random(40) . '.' . $extension;
             $request->file('image')->storeAs('public', $uniqueName);
 
             // Update the user's image in the database
