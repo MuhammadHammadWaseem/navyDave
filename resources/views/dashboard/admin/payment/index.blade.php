@@ -65,6 +65,7 @@
                         <th>Customer</th>
                         <th>Staff Member</th>
                         <th>Service</th>
+                        <th>Transaction ID</th>
                         <th>Status</th>
                         <th>Amount</th>
                         <th>Appointment On</th>
@@ -78,6 +79,7 @@
                             <td>{{ $payment->first_name }} {{ $payment->last_name }}</td>
                             <td>{{ $payment->staff->user->name }}</td>
                             <td>{{ $payment->service->name }}</td>
+                            <td>{{ optional($payment->payment)->payment_id ?? 'No Payment' }}</td>
                             <td>{{ optional($payment->payment)->status ?? 'No Payment' }}</td>
                             <td>{{ optional($payment->payment)->amount ? number_format($payment->payment->amount / 100, 2) : '0.00' }}</td>
                             <td>{{ $payment->appointment_date }}</td>

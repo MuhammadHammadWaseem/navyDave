@@ -324,7 +324,8 @@ class GuestController extends Controller
             // Commit the transaction
             DB::commit();
             // return response()->json(['success' => true, 'message' => 'Appointment created successfully', 'data' => $appointment]);
-            return redirect()->route('appointment')->with('success', 'Appointment created successfully');
+            // return redirect()->route('appointment')->with('success', 'Appointment created successfully');
+            return redirect()->route('payment-success')->with('success', 'Appointment created successfully');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -335,7 +336,8 @@ class GuestController extends Controller
 
     public function paymentFail()
     {
-        return redirect()->route('appointment')->with('error', 'Payment failed');
+        return view('guest.paymentFail');
+        // return redirect()->route('appointment')->with('error', 'Payment failed');
     }
 
     public function paymentSuccess()
