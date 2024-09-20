@@ -1736,7 +1736,18 @@ footer .main-footer-logo p {
     margin: 20px 0;
 }
 
+.header-cart-search ul li.drop-dwon-menu:hover ul.drop-dwon-menu li {
+  border-bottom: 1px solid #0000003b;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 5px;
+}
 
+.header-cart-search ul li.drop-dwon-menu:hover ul.drop-dwon-menu li:last-child {
+  border: none;
+}
 
 
 

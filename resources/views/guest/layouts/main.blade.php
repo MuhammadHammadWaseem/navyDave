@@ -60,8 +60,8 @@
                                     <img src="{{ asset('./assets/images/person-user.png') }}" alt=""></a>
                                 @guest
                                     <ul class="drop-dwon-menu">
-                                        <li><a href="{{ route('login') }}">login</a></li>
-                                        <li><a href="{{ route('register') }}">sign up</a></li>
+                                        <li><a href="{{ route('login') }}">Login</a></li>
+                                        <li><a href="{{ route('register') }}">Sign Up</a></li>
                                     </ul>
                                 @else
                                     <ul class="drop-dwon-menu">
