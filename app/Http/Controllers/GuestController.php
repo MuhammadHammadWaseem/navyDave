@@ -57,7 +57,7 @@ class GuestController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        
+
         // Send email
         $data = [
             'fullname' => $request->fullname,
@@ -336,6 +336,15 @@ class GuestController extends Controller
     public function paymentFail()
     {
         return redirect()->route('appointment')->with('error', 'Payment failed');
+    }
+
+    public function paymentSuccess()
+    {
+        return view('guest.paymentSuccess');
+    }
+    public function paymentFailViwe()
+    {
+        return view('guest.paymentFail');
     }
 
 

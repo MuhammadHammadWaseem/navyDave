@@ -69,6 +69,11 @@ Route::get('get-slots',[GuestController::class, 'getSlots'])->name('get-slots');
 Route::get('get-slots-for-date',[GuestController::class, 'getSlotsForDate'])->name('get-slots-for-date');
 
 
+Route::get('payment-success',[GuestController::class, 'paymentSuccess'])->name('payment-success');
+Route::get('payment-fail',[GuestController::class, 'paymentFailViwe'])->name('payment-fail');
+
+
+
 Route::get('register', [AdminAuthController::class, 'showRegisterForm'])->name('register');
 Route::post('register', [AdminAuthController::class, 'register'])->name('register.post');
 Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login');
