@@ -97,15 +97,14 @@
                         <div class="input-box-other-details">
                             <div class="logout-setting-bell-all align-items-center">
                                 <div class="logout-box">
+                                    <a href="{{ route('home') }}"><i class="fa fa-globe" aria-hidden="true"></i>Visit Site</a>
                                     <a href="{{ route('logout') }}"><i class="fa fa-user"
                                             aria-hidden="true"></i>Logout</a>
-                                </div>
-                                @if (auth()->user()->hasRole('admin'))
-                                    <div class="setting-box">
+                                    @if (auth()->user()->hasRole('admin'))
                                         <a href="{{ route('admin.setting') }}"><i class="fa fa-cog"
-                                                aria-hidden="true"></i></a>
-                                    </div>
-                                @endif
+                                                aria-hidden="true"></i> Settings</a>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
