@@ -209,7 +209,7 @@ class GuestController extends Controller
 
     public function appointmentStripe(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'service_id' => 'required|integer',
             'staff_id' => 'required|integer',
             'slot_id' => 'required|integer',
@@ -222,6 +222,15 @@ class GuestController extends Controller
             'note' => 'nullable|string',
             'user_id' => 'nullable',
         ]);
+
+        // Set custom attribute names
+        $validator->setAttributeNames([
+            'staff_id' => 'Staff',
+            'slot_id' => 'Slot',
+        ]);
+    
+        // Validate the request
+        $validated = $validator->validate();
 
         DB::beginTransaction();
 

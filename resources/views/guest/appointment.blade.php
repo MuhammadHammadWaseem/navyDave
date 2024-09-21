@@ -1,4 +1,6 @@
 @extends('guest.layouts.main')
+<!-- Flatpickr CSS -->
+<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
 <style>
     header .header-nav ul li a.appointment-active::after {
         opacity: 100%;
@@ -76,9 +78,182 @@
         height: 75px;
     }
 
+    #appointment-calendar {
+        /* Adjust the style of the calendar container if necessary */
+        margin-top: 20px;
+    }
+
+    .flatpickr-months .flatpickr-month {
+        margin-bottom: 10px !important;
+        height: 50px !important;
+    }
+
+    .appointment-sec-01 .two-appointment-box-align .input-date-box input {
+        padding: 10px !important;
+        line-height: 0 !important;
+        height: 40px !important;
+    }
+
+    .flatpickr-current-month .flatpickr-monthDropdown-months {
+        margin-right: 10px;
+    }
+
+    .flatpickr-current-month .numInputWrapper {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .flatpickr-current-month {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 20px;
+        height: 45px;
+    }
+
+    .flatpickr-current-month {
+        display: flex !important;
+        height: 45px !important;
+    }
+
+    .appointment-sec-01 .two-appointment-box-align .input-date-box input:hover {
+        background-color: #ff000000 !important;
+    }
+
+    .flatpickr-current-month .numInputWrapper {
+        width: 7ch;
+    }
+
     .when-user-logout a:hover {
         background-color: green;
         color: white
+    }
+
+    #appointment-calendar .flatpickr-calendar.open,
+    .flatpickr-calendar.inline {
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        background-color: #ff000000;
+        border: 1px solid #2cc37459;
+    }
+
+    .flatpickr-months .flatpickr-month {
+        border: 1px solid #2cc37459;
+        margin: 0 !important;
+        border-bottom-width: 0.5px !important;
+    }
+
+    #appointment-calendar .flatpickr-calendar.open,
+    .flatpickr-calendar.inline .flatpickr-rContainer {
+        width: 100%;
+        background-color: #00800000;
+        border: 1px solid #2cc374;
+        border-top: 0;
+    }
+
+    #appointment-calendar .flatpickr-calendar.open,
+    .flatpickr-calendar.inline .flatpickr-rContainer .flatpickr-days {
+        width: 100%;
+        border: 1px solid #2cc374;
+        border-right: none;
+        border-left: none;
+        border-bottom: navajowhite;
+    }
+
+    #appointment-calendar .flatpickr-calendar.open,
+    .flatpickr-calendar.inline .flatpickr-rContainer .flatpickr-days .dayContainer {
+        width: 100% !important;
+        max-width: 100%;
+        padding: 0px;
+        gap: 0 !important;
+        column-gap: 0 !important;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    #appointment-calendar .flatpickr-calendar.open,
+    .flatpickr-calendar.inline .flatpickr-rContainer .flatpickr-days .flatpickr-day {
+        width: 20% !important;
+        max-width: 20% !important;
+        border-radius: 0px;
+        transition: .3s;
+    }
+
+    #appointment-calendar .flatpickr-calendar.open,
+    .flatpickr-calendar.inline .flatpickr-rContainer .flatpickr-days .flatpickr-day:hover {
+        background-color: #2cc374;
+        color: white;
+        border-color: #2cc374;
+    }
+
+    #appointment-calendar .flatpickr-calendar.open,
+    .flatpickr-calendar.inline .flatpickr-rContainer .flatpickr-days .flatpickr-day {
+        border: 1px solid #2cc374;
+    }
+
+    #appointment-calendar .flatpickr-calendar.open,
+    .flatpickr-calendar.inline .flatpickr-rContainer .flatpickr-days .flatpickr-day.flatpickr-disabled {
+        border-color: #2cc37433;
+    }
+
+    #appointment-calendar .flatpickr-calendar.open,
+    .flatpickr-calendar.inline .flatpickr-rContainer .flatpickr-days .flatpickr-day.today {
+        background-color: #2cc37496;
+        color: #000000;
+    }
+
+    #appointment-calendar .flatpickr-calendar.open,
+    .flatpickr-calendar.inline .flatpickr-rContainer .flatpickr-days .flatpickr-day.selected {
+        background-color: #2cc374;
+    }
+
+    .flatpickr-months .flatpickr-prev-month.flatpickr-next-month,
+    .flatpickr-months .flatpickr-next-month.flatpickr-next-month {
+        right: 40px !important;
+        top: 40px !important;
+        background-color: #2cc374;
+        border-radius: 50px;
+        color: white;
+    }
+
+    .flatpickr-months .flatpickr-prev-month.flatpickr-prev-month,
+    .flatpickr-months .flatpickr-next-month.flatpickr-prev-month {
+        left: 40px !important;
+        top: 40px !important;
+        background-color: #2cc374;
+        border-radius: 50px;
+        color: white;
+    }
+
+    .flatpickr-months .flatpickr-month {
+        height: 70px !important;
+        display: flex;
+        align-items: center;
+    }
+
+    .flatpickr-months .flatpickr-month {
+        height: 70px !important;
+        display: flex;
+        align-items: center;
+    }
+
+    .flatpickr-months .flatpickr-prev-month.flatpickr-next-month,
+    .flatpickr-months .flatpickr-next-month.flatpickr-next-month svg path,
+    .flatpickr-months .flatpickr-prev-month.flatpickr-prev-month,
+    .flatpickr-months .flatpickr-next-month.flatpickr-prev-month svg path {
+        fill: white;
+    }
+
+    .flatpickr-months .flatpickr-prev-month.flatpickr-next-month,
+    .flatpickr-months .flatpickr-next-month.flatpickr-next-month:hover,
+    .flatpickr-months .flatpickr-prev-month.flatpickr-prev-month:hover,
+    .flatpickr-months .flatpickr-next-month.flatpickr-prev-month:hover {
+        background-color: black;
+    }
+
+    .flatpickr-prev-month:hover svg path {
+        fill: white !important;
     }
 </style>
 @section('content')
@@ -404,8 +579,15 @@
                                     </div>
                                     <div class="two-appointment-box-align">
                                         <div class="input-date-box">
-                                            <input type="date" onchange="getSlotsForDate(this.value)" name="appointment_date"
-                                                id="appointment_date" placeholder="Your Date" min="{{ date('Y-m-d') }}">
+                                            {{-- <input type="date" onchange="getSlotsForDate(this.value)" name="appointment_date"
+                                                id="appointment_date" placeholder="Your Date" min="{{ date('Y-m-d') }}"> --}}
+
+                                            <!-- Hidden Input Field -->
+                                            <input type="text" name="appointment_date" id="appointment_date"
+                                                style="display: none;" min="{{ date('Y-m-d') }}">
+
+                                            <!-- Calendar Container -->
+                                            <div id="appointment-calendar"></div>
                                         </div>
                                         <div class="main-check-box-click main-check-box-click-time">
                                             <div class="text">
@@ -518,6 +700,10 @@
                 </div>
 
             </section>
+            <!-- Flatpickr CSS and JS -->
+            <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+            <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+            <!-- jQuery -->
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
             <script>
@@ -650,7 +836,7 @@
                     @auth
                     var submitButton = document.getElementById("nextBtn");
                     var prevButton = document.getElementById("prevBtn");
-                    @endauth
+                @endauth
 
                 // Reset the UI
                 successTab.classList.add("d-none");
@@ -672,15 +858,15 @@
                         // successTab.classList.remove("d-none");
 
                         // document.querySelector("#submitted-box .appointment-booked-details ul").innerHTML = `
-                        //     <li>Staff Member : ${data.data.staff.user.name}</li>
-                        //     <li>Date & Time : ${data.data.appointment_date}</li>
-                        //     <li>Name : ${data.data.first_name} ${data.data.last_name}</li>
-                        //     <li>Email Address : ${data.data.email}</li>
-                        //     <li>Phone Number : ${data.data.phone}</li>
-                        //     <li>Location : ${data.data.location}</li>
-                        //     <li>Price : $${data.data.price}</li>
-                        //     <li>Note : ${data.data.note}</li>
-                        // `;
+                         //     <li>Staff Member : ${data.data.staff.user.name}</li>
+                         //     <li>Date & Time : ${data.data.appointment_date}</li>
+                         //     <li>Name : ${data.data.first_name} ${data.data.last_name}</li>
+                         //     <li>Email Address : ${data.data.email}</li>
+                         //     <li>Phone Number : ${data.data.phone}</li>
+                         //     <li>Location : ${data.data.location}</li>
+                         //     <li>Price : $${data.data.price}</li>
+                         //     <li>Note : ${data.data.note}</li>
+                         // `;
 
                         // Hide the submit button after success
                         submitButton.style.display = "none";
@@ -857,39 +1043,40 @@
                         //     data.forEach(element => {
 
                         //         $("#slots-box").append(`
-                        //     <div class="input-radio-box">
-                        //         <input type="radio" id="slot_id" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
-                        //         <label for="slot_id">
-                        //             <div class="main-label-content">
-                        //                 <div class="content">
-                        //                     <h4 style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
-                        //                     <p style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${element.is_booked ? 'Slot Booked' : '1 slot left'}</p>
-                        //                 </div>
-                        //             </div>
-                        //         </label>
-                        //     </div>
-                        // `);
+            //     <div class="input-radio-box">
+            //         <input type="radio" id="slot_id" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
+            //         <label for="slot_id">
+            //             <div class="main-label-content">
+            //                 <div class="content">
+            //                     <h4 style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
+            //                     <p style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${element.is_booked ? 'Slot Booked' : '1 slot left'}</p>
+            //                 </div>
+            //             </div>
+            //         </label>
+            //     </div>
+            // `);
                         //     });
                         // },
                         success: function(data) {
-                            $("#slots-box").empty();  // Clear existing slots
+                            $("#slots-box").empty(); // Clear existing slots
                             $("#appointment_date").val(null);
-                                                
+
                             // Separate slots into Morning and Afternoon categories
                             var morningSlots = [];
                             var afternoonSlots = [];
-                                                
+
                             data.forEach(element => {
-                                const fromTime = new Date('1970-01-01T' + element.available_from); // Convert available_from to a Date object
+                                const fromTime = new Date('1970-01-01T' + element
+                                    .available_from); // Convert available_from to a Date object
                                 const hours = fromTime.getHours();
-                            
+
                                 if (hours < 12) {
-                                    morningSlots.push(element);  // AM slot (Morning)
+                                    morningSlots.push(element); // AM slot (Morning)
                                 } else {
-                                    afternoonSlots.push(element);  // PM slot (Afternoon)
+                                    afternoonSlots.push(element); // PM slot (Afternoon)
                                 }
                             });
-                        
+
                             // Append Morning heading and slots if there are morning slots
                             if (morningSlots.length > 0) {
                                 $("#slots-box").append(`<h3 style="color:#535D71 !important;">Morning</h3>`);
@@ -909,7 +1096,7 @@
                                     `);
                                 });
                             }
-                        
+
                             // Append Afternoon heading and slots if there are afternoon slots
                             if (afternoonSlots.length > 0) {
                                 $("#slots-box").append(`<h3 style="color:#535D71 !important;">Afternoon</h3>`);
@@ -955,38 +1142,39 @@
 
                         //     data.forEach(element => {
                         //         $("#slots-box").append(`
-                        //     <div class="input-radio-box">
-                        //         <input type="radio" id="slot_id" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
-                        //         <label for="slot_id">
-                        //             <div class="main-label-content">
-                        //                 <div class="content">
-                        //                     <h4 style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
-                        //                     <p style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${element.is_booked ? 'Slot Booked' : '1 slot left'}</p>
-                        //                 </div>
-                        //             </div>
-                        //         </label>
-                        //     </div>
-                        // `);
+            //     <div class="input-radio-box">
+            //         <input type="radio" id="slot_id" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
+            //         <label for="slot_id">
+            //             <div class="main-label-content">
+            //                 <div class="content">
+            //                     <h4 style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
+            //                     <p style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${element.is_booked ? 'Slot Booked' : '1 slot left'}</p>
+            //                 </div>
+            //             </div>
+            //         </label>
+            //     </div>
+            // `);
                         //     });
                         // },
                         success: function(data) {
-                            $("#slots-box").empty();  // Clear existing slots
-                                                
+                            $("#slots-box").empty(); // Clear existing slots
+
                             // Separate slots into Morning and Afternoon categories
                             var morningSlots = [];
                             var afternoonSlots = [];
-                                                
+
                             data.forEach(element => {
-                                const fromTime = new Date('1970-01-01T' + element.available_from); // Convert available_from to a Date object
+                                const fromTime = new Date('1970-01-01T' + element
+                                    .available_from); // Convert available_from to a Date object
                                 const hours = fromTime.getHours();
-                            
+
                                 if (hours < 12) {
-                                    morningSlots.push(element);  // AM slot (Morning)
+                                    morningSlots.push(element); // AM slot (Morning)
                                 } else {
-                                    afternoonSlots.push(element);  // PM slot (Afternoon)
+                                    afternoonSlots.push(element); // PM slot (Afternoon)
                                 }
                             });
-                        
+
                             // Append Morning heading and slots if there are morning slots
                             if (morningSlots.length > 0) {
                                 $("#slots-box").append(`<h3 style="color:#535D71 !important;">Morning</h3>`);
@@ -1006,7 +1194,7 @@
                                     `);
                                 });
                             }
-                        
+
                             // Append Afternoon heading and slots if there are afternoon slots
                             if (afternoonSlots.length > 0) {
                                 $("#slots-box").append(`<h3 style="color:#535D71 !important;">Afternoon</h3>`);
@@ -1040,6 +1228,44 @@
             </script>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
+                    // Initialize Flatpickr with the hidden input field
+                    var calendar = flatpickr("#appointment_date", {
+                        dateFormat: "Y-m-d", // Match the backend date format
+                        minDate: "{{ date('Y-m-d') }}", // Minimum date set to today
+                        inline: true, // Show the calendar inline
+                        onChange: function(selectedDates, dateStr, instance) {
+                            getSlotsForDate(
+                                dateStr); // Trigger your existing function when a new date is selected
+                        },
+                        onReady: function(selectedDates, dateStr, instance) {
+                            instance.open(); // Automatically open the calendar on page load
+                        }
+                    });
+
+                    // Set the calendar to show on the page
+                    document.getElementById('appointment-calendar').appendChild(calendar.calendarContainer);
+
+
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Initialize Flatpickr with the hidden input field
+                        var calendar = flatpickr("#appointment_date", {
+                            dateFormat: "Y-m-d", // Match the backend date format
+                            minDate: "{{ date('Y-m-d') }}", // Minimum date set to today
+                            inline: true, // Show the calendar inline
+                            onChange: function(selectedDates, dateStr, instance) {
+                                getSlotsForDate(
+                                    dateStr
+                                    ); // Trigger your existing function when a new date is selected
+                            },
+                            onReady: function(selectedDates, dateStr, instance) {
+                                instance.open(); // Automatically open the calendar on page load
+                            }
+                        });
+
+                        // Set the calendar to show on the page
+                        document.getElementById('appointment-calendar').appendChild(calendar.calendarContainer);
+                    });
+
                     const phoneInputField = document.querySelector("#phone");
                     phoneInputField.value = "+1 ";
                     phoneInputField.addEventListener('keydown', function(e) {
