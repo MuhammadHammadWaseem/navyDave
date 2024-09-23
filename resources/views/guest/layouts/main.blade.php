@@ -138,14 +138,14 @@
 
                         <a href="{{ route('home') }}"> <img src="{{ Storage::url($settings[0]->logo ?? '') }}"
                                 alt="Logo"></a>
-
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                
+                                <p>{{ $settings[0]->footer_description ?? 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' }}</p>
 
                                 <div class="socail-icons">
                                     <ul>
-                                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                        <li><a href="{{ $settings[0]->linkedin_link ?? '#' }}"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                        <li><a href="{{ $settings[0]->facebook_link ?? '#' }}"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                        <li><a href="{{ $settings[0]->twitter_link ?? '#' }}"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
                                     </ul>
                                 </div>
                     </div>

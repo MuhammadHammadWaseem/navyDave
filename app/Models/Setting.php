@@ -16,6 +16,7 @@ class Setting extends Model
         'phone',
         'location',
         'email',
+        'footer_description',
         'copyright',
         'facebook_link',
         'twitter_link',

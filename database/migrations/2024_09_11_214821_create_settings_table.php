@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('phone', 20)->nullable();
             $table->string('location', 255)->nullable();
             $table->string('email', 100)->nullable();
+            $table->text('footer_description')->nullable();
             $table->text('copyright')->nullable();
             $table->string('facebook_link')->nullable(); // Social media links
             $table->string('twitter_link')->nullable();

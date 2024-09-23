@@ -31,7 +31,7 @@
                     <!-- Logo -->
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="logo">Logo</label>
+                            <label for="logo">Logo <span class="text-danger">*</span></label>
                             <input type="file" class="w-100 form-control @error('logo') is-invalid @enderror" id="logo" name="logo">
                             @if(isset($setting->logo))
                                 <img src="{{ asset('storage/'.$setting->logo) }}" alt="Current Logo" style="width:100px;height:100px;">
@@ -100,6 +100,8 @@
                     </div>
                 </div>
 
+
+
                 <div class="row">
                     <!-- Twitter Link -->
                     <div class="col-md-4">
@@ -129,6 +131,19 @@
                             <label for="facebook_link">Facebook Link</label>
                             <input type="text" class="w-100 form-control @error('facebook_link') is-invalid @enderror" id="facebook_link" name="facebook_link" value="{{ old('facebook_link', $setting->facebook_link ?? '') }}">
                             @error('facebook_link')
+                                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Footer Description -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="footer_description">Footer Description <span class="text-danger">*</span></label>
+                            <input type="text" class="w-100 form-control @error('footer_description') is-invalid @enderror" id="footer_description" name="footer_description" value="{{ old('footer_description', $setting->footer_description ?? '') }}">
+                            @error('footer_description')
                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
                         </div>

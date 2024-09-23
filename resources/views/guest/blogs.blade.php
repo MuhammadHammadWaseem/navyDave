@@ -29,6 +29,13 @@
                         </div>
                     </div>
                 @endforeach
+                @if ($blogs->count() == 0)
+                    <div class="col-md-12">
+                        <div class="text text-center">
+                            <h4>No Blog Found</h4>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </section>
