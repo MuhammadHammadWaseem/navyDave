@@ -42,9 +42,9 @@
         <div class="main-calendar-box main-calendar-box-list customers-box">
             <div class="two-things-align">
                 <h5>Settings</h5>
-                <a href="{{ route('admin.setting.create') }}" class="t-btn">
+                {{-- <a href="{{ route('admin.setting.create') }}" class="t-btn">
                     Add Settings
-                </a>
+                </a> --}}
             </div>
         </div>
         <div class="main-table-box main-table-box-list services-table table-responsive">
