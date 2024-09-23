@@ -41,33 +41,6 @@
                     Add Service
                 </a>
             </div>
-            <div class="three-things-align services-box">
-                <div class="main-search-form">
-                    <form action="">
-                        <div class="form-align-box">
-                            <div class="box">
-                                <div class="input-box">
-                                    <input type="text" placeholder="Service Name">
-                                </div>
-                                <div class="select-box">
-                                    <select name="Service Category" id="Service Category">
-                                        <option value="Service Category">Service Category</option>
-                                        <option value="Service Category-01">Service Category-01</option>
-                                        <option value="Service Category-02">Service Category-02</option>
-                                        <option value="Service Category-03">Service Category-03</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="two-btns-align">
-                                <a href="#" class="t-btn">Search Serivce</a>
-                                <a href="#" class="t-btn t-btn-gray">Export List</a>
-                                <a href="#" class="t-btn t-btn-gray">Reset</a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-            </div>
         </div>
         <div class="main-table-box main-table-box-list services-table">
             <table id="servicesTable" class="display">
