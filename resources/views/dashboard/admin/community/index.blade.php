@@ -271,7 +271,6 @@
 
             var channel = pusher.subscribe('community-feed');
             channel.bind('post-created', function(data) {
-                console.log("Hamamd", data);
                 // APPEND
                 const postContainer = document.getElementById('post-container');
 
@@ -652,7 +651,6 @@
                 url: finalUrl,
                 type: 'POST',
                 success: function(response) {
-                    console.log("Comment deleted successfully:", response.comment.post_id);
                     comment(response.comment.post_id, element);
                 },
                 error: function(xhr) {

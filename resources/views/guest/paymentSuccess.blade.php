@@ -12,7 +12,7 @@
                     <div class="text">
                         <h2> Appointment Booked<br> Successfuly </h2>
                         <p>Your payment received and your appointment booked successfully </p>
-                        <a href="http://127.0.0.1:8000/appointment" class="t-btn">Go Back</a>
+                        <a href="{{ route('appointment') }}" class="t-btn">Go Back</a>
                     </div>
                 </div>
             </div>
