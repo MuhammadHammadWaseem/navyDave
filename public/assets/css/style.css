@@ -242,15 +242,17 @@
   }
 
   .home-sec-01 .text p {
-    padding-right: 100px;
+    padding-right: 0px;
   }
 
   .home-sec-01 .swing-box {
     padding-top: 50px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     row-gap: 20px;
+    justify-content: center;
+    text-align: center;
   }
 
   .home-sec-01 .swing-box h6 {
@@ -298,7 +300,7 @@
 
   .home-sec-02 .text p {
     font-size: 30px;
-    padding-right: 20px;
+    padding-right: 0px;
     line-height: 1.2em;
     margin: 20px 0 30px;
   }
