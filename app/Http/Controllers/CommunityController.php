@@ -34,6 +34,58 @@ class CommunityController extends Controller
         return response()->json($posts);
     }
 
+    // public function postGet(Request $request)
+    // {
+    //     // Retrieve the filter type from the request, defaulting to 'latest'
+    //     $filter = $request->input('filter', 'latest');
+
+    //     // Initialize the query with relationships
+    //     $query = Post::with('user', 'likes', 'comments.user', 'images', 'videos');
+
+    //     // Apply filtering logic based on the selected filter
+    //     switch ($filter) {
+    //         case 'popular':
+    //             // Count likes and order by the count in descending order
+    //             $posts = $query->withCount('likes')
+    //                 ->orderBy('likes_count', 'desc')
+    //                 ->paginate(10);
+    //             break;
+
+    //         case 'hot':
+    //             // Get posts that have been liked or commented in the last 7 days
+    //             $posts = $query->withCount([
+    //                 'likes' => function ($query) {
+    //                     $query->where('created_at', '>=', now()->subDays(7)); // Likes in the last 7 days
+    //                 },
+    //                 'comments' => function ($query) {
+    //                     $query->where('created_at', '>=', now()->subDays(7)); // Comments in the last 7 days
+    //                 }
+    //             ])
+    //                 ->having('likes_count', '>', 0) // Only consider posts that have likes
+    //                 ->orHaving('comments_count', '>', 0) // Or comments
+    //                 ->orderByRaw('likes_count + comments_count DESC') // Order by total engagement
+    //                 ->paginate(10);
+    //             break;
+
+    //         case 'latest':
+    //         default:
+    //             // Default to latest posts if no filter is applied
+    //             $posts = $query->latest('created_at')->paginate(10);
+    //             break;
+    //     }
+
+    //     // Transform the posts to include like status and count
+    //     $posts->getCollection()->transform(function ($post) {
+    //         // Check if the authenticated user has liked the post
+    //         $post->hasLiked = $post->likes->where('user_id', auth()->id())->isNotEmpty();
+    //         $post->likeCount = $post->likes->count();
+
+    //         return $post;
+    //     });
+
+    //     return response()->json($posts);
+    // }
+
     public function post(Request $request)
     {
         // Validate request data

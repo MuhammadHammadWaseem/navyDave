@@ -338,10 +338,12 @@
                     color: white;
                     font-weight: 400;
                     border: none;
-                    padding: 10px 40px;
+                    padding: 10px 0px;
                     border-radius: 10px;
-                    font-size: 20px;
+                    font-size: 16px;
                     transition: .3s;
+                    width: 120px;
+                    text-align: center;
                 }
 
                 .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .input-post-inline button:hover {
@@ -467,7 +469,7 @@
                 }
 
                 .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .comment-input-box .box.input-box {
-                    width: 68%;
+                    width: 70%;
                     position: relative;
                 }
 
@@ -642,21 +644,126 @@
                     height: 50px;
                     border: 2px solid #2cc374;
                 }
+
                 .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .person-comment-box .img-box .img img {
-        width: 40px;
-        height: 40px;
-        border-radius: 100%;
-        border: 1px solid #00000026;
-        object-fit: cover;
-    }
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 100%;
+                    border: 1px solid #00000026;
+                    object-fit: cover;
+                }
+
+
+                #preview-box div {
+                    position: relative;
+                    display: inline-block;
+                    margin-bottom: 10px;
+                }
+
+                #preview-box img,
+                #preview-box video {
+                    border-radius: 5px;
+                    border: 1px solid #ddd;
+                }
+
+                .remove-file {
+                    position: absolute;
+                    top: -10px;
+                    right: -10px;
+                    color: white;
+                    border: none;
+                    border-radius: 50%;
+                    width: 20px;
+                    height: 20px;
+                    cursor: pointer;
+                    font-size: 12px;
+                }
+
+
+                .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box div#preview-container div#preview-box div {
+                    border: none !important;
+                    !i;
+                    !;
+                    background-color: #ff000000;
+                    margin: 0;
+                    padding-bottom: 0 !important;
+                    !i;
+                    !;
+                }
+
+                .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box div#preview-container div#preview-box div {
+                    display: flex !important;
+                    !i;
+                    !;
+                    width: 150px;
+                    height: 100px;
+                }
+
+                .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box div#preview-container div#preview-box div img {
+                    width: 100% !important;
+                    !i;
+                    !;
+                    height: 100% !important;
+                }
+
+                .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box div#preview-container div#preview-box div button.remove-file {
+                    border: none !important;
+                    background-color: #2cc374 !important;
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: .3s;
+                }
+
+                .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box div#preview-container div#preview-box div button.remove-file img {
+                    border: none !important;
+                    ;
+                    width: 12px !important;
+                    ;
+                    height: 12px !important;
+                    ;
+                    transition: .3s;
+                }
+
+                .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box div#preview-container div#preview-box div button.remove-file:hover {
+                    background-color: black !important;
+                }
+
+                .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box div#preview-container div#preview-box div button.remove-file:hover img {
+                    filter: invert(1);
+                }
+
+                .main-calendar-box.main-calendar-box-list.customers-box.community-new button#load-more {
+                    background-color: #2cc374;
+                    color: white;
+                    font-weight: 600;
+                    border-radius: 50px;
+                    width: 150px;
+                    padding: 10px;
+                    transition: .3s;
+                    display: block;
+                    margin: auto;
+                    margin-top: 30px !important;
+                    !i;
+                    !;
+                }
+
+                .main-calendar-box.main-calendar-box-list.customers-box.community-new button#load-more:hover {
+                    background-color: black;
+                    color: white;
+                }
             </style>
+
+
             <div class="col-lg-10">
                 <div class="main-calendar-box main-calendar-box-list customers-box community-new ">
                     <div class="two-align-things">
                         <h5> Community Feeds</h5>
 
                         <div class="two-btns-inline">
-                            <a href="#" class="btn active" id="popular-btn">
+                            <a class="btn filter-button" id="popular-btn" data-filter="popular">
                                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -664,7 +771,7 @@
                                         fill="white" />
                                 </svg>
                                 Popular</a>
-                            <a href="#" class="btn" id="hot-btn">
+                            <a class="btn filter-button" id="hot-btn" data-filter="hot">
                                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -678,27 +785,36 @@
 
                     <div class="shadow-box">
                         <div class="input-post-inline">
-                            <input type="text" placeholder="What's on your mind?">
-                            <button>Post</button>
+                            <input type="text" id="post_text" placeholder="What's on your mind?">
+                            <button id="post-submit-button">Post</button>
                         </div>
 
                         <div class="three-link-align">
                             <div class="box">
-                                <label id="upload-photo" for="file-input" style="cursor: pointer">
+                                <label id="upload-photo" for="image-input" style="cursor: pointer">
                                     <img src="{{ asset('assets/images/upload-images.png') }}" width="100%" height="40px"
                                         alt="">
                                 </label>
-                                <input type="file" id="file-input" class="d-none" multiple name="image[]" />
+                                <input type="file" id="image-input" class="d-none" multiple name="image[]"
+                                    accept="image/*" />
                             </div>
 
                             <div class="box">
-                                <label id="upload-photo" for="file-input" style="cursor: pointer">
+                                <label id="upload-video" for="video-input" style="cursor: pointer">
                                     <img src="{{ asset('assets/images/upload-videos.png') }}" width="100%" height="40px"
                                         alt="">
                                 </label>
-                                <input type="file" id="file-input" class="d-none" multiple name="image[]" />
+                                <input type="file" id="video-input" class="d-none" multiple name="image[]"
+                                    accept="video/*" />
                             </div>
 
+                        </div>
+
+                        <!-- Container for previewing uploaded files -->
+                        <div id="preview-container" style="display:none; margin-top: 20px;">
+                            <h5>Preview:</h5>
+                            <div id="preview-box" class="preview-box" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            </div>
                         </div>
 
 
@@ -706,6 +822,9 @@
 
                     <div id="post-detaling">
                     </div>
+
+                    <button id="load-more" onclick="loadPosts()" class="btn btn-secondary text-center mt-3">Show
+                        More</button>
 
                 </div>
             </div>
@@ -734,7 +853,7 @@
             </div>
 
 
-            <button id="load-more" onclick="loadPosts()" class="btn btn-secondary text-center mt-3">Show More</button>
+
 
 
             <!-- jQuery -->
@@ -747,6 +866,171 @@
                 let lastPage = 0;
                 const currentUserId = {{ auth()->user()->id }};
                 const isAdmin = {{ auth()->user()->hasRole('admin') ? 'true' : 'false' }};
+
+
+                // Media Preview
+
+                // Store uploaded files to prevent duplicates
+                let uploadedFiles = new Set();
+
+                // Function to handle image and video preview
+                function previewFiles(input, type) {
+                    const files = input.files;
+                    const previewBox = document.getElementById('preview-box');
+                    let hasFiles = previewBox.childElementCount > 0; // Check if preview already has files
+
+                    Array.from(files).forEach(file => {
+                        const fileName = file.name;
+
+                        // Check if the file is already uploaded
+                        if (uploadedFiles.has(fileName)) {
+                            // alert('This file has already been uploaded!');
+                            return; // Skip the file if it's already uploaded
+                        }
+
+                        const fileReader = new FileReader();
+                        fileReader.onload = function(e) {
+                            let previewElement;
+
+                            // Determine whether it's an image or video and create appropriate element
+                            if (type === 'image') {
+                                previewElement = document.createElement('div');
+                                previewElement.innerHTML = `
+                                    <img src="${e.target.result}" style="width: 100px; height: 100px; object-fit: cover;" />
+                                    <button class="remove-file" data-file-name="${fileName}"><img src="{{ asset('assets/images/close.png') }}" width="20px" height="20px" alt=""></button>
+                                `;
+                            } else if (type === 'video') {
+                                previewElement = document.createElement('div');
+                                previewElement.innerHTML = `
+                                    <video src="${e.target.result}" controls style="width: 150px; height: 100px;"></video>
+                                    <button class="remove-file" data-file-name="${fileName}"><img src="{{ asset('assets/images/close.png') }}" width="20px" height="20px" alt=""></button>
+                                `;
+                            }
+
+                            previewElement.style.position = 'relative';
+                            previewElement.style.display = 'inline-block';
+                            previewElement.style.marginRight = '10px';
+                            previewElement.style.border = '1px solid #ddd';
+                            previewElement.style.borderRadius = '5px';
+                            previewElement.style.textAlign = 'center';
+
+                            // Add file name to the set of uploaded files to avoid duplicates
+                            uploadedFiles.add(fileName);
+
+                            // Append the preview element to the preview box
+                            previewBox.appendChild(previewElement);
+                        };
+
+                        fileReader.readAsDataURL(file);
+                    });
+
+                    // Show the preview container if it was hidden
+                    if (!hasFiles) {
+                        document.getElementById('preview-container').style.display = 'block';
+                    }
+                }
+
+                // Remove file event handler
+                $(document).on('click', '.remove-file', function() {
+                    const fileName = $(this).data('file-name');
+
+                    // Remove the file from the set of uploaded files
+                    uploadedFiles.delete(fileName);
+
+                    // Remove the preview element from the DOM
+                    $(this).parent().remove();
+
+                    // Hide the preview container if there are no more files left
+                    if ($('#preview-box').children().length === 0) {
+                        $('#preview-container').hide();
+                    }
+                });
+
+                // Image input change event
+                document.getElementById('image-input').addEventListener('change', function() {
+                    previewFiles(this, 'image');
+                });
+
+                // Video input change event
+                document.getElementById('video-input').addEventListener('change', function() {
+                    previewFiles(this, 'video');
+                });
+
+                // Media Preview
+
+
+                $("#post-submit-button").click(function() {
+                    $("#post-submit-button").prop("disabled", true);
+                    $("#post-submit-button").text("Posting...");
+
+                    var formData = new FormData();
+                    formData.append('content', $("#post_text").val());
+                    formData.append('_token', '{{ csrf_token() }}');
+
+                    var imageInput = $("#image-input")[0];
+                    var videoInput = $("#video-input")[0];
+
+                    if (imageInput && imageInput.files) {
+                        var imageFiles = imageInput.files;
+                        for (var i = 0; i < imageFiles.length; i++) {
+                            formData.append('files[]', imageFiles[i]);
+                        }
+                    }
+
+                    if (videoInput && videoInput.files) {
+                        var videoFiles = videoInput.files;
+                        for (var i = 0; i < videoFiles.length; i++) {
+                            formData.append('files[]', videoFiles[i]);
+                        }
+                    }
+
+                    $.ajax({
+                        url: '/post',
+                        type: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            $("#post-submit-button").prop("disabled", false);
+                            $("#post-submit-button").text("Post");
+                            toastr.success('Post submitted successfully!');
+                            // Clear the preview container and hide it
+                            document.getElementById('preview-box').innerHTML = '';
+                            document.getElementById('preview-container').style.display = 'none';
+
+                            // Reset the file input fields
+                            document.getElementById('image-input').value = '';
+                            document.getElementById('video-input').value = '';
+
+                            // Clear the uploaded files set
+                            uploadedFiles.clear();
+
+                            // Clear the input field
+                            $("#post_text").val('');
+                        },
+                        error: function(error) {
+                            $("#post-submit-button").prop("disabled", false);
+                            $("#post-submit-button").text("Post");
+                            // Check if the error response contains JSON (validation errors)
+                            if (error.status === 400 && error.responseJSON) {
+                                let errors = error.responseJSON;
+
+                                // Iterate over the error content and print each message
+                                if (errors.content && Array.isArray(errors.content)) {
+                                    errors.content.forEach(function(message) {
+                                        toastr.error(
+                                            message
+                                        ); // Use toastr or console.log(message) to display the errors
+                                    });
+                                } else {
+                                    toastr.error('An unexpected error occurred.');
+                                }
+                            } else {
+                                toastr.error('An unexpected error occurred.');
+                            }
+                        }
+                    });
+                });
 
 
 
@@ -781,6 +1065,7 @@
                             console.log(response);
                             lastPage = response.last_page;
 
+                            console.log("Current Page", currentPage, "Last Page", lastPage);
                             if (currentPage >= lastPage) {
                                 document.getElementById('load-more').style.display = 'none';
                             }
@@ -839,28 +1124,28 @@
                                                     </div>
                                                     <div class="two-btns-inline">
                                                         ${canEditComment ? `
-                                                            <button type="button" class="btn btn-primary" data-comment-id="${firstComment.id}" data-toggle="modal"
-                                                                data-target="#exampleModal"><svg width="20" height="19"
-                                                                    viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path
-                                                                        d="M15.2451 1.63672L17.5293 3.9209L15.788 5.66297L13.5038 3.37879L15.2451 1.63672ZM6.87891 12.2871H9.16309L14.7114 6.73882L12.4272 4.45464L6.87891 10.0029V12.2871Z"
-                                                                        fill="white"></path>
-                                                                    <path
-                                                                        d="M15.2526 14.5715H6.99758C6.97778 14.5715 6.95723 14.5791 6.93743 14.5791C6.91231 14.5791 6.88718 14.5722 6.86129 14.5715H4.5931V3.91195H9.80636L11.3291 2.38916H4.5931C3.75328 2.38916 3.07031 3.07137 3.07031 3.91195V14.5715C3.07031 15.412 3.75328 16.0942 4.5931 16.0942H15.2526C15.6565 16.0942 16.0438 15.9338 16.3294 15.6482C16.615 15.3627 16.7754 14.9753 16.7754 14.5715V7.9717L15.2526 9.49449V14.5715Z"
-                                                                        fill="white"></path>
-                                                                </svg>
-                                                                Edit</button> ` : ''}
+                                                                                                                                                                                                                                    <button type="button" class="btn btn-primary" data-comment-id="${firstComment.id}" data-toggle="modal"
+                                                                                                                                                                                                                                        data-target="#exampleModal"><svg width="20" height="19"
+                                                                                                                                                                                                                                            viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                                                                                                                                                                            <path
+                                                                                                                                                                                                                                                d="M15.2451 1.63672L17.5293 3.9209L15.788 5.66297L13.5038 3.37879L15.2451 1.63672ZM6.87891 12.2871H9.16309L14.7114 6.73882L12.4272 4.45464L6.87891 10.0029V12.2871Z"
+                                                                                                                                                                                                                                                fill="white"></path>
+                                                                                                                                                                                                                                            <path
+                                                                                                                                                                                                                                                d="M15.2526 14.5715H6.99758C6.97778 14.5715 6.95723 14.5791 6.93743 14.5791C6.91231 14.5791 6.88718 14.5722 6.86129 14.5715H4.5931V3.91195H9.80636L11.3291 2.38916H4.5931C3.75328 2.38916 3.07031 3.07137 3.07031 3.91195V14.5715C3.07031 15.412 3.75328 16.0942 4.5931 16.0942H15.2526C15.6565 16.0942 16.0438 15.9338 16.3294 15.6482C16.615 15.3627 16.7754 14.9753 16.7754 14.5715V7.9717L15.2526 9.49449V14.5715Z"
+                                                                                                                                                                                                                                                fill="white"></path>
+                                                                                                                                                                                                                                        </svg>
+                                                                                                                                                                                                                                        Edit</button> ` : ''}
                                                         ${canDeleteComment ? `
-                                                                <button type="button" class="delete-comment" data-comment-id="${firstComment.id}"><svg width="19" height="19" viewBox="0 0 19 19" fill="none"
-                                                                        xmlns="http://www.w3.org/2000/svg">
-                                                                        <path
-                                                                            d="M4.3154 15.331C4.3154 15.7348 4.4758 16.1221 4.76131 16.4076C5.04682 16.6931 5.43406 16.8535 5.83784 16.8535H13.45C13.8538 16.8535 14.241 16.6931 14.5265 16.4076C14.812 16.1221 14.9724 15.7348 14.9724 15.331V6.19645H16.4949V4.67402H13.45V3.15158C13.45 2.74781 13.2896 2.36057 13.0041 2.07506C12.7186 1.78955 12.3313 1.62915 11.9276 1.62915H7.36027C6.95649 1.62915 6.56926 1.78955 6.28375 2.07506C5.99823 2.36057 5.83784 2.74781 5.83784 3.15158V4.67402H2.79297V6.19645H4.3154V15.331ZM7.36027 3.15158H11.9276V4.67402H7.36027V3.15158ZM6.59905 6.19645H13.45V15.331H5.83784V6.19645H6.59905Z"
-                                                                            fill="white"></path>
-                                                                        <path
-                                                                            d="M7.35938 7.71899H8.88181V13.8087H7.35938V7.71899ZM10.4042 7.71899H11.9267V13.8087H10.4042V7.71899Z"
-                                                                            fill="white"></path>
-                                                                    </svg>
-                                                                    Delete</button>` : ''}
+                                                                                                                                                                                                                                        <button type="button" class="delete-comment" data-comment-id="${firstComment.id}"><svg width="19" height="19" viewBox="0 0 19 19" fill="none"
+                                                                                                                                                                                                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                                                                                                                                                                                                <path
+                                                                                                                                                                                                                                                    d="M4.3154 15.331C4.3154 15.7348 4.4758 16.1221 4.76131 16.4076C5.04682 16.6931 5.43406 16.8535 5.83784 16.8535H13.45C13.8538 16.8535 14.241 16.6931 14.5265 16.4076C14.812 16.1221 14.9724 15.7348 14.9724 15.331V6.19645H16.4949V4.67402H13.45V3.15158C13.45 2.74781 13.2896 2.36057 13.0041 2.07506C12.7186 1.78955 12.3313 1.62915 11.9276 1.62915H7.36027C6.95649 1.62915 6.56926 1.78955 6.28375 2.07506C5.99823 2.36057 5.83784 2.74781 5.83784 3.15158V4.67402H2.79297V6.19645H4.3154V15.331ZM7.36027 3.15158H11.9276V4.67402H7.36027V3.15158ZM6.59905 6.19645H13.45V15.331H5.83784V6.19645H6.59905Z"
+                                                                                                                                                                                                                                                    fill="white"></path>
+                                                                                                                                                                                                                                                <path
+                                                                                                                                                                                                                                                    d="M7.35938 7.71899H8.88181V13.8087H7.35938V7.71899ZM10.4042 7.71899H11.9267V13.8087H10.4042V7.71899Z"
+                                                                                                                                                                                                                                                    fill="white"></path>
+                                                                                                                                                                                                                                            </svg>
+                                                                                                                                                                                                                                            Delete</button>` : ''}
                                                     </div>
                                                 </div>
                                                 <div class="content-area-comment">
@@ -891,28 +1176,28 @@
                                                             </div>
                                                             <div class="two-btns-inline">
                                                                 ${canEditComment ? `
-                                                                                                                                                                        <button type="button" class="btn btn-primary" data-comment-id="${comment.id}" data-toggle="modal"
-                                                                                                                                                                            data-target="#exampleModal"><svg width="20" height="19"
-                                                                                                                                                                                viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                                                                                                                <path
-                                                                                                                                                                                    d="M15.2451 1.63672L17.5293 3.9209L15.788 5.66297L13.5038 3.37879L15.2451 1.63672ZM6.87891 12.2871H9.16309L14.7114 6.73882L12.4272 4.45464L6.87891 10.0029V12.2871Z"
-                                                                                                                                                                                    fill="white"></path>
-                                                                                                                                                                                <path
-                                                                                                                                                                                    d="M15.2526 14.5715H6.99758C6.97778 14.5715 6.95723 14.5791 6.93743 14.5791C6.91231 14.5791 6.88718 14.5722 6.86129 14.5715H4.5931V3.91195H9.80636L11.3291 2.38916H4.5931C3.75328 2.38916 3.07031 3.07137 3.07031 3.91195V14.5715C3.07031 15.412 3.75328 16.0942 4.5931 16.0942H15.2526C15.6565 16.0942 16.0438 15.9338 16.3294 15.6482C16.615 15.3627 16.7754 14.9753 16.7754 14.5715V7.9717L15.2526 9.49449V14.5715Z"
-                                                                                                                                                                                    fill="white"></path>
-                                                                                                                                                                            </svg>
-                                                                                                                                                                            Edit</button> `: ''}
+                                                                                                                                                                                                                                                    <button type="button" class="btn btn-primary" data-comment-id="${comment.id}" data-toggle="modal"
+                                                                                                                                                                                                                                                        data-target="#exampleModal"><svg width="20" height="19"
+                                                                                                                                                                                                                                                            viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                                                                                                                                                                                            <path
+                                                                                                                                                                                                                                                                d="M15.2451 1.63672L17.5293 3.9209L15.788 5.66297L13.5038 3.37879L15.2451 1.63672ZM6.87891 12.2871H9.16309L14.7114 6.73882L12.4272 4.45464L6.87891 10.0029V12.2871Z"
+                                                                                                                                                                                                                                                                fill="white"></path>
+                                                                                                                                                                                                                                                            <path
+                                                                                                                                                                                                                                                                d="M15.2526 14.5715H6.99758C6.97778 14.5715 6.95723 14.5791 6.93743 14.5791C6.91231 14.5791 6.88718 14.5722 6.86129 14.5715H4.5931V3.91195H9.80636L11.3291 2.38916H4.5931C3.75328 2.38916 3.07031 3.07137 3.07031 3.91195V14.5715C3.07031 15.412 3.75328 16.0942 4.5931 16.0942H15.2526C15.6565 16.0942 16.0438 15.9338 16.3294 15.6482C16.615 15.3627 16.7754 14.9753 16.7754 14.5715V7.9717L15.2526 9.49449V14.5715Z"
+                                                                                                                                                                                                                                                                fill="white"></path>
+                                                                                                                                                                                                                                                        </svg>
+                                                                                                                                                                                                                                                        Edit</button> `: ''}
                                                                 ${canDeleteComment ? `
-                                                                                                                                                                        <button type="button" class="delete-comment" data-comment-id="${comment.id}"><svg width="19" height="19" viewBox="0 0 19 19" fill="none"
-                                                                                                                                                                                xmlns="http://www.w3.org/2000/svg">
-                                                                                                                                                                                <path
-                                                                                                                                                                                    d="M4.3154 15.331C4.3154 15.7348 4.4758 16.1221 4.76131 16.4076C5.04682 16.6931 5.43406 16.8535 5.83784 16.8535H13.45C13.8538 16.8535 14.241 16.6931 14.5265 16.4076C14.812 16.1221 14.9724 15.7348 14.9724 15.331V6.19645H16.4949V4.67402H13.45V3.15158C13.45 2.74781 13.2896 2.36057 13.0041 2.07506C12.7186 1.78955 12.3313 1.62915 11.9276 1.62915H7.36027C6.95649 1.62915 6.56926 1.78955 6.28375 2.07506C5.99823 2.36057 5.83784 2.74781 5.83784 3.15158V4.67402H2.79297V6.19645H4.3154V15.331ZM7.36027 3.15158H11.9276V4.67402H7.36027V3.15158ZM6.59905 6.19645H13.45V15.331H5.83784V6.19645H6.59905Z"
-                                                                                                                                                                                    fill="white"></path>
-                                                                                                                                                                                <path
-                                                                                                                                                                                    d="M7.35938 7.71899H8.88181V13.8087H7.35938V7.71899ZM10.4042 7.71899H11.9267V13.8087H10.4042V7.71899Z"
-                                                                                                                                                                                    fill="white"></path>
-                                                                                                                                                                            </svg>
-                                                                                                                                                                            Delete</button>` : ''}
+                                                                                                                                                                                                                                                        <button type="button" class="delete-comment" data-comment-id="${comment.id}"><svg width="19" height="19" viewBox="0 0 19 19" fill="none"
+                                                                                                                                                                                                                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                                                                                                                                                                                                                <path
+                                                                                                                                                                                                                                                                    d="M4.3154 15.331C4.3154 15.7348 4.4758 16.1221 4.76131 16.4076C5.04682 16.6931 5.43406 16.8535 5.83784 16.8535H13.45C13.8538 16.8535 14.241 16.6931 14.5265 16.4076C14.812 16.1221 14.9724 15.7348 14.9724 15.331V6.19645H16.4949V4.67402H13.45V3.15158C13.45 2.74781 13.2896 2.36057 13.0041 2.07506C12.7186 1.78955 12.3313 1.62915 11.9276 1.62915H7.36027C6.95649 1.62915 6.56926 1.78955 6.28375 2.07506C5.99823 2.36057 5.83784 2.74781 5.83784 3.15158V4.67402H2.79297V6.19645H4.3154V15.331ZM7.36027 3.15158H11.9276V4.67402H7.36027V3.15158ZM6.59905 6.19645H13.45V15.331H5.83784V6.19645H6.59905Z"
+                                                                                                                                                                                                                                                                    fill="white"></path>
+                                                                                                                                                                                                                                                                <path
+                                                                                                                                                                                                                                                                    d="M7.35938 7.71899H8.88181V13.8087H7.35938V7.71899ZM10.4042 7.71899H11.9267V13.8087H10.4042V7.71899Z"
+                                                                                                                                                                                                                                                                    fill="white"></path>
+                                                                                                                                                                                                                                                            </svg>
+                                                                                                                                                                                                                                                            Delete</button>` : ''}
                                                             </div>
                                                         </div>
                                                         <div class="content-area-comment">
@@ -1004,7 +1289,7 @@
                                                     ${post.comments.length > 1 ? '<button id="toggleBtn" onclick="toggleComments(this)" class="show-more">See More...</button>' : ''}
                                             </div>
                                         </div>
-                            `);
+                                `);
                                 })
                             }
 
@@ -1221,6 +1506,7 @@
 
 
                 $(document).ready(function() {
+
                     loadPosts();
                     Pusher.logToConsole = false;
 
@@ -1234,6 +1520,124 @@
 
                     channel.bind('post-created', function(data) {
                         console.log("Hamamd", data);
+                        console.log("Hamamd", data.post);
+
+                        // APPEND
+                        if (data.post) {
+                            let post = data.post;
+
+                            let imageSection = '';
+                            let videoSection = '';
+                            let commentSection = '';
+                            let moreComments = '';
+
+                            // Loop through images
+                            if (post.images) {
+                                post.images.forEach(image => {
+                                    imageSection += `
+                                                <div class="box imge video">
+                                                        <img src="{{ Storage::url('${image.path}') }}" width="100px" height="100px" alt="" >
+                                                </div>
+                                            `;
+                                });
+                            }
+
+                            // Loop through videos
+                            if (post.videos) {
+                                post.videos.forEach(video => {
+                                    videoSection += `
+                                                <div class="box imge video">
+                                                    <video poster="{{ Storage::url('${video.path}') }}" controls preload="none">
+                                                        <source src="{{ Storage::url('${video.path}') }}" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                </div>
+                                            `;
+                                });
+                            }
+
+                            // Define a character limit for the displayed text
+                            const contentLimit = 300;
+                            const isLongContent = post.content.length > contentLimit;
+                            const truncatedContent = isLongContent ? post.content.substring(0,
+                                contentLimit) + '...' : post.content;
+
+                            const likedStyle = post.hasLiked ? "liked" : "";
+
+
+                            $("#post-detaling").prepend(`
+                                        <div class="shadow-box post-detaling">
+                                            <div class="main-admin-blog">
+                                                    <div class="parent-person-box">
+                                                        <div class="person-details">
+                                                            <img src="{{ Storage::url('${post.user.image}') }}" alt="">
+                                                            <div class="content">
+                                                                <h6>${post.user.name}</h6>
+                                                                <h5>${post.user.email}</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="person-details-date">
+                                                            <h4>${timeAgo(post.created_at)}</h4>
+                                                        </div>
+                                                    </div>
+                                                    <div class="detalingsread-more">
+                                                        <div class="content">
+                                                            <p>
+                                                                <span class="less-text">${truncatedContent}
+                                                                </span> <span class="more-text" style="display:none;">${post.content}</span>
+                                                                ${isLongContent ? '<a href="javascript:void(0);" class="read-more-btn" onclick="toggleText(this)">Read more...</a>' : ''}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="scroll-full-box">
+                                                        ${imageSection}
+                                                        ${videoSection}
+                                                    </div>
+                                                    <div class="comment-input-box">
+                                                        <div class="box input-box">
+                                                                <input type="text" id="commentInput" placeholder="What’s on your mind?">
+                                                                <button onclick="addComment(${post.id}, this)">Comment</button>
+                                                        </div>
+                                                        <div class="two-btns-inline">
+                                                            <div class="box like-btn">
+                                                                <button id="likeButton" class="${likedStyle}" onclick="likePost(${post.id}, this)">
+                                                                    <svg width="25" height="26" viewBox="0 0 25 26" fill="none"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path
+                                                                            d="M20.834 8.83325H14.9882L16.1579 5.32596C16.3684 4.69263 16.2621 3.99054 15.8715 3.44888C15.4809 2.90721 14.8475 2.58325 14.1798 2.58325H12.5007C12.1913 2.58325 11.8986 2.72075 11.6996 2.95825L6.80378 8.83325H4.16732C3.01836 8.83325 2.08398 9.76763 2.08398 10.9166V20.2916C2.08398 21.4405 3.01836 22.3749 4.16732 22.3749H18.0288C18.4526 22.3735 18.8661 22.2435 19.2144 22.0021C19.5628 21.7607 19.8297 21.4192 19.9798 21.0228L22.8517 13.3655C22.8953 13.2486 22.9175 13.1247 22.9173 12.9999V10.9166C22.9173 9.76763 21.9829 8.83325 20.834 8.83325ZM4.16732 10.9166H6.25065V20.2916H4.16732V10.9166ZM20.834 12.8114L18.0288 20.2916H8.33398V10.252L12.9882 4.66659H14.1819L12.5548 9.54471C12.502 9.70129 12.4873 9.8682 12.5118 10.0316C12.5364 10.195 12.5996 10.3502 12.6961 10.4843C12.7927 10.6185 12.9198 10.7276 13.067 10.8028C13.2141 10.878 13.3771 10.917 13.5423 10.9166H20.834V12.8114Z"
+                                                                            fill="#222222" />
+                                                                    </svg>
+                                                                    <span id="like-count-${post.id}">0</span> Likes
+                                                                </button>
+                                                            </div>
+                                                            <div class="box like-btn">
+                                                                <button id="commentButton"><svg width="25" height="26" viewBox="0 0 25 26" fill="none"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path
+                                                                            d="M5.20833 2.58325C4.05937 2.58325 3.125 3.51763 3.125 4.66659V17.1666C3.125 18.3155 4.05937 19.2499 5.20833 19.2499H8.94375L12.5 22.8062L16.0562 19.2499H19.7917C20.9406 19.2499 21.875 18.3155 21.875 17.1666V4.66659C21.875 3.51763 20.9406 2.58325 19.7917 2.58325H5.20833ZM19.7917 17.1666H15.1938L12.5 19.8603L9.80625 17.1666H5.20833V4.66659H19.7917V17.1666Z"
+                                                                            fill="#222222" />
+                                                                        <path
+                                                                            d="M7.29102 7.79175H17.7077V9.87508H7.29102V7.79175ZM7.29102 11.9584H14.5827V14.0417H7.29102V11.9584Z"
+                                                                            fill="#222222" />
+                                                                    </svg>
+
+                                                                    <span id="comment-count-${post.id}">${post.comments.length}</span> Comments</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="post-${post.id}" class="person-comments-section">
+
+                                                    ${commentSection}
+                                                    ${moreComments}
+
+                                                    ${post.comments.length > 1 ? '<button id="toggleBtn" onclick="toggleComments(this)" class="show-more">See More...</button>' : ''}
+                                            </div>
+                                        </div>
+                                `);
+                        }
+                        // APPEND
                     });
 
                 });
@@ -1248,6 +1652,7 @@
                     this.classList.add('active');
                     document.getElementById('popular-btn').classList.remove('active');
                 });
+
 
                 function toggleText(button) {
                     // Find the parent <p> element

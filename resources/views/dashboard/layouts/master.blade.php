@@ -99,6 +99,36 @@
                         <div class="input-box-other-details">
                             <div class="logout-setting-bell-all align-items-center">
                                 <div class="logout-box">
+                                        <div class="notification-box-main">
+                                            <a href="javascript:void(0)" id="notificationLink-box">
+                                                <i class="fa fa-bell" aria-hidden="true"></i> Notifications
+                                            </a>
+                                            <span>01</span>
+                                        </div>
+                                    
+                                    <div id="notification-box" style="display: none;">
+                                       <div class="main-heading">
+                                        <h6>New notifications</h6>
+                                       </div>
+                                       <div class="new-notfication-box">
+                                        <a href="#">
+                                            <h5>asdasdasd</h5>
+                                            <p>You have a new notification</p>
+                                        </a>
+                                        <a href="#">
+                                            <h5>asdasdasd</h5>
+                                            <p>You have a new notification</p>
+                                        </a>
+                                        <a href="#">
+                                            <h5>asdasdasd</h5>
+                                            <p>You have a new notification</p>
+                                        </a>
+                                       </div>
+                                       <div class="no-notification-box">
+                                        <i class="fa fa-bell-slash" aria-hidden="true"></i>
+                                        - No new notifications -
+                                       </div>
+                                    </div>
                                     <a href="{{ route('home') }}"><i class="fa fa-globe" aria-hidden="true"></i>Visit
                                         Site</a>
                                     <a href="{{ route('logout') }}"><i class="fa fa-user"
@@ -263,6 +293,25 @@
             wow.init();
         });
     </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Toggle the notification box when the anchor is clicked
+        $('#notificationLink-box').on('click', function(e) {
+            e.preventDefault();
+            $('#notification-box').toggle();
+        });
+
+        // Hide the notification box when clicking outside of it
+        $(document).on('click', function(e) {
+            var target = $(e.target);
+            if (!target.closest('#notification-box').length && !target.closest('#notificationLink-box').length) {
+                $('#notification-box').hide();
+            }
+        });
+    });
+</script>
 </body>
 
 </html>
