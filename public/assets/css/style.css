@@ -1670,7 +1670,7 @@
       width: 100%;
   }
 
-  .new-form .vertical-align-box .form-box form .single-input-box input {
+  .new-form .vertical-align-box .form-box form .single-input-box input,.new-form .vertical-align-box .form-box form .single-input-box select {
     background-color: #E7E7E7;
     width: 100%;
     height: 60px;
@@ -1680,6 +1680,10 @@
     color: #999999;
     font-size: 20px;
   }
+
+  .new-form .vertical-align-box .form-box form .single-input-box select {
+    padding: 10px;
+}
 
   .new-form .vertical-align-box .form-box form  .input-check-box input {
     width: 20px;

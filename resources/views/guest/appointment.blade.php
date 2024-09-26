@@ -62,7 +62,7 @@
         transition: .3s;
         font-size: 30px;
         margin-top: 40px;
-        transform: translateY(550%);
+        transform: translateY(250%);
         position: absolute;
         z-index: 999999999;
         top: 0;

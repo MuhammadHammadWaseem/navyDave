@@ -21,7 +21,7 @@ class CommunityController extends Controller
 
     public function postGet(Request $request)
     {
-        $posts = Post::with('user', 'likes', 'comments', 'images', 'videos')->latest('created_at')->paginate(10);
+        $posts = Post::with('user', 'likes', 'comments.user', 'images', 'videos')->latest('created_at')->paginate(10);
 
         $posts->getCollection()->transform(function ($post) {
             // Check if the authenticated user has liked the post
@@ -111,44 +111,73 @@ class CommunityController extends Controller
         return response()->json(['message' => 'Comment submitted successfully!', 'comment' => $newComment, 'count' => $count]);
     }
     public function like(Request $request, $postId)
-{
-    $post = Post::findOrFail($postId);
+    {
+        $post = Post::findOrFail($postId);
 
-    // Check if the user has already liked the post
-    $existingLike = $post->likes()->where('user_id', auth()->id())->first();
-    if ($existingLike) {
-        // Remove the like
-        $existingLike->delete();
-        return response()->json(['message' => 'Post unliked successfully!', 'likes' => $post->likes()->count(), 'liked' => false]);
+        // Check if the user has already liked the post
+        $existingLike = $post->likes()->where('user_id', auth()->id())->first();
+        if ($existingLike) {
+            // Remove the like
+            $existingLike->delete();
+            return response()->json(['message' => 'Post unliked successfully!', 'likes' => $post->likes()->count(), 'liked' => false]);
+        }
+
+        // Add a new like
+        $post->likes()->create(['user_id' => auth()->id()]);
+
+        // Get the updated like count
+        $likes = $post->likes()->count();
+
+        return response()->json(['message' => 'Post liked successfully!', 'likes' => $likes, 'liked' => true]);
     }
 
-    // Add a new like
-    $post->likes()->create(['user_id' => auth()->id()]);
+    public function update(Request $request, $id)
+    {
+        // Validate the request
+        $request->validate([
+            'content' => 'required|string|max:500', // Adjust validation rules as needed
+        ]);
 
-    // Get the updated like count
-    $likes = $post->likes()->count();
+        // Find the comment by ID
+        $comment = Comment::findOrFail($id); // Automatically returns a 404 if not found
 
-    return response()->json(['message' => 'Post liked successfully!', 'likes' => $likes, 'liked' => true]);
-}
+        // Check if the user is authorized to update the comment
+        // Assuming the user can update their own comments or an admin can update any
+        if ($comment->user_id !== auth()->id() && !auth()->user()->is_admin) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
+        // Update the comment's content
+        $comment->comment = $request->input('content');
+        $comment->save();
 
-// comment delete
-public function deleteComment($id)
-{
-    // Find the comment by ID
-    $comment = Comment::findOrFail($id);
-
-    // Get the current authenticated user
-    $user = auth()->user();
-    // Check if the user is an admin or the owner of the comment
-    if ($user->hasRole('admin') || $comment->user_id === $user->id) {
-        // User is allowed to delete the comment
-        $comment->delete();
-
-        return response()->json(['message' => 'Comment deleted successfully.', 'comment' => $comment], 200);
-    } else {
-        // User is not authorized to delete the comment
-        return response()->json(['message' => 'You are not authorized to delete this comment.', 'comment' => $comment], 403);
+        // Return a success response
+        return response()->json(['message' => 'Comment updated successfully', 'comment' => $comment]);
     }
-}
+
+
+    // comment delete
+    public function deleteComment($id)
+    {
+
+        // Authorize that the user can delete the comment
+        // Find the comment by ID
+        $comment = Comment::findOrFail($id);
+        // $this->authorize('delete', $comment);
+
+        // Get the current authenticated user
+        $user = auth()->user();
+        // Check if the user is an admin or the owner of the comment
+        if ($user->hasRole('admin') || $comment->user_id === $user->id) {
+            // User is allowed to delete the comment
+            $comment->delete();
+
+            $count = Comment::where('post_id', '=', $comment->post_id)->count();
+
+            return response()->json(['message' => 'Comment deleted successfully.', 'comment' => $comment, 'count' => $count], 200);
+        } else {
+            // User is not authorized to delete the comment
+            return response()->json(['message' => 'You are not authorized to delete this comment.', 'comment' => $comment], 403);
+        }
+    }
 }

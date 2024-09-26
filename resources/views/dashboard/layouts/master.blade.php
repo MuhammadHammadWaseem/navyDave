@@ -33,6 +33,8 @@
     {{-- DataTable --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
 
 </head>
 
@@ -97,7 +99,8 @@
                         <div class="input-box-other-details">
                             <div class="logout-setting-bell-all align-items-center">
                                 <div class="logout-box">
-                                    <a href="{{ route('home') }}"><i class="fa fa-globe" aria-hidden="true"></i>Visit Site</a>
+                                    <a href="{{ route('home') }}"><i class="fa fa-globe" aria-hidden="true"></i>Visit
+                                        Site</a>
                                     <a href="{{ route('logout') }}"><i class="fa fa-user"
                                             aria-hidden="true"></i>Logout</a>
                                     @if (auth()->user()->hasRole('admin'))
@@ -243,6 +246,8 @@
     <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
+    <!-- SweetAlert JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 
 
 
