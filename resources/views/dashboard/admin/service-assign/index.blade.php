@@ -60,6 +60,13 @@
     .select2-container {
         width: 100% !important;
     }
+    .select2-dropdown {
+        z-index: 99999 !important;
+    }
+    .select2-dropdown--below {
+        z-index: 99999 !important;
+    }
+    
 </style>
 
 @section('content')
@@ -67,7 +74,7 @@
         <div class="main-calendar-box main-calendar-box-list customers-box">
             <div class="two-things-align">
                 <h5>Services Assign</h5>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#assignService">
+                <button type="button" class="btn btn-primary" data-toggle="modal" onclick="addService()" data-target="#assignService">
                     Add Service
                 </button>
             </div>
@@ -161,6 +168,10 @@
         $('#services').select2();
         showTable();
     });
+
+    function addService() {
+        $('#assignService').modal('show');
+    }
 
     function showTable() {
         $.ajax({
