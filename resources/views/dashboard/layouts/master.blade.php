@@ -6,36 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ config('app.name') }}</title>
-    <link rel="icon" href="{{ asset('./assets/images/favicon.png') }}" type="favicon.png" sizes="32x32">
-    <link rel="stylesheet" href="{{ asset('./assets/css/lib.css') }}">
-    <link rel="stylesheet" href="{{ asset('./assets/css/adminStyle.css') }}">
-    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/png" sizes="32x32">
+    <link rel="stylesheet" href="{{ asset('assets/css/lib.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/adminStyle.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
-    <!-- Toastr -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
-    <!-- DataTables Buttons CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
-    <!-- Select2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <!-- FullCalendar CSS -->
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css' rel='stylesheet' />
-    {{-- DataTable --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
-    <!-- SweetAlert CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css' rel='stylesheet' />
 </head>
 
 <body>
@@ -99,35 +82,35 @@
                         <div class="input-box-other-details">
                             <div class="logout-setting-bell-all align-items-center">
                                 <div class="logout-box">
-                                        <div class="notification-box-main">
-                                            <a href="javascript:void(0)" id="notificationLink-box">
-                                                <i class="fa fa-bell" aria-hidden="true"></i> Notifications
-                                            </a>
-                                            <span>01</span>
-                                        </div>
-                                    
+                                    <div class="notification-box-main">
+                                        <a href="javascript:void(0)" id="notificationLink-box">
+                                            <i class="fa fa-bell" aria-hidden="true"></i> Notifications
+                                        </a>
+                                        <span>01</span>
+                                    </div>
+
                                     <div id="notification-box" style="display: none;">
-                                       <div class="main-heading">
-                                        <h6>New notifications</h6>
-                                       </div>
-                                       <div class="new-notfication-box">
-                                        <a href="#">
-                                            <h5>asdasdasd</h5>
-                                            <p>You have a new notification</p>
-                                        </a>
-                                        <a href="#">
-                                            <h5>asdasdasd</h5>
-                                            <p>You have a new notification</p>
-                                        </a>
-                                        <a href="#">
-                                            <h5>asdasdasd</h5>
-                                            <p>You have a new notification</p>
-                                        </a>
-                                       </div>
-                                       <div class="no-notification-box">
-                                        <i class="fa fa-bell-slash" aria-hidden="true"></i>
-                                        - No new notifications -
-                                       </div>
+                                        <div class="main-heading">
+                                            <h6>New notifications</h6>
+                                        </div>
+                                        <div class="new-notfication-box">
+                                            <a href="#">
+                                                <h5>asdasdasd</h5>
+                                                <p>You have a new notification</p>
+                                            </a>
+                                            <a href="#">
+                                                <h5>asdasdasd</h5>
+                                                <p>You have a new notification</p>
+                                            </a>
+                                            <a href="#">
+                                                <h5>asdasdasd</h5>
+                                                <p>You have a new notification</p>
+                                            </a>
+                                        </div>
+                                        <div class="no-notification-box">
+                                            <i class="fa fa-bell-slash" aria-hidden="true"></i>
+                                            - No new notifications -
+                                        </div>
                                     </div>
                                     <a href="{{ route('home') }}"><i class="fa fa-globe" aria-hidden="true"></i>Visit
                                         Site</a>
@@ -232,7 +215,7 @@
                         </ul>
                     </div>
                 </div>
-
+                
                 @yield('content')
 
             </div>
@@ -241,77 +224,36 @@
 
 
 
-    <script src="{{ asset('./assets/js/wow-animate.js') }}"></script>
-    <script src="{{ asset('./assets/js/lib.js') }}"></script>
-    <script src=" {{ asset('./assets/js/custom.js') }}"></script>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
-    <!-- FullCalendar JS -->
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js'></script>
-    <!-- DataTables Buttons JS -->
-    <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
-
-    <!-- Custom JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js"></script>
-
-    {{-- Toaster --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-    <!-- Include select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-    {{-- DataTables --}}
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
-    <!-- SweetAlert JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
 
 
 
-    <script type="text/javascript">
-        $(document).on('ready', function() {
-            wow = new WOW({
-                animateClass: 'animated',
-                offset: 100,
-                callback: function(box) {
-                    console.log("WOW: animating <" + box.tagName.toLowerCase() + ">")
+    <script>
+        $(document).ready(function() {
+            // Toggle the notification box when the anchor is clicked
+            $('#notificationLink-box').on('click', function(e) {
+                e.preventDefault();
+                $('#notification-box').toggle();
+            });
+
+            // Hide the notification box when clicking outside of it
+            $(document).on('click', function(e) {
+                var target = $(e.target);
+                if (!target.closest('#notification-box').length && !target.closest('#notificationLink-box')
+                    .length) {
+                    $('#notification-box').hide();
                 }
             });
-            wow.init();
         });
     </script>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        // Toggle the notification box when the anchor is clicked
-        $('#notificationLink-box').on('click', function(e) {
-            e.preventDefault();
-            $('#notification-box').toggle();
-        });
-
-        // Hide the notification box when clicking outside of it
-        $(document).on('click', function(e) {
-            var target = $(e.target);
-            if (!target.closest('#notification-box').length && !target.closest('#notificationLink-box').length) {
-                $('#notification-box').hide();
-            }
-        });
-    });
-</script>
 </body>
 
 </html>
