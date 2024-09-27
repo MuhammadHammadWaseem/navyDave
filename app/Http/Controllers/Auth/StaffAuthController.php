@@ -27,8 +27,9 @@ class StaffAuthController extends Controller
 
     public function calendar()
     {
+
         $staff = Staff::where('user_id', auth()->user()->id)->get();
-        $appointments = Appointment::where('staff_id', $staff[0]->id)->get();
+        $appointments = Appointment::with('service.category', 'staff.user', 'slot', 'payment')->where('staff_id', $staff[0]->id)->get();
         return view('dashboard.staff.calendar.index', compact('appointments'));
     }
 
