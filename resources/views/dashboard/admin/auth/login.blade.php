@@ -88,12 +88,13 @@
                                             aria-describedby="basic-addon1" required>
                                     </div>
                                     <div class="single-input-box">
-                                        <input type="text" name="password" placeholder="Password * "
+                                        <input type="password" name="password" id="password" placeholder="Password * "
                                             aria-label="Password" aria-describedby="basic-addon2" required>
                                     </div>
                                     <div class="input-check-box">
-                                        <input type="checkbox" name="remeber-me">
-                                        <label for="remeber-me">Remeber Me</label>
+                                        <input type="checkbox" id="show-password" name="remember-me"
+                                            onclick="togglePassword()">
+                                        <label for="show-password">See password</label>
                                     </div>
 
                                     <button type="submit">Login</button>
@@ -117,6 +118,20 @@
     <script src="{{ asset('./assets/js/custom.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js"></script>
+
+    <script>
+        function togglePassword() {
+            var passwordField = document.getElementById("password");
+
+            var checkbox = document.getElementById("show-password");
+
+            if (checkbox.checked) {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+    </script>
 </body>
 
 </html>

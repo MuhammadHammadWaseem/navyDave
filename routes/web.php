@@ -29,6 +29,14 @@ use App\Http\Controllers\Auth\StaffAuthController;
 |
 */
 
+// for Getting Google token
+Route::get('/google-auth', [AdminAuthController::class, 'redirectToGoogle']);
+// for Handling Google callback
+Route::get('/google-auth/callback', [AdminAuthController::class, 'handleGoogleCallback']);
+// for Create sample event
+Route::get('/check', [AdminAuthController::class, 'check']);
+
+
  // Community like and unlike
     Route::post('/like/{type}/{id}', [CommunityController::class, 'like'])->name('like');
     Route::post('/unlike/{type}/{id}', [CommunityController::class, 'unlike'])->name('unlike');

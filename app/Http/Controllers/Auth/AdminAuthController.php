@@ -16,6 +16,12 @@ use App\Models\Subscriber;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+use Laravel\Socialite\Facades\Socialite;
+use Spatie\GoogleCalendar\Event;
+use App\Models\Slot;
+use Carbon\Carbon;
+use GuzzleHttp\Client;
+
 class AdminAuthController extends Controller
 {
     public function showLoginForm()
@@ -37,12 +43,11 @@ class AdminAuthController extends Controller
             // Check if the user has the 'admin' role
             if (Auth::user()->hasRole('admin')) {
                 return redirect()->route('admin.dashboard'); // Redirect to admin dashboard
-            } else if(Auth::user()->hasRole('staff')) {
+            } else if (Auth::user()->hasRole('staff')) {
                 return redirect()->route('staff.dashboard');
-            } else if(Auth::user()->hasRole('user')) {
+            } else if (Auth::user()->hasRole('user')) {
                 return redirect()->route('user.dashboard');
-            }
-            else {
+            } else {
                 Auth::logout(); // Log out if not an admin
                 return redirect()->route('admin.login')->withErrors('Unauthorized access.');
             }
@@ -111,7 +116,7 @@ class AdminAuthController extends Controller
         $approvedAppointments = Appointment::where('status', 'confirmed')->count();
         $totalAppointments = Appointment::count();
         $pendingAppointments = Appointment::where('status', 'pending')->count();
-        $appointments = Appointment::with('slot','payment')->orderBy('id', 'desc')->take(10)->get();
+        $appointments = Appointment::with('slot', 'payment')->orderBy('id', 'desc')->take(10)->get();
         return view('dashboard.admin.dashboard', compact('revenue', 'approvedAppointments', 'totalAppointments', 'pendingAppointments', 'appointments'));
     }
 
@@ -121,9 +126,10 @@ class AdminAuthController extends Controller
         return view('dashboard.admin.auth.profile', compact('user'));
 
     }
-    public function appointment(){
+    public function appointment()
+    {
         return view('dashboard.admin.appointment.index');
-        }
+    }
 
     public function profileupdate(Request $request)
     {
@@ -144,7 +150,7 @@ class AdminAuthController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
@@ -180,7 +186,7 @@ class AdminAuthController extends Controller
             $user->image = $uniqueName;
             $user->save();
         }
-        
+
         // Redirect back with a success message
         return redirect()->route('admin.profile')->with('success', 'Profile updated successfully.');
     }
@@ -189,6 +195,91 @@ class AdminAuthController extends Controller
     {
         $subscribers = Subscriber::all();
         return view('dashboard.admin.subscribers.index', compact('subscribers'));
+    }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')
+            ->scopes(['https://www.googleapis.com/auth/calendar'])
+            ->redirect();
+    }
+
+    public function handleGoogleCallback(Request $request)
+    {
+        // Get the user from Google
+        $user = Socialite::driver('google')->stateless()->user();
+
+        // You can now access the user's details, such as:
+        $token = $user->token; // Access token
+        $refreshToken = $user->refreshToken; // Refresh token, if available
+        $expiresIn = $user->expiresIn; // Token expiration time
+
+        // Optionally, store the token and other info in the session or database
+        session(['google_token' => $token]);
+
+        // Redirect to a different page or return a view
+        return redirect('/')->with('success', 'Google OAuth successful.');
+    }
+
+    public function syncCalendar()
+    {
+        // Access token should be stored in session
+        $token = session('google_token');
+
+        // Use token to create a new calendar event
+        // Fetch events and use them to sync
+        $event = new Event;
+        $event->name = 'Sample Event';
+        $event->startDateTime = now();
+        $event->endDateTime = now()->addHour();
+        $event->save();
+
+        return "Events synced to Google Calendar!";
+    }
+
+    public function check()
+    {
+        // Get the access token from session
+        $token = session('google_token');
+
+        if (!$token) {
+            return redirect('/')->with('error', 'Google token not found. Please authenticate with Google.');
+        }
+
+        // Prepare the event details
+        $event = [
+            'summary' => 'New Appointment',
+            'start' => [
+                'dateTime' => '2024-09-30T10:00:00-07:00', // Set the start date and time
+                'timeZone' => 'America/Los_Angeles',
+            ],
+            'end' => [
+                'dateTime' => '2024-09-30T11:00:00-07:00', // Set the end date and time
+                'timeZone' => 'America/Los_Angeles',
+            ],
+        ];
+
+        // Use Guzzle to send the request
+        $client = new Client();
+        $response = $client->post('https://www.googleapis.com/calendar/v3/calendars/primary/events', [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $token,
+                'Content-Type' => 'application/json',
+            ],
+            'json' => $event,
+        ]);
+
+        if ($response->getStatusCode() == 200) {
+            Log::error('Google Calendar Event Creation Failed: ', ['response' => $response->getBody()->getContents()]);
+            dd("Event created successfully.");
+        } else {
+            Log::error('Google Calendar Event Creation Failed: ', ['response' => $response->getBody()->getContents()]);
+            dd("Event creation failed.");
+        }// Check if the token is expired
+        if (time() > session('google_token_expiry')) {
+            // Redirect for re-authentication if the token is expired
+            return redirect('/google-auth')->with('error', 'Your session has expired. Please log in again.');
+        }
     }
 
 

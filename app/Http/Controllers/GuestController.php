@@ -188,13 +188,14 @@ class GuestController extends Controller
         }
     }
 
-    public function mailCheck(){
+    public function mailCheck()
+    {
 
         try {
             $appointment = Appointment::with('slot', 'staff.user', 'service')->first();
 
             // Send email
-            
+
             SendMail::dispatch("hw13604@gmail.com", $appointment, 'user');
 
             return response()->json(['success' => true, 'message' => 'Appointment created successfully', 'data' => $appointment]);
@@ -226,7 +227,7 @@ class GuestController extends Controller
             'staff_id' => 'Staff',
             'slot_id' => 'Slot',
         ]);
-    
+
         // Validate the request
         $validated = $validator->validate();
 
@@ -321,6 +322,9 @@ class GuestController extends Controller
             $staffEmail = $appointment->staff->user->email;
             $adminEmail = 'hw13604@gmail.com';
 
+            // Create Google Calendar Event
+            $this->createGoogleCalendarEvent($appointment);
+
             // Send email
             if ($userEmail) {
                 SendMail::dispatch($userEmail, $appointment, 'user');
@@ -340,6 +344,59 @@ class GuestController extends Controller
             return redirect()->route('appointment')->with('error', 'Failed to create appointment');
         }
     }
+
+    private function createGoogleCalendarEvent($appointment)
+    {
+        // Get the access token from the session
+        $token = session('google_token');
+
+        if (!$token) {
+            dd('Google token not found. Please authenticate with Google.');
+        }
+
+        // Convert appointment_date from string to DateTime if it's a string
+        $appointmentDate = new \DateTime($appointment->appointment_date);
+
+        // Prepare the event details
+        $event = [
+            'summary' => 'Appointment with ' . $appointment->first_name . ' ' . $appointment->last_name, // Adjust to use the correct customer name
+            'start' => [
+                'dateTime' => $appointmentDate->format(DATE_ISO8601), // Format the date as ISO8601
+                'timeZone' => 'America/Los_Angeles', // Adjust to your timezone
+            ],
+            'end' => [
+                'dateTime' => $appointmentDate->modify('+1 hour')->format(DATE_ISO8601), // Adjust the end time as needed
+                'timeZone' => 'America/Los_Angeles', // Adjust to your timezone
+            ],
+        ];
+
+        // Use Guzzle to send the request
+        $client = new \GuzzleHttp\Client();
+        $response = $client->post('https://www.googleapis.com/calendar/v3/calendars/primary/events', [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $token,
+                'Content-Type' => 'application/json',
+            ],
+            'json' => $event,
+        ]);
+
+        // Check the response status
+        if ($response->getStatusCode() == 200) {
+            Log::info('Google Calendar Event Created Successfully', ['response' => $response->getBody()->getContents()]);
+            return;
+        } else {
+            Log::error('Google Calendar Event Creation Failed: ', ['response' => $response->getBody()->getContents()]);
+            return;
+        }
+
+        // Check if the token is expired
+        if (time() > session('google_token_expiry')) {
+            // Redirect for re-authentication if the token is expired
+            return redirect('/google-auth')->with('error', 'Your session has expired. Please log in again.');
+        }
+    }
+
+
 
     public function paymentFail()
     {
