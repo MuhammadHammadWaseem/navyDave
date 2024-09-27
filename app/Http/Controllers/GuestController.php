@@ -323,7 +323,7 @@ class GuestController extends Controller
             $adminEmail = 'hw13604@gmail.com';
 
             // Create Google Calendar Event
-            $this->createGoogleCalendarEvent($appointment);
+            // $this->createGoogleCalendarEvent($appointment);
 
             // Send email
             if ($userEmail) {
