@@ -42,6 +42,7 @@ Route::get('/check', [AdminAuthController::class, 'check']);
     Route::post('/unlike/{type}/{id}', [CommunityController::class, 'unlike'])->name('unlike');
     Route::post('post', [CommunityController::class, 'post'])->name('post');
     Route::get('post/get', [CommunityController::class, 'postGet'])->name('post.get');
+    Route::post('comment/get', [CommunityController::class, 'commentGet'])->name('comment.get');
 
     Route::get('/comments/{post}', [CommunityController::class,'fetchReplies'])->name('comments.get');
     Route::post('/comment/{post}', [CommunityController::class,'commentPost'])->name('post.comments');
