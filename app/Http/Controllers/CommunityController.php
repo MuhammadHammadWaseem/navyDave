@@ -35,18 +35,117 @@ class CommunityController extends Controller
     }
     public function commentGet(Request $request)
     {
-        $posts = Post::where('id', $request->id)->with('user', 'likes', 'comments.user', 'images', 'videos')->latest('created_at')->paginate(10);
+        // Fetch the post with comments (including all nested replies) and other related data
+        $posts = Post::where('id', $request->id)
+            ->with([
+                'user',
+                'likes',
+                'comments' => function ($query) {
+                    // Only fetch top-level comments (comments where parent_id is NULL)
+                    $query->whereNull('parent_id')->with([
+                        'user',
+                        'replies' => function ($replyQuery) {
+                        // Fetch replies and their nested replies recursively
+                        $replyQuery->with([
+                            'user',
+                            'replies' => function ($nestedReplyQuery) {
+                            // Recursively load all levels of nested replies
+                            $nestedReplyQuery->with([
+                                'user',
+                                'replies' => function ($deepNestedReplyQuery) {
+                                // Continue loading all levels of nested replies as needed
+                                $deepNestedReplyQuery->with([
+                                    'user',
+                                    'replies' => function ($deepestNestedReplyQuery) {
+                                    // Continue loading all levels of nested replies as needed
+                                    $deepestNestedReplyQuery->with([
+                                        'user',
+                                        'replies' => function ($deepestDeepestNestedReplyQuery) {
+                                        // Continue loading all levels of nested replies as needed
+                                        $deepestDeepestNestedReplyQuery->with([
+                                            'user',
+                                            'replies' => function ($deepestDeepestDeepestNestedReplyQuery) {
+                                            // Continue loading all levels of nested replies as needed
+                                            $deepestDeepestDeepestNestedReplyQuery->with([
+                                                'user',
+                                                'replies' => function ($deepestDeepestDeepestDeepestNestedReplyQuery) {
+                                                // Continue loading all levels of nested replies as needed
+                                                $deepestDeepestDeepestDeepestNestedReplyQuery->with(['user', 'replies.user']);
+                                            }
+                                            ]);
+                                        }
+                                        ]);
+                                    }
+                                    ]);
+                                }
+                                ]);
+                            }
+                            ]);
+                        }
+                        ]);
+                    }
+                    ]);
+                },
+                'images',
+                'videos'
+            ])
+            ->latest('created_at')
+            ->paginate(10);
 
+        // Transform the collection to include like status and counts
         $posts->getCollection()->transform(function ($post) {
             // Check if the authenticated user has liked the post
             $post->hasLiked = $post->likes->where('user_id', auth()->id())->isNotEmpty();
             $post->likeCount = $post->likes->count();
+
+            // Iterate over the comments to attach like and reply-related data
+            $post->comments->transform(function ($comment) {
+
+                 // Check if the authenticated user has liked the comment
+                $comment->hasLiked = $comment->likes->where('user_id', auth()->id())->isNotEmpty();
+                $comment->likeCount = $comment->likes->count();
+                
+                $comment->replyCount = $comment->replies->count();
+                return $comment;
+            });
 
             return $post;
         });
 
         return response()->json($posts);
     }
+
+    public function likeComment(Request $request)
+{
+    $comment = Comment::findOrFail($request->comment_id);
+    $user = auth()->user();
+
+    // Toggle like/unlike
+    if ($comment->likes()->where('user_id', $user->id)->exists()) {
+        $comment->likes()->where('user_id', $user->id)->delete();
+        $liked = false;
+    } else {
+        $comment->likes()->create(['user_id' => $user->id]);
+        $liked = true;
+    }
+
+    // Get the updated like count
+    $likeCount = $comment->likes()->count();
+
+    return response()->json([
+        'success' => true,
+        'liked' => $liked,
+        'likeCount' => $likeCount
+    ]);
+}
+
+
+
+
+
+
+
+
 
     // public function postGet(Request $request)
     // {
@@ -176,6 +275,28 @@ class CommunityController extends Controller
         $count = Comment::where('post_id', '=', $postId)->count();
         return response()->json(['message' => 'Comment submitted successfully!', 'comment' => $newComment, 'count' => $count]);
     }
+
+    // Adding a reply (or a regular comment)
+    public function addComment(Request $request)
+    {
+        $request->validate([
+            'post_id' => 'required|exists:posts,id',
+            'comment' => 'required|string|max:255',
+            'parent_id' => 'nullable|exists:comments,id'
+        ]);
+
+        $comment = Comment::create([
+            'post_id' => $request->post_id,
+            'user_id' => auth()->id(),
+            'comment' => $request->comment,
+            'parent_id' => $request->parent_id, // Will be null for top-level comments
+        ]);
+
+        $comment->load('user', 'replies.user');
+
+        return response()->json($comment);
+    }
+
     public function like(Request $request, $postId)
     {
         $post = Post::findOrFail($postId);

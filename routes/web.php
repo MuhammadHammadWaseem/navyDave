@@ -43,9 +43,12 @@ Route::get('/check', [AdminAuthController::class, 'check']);
     Route::post('post', [CommunityController::class, 'post'])->name('post');
     Route::get('post/get', [CommunityController::class, 'postGet'])->name('post.get');
     Route::post('comment/get', [CommunityController::class, 'commentGet'])->name('comment.get');
+    Route::post('/comment/like', [CommunityController::class, 'likeComment']);
+
 
     Route::get('/comments/{post}', [CommunityController::class,'fetchReplies'])->name('comments.get');
     Route::post('/comment/{post}', [CommunityController::class,'commentPost'])->name('post.comments');
+    Route::post('/comments/add', [CommunityController::class, 'addComment'])->middleware('auth');
     Route::post('/comment/update/{id}', [CommunityController::class,'update'])->name('comment.update');
     Route::post('/comment/{id}/delete', [CommunityController::class, 'deleteComment'])->name('comment.delete');
     Route::post('/like/{post}', [CommunityController::class,'like'])->name('post.like');
