@@ -754,29 +754,39 @@
                     background-color: black;
                     color: white;
                 }
+
                 div#CommentsModal {
-    background-color: #00000042;
-    padding: 0;
-}
-div#exampleModal {
-    z-index: 9999;
-}
+                    background-color: #00000042;
+                    padding: 0;
+                }
 
-div#CommentsModal .modal-dialog {
-    max-width: 60%;
-}
+                div#exampleModal {
+                    z-index: 9999;
+                }
 
-div#exampleModal .modal-dialog {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+                div#CommentsModal .modal-dialog {
+                    max-width: 60%;
+                }
 
-div#exampleModal .modal-dialog .modal-content {
-    display: block;
-    margin: auto !important;!i;!;
-}
+                div#exampleModal .modal-dialog {
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                div#exampleModal .modal-dialog .modal-content {
+                    display: block;
+                    margin: auto !important;
+                    !i;
+                    !;
+                }
+                .no-comments {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top: 25px;
+                }
             </style>
 
 
@@ -876,8 +886,8 @@ div#exampleModal .modal-dialog .modal-content {
             </div>
 
             <!-- Comments Modal -->
-            <div class="modal fade comment-edit main-calendar-box main-calendar-box-list customers-box community-new" id="CommentsModal" tabindex="-1" role="dialog"
-                aria-labelledby="CommentsModalLabel" aria-hidden="true">
+            <div class="modal fade comment-edit main-calendar-box main-calendar-box-list customers-box community-new"
+                id="CommentsModal" tabindex="-1" role="dialog" aria-labelledby="CommentsModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content shadow-box">
                         <div class="modal-header">
@@ -1063,7 +1073,7 @@ div#exampleModal .modal-dialog .modal-content {
                                     errors.content.forEach(function(message) {
                                         toastr.error(
                                             message
-                                        ); // Use toastr or console.log(message) to display the errors
+                                        );
                                     });
                                 } else {
                                     toastr.error('An unexpected error occurred.');
@@ -1104,11 +1114,7 @@ div#exampleModal .modal-dialog .modal-content {
                         url: `/post/get?page=${currentPage + 1}`,
                         type: 'GET',
                         success: function(response) {
-
-                            console.log(response);
                             lastPage = response.last_page;
-
-                            console.log("Current Page", currentPage, "Last Page", lastPage);
                             if (currentPage >= lastPage) {
                                 document.getElementById('load-more').style.display = 'none';
                             }
@@ -1167,28 +1173,28 @@ div#exampleModal .modal-dialog .modal-content {
                                                     </div>
                                                     <div class="two-btns-inline">
                                                         ${canEditComment ? `
-                                                                                                                                            <button type="button" class="btn btn-primary" data-comment-id="${firstComment.id}" data-toggle="modal"
-                                                                                                                                                data-target="#exampleModal"><svg width="20" height="19"
-                                                                                                                                                    viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                                                                                    <path
-                                                                                                                                                        d="M15.2451 1.63672L17.5293 3.9209L15.788 5.66297L13.5038 3.37879L15.2451 1.63672ZM6.87891 12.2871H9.16309L14.7114 6.73882L12.4272 4.45464L6.87891 10.0029V12.2871Z"
-                                                                                                                                                        fill="white"></path>
-                                                                                                                                                    <path
-                                                                                                                                                        d="M15.2526 14.5715H6.99758C6.97778 14.5715 6.95723 14.5791 6.93743 14.5791C6.91231 14.5791 6.88718 14.5722 6.86129 14.5715H4.5931V3.91195H9.80636L11.3291 2.38916H4.5931C3.75328 2.38916 3.07031 3.07137 3.07031 3.91195V14.5715C3.07031 15.412 3.75328 16.0942 4.5931 16.0942H15.2526C15.6565 16.0942 16.0438 15.9338 16.3294 15.6482C16.615 15.3627 16.7754 14.9753 16.7754 14.5715V7.9717L15.2526 9.49449V14.5715Z"
-                                                                                                                                                        fill="white"></path>
-                                                                                                                                                </svg>
-                                                                                                                                                Edit</button> ` : ''}
+                                                                                                                                                        <button type="button" class="btn btn-primary" data-comment-id="${firstComment.id}" data-toggle="modal"
+                                                                                                                                                            data-target="#exampleModal"><svg width="20" height="19"
+                                                                                                                                                                viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                                                                                                <path
+                                                                                                                                                                    d="M15.2451 1.63672L17.5293 3.9209L15.788 5.66297L13.5038 3.37879L15.2451 1.63672ZM6.87891 12.2871H9.16309L14.7114 6.73882L12.4272 4.45464L6.87891 10.0029V12.2871Z"
+                                                                                                                                                                    fill="white"></path>
+                                                                                                                                                                <path
+                                                                                                                                                                    d="M15.2526 14.5715H6.99758C6.97778 14.5715 6.95723 14.5791 6.93743 14.5791C6.91231 14.5791 6.88718 14.5722 6.86129 14.5715H4.5931V3.91195H9.80636L11.3291 2.38916H4.5931C3.75328 2.38916 3.07031 3.07137 3.07031 3.91195V14.5715C3.07031 15.412 3.75328 16.0942 4.5931 16.0942H15.2526C15.6565 16.0942 16.0438 15.9338 16.3294 15.6482C16.615 15.3627 16.7754 14.9753 16.7754 14.5715V7.9717L15.2526 9.49449V14.5715Z"
+                                                                                                                                                                    fill="white"></path>
+                                                                                                                                                            </svg>
+                                                                                                                                                            Edit</button> ` : ''}
                                                         ${canDeleteComment ? `
-                                                                                                                                            <button type="button" class="delete-comment" data-comment-id="${firstComment.id}"><svg width="19" height="19" viewBox="0 0 19 19" fill="none"
-                                                                                                                                                    xmlns="http://www.w3.org/2000/svg">
-                                                                                                                                                    <path
-                                                                                                                                                        d="M4.3154 15.331C4.3154 15.7348 4.4758 16.1221 4.76131 16.4076C5.04682 16.6931 5.43406 16.8535 5.83784 16.8535H13.45C13.8538 16.8535 14.241 16.6931 14.5265 16.4076C14.812 16.1221 14.9724 15.7348 14.9724 15.331V6.19645H16.4949V4.67402H13.45V3.15158C13.45 2.74781 13.2896 2.36057 13.0041 2.07506C12.7186 1.78955 12.3313 1.62915 11.9276 1.62915H7.36027C6.95649 1.62915 6.56926 1.78955 6.28375 2.07506C5.99823 2.36057 5.83784 2.74781 5.83784 3.15158V4.67402H2.79297V6.19645H4.3154V15.331ZM7.36027 3.15158H11.9276V4.67402H7.36027V3.15158ZM6.59905 6.19645H13.45V15.331H5.83784V6.19645H6.59905Z"
-                                                                                                                                                        fill="white"></path>
-                                                                                                                                                    <path
-                                                                                                                                                        d="M7.35938 7.71899H8.88181V13.8087H7.35938V7.71899ZM10.4042 7.71899H11.9267V13.8087H10.4042V7.71899Z"
-                                                                                                                                                        fill="white"></path>
-                                                                                                                                                </svg>
-                                                                                                                                                Delete</button>` : ''}
+                                                                                                                                                        <button type="button" class="delete-comment" data-comment-id="${firstComment.id}"><svg width="19" height="19" viewBox="0 0 19 19" fill="none"
+                                                                                                                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                                                                                                                <path
+                                                                                                                                                                    d="M4.3154 15.331C4.3154 15.7348 4.4758 16.1221 4.76131 16.4076C5.04682 16.6931 5.43406 16.8535 5.83784 16.8535H13.45C13.8538 16.8535 14.241 16.6931 14.5265 16.4076C14.812 16.1221 14.9724 15.7348 14.9724 15.331V6.19645H16.4949V4.67402H13.45V3.15158C13.45 2.74781 13.2896 2.36057 13.0041 2.07506C12.7186 1.78955 12.3313 1.62915 11.9276 1.62915H7.36027C6.95649 1.62915 6.56926 1.78955 6.28375 2.07506C5.99823 2.36057 5.83784 2.74781 5.83784 3.15158V4.67402H2.79297V6.19645H4.3154V15.331ZM7.36027 3.15158H11.9276V4.67402H7.36027V3.15158ZM6.59905 6.19645H13.45V15.331H5.83784V6.19645H6.59905Z"
+                                                                                                                                                                    fill="white"></path>
+                                                                                                                                                                <path
+                                                                                                                                                                    d="M7.35938 7.71899H8.88181V13.8087H7.35938V7.71899ZM10.4042 7.71899H11.9267V13.8087H10.4042V7.71899Z"
+                                                                                                                                                                    fill="white"></path>
+                                                                                                                                                            </svg>
+                                                                                                                                                            Delete</button>` : ''}
                                                     </div>
                                                 </div>
                                                 <div class="content-area-comment">
@@ -1219,28 +1225,28 @@ div#exampleModal .modal-dialog .modal-content {
                                                             </div>
                                                             <div class="two-btns-inline">
                                                                 ${canEditComment ? `
-                                                                                                                                                    <button type="button" class="btn btn-primary" data-comment-id="${comment.id}" data-toggle="modal"
-                                                                                                                                                        data-target="#exampleModal"><svg width="20" height="19"
-                                                                                                                                                            viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                                                                                            <path
-                                                                                                                                                                d="M15.2451 1.63672L17.5293 3.9209L15.788 5.66297L13.5038 3.37879L15.2451 1.63672ZM6.87891 12.2871H9.16309L14.7114 6.73882L12.4272 4.45464L6.87891 10.0029V12.2871Z"
-                                                                                                                                                                fill="white"></path>
-                                                                                                                                                            <path
-                                                                                                                                                                d="M15.2526 14.5715H6.99758C6.97778 14.5715 6.95723 14.5791 6.93743 14.5791C6.91231 14.5791 6.88718 14.5722 6.86129 14.5715H4.5931V3.91195H9.80636L11.3291 2.38916H4.5931C3.75328 2.38916 3.07031 3.07137 3.07031 3.91195V14.5715C3.07031 15.412 3.75328 16.0942 4.5931 16.0942H15.2526C15.6565 16.0942 16.0438 15.9338 16.3294 15.6482C16.615 15.3627 16.7754 14.9753 16.7754 14.5715V7.9717L15.2526 9.49449V14.5715Z"
-                                                                                                                                                                fill="white"></path>
-                                                                                                                                                        </svg>
-                                                                                                                                                        Edit</button> `: ''}
+                                                                                                                                                                <button type="button" class="btn btn-primary" data-comment-id="${comment.id}" data-toggle="modal"
+                                                                                                                                                                    data-target="#exampleModal"><svg width="20" height="19"
+                                                                                                                                                                        viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                                                                                                        <path
+                                                                                                                                                                            d="M15.2451 1.63672L17.5293 3.9209L15.788 5.66297L13.5038 3.37879L15.2451 1.63672ZM6.87891 12.2871H9.16309L14.7114 6.73882L12.4272 4.45464L6.87891 10.0029V12.2871Z"
+                                                                                                                                                                            fill="white"></path>
+                                                                                                                                                                        <path
+                                                                                                                                                                            d="M15.2526 14.5715H6.99758C6.97778 14.5715 6.95723 14.5791 6.93743 14.5791C6.91231 14.5791 6.88718 14.5722 6.86129 14.5715H4.5931V3.91195H9.80636L11.3291 2.38916H4.5931C3.75328 2.38916 3.07031 3.07137 3.07031 3.91195V14.5715C3.07031 15.412 3.75328 16.0942 4.5931 16.0942H15.2526C15.6565 16.0942 16.0438 15.9338 16.3294 15.6482C16.615 15.3627 16.7754 14.9753 16.7754 14.5715V7.9717L15.2526 9.49449V14.5715Z"
+                                                                                                                                                                            fill="white"></path>
+                                                                                                                                                                    </svg>
+                                                                                                                                                                    Edit</button> `: ''}
                                                                 ${canDeleteComment ? `
-                                                                                                                                                    <button type="button" class="delete-comment" data-comment-id="${comment.id}"><svg width="19" height="19" viewBox="0 0 19 19" fill="none"
-                                                                                                                                                            xmlns="http://www.w3.org/2000/svg">
-                                                                                                                                                            <path
-                                                                                                                                                                d="M4.3154 15.331C4.3154 15.7348 4.4758 16.1221 4.76131 16.4076C5.04682 16.6931 5.43406 16.8535 5.83784 16.8535H13.45C13.8538 16.8535 14.241 16.6931 14.5265 16.4076C14.812 16.1221 14.9724 15.7348 14.9724 15.331V6.19645H16.4949V4.67402H13.45V3.15158C13.45 2.74781 13.2896 2.36057 13.0041 2.07506C12.7186 1.78955 12.3313 1.62915 11.9276 1.62915H7.36027C6.95649 1.62915 6.56926 1.78955 6.28375 2.07506C5.99823 2.36057 5.83784 2.74781 5.83784 3.15158V4.67402H2.79297V6.19645H4.3154V15.331ZM7.36027 3.15158H11.9276V4.67402H7.36027V3.15158ZM6.59905 6.19645H13.45V15.331H5.83784V6.19645H6.59905Z"
-                                                                                                                                                                fill="white"></path>
-                                                                                                                                                            <path
-                                                                                                                                                                d="M7.35938 7.71899H8.88181V13.8087H7.35938V7.71899ZM10.4042 7.71899H11.9267V13.8087H10.4042V7.71899Z"
-                                                                                                                                                                fill="white"></path>
-                                                                                                                                                        </svg>
-                                                                                                                                                        Delete</button>` : ''}
+                                                                                                                                                                <button type="button" class="delete-comment" data-comment-id="${comment.id}"><svg width="19" height="19" viewBox="0 0 19 19" fill="none"
+                                                                                                                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                                                                                                                        <path
+                                                                                                                                                                            d="M4.3154 15.331C4.3154 15.7348 4.4758 16.1221 4.76131 16.4076C5.04682 16.6931 5.43406 16.8535 5.83784 16.8535H13.45C13.8538 16.8535 14.241 16.6931 14.5265 16.4076C14.812 16.1221 14.9724 15.7348 14.9724 15.331V6.19645H16.4949V4.67402H13.45V3.15158C13.45 2.74781 13.2896 2.36057 13.0041 2.07506C12.7186 1.78955 12.3313 1.62915 11.9276 1.62915H7.36027C6.95649 1.62915 6.56926 1.78955 6.28375 2.07506C5.99823 2.36057 5.83784 2.74781 5.83784 3.15158V4.67402H2.79297V6.19645H4.3154V15.331ZM7.36027 3.15158H11.9276V4.67402H7.36027V3.15158ZM6.59905 6.19645H13.45V15.331H5.83784V6.19645H6.59905Z"
+                                                                                                                                                                            fill="white"></path>
+                                                                                                                                                                        <path
+                                                                                                                                                                            d="M7.35938 7.71899H8.88181V13.8087H7.35938V7.71899ZM10.4042 7.71899H11.9267V13.8087H10.4042V7.71899Z"
+                                                                                                                                                                            fill="white"></path>
+                                                                                                                                                                    </svg>
+                                                                                                                                                                    Delete</button>` : ''}
                                                             </div>
                                                         </div>
                                                         <div class="content-area-comment">
@@ -1329,7 +1335,7 @@ div#exampleModal .modal-dialog .modal-content {
                                                     ${commentSection}
                                                     ${moreComments}
 
-                                                    ${post.comments.length > 1 ? '<button id="toggleBtn" onclick="toggleComments(this)" class="show-more">See More...</button>' : ''}
+                                                    ${post.comments.length > 1 ? '<button id="toggleBtn" onclick="toggleComments(' + post.id + ', this)" class="show-more">See More...</button>' : ''}
                                             </div>
                                         </div>
                                 `);
@@ -1474,7 +1480,6 @@ div#exampleModal .modal-dialog .modal-content {
                             _token: '{{ csrf_token() }}' // CSRF token for Laravel
                         },
                         success: function(response) {
-                            console.log(response);
 
                             // Update the comment text in the UI
                             const commentElement = $(`.delete-comment[data-comment-id="${commentId}"]`).closest(
@@ -1530,7 +1535,6 @@ div#exampleModal .modal-dialog .modal-content {
                                     _token: '{{ csrf_token() }}'
                                 },
                                 success: function(response) {
-                                    console.log(response);
                                     commentElement.remove(); // Remove the comment from the DOM
                                     Swal.fire("Deleted!", "Comment deleted successfully!", "success");
                                     $("#comment-count-" + response.comment.post_id).text(response
@@ -1562,8 +1566,6 @@ div#exampleModal .modal-dialog .modal-content {
                     var channel = pusher.subscribe('community-feed');
 
                     channel.bind('post-created', function(data) {
-                        console.log("Hamamd", data);
-                        console.log("Hamamd", data.post);
 
                         // APPEND
                         if (data.post) {
@@ -1675,7 +1677,7 @@ div#exampleModal .modal-dialog .modal-content {
                                                     ${commentSection}
                                                     ${moreComments}
 
-                                                    ${post.comments.length > 1 ? '<button id="toggleBtn" onclick="toggleComments(this)" class="show-more">See More...</button>' : ''}
+                                                    ${post.comments.length > 1 ? '<button id="toggleBtn" onclick="toggleComments(' + post.id + ', this)" class="show-more">See More...</button>' : ''}
                                             </div>
                                         </div>
                                 `);
@@ -1722,19 +1724,29 @@ div#exampleModal .modal-dialog .modal-content {
                     $(this).toggleClass('liked');
                 });
 
-                function toggleComments(button) {
-                    const moreCommentsDiv = button.previousElementSibling;
-                    if (moreCommentsDiv.style.display === "none") {
-                        moreCommentsDiv.style.display = "block";
-                        button.innerText = "See Less...";
-                    } else {
-                        moreCommentsDiv.style.display = "none";
-                        button.innerText = "See More...";
-                    }
+                // function toggleComments(button) {
+                //     const moreCommentsDiv = button.previousElementSibling;
+                //     if (moreCommentsDiv.style.display === "none") {
+                //         moreCommentsDiv.style.display = "block";
+                //         button.innerText = "See Less...";
+                //     } else {
+                //         moreCommentsDiv.style.display = "none";
+                //         button.innerText = "See More...";
+                //     }
+                // }
+                function toggleComments(id, button) {
+                    showCommentsModal(id, button);
+                    // const moreCommentsDiv = button.previousElementSibling;
+                    // if (moreCommentsDiv.style.display === "none") {
+                    //     moreCommentsDiv.style.display = "block";
+                    //     button.innerText = "See Less...";
+                    // } else {
+                    //     moreCommentsDiv.style.display = "none";
+                    //     button.innerText = "See More...";
+                    // }
                 }
 
                 function showCommentsModal(postId, element) {
-                    console.log(postId, element);
                     $("#CommentsModal").modal("show");
 
                     $.ajax({
@@ -1747,12 +1759,12 @@ div#exampleModal .modal-dialog .modal-content {
                         success: function(response) {
                             $("#comments-container").empty();
                             let commentSection = '';
-                            if (response.data.length > 0) {
+                            if (response.data[0].comments.length > 0) {
                                 response.data.forEach(post => {
-                                    console.log("Post", post);
                                     post.comments.forEach(comment => {
                                         let img = comment.user.image;
-                                        let canDeleteComment = comment.user.id == currentUserId || isAdmin;
+                                        let canDeleteComment = comment.user.id == currentUserId ||
+                                            isAdmin;
                                         let canEditComment = comment.user.id == currentUserId;
 
                                         commentSection = `
@@ -1769,28 +1781,28 @@ div#exampleModal .modal-dialog .modal-content {
                                                         </div>
                                                         <div class="two-btns-inline">
                                                             ${canEditComment ? `
-                                                            <button type="button" class="btn btn-primary" data-comment-id="${comment.id}" data-toggle="modal"
-                                                                data-target="#exampleModal"><svg width="20" height="19"
-                                                                    viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path
-                                                                        d="M15.2451 1.63672L17.5293 3.9209L15.788 5.66297L13.5038 3.37879L15.2451 1.63672ZM6.87891 12.2871H9.16309L14.7114 6.73882L12.4272 4.45464L6.87891 10.0029V12.2871Z"
-                                                                        fill="white"></path>
-                                                                    <path
-                                                                        d="M15.2526 14.5715H6.99758C6.97778 14.5715 6.95723 14.5791 6.93743 14.5791C6.91231 14.5791 6.88718 14.5722 6.86129 14.5715H4.5931V3.91195H9.80636L11.3291 2.38916H4.5931C3.75328 2.38916 3.07031 3.07137 3.07031 3.91195V14.5715C3.07031 15.412 3.75328 16.0942 4.5931 16.0942H15.2526C15.6565 16.0942 16.0438 15.9338 16.3294 15.6482C16.615 15.3627 16.7754 14.9753 16.7754 14.5715V7.9717L15.2526 9.49449V14.5715Z"
-                                                                        fill="white"></path>
-                                                                </svg>
-                                                                Edit</button> ` : ''}
+                                                                        <button type="button" class="btn btn-primary" data-comment-id="${comment.id}" data-toggle="modal"
+                                                                            data-target="#exampleModal"><svg width="20" height="19"
+                                                                                viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                <path
+                                                                                    d="M15.2451 1.63672L17.5293 3.9209L15.788 5.66297L13.5038 3.37879L15.2451 1.63672ZM6.87891 12.2871H9.16309L14.7114 6.73882L12.4272 4.45464L6.87891 10.0029V12.2871Z"
+                                                                                    fill="white"></path>
+                                                                                <path
+                                                                                    d="M15.2526 14.5715H6.99758C6.97778 14.5715 6.95723 14.5791 6.93743 14.5791C6.91231 14.5791 6.88718 14.5722 6.86129 14.5715H4.5931V3.91195H9.80636L11.3291 2.38916H4.5931C3.75328 2.38916 3.07031 3.07137 3.07031 3.91195V14.5715C3.07031 15.412 3.75328 16.0942 4.5931 16.0942H15.2526C15.6565 16.0942 16.0438 15.9338 16.3294 15.6482C16.615 15.3627 16.7754 14.9753 16.7754 14.5715V7.9717L15.2526 9.49449V14.5715Z"
+                                                                                    fill="white"></path>
+                                                                            </svg>
+                                                                            Edit</button> ` : ''}
                                                             ${canDeleteComment ? `
-                                                                <button type="button" class="delete-comment" data-comment-id="${comment.id}"><svg width="19" height="19" viewBox="0 0 19 19" fill="none"
-                                                                        xmlns="http://www.w3.org/2000/svg">
-                                                                        <path
-                                                                            d="M4.3154 15.331C4.3154 15.7348 4.4758 16.1221 4.76131 16.4076C5.04682 16.6931 5.43406 16.8535 5.83784 16.8535H13.45C13.8538 16.8535 14.241 16.6931 14.5265 16.4076C14.812 16.1221 14.9724 15.7348 14.9724 15.331V6.19645H16.4949V4.67402H13.45V3.15158C13.45 2.74781 13.2896 2.36057 13.0041 2.07506C12.7186 1.78955 12.3313 1.62915 11.9276 1.62915H7.36027C6.95649 1.62915 6.56926 1.78955 6.28375 2.07506C5.99823 2.36057 5.83784 2.74781 5.83784 3.15158V4.67402H2.79297V6.19645H4.3154V15.331ZM7.36027 3.15158H11.9276V4.67402H7.36027V3.15158ZM6.59905 6.19645H13.45V15.331H5.83784V6.19645H6.59905Z"
-                                                                            fill="white"></path>
-                                                                        <path
-                                                                            d="M7.35938 7.71899H8.88181V13.8087H7.35938V7.71899ZM10.4042 7.71899H11.9267V13.8087H10.4042V7.71899Z"
-                                                                            fill="white"></path>
-                                                                    </svg>
-                                                                    Delete</button>` : ''}
+                                                                            <button type="button" class="delete-comment" data-comment-id="${comment.id}"><svg width="19" height="19" viewBox="0 0 19 19" fill="none"
+                                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path
+                                                                                        d="M4.3154 15.331C4.3154 15.7348 4.4758 16.1221 4.76131 16.4076C5.04682 16.6931 5.43406 16.8535 5.83784 16.8535H13.45C13.8538 16.8535 14.241 16.6931 14.5265 16.4076C14.812 16.1221 14.9724 15.7348 14.9724 15.331V6.19645H16.4949V4.67402H13.45V3.15158C13.45 2.74781 13.2896 2.36057 13.0041 2.07506C12.7186 1.78955 12.3313 1.62915 11.9276 1.62915H7.36027C6.95649 1.62915 6.56926 1.78955 6.28375 2.07506C5.99823 2.36057 5.83784 2.74781 5.83784 3.15158V4.67402H2.79297V6.19645H4.3154V15.331ZM7.36027 3.15158H11.9276V4.67402H7.36027V3.15158ZM6.59905 6.19645H13.45V15.331H5.83784V6.19645H6.59905Z"
+                                                                                        fill="white"></path>
+                                                                                    <path
+                                                                                        d="M7.35938 7.71899H8.88181V13.8087H7.35938V7.71899ZM10.4042 7.71899H11.9267V13.8087H10.4042V7.71899Z"
+                                                                                        fill="white"></path>
+                                                                                </svg>
+                                                                                Delete</button>` : ''}
                                                         </div>
                                                     </div>
                                                     <div class="content-area-comment">
@@ -1801,7 +1813,10 @@ div#exampleModal .modal-dialog .modal-content {
                                         $("#comments-container").append(commentSection);
                                     });
                                 });
+                            }else{
+                                $("#comments-container").append(`<p class="no-comments">No comments found</p>`);
                             }
+
 
                         },
                         error: function(xhr) {
