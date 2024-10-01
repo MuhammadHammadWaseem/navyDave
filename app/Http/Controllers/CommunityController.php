@@ -101,10 +101,10 @@ class CommunityController extends Controller
             // Iterate over the comments to attach like and reply-related data
             $post->comments->transform(function ($comment) {
 
-                 // Check if the authenticated user has liked the comment
+                // Check if the authenticated user has liked the comment
                 $comment->hasLiked = $comment->likes->where('user_id', auth()->id())->isNotEmpty();
                 $comment->likeCount = $comment->likes->count();
-                
+
                 $comment->replyCount = $comment->replies->count();
                 return $comment;
             });
@@ -116,88 +116,28 @@ class CommunityController extends Controller
     }
 
     public function likeComment(Request $request)
-{
-    $comment = Comment::findOrFail($request->comment_id);
-    $user = auth()->user();
+    {
+        $comment = Comment::findOrFail($request->comment_id);
+        $user = auth()->user();
 
-    // Toggle like/unlike
-    if ($comment->likes()->where('user_id', $user->id)->exists()) {
-        $comment->likes()->where('user_id', $user->id)->delete();
-        $liked = false;
-    } else {
-        $comment->likes()->create(['user_id' => $user->id]);
-        $liked = true;
+        // Toggle like/unlike
+        if ($comment->likes()->where('user_id', $user->id)->exists()) {
+            $comment->likes()->where('user_id', $user->id)->delete();
+            $liked = false;
+        } else {
+            $comment->likes()->create(['user_id' => $user->id]);
+            $liked = true;
+        }
+
+        // Get the updated like count
+        $likeCount = $comment->likes()->count();
+
+        return response()->json([
+            'success' => true,
+            'liked' => $liked,
+            'likeCount' => $likeCount
+        ]);
     }
-
-    // Get the updated like count
-    $likeCount = $comment->likes()->count();
-
-    return response()->json([
-        'success' => true,
-        'liked' => $liked,
-        'likeCount' => $likeCount
-    ]);
-}
-
-
-
-
-
-
-
-
-
-    // public function postGet(Request $request)
-    // {
-    //     // Retrieve the filter type from the request, defaulting to 'latest'
-    //     $filter = $request->input('filter', 'latest');
-
-    //     // Initialize the query with relationships
-    //     $query = Post::with('user', 'likes', 'comments.user', 'images', 'videos');
-
-    //     // Apply filtering logic based on the selected filter
-    //     switch ($filter) {
-    //         case 'popular':
-    //             // Count likes and order by the count in descending order
-    //             $posts = $query->withCount('likes')
-    //                 ->orderBy('likes_count', 'desc')
-    //                 ->paginate(10);
-    //             break;
-
-    //         case 'hot':
-    //             // Get posts that have been liked or commented in the last 7 days
-    //             $posts = $query->withCount([
-    //                 'likes' => function ($query) {
-    //                     $query->where('created_at', '>=', now()->subDays(7)); // Likes in the last 7 days
-    //                 },
-    //                 'comments' => function ($query) {
-    //                     $query->where('created_at', '>=', now()->subDays(7)); // Comments in the last 7 days
-    //                 }
-    //             ])
-    //                 ->having('likes_count', '>', 0) // Only consider posts that have likes
-    //                 ->orHaving('comments_count', '>', 0) // Or comments
-    //                 ->orderByRaw('likes_count + comments_count DESC') // Order by total engagement
-    //                 ->paginate(10);
-    //             break;
-
-    //         case 'latest':
-    //         default:
-    //             // Default to latest posts if no filter is applied
-    //             $posts = $query->latest('created_at')->paginate(10);
-    //             break;
-    //     }
-
-    //     // Transform the posts to include like status and count
-    //     $posts->getCollection()->transform(function ($post) {
-    //         // Check if the authenticated user has liked the post
-    //         $post->hasLiked = $post->likes->where('user_id', auth()->id())->isNotEmpty();
-    //         $post->likeCount = $post->likes->count();
-
-    //         return $post;
-    //     });
-
-    //     return response()->json($posts);
-    // }
 
     public function post(Request $request)
     {
@@ -294,7 +234,9 @@ class CommunityController extends Controller
 
         $comment->load('user', 'replies.user');
 
-        return response()->json($comment);
+        $count = Comment::where('post_id', '=', $request->post_id)->count();
+
+        return response()->json(['message' => 'Comment submitted successfully!', 'comment' => $comment, 'count' => $count]);
     }
 
     public function like(Request $request, $postId)
@@ -346,26 +288,34 @@ class CommunityController extends Controller
     // comment delete
     public function deleteComment($id)
     {
-
-        // Authorize that the user can delete the comment
         // Find the comment by ID
         $comment = Comment::findOrFail($id);
-        // $this->authorize('delete', $comment);
 
         // Get the current authenticated user
         $user = auth()->user();
+
         // Check if the user is an admin or the owner of the comment
         if ($user->hasRole('admin') || $comment->user_id === $user->id) {
             // User is allowed to delete the comment
+
+            // Check if the comment has replies
+            if ($comment->replies()->exists()) {
+                // Delete all replies associated with the comment
+                $comment->replies()->delete();
+            }
+
+            // Delete the main comment
             $comment->delete();
 
+            // Get the count of remaining comments for the post
             $count = Comment::where('post_id', '=', $comment->post_id)->count();
 
-            return response()->json(['message' => 'Comment deleted successfully.', 'comment' => $comment, 'count' => $count], 200);
+            return response()->json(['message' => 'Comment and its replies deleted successfully.', 'count' => $count], 200);
         } else {
             // User is not authorized to delete the comment
-            return response()->json(['message' => 'You are not authorized to delete this comment.', 'comment' => $comment], 403);
+            return response()->json(['message' => 'You are not authorized to delete this comment.'], 403);
         }
     }
+
 
 }
