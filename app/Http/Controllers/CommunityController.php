@@ -31,6 +31,14 @@ class CommunityController extends Controller
             return $post;
         });
 
+        foreach ($posts as $post) {
+            foreach ($post->comments as $comment) {
+                $comment->replyCount = $comment->replies->count();
+                $comment->commentHasLiked = $comment->likes->where('user_id', auth()->id())->isNotEmpty();
+                $comment->commentLikeCount = $comment->likes->count();
+            }
+        }
+
         return response()->json($posts);
     }
     public function commentGet(Request $request)
