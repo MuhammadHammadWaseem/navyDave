@@ -11,6 +11,7 @@ use App\Events\PostCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Events\NewCommentAdded;
 
 class CommunityController extends Controller
 {
@@ -219,7 +220,21 @@ class CommunityController extends Controller
         $comment->post_id = $postId;
         $comment->save();
 
-        $newComment = Comment::with('user')->find($comment->id);
+        $newComment = Comment::with('user', 'likes', 'replies')->find($comment->id);
+        
+
+        // Count the comments for the given post
+        $count = Comment::where('post_id', '=', $postId)->count();
+        
+        // Convert the new comment to an array and add the count
+        $newCommentArray = $newComment->toArray();
+        $newCommentArray['count'] = $count;
+
+        $newComment = (object) $newCommentArray;
+
+        event(new NewCommentAdded($newComment));
+        \Log::info('Comment added and event fired:', ['comment' => $comment]);  
+
         $count = Comment::where('post_id', '=', $postId)->count();
         return response()->json(['message' => 'Comment submitted successfully!', 'comment' => $newComment, 'count' => $count]);
     }
