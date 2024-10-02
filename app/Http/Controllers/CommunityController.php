@@ -262,6 +262,14 @@ class CommunityController extends Controller
         $comment->load('user', 'replies.user');
 
         $count = Comment::where('post_id', '=', $request->post_id)->count();
+        $replyCount = Comment::where('parent_id', '=', $request->parent_id)->count();
+
+        $comment = (object) $comment->toArray();
+        $comment->count = $count;
+        $comment->replyCount = $replyCount;
+        $comment->isReply = true;
+
+        event(new NewCommentAdded($comment));
 
         return response()->json(['message' => 'Comment submitted successfully!', 'comment' => $comment, 'count' => $count]);
     }
