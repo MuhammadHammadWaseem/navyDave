@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Events\NewCommentAdded;
+use App\Events\NewLikeAdded;
 
 class CommunityController extends Controller
 {
@@ -141,6 +142,9 @@ class CommunityController extends Controller
         // Get the updated like count
         $likeCount = $comment->likes()->count();
 
+        $likes = (object) ['count' => $likeCount, 'liked' => $liked, 'commentId' => $request->comment_id];
+        event(new NewLikeAdded($likes));
+
         return response()->json([
             'success' => true,
             'liked' => $liked,
@@ -221,11 +225,11 @@ class CommunityController extends Controller
         $comment->save();
 
         $newComment = Comment::with('user', 'likes', 'replies')->find($comment->id);
-        
+
 
         // Count the comments for the given post
         $count = Comment::where('post_id', '=', $postId)->count();
-        
+
         // Convert the new comment to an array and add the count
         $newCommentArray = $newComment->toArray();
         $newCommentArray['count'] = $count;
@@ -233,7 +237,7 @@ class CommunityController extends Controller
         $newComment = (object) $newCommentArray;
 
         event(new NewCommentAdded($newComment));
-        \Log::info('Comment added and event fired:', ['comment' => $comment]);  
+        \Log::info('Comment added and event fired:', ['comment' => $comment]);
 
         $count = Comment::where('post_id', '=', $postId)->count();
         return response()->json(['message' => 'Comment submitted successfully!', 'comment' => $newComment, 'count' => $count]);
@@ -271,6 +275,15 @@ class CommunityController extends Controller
         if ($existingLike) {
             // Remove the like
             $existingLike->delete();
+
+            // Get the updated like count
+            $likesCount = $post->likes()->count();
+
+            // Create an object with both the like count and postId
+            $likes = (object) ['count' => $likesCount, 'postId' => $postId, 'liked' => false];
+
+            event(new NewLikeAdded($likes));
+
             return response()->json(['message' => 'Post unliked successfully!', 'likes' => $post->likes()->count(), 'liked' => false]);
         }
 
@@ -278,7 +291,12 @@ class CommunityController extends Controller
         $post->likes()->create(['user_id' => auth()->id()]);
 
         // Get the updated like count
-        $likes = $post->likes()->count();
+        $likesCount = $post->likes()->count();
+
+        // Create an object with both the like count and postId
+        $likes = (object) ['count' => $likesCount, 'postId' => $postId, 'liked' => true];
+
+        event(new NewLikeAdded($likes));
 
         return response()->json(['message' => 'Post liked successfully!', 'likes' => $likes, 'liked' => true]);
     }

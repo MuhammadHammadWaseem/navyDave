@@ -24,3 +24,6 @@ Broadcast::channel('community-feed', function ($data) {
 Broadcast::channel('comment-channel', function ($data) {
     return true;
 });
+Broadcast::channel('like-channel', function ($data) {
+    return true;
+});
