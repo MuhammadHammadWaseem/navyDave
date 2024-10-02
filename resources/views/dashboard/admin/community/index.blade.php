@@ -1354,12 +1354,15 @@
                                         const likedStyle = post.hasLiked ? "liked" : "";
 
 
+                                        const image = post.user.image;
+
+
                                         $("#post-detaling").append(`
                                             <div class="shadow-box post-detaling">
                                                 <div class="main-admin-blog">
                                                         <div class="parent-person-box">
                                                             <div class="person-details">
-                                                                <img src="{{ Storage::url('${post.user.image}') }}" alt="">
+                                                                <img ${image ? `src="{{ Storage::url('${image}') }}"` : 'src="{{ asset('assets/images/tony-stark-img.png') }}"'} alt="">
                                                                 <div class="content">
                                                                     <h6>${post.user.name}</h6>
                                                                     <h5>${post.user.email}</h5>
@@ -1641,7 +1644,7 @@
                     $(document).ready(function() {
 
                         loadPosts();
-                        Pusher.logToConsole = true;
+                        Pusher.logToConsole = false;
 
                         var pusher = new Pusher('3af0341c542582fe2550', {
                             cluster: "ap2",
@@ -1769,6 +1772,7 @@
                                     contentLimit) + '...' : post.content;
 
                                 const likedStyle = post.hasLiked ? "liked" : "";
+                                const image = post.user.image;
 
 
                                 $("#post-detaling").prepend(`
@@ -1776,7 +1780,7 @@
                                                 <div class="main-admin-blog">
                                                         <div class="parent-person-box">
                                                             <div class="person-details">
-                                                                <img src="{{ Storage::url('${post.user.image}') }}" alt="">
+                                                                <img ${image ? `src="{{ Storage::url('${image}') }}"` : 'src="{{ asset('assets/images/tony-stark-img.png') }}"'} alt="">
                                                                 <div class="content">
                                                                     <h6>${post.user.name}</h6>
                                                                     <h5>${post.user.email}</h5>
