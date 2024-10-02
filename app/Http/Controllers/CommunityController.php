@@ -21,15 +21,61 @@ class CommunityController extends Controller
         return view('dashboard.admin.community.index');
     }
 
+    // public function postGet(Request $request)
+    // {
+    //     $posts = Post::with('user', 'likes', 'comments.user', 'images', 'videos')->latest('created_at')->paginate(10);
+
+    //     $posts->getCollection()->transform(function ($post) {
+    //         // Check if the authenticated user has liked the post
+    //         $post->hasLiked = $post->likes->where('user_id', auth()->id())->isNotEmpty();
+    //         $post->likeCount = $post->likes->count();
+
+    //         return $post;
+    //     });
+
+    //     foreach ($posts as $post) {
+    //         foreach ($post->comments as $comment) {
+    //             $comment->replyCount = $comment->replies->count();
+    //             $comment->commentHasLiked = $comment->likes->where('user_id', auth()->id())->isNotEmpty();
+    //             $comment->commentLikeCount = $comment->likes->count();
+    //         }
+    //     }
+
+    //     return response()->json($posts);
+    // }
+
     public function postGet(Request $request)
     {
-        $posts = Post::with('user', 'likes', 'comments.user', 'images', 'videos')->latest('created_at')->paginate(10);
+        $filter = $request->input('filter', 'latest'); // Default to latest posts if no filter is specified
+
+        $postsQuery = Post::with('user', 'likes', 'comments.user', 'images', 'videos');
+
+        // Apply filtering based on the filter value
+        switch ($filter) {
+            case 'popular':
+                // Popular filter: posts with the most likes
+                $postsQuery->withCount('likes', 'comments')->orderByDesc('likes_count')->orderByDesc('comments_count');
+                break;
+
+            case 'hot':
+                // Hot filter: posts that have received recent engagement (likes or comments) in a specific timeframe
+                $postsQuery->where('created_at', '>=', now()->subDays(2)) // Consider recent posts within the last 2 days
+                    ->withCount('likes', 'comments')
+                    ->orderByDesc('likes_count')
+                    ->orderByDesc('comments_count');
+                break;
+
+            default:
+                // Default: latest posts
+                $postsQuery->latest('created_at');
+                break;
+        }
+
+        $posts = $postsQuery->paginate(10);
 
         $posts->getCollection()->transform(function ($post) {
-            // Check if the authenticated user has liked the post
             $post->hasLiked = $post->likes->where('user_id', auth()->id())->isNotEmpty();
             $post->likeCount = $post->likes->count();
-
             return $post;
         });
 
@@ -43,6 +89,7 @@ class CommunityController extends Controller
 
         return response()->json($posts);
     }
+
     public function commentGet(Request $request)
     {
         // Fetch the post with comments (including all nested replies) and other related data

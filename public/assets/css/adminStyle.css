@@ -184,6 +184,7 @@ header .header-two-things-align .input-box-other-details .logout-setting-bell-al
   display: flex;
   column-gap: 10px;
   align-items: center;
+  text-decoration: none;
 }
 
 header .header-two-things-align .input-box-other-details .logout-setting-bell-all a:hover {
@@ -236,6 +237,7 @@ body {
   color: #9A9A9A;
   font-size: 12px;
   transition: .3s;
+  text-decoration: none;
 }
 
 .main-box-navy .left-all-links ul li a span {
