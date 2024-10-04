@@ -434,12 +434,6 @@ class CommunityController extends Controller
         // Find the comment by ID
         $comment = Comment::findOrFail($id); // Automatically returns a 404 if not found
 
-        // Check if the user is authorized to update the comment
-        // Assuming the user can update their own comments or an admin can update any
-        if ($comment->user_id !== auth()->id() && !auth()->user()->is_admin) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
         // Update the comment's content
         $comment->comment = $request->input('content');
         $comment->save();
