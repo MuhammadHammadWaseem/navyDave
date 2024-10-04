@@ -57,6 +57,8 @@ Route::get('/check', [AdminAuthController::class, 'check']);
     Route::post('subscribe', [UserAuthController::class, 'subscribe'])->name('user.subscribe');
     
     Route::get('get-notification', [CommunityController::class, 'getNotification'])->name('user.get-notification');
+    Route::post('mark-notification-read/{id}', [CommunityController::class, 'markNotification'])->name('user.mark-notification-read');
+    Route::post('/mark-all-notifications-read', [CommunityController::class, 'markAllNotification'])->name('user.mark-all-notifications-read');
 
 
 

@@ -180,6 +180,26 @@ header .header-two-things-align .input-box-other-details .logout-setting-bell-al
   transition: .3s;
 }
 
+#notification-box .main-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#notification-box .main-heading button#mark-all-read {
+  background-color: #ff000000;
+  padding: 0;
+  color: black;
+  font-size: 11px;
+  text-decoration: underline;
+  text-transform: capitalize;
+  transition: .3s;
+}
+
+#notification-box .main-heading button#mark-all-read:hover {
+  color: #2cc374;
+}
+
 header .header-two-things-align .input-box-other-details .logout-setting-bell-all .logout-box a {
   display: flex;
   column-gap: 10px;
@@ -1057,7 +1077,6 @@ a {
   justify-content: center;
   gap: 10px;
   margin-top: 15px;
-  display: none;
 }
 #notification-box .new-notfication-box {
   height: 150px;

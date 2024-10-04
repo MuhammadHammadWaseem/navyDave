@@ -483,12 +483,25 @@ class CommunityController extends Controller
 
     public function getNotification()
     {
-
         $user = auth()->user();
         $notifications = $user->unreadNotifications;
         $count = $user->unreadNotifications->count();
         return response()->json(['message' => 'Notification fetched successfully!', 'notifications' => $notifications, 'count' => $count]);
     }
 
+    public function markNotification(Request $request, $notificationId)
+    {
+        $notification = auth()->user()->unreadNotifications->find($notificationId);
+        $notification->markAsRead();
+        $userRemainingNotification = auth()->user()->unreadNotifications;
+        $userRemainingNotificationCount = auth()->user()->unreadNotifications->count(); 
+        return response()->json(['message' => 'Notification marked as read successfully!', 'userRemainingNotification' => $userRemainingNotification, 'userRemainingNotificationCount' => $userRemainingNotificationCount]);
+    }
+
+    public function markAllNotification(Request $request)
+    {
+        auth()->user()->unreadNotifications->markAsRead();
+        return response()->json(['message' => 'All notifications marked as read successfully!']);
+    }
 
 }

@@ -92,23 +92,26 @@
                                     <div id="notification-box" style="display: none;">
                                         <div class="main-heading">
                                             <h6>New notifications</h6>
+                                            <button id="mark-all-read"
+                                                class="btn btn-primary @if ($notifications->count() == 0) d-none @endif">Mark
+                                                All as Read</button>
                                         </div>
-                                        @if ($notifications->count() > 0)
-                                            <div class="new-notfication-box" id="new-notfication-box">
+                                        <div class="new-notfication-box @if ($notifications->count() == 0) d-none @endif" id="new-notfication-box">
+                                            @if ($notifications->count() > 0)
                                                 @foreach ($notifications as $notification)
-                                                    <a href="#">
+                                                    <a href="#" data-id="{{ $notification->id }}"
+                                                        data-post-id="{{ $notification->data['post_id'] }}">
                                                         <h5>{{ $notification->data['title'] }}</h5>
                                                         <p>{{ $notification->data['message'] }}</p>
                                                         <p>{{ $notification->created_at->diffForHumans() }}</p>
                                                     </a>
                                                 @endforeach
-                                            </div>
-                                        @else
-                                            <div class="no-notification-box">
-                                                <i class="fa fa-bell-slash" aria-hidden="true"></i>
-                                                - No new notifications -
-                                            </div>
-                                        @endif
+                                            @endif
+                                        </div>
+                                        <div class="no-notification-box @if ($notifications->count() > 0) d-none @endif" id="no-notification-box">
+                                            <i class="fa fa-bell-slash" aria-hidden="true"></i>
+                                            - No new notifications -
+                                        </div>
                                     </div>
                                     <a href="{{ route('home') }}"><i class="fa fa-globe" aria-hidden="true"></i>Visit
                                         Site</a>
@@ -252,13 +255,19 @@
                     url: "{{ route('user.get-notification') }}",
                     type: "GET",
                     success: function(response) {
+                        $("#no-notification-box").addClass("d-none");
+                        $("#new-notfication-box").removeClass("d-none");
+
                         $("#notificationCount-box").text(response.count);
                         $("#new-notfication-box").empty();
+
+                        $("#mark-all-read").removeClass("d-none");
 
                         response.notifications.forEach(function(notification) {
                             console.log(notification);
                             $("#new-notfication-box").append(
-                                `<a href="#">
+                                `
+                                <a href="#" data-id="${notification.id}" data-post-id="${notification.data['post_id']}">
                                     <h5>${notification.data['title']}</h5>
                                     <p>${notification.data['message']}</p>
                                     <p>${timeAgo(notification.created_at)}</p>
@@ -271,6 +280,61 @@
                     }
                 });
             });
+
+            $(document).on('click', '#new-notfication-box a', function(event) {
+                event.preventDefault(); // Prevent the default action of the link
+
+                const notificationId = $(this).data('id'); // Assuming you add data-id to your anchor tags
+                const postId = $(this).data('post-id'); // Assuming you add data-post-id to your anchor tags
+
+                // Perform an action based on the notification
+                // For example, you can mark it as read via an AJAX call
+                $.ajax({
+                    url: '/mark-notification-read/' +
+                        notificationId, // Define the route in your routes/web.php
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: notificationId
+                    },
+                    success: function(response) {
+                        window.location.reload();
+                    },
+                    error: function(xhr) {
+                        console.error('Error marking notification as read:', xhr);
+                    }
+                });
+            });
+
+            $('#mark-all-read').on('click', function() {
+                $.ajax({
+                    url: '/mark-all-notifications-read', // Define your route here
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        console.log('All notifications marked as read:', response);
+
+                        // Remove all notifications from the notification box
+                        $('#new-notfication-box').addClass('d-none');
+                        $('#no-notification-box').removeClass('d-none');
+
+                        // Hide the mark all button
+                        $("#mark-all-read").css("display", "none");
+
+                        // Optionally show a success message
+                        toastr.success('All notifications marked as read.');
+
+                        // Optionally update the notification count
+                        $("#notificationCount-box").text(0);
+                    },
+                    error: function(xhr) {
+                        console.error('Error marking all notifications as read:', xhr);
+                    }
+                });
+            });
+
 
             // Function to calculate time ago
             function timeAgo(timestamp) {
