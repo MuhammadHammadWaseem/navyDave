@@ -206,7 +206,7 @@ class CommunityController extends Controller
                 event(new PostCreateNoti($post));
             }
         }
-        
+
         event(new NewLikeAdded($likes));
 
         return response()->json([
@@ -457,28 +457,24 @@ class CommunityController extends Controller
 
         // Get the current authenticated user
         $user = auth()->user();
+        // User is allowed to delete the comment
 
-        // Check if the user is an admin or the owner of the comment
-        if ($user->hasRole('admin') || $comment->user_id === $user->id) {
-            // User is allowed to delete the comment
-
-            // Check if the comment has replies
-            if ($comment->replies()->exists()) {
-                // Delete all replies associated with the comment
-                $comment->replies()->delete();
-            }
-
-            // Delete the main comment
-            $comment->delete();
-
-            // Get the count of remaining comments for the post
-            $count = Comment::where('post_id', '=', $comment->post_id)->count();
-
-            return response()->json(['message' => 'Comment and its replies deleted successfully.', 'count' => $count], 200);
-        } else {
-            // User is not authorized to delete the comment
-            return response()->json(['message' => 'You are not authorized to delete this comment.'], 403);
+        // Check if the comment has replies
+        if ($comment->replies()->exists()) {
+            // Delete all replies associated with the comment
+            $comment->replies()->delete();
         }
+
+        // Delete the main comment
+        $comment->delete();
+
+        // Get the count of remaining comments for the post
+        $count = Comment::where('post_id', '=', $comment->post_id)->count();
+        $post = Post::find($comment->post_id);
+
+        // if($count)
+
+        return response()->json(['message' => 'Comment and its replies deleted successfully.', 'count' => $count, 'post' => $post], 200);
     }
 
     public function getNotification()
@@ -494,7 +490,7 @@ class CommunityController extends Controller
         $notification = auth()->user()->unreadNotifications->find($notificationId);
         $notification->markAsRead();
         $userRemainingNotification = auth()->user()->unreadNotifications;
-        $userRemainingNotificationCount = auth()->user()->unreadNotifications->count(); 
+        $userRemainingNotificationCount = auth()->user()->unreadNotifications->count();
         return response()->json(['message' => 'Notification marked as read successfully!', 'userRemainingNotification' => $userRemainingNotification, 'userRemainingNotificationCount' => $userRemainingNotificationCount]);
     }
 

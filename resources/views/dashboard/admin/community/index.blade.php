@@ -1272,7 +1272,7 @@
                                             let hasLiked = firstComment.commentHasLiked ? 'like-class-parent' : '';
                                             let likeCount = firstComment.commentLikeCount || 0;
                                             commentSection += `
-                                                <div class="person-comment-content">
+                                                <div class="person-comment-content" id="parent-comment-box-in-box-${firstComment.id}">
                                                     <div class="person-comment-box">
                                                         <div class="img-box">
                                                             <div class="img">
@@ -1587,6 +1587,8 @@
                         const deleteUrl = `{{ route('comment.delete', ':id') }}`;
                         const finalUrl = deleteUrl.replace(':id', $(this).data('comment-id'));
                         const commentElement = $(this).closest('.person-comment-content');
+                        const commentId = $(this).data('comment-id');
+                        const anothercommentElement = $("#parent-comment-box-in-box-" + commentId);
 
                         // SweetAlert for confirmation
                         Swal.fire({
@@ -1605,10 +1607,13 @@
                                         _token: '{{ csrf_token() }}'
                                     },
                                     success: function(response) {
+                                        console.log(response);
                                         commentElement.remove(); // Remove the comment from the DOM
+                                        if (anothercommentElement.length > 0) {
+                                            anothercommentElement.remove();
+                                        }
                                         Swal.fire("Deleted!", "Comment deleted successfully!", "success");
-                                        $("#comment-count-" + response.comment.post_id).text(response
-                                            .count);
+                                        $("#comment-count-" + response.post.id).text(response.count);
                                     },
                                     error: function(xhr) {
                                         Swal.fire("Error!", "An error occurred while deleting the comment.",
@@ -1669,6 +1674,7 @@
 
                         // Bind the event to the correct channel
                         commentChannel.bind('comment-added', function(data) {
+                            console.log("comment-added", data);
                             // Update the comment count for the post
                             $("#comment-count-" + data.comment.post_id).text(data.comment.count);
 
@@ -1680,7 +1686,7 @@
                                 let canDeleteComment = firstComment.user_id == currentUserId || isAdmin;
                                 let canEditComment = firstComment.user_id == currentUserId;
                                 commentSection += `
-                                                <div class="person-comment-content">
+                                                <div class="person-comment-content" id="parent-comment-box-in-box-${firstComment.id}">
                                                     <div class="person-comment-box">
                                                         <div class="img-box">
                                                             <div class="img">
