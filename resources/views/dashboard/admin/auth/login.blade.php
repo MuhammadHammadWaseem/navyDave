@@ -94,7 +94,7 @@
                                     <div class="input-check-box">
                                         <input type="checkbox" id="show-password" name="remember-me"
                                             onclick="togglePassword()">
-                                        <label for="show-password">See password</label>
+                                        <label for="show-password">Show password</label>
                                     </div>
 
                                     <button type="submit">Login</button>

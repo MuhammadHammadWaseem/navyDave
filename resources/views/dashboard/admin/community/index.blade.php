@@ -1726,8 +1726,9 @@
                                 $("#post-" + firstComment.post_id).append(commentSection);
                             }
 
+                            console.log("commentss", data);
                             if (data.comment.isReply == true) {
-                                console.log(data.comment);
+                                console.log("comment reply", data.comment);
                                 // not correct
                                 $("#reply-count-" + data.comment.parent_id).text("(" + data.comment.replyCount + ")");
 
@@ -2113,6 +2114,7 @@
                                 comment: replyText
                             },
                             success: function(response) {
+                                console.log('Reply added successfully:', response);
                                 // Clear the input
                                 replyInput.value = '';
 

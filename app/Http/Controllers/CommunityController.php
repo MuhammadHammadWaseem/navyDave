@@ -348,7 +348,6 @@ class CommunityController extends Controller
         // $comment->replyCount = $replyCount;
         // $comment->isReply = true;
         // $comment->parent_id = $request->parent_id;
-
         $commentData = (object) [
             'id' => $comment->id,
             'post_id' => $comment->post_id,
@@ -359,6 +358,9 @@ class CommunityController extends Controller
             'count' => $count,
             'replyCount' => $replyCount,
             'isReply' => true,
+            'user' => $comment->user,
+            'replies' => $comment->replies,
+            'parent_id' => $request->parent_id
         ];
 
         // Notify the post owner
@@ -376,6 +378,8 @@ class CommunityController extends Controller
         }
 
         event(new PostCreateNoti($post));
+
+        event(new NewCommentAdded($commentData));
 
         return response()->json(['message' => 'Comment submitted successfully!', 'comment' => $comment, 'count' => $count]);
     }
