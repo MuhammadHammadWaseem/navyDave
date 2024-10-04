@@ -194,6 +194,7 @@ header .header-two-things-align .input-box-other-details .logout-setting-bell-al
   text-decoration: underline;
   text-transform: capitalize;
   transition: .3s;
+  border: none !important;
 }
 
 #notification-box .main-heading button#mark-all-read:hover {
