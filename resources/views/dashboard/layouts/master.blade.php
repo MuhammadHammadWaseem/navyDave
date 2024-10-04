@@ -86,31 +86,29 @@
                                         <a href="javascript:void(0)" id="notificationLink-box">
                                             <i class="fa fa-bell" aria-hidden="true"></i> Notifications
                                         </a>
-                                        <span>01</span>
+                                        <span id="notificationCount-box">{{ $notifications->count() }}</span>
                                     </div>
 
                                     <div id="notification-box" style="display: none;">
                                         <div class="main-heading">
                                             <h6>New notifications</h6>
                                         </div>
-                                        <div class="new-notfication-box">
-                                            <a href="#">
-                                                <h5>asdasdasd</h5>
-                                                <p>You have a new notification</p>
-                                            </a>
-                                            <a href="#">
-                                                <h5>asdasdasd</h5>
-                                                <p>You have a new notification</p>
-                                            </a>
-                                            <a href="#">
-                                                <h5>asdasdasd</h5>
-                                                <p>You have a new notification</p>
-                                            </a>
-                                        </div>
-                                        <div class="no-notification-box">
-                                            <i class="fa fa-bell-slash" aria-hidden="true"></i>
-                                            - No new notifications -
-                                        </div>
+                                        @if ($notifications->count() > 0)
+                                            <div class="new-notfication-box" id="new-notfication-box">
+                                                @foreach ($notifications as $notification)
+                                                    <a href="#">
+                                                        <h5>{{ $notification->data['title'] }}</h5>
+                                                        <p>{{ $notification->data['message'] }}</p>
+                                                        <p>{{ $notification->created_at->diffForHumans() }}</p>
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        @else
+                                            <div class="no-notification-box">
+                                                <i class="fa fa-bell-slash" aria-hidden="true"></i>
+                                                - No new notifications -
+                                            </div>
+                                        @endif
                                     </div>
                                     <a href="{{ route('home') }}"><i class="fa fa-globe" aria-hidden="true"></i>Visit
                                         Site</a>
@@ -215,7 +213,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 @yield('content')
 
             </div>
@@ -238,6 +236,62 @@
 
     <script>
         $(document).ready(function() {
+
+            Pusher.logToConsole = false;
+
+            var pusher = new Pusher('3af0341c542582fe2550', {
+                cluster: "ap2",
+                encrypted: false,
+                useTls: true,
+            });
+
+            var channel = pusher.subscribe('post-notification-channel');
+
+            channel.bind('post-notification', function(data) {
+                $.ajax({
+                    url: "{{ route('user.get-notification') }}",
+                    type: "GET",
+                    success: function(response) {
+                        $("#notificationCount-box").text(response.count);
+                        $("#new-notfication-box").empty();
+
+                        response.notifications.forEach(function(notification) {
+                            console.log(notification);
+                            $("#new-notfication-box").append(
+                                `<a href="#">
+                                    <h5>${notification.data['title']}</h5>
+                                    <p>${notification.data['message']}</p>
+                                    <p>${timeAgo(notification.created_at)}</p>
+                                </a>`
+                            );
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+
+            // Function to calculate time ago
+            function timeAgo(timestamp) {
+                const now = new Date();
+                const date = new Date(timestamp);
+                const seconds = Math.floor((now - date) / 1000);
+
+                let interval = Math.floor(seconds / 31536000);
+                if (interval > 1) return `${interval} years ago`;
+                interval = Math.floor(seconds / 2592000); // 30 days
+                if (interval > 1) return `${interval} months ago`;
+                interval = Math.floor(seconds / 86400); // 1 day
+                if (interval > 1) return `${interval} days ago`;
+                interval = Math.floor(seconds / 3600); // 1 hour
+                if (interval > 1) return `${interval} hours ago`;
+                interval = Math.floor(seconds / 60); // 1 minute
+                if (interval > 1) return `${interval} minutes ago`;
+                return `${seconds} seconds ago`;
+            }
+
+
             // Toggle the notification box when the anchor is clicked
             $('#notificationLink-box').on('click', function(e) {
                 e.preventDefault();

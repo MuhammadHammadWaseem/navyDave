@@ -55,6 +55,8 @@ Route::get('/check', [AdminAuthController::class, 'check']);
 
     // User Subscribe
     Route::post('subscribe', [UserAuthController::class, 'subscribe'])->name('user.subscribe');
+    
+    Route::get('get-notification', [CommunityController::class, 'getNotification'])->name('user.get-notification');
 
 
 

@@ -294,6 +294,9 @@
                     .community-new .two-align-things .two-btns-inline .btn.active svg path {
                         fill: white;
                     }
+                    .community-new .two-align-things .two-btns-inline .btn.active img {
+                        filter: invert(1);
+                    }
 
                     .community-new .two-align-things .two-btns-inline .btn:hover {
                         color: white;
@@ -302,6 +305,10 @@
 
                     .community-new .two-align-things .two-btns-inline .btn:hover svg path {
                         fill: white;
+                    }
+
+                    .community-new .two-align-things .two-btns-inline .btn:hover img {
+                        filter: invert(1);
                     }
 
                     .main-calendar-box.main-calendar-box-list.customers-box.community-new {
@@ -1631,19 +1638,22 @@
                         var likeChannel = pusher.subscribe('like-channel');
 
                         likeChannel.bind('like-added', function(data) {
+                            console.log(data);
                             if (data.post.commentId) {
-
-                                // Get the element by ID
-                                const button = document.getElementById(`comment-like-count-${data.post.commentId}`);
-
-                                if (button) {
-                                    // Update the innerHTML if the element exists
-                                    button.innerHTML = formatCount(data.post.count);
-                                } else {
-                                    // Log an error or warning if the element is not found
-                                    console.error(
-                                        `Element with ID comment-like-count-${data.post.commentId} not found.`);
-                                }
+                                if($('#CommentsModal').hasClass('show')){
+                                    
+                                    // Get the element by ID
+                                    const button = document.getElementById(`comment-like-count-${data.post.commentId}`);
+                                    
+                                    if (button) {
+                                        // Update the innerHTML if the element exists
+                                        button.innerHTML = formatCount(data.post.count);
+                                    } else {
+                                        // Log an error or warning if the element is not found
+                                        console.error(
+                                            `Element with ID comment-like-count-${data.post.commentId} not found.`);
+                                        }
+                                    }
                             } else {
                                 // Find the button for the specific post using the postId
                                 const button = document.querySelector(`button[data-post-id="${data.post.postId}"]`);

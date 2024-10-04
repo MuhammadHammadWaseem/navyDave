@@ -27,3 +27,7 @@ Broadcast::channel('comment-channel', function ($data) {
 Broadcast::channel('like-channel', function ($data) {
     return true;
 });
+Broadcast::channel('post-notification-channel', function ($data) {
+    return true;
+});
+

@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Events\NewCommentAdded;
 use App\Events\NewLikeAdded;
+use App\Notifications\PostCreatedNotification;
+use App\Models\User;
+use App\Events\PostCreateNoti;
+use App\Notifications\PostLikedNotification;
+use App\Notifications\PostCommentedNotification;
+use App\Notifications\CommentRepliedNotification;
+use App\Notifications\LikeOnCommentNotification;
 
 class CommunityController extends Controller
 {
@@ -175,6 +182,7 @@ class CommunityController extends Controller
     public function likeComment(Request $request)
     {
         $comment = Comment::findOrFail($request->comment_id);
+        $post = Post::with('user', 'likes', 'comments', 'images', 'videos')->find($comment->post_id);
         $user = auth()->user();
 
         // Toggle like/unlike
@@ -190,6 +198,15 @@ class CommunityController extends Controller
         $likeCount = $comment->likes()->count();
 
         $likes = (object) ['count' => $likeCount, 'liked' => $liked, 'commentId' => $request->comment_id];
+
+        if ($liked == true) {
+            // Notify the post owner
+            if ($comment->user_id !== auth()->id()) {
+                $comment->user->notify(new LikeOnCommentNotification($post));
+                event(new PostCreateNoti($post));
+            }
+        }
+        
         event(new NewLikeAdded($likes));
 
         return response()->json([
@@ -253,6 +270,15 @@ class CommunityController extends Controller
         $post->likeCount = $post->likes->count();
 
         event(new PostCreated($post));
+
+        // Notify all users
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->notify(new PostCreatedNotification($post));
+        }
+        event(new PostCreateNoti($post));
+
+
         return response()->json(['message' => 'Post submitted successfully!', 'post' => $post]);
     }
 
@@ -264,6 +290,7 @@ class CommunityController extends Controller
 
     public function commentPost(Request $request, $postId)
     {
+        $post = Post::with('user', 'likes', 'comments', 'images', 'videos')->findOrFail($postId);
 
         $comment = new Comment();
         $comment->comment = $request->input('content');
@@ -284,7 +311,12 @@ class CommunityController extends Controller
         $newComment = (object) $newCommentArray;
 
         event(new NewCommentAdded($newComment));
-        \Log::info('Comment added and event fired:', ['comment' => $comment]);
+
+        // Notify the post owner
+        if ($post->user_id !== auth()->id()) {
+            $post->user->notify(new PostCommentedNotification($comment));
+            event(new PostCreateNoti($post));
+        }
 
         $count = Comment::where('post_id', '=', $postId)->count();
         return response()->json(['message' => 'Comment submitted successfully!', 'comment' => $newComment, 'count' => $count]);
@@ -311,19 +343,46 @@ class CommunityController extends Controller
         $count = Comment::where('post_id', '=', $request->post_id)->count();
         $replyCount = Comment::where('parent_id', '=', $request->parent_id)->count();
 
-        $comment = (object) $comment->toArray();
-        $comment->count = $count;
-        $comment->replyCount = $replyCount;
-        $comment->isReply = true;
+        // $comment = (object) $comment->toArray();
+        // $comment->count = $count;
+        // $comment->replyCount = $replyCount;
+        // $comment->isReply = true;
+        // $comment->parent_id = $request->parent_id;
 
-        event(new NewCommentAdded($comment));
+        $commentData = (object) [
+            'id' => $comment->id,
+            'post_id' => $comment->post_id,
+            'user_id' => $comment->user_id,
+            'comment' => $comment->comment,
+            'created_at' => $comment->created_at,
+            'user_name' => $comment->user->name,
+            'count' => $count,
+            'replyCount' => $replyCount,
+            'isReply' => true,
+        ];
+
+        // Notify the post owner
+        $post = Post::find($request->post_id);
+        if ($post->user_id !== auth()->id()) {
+            $post->user->notify(new PostCommentedNotification($comment)); // Notify post owner
+        }
+
+        // Notify the original comment owner if it's a reply
+        if ($request->parent_id) {
+            $parentComment = Comment::with('user')->find($request->parent_id);
+            if ($parentComment && $parentComment->user_id !== auth()->id()) {
+                $parentComment->user->notify(new CommentRepliedNotification($comment)); // Notify the original comment owner
+            }
+        }
+
+        event(new PostCreateNoti($post));
 
         return response()->json(['message' => 'Comment submitted successfully!', 'comment' => $comment, 'count' => $count]);
     }
 
     public function like(Request $request, $postId)
     {
-        $post = Post::findOrFail($postId);
+        $post = Post::with('user', 'likes', 'comments')->findOrFail($postId);
 
         // Check if the user has already liked the post
         $existingLike = $post->likes()->where('user_id', auth()->id())->first();
@@ -338,7 +397,6 @@ class CommunityController extends Controller
             $likes = (object) ['count' => $likesCount, 'postId' => $postId, 'liked' => false];
 
             event(new NewLikeAdded($likes));
-
             return response()->json(['message' => 'Post unliked successfully!', 'likes' => $post->likes()->count(), 'liked' => false]);
         }
 
@@ -350,6 +408,12 @@ class CommunityController extends Controller
 
         // Create an object with both the like count and postId
         $likes = (object) ['count' => $likesCount, 'postId' => $postId, 'liked' => true];
+
+        // Notify the post owner
+        if ($post->user_id !== auth()->id()) {
+            $post->user->notify(new PostLikedNotification($post));
+            event(new PostCreateNoti($post));
+        }
 
         event(new NewLikeAdded($likes));
 
@@ -411,6 +475,15 @@ class CommunityController extends Controller
             // User is not authorized to delete the comment
             return response()->json(['message' => 'You are not authorized to delete this comment.'], 403);
         }
+    }
+
+    public function getNotification()
+    {
+
+        $user = auth()->user();
+        $notifications = $user->unreadNotifications;
+        $count = $user->unreadNotifications->count();
+        return response()->json(['message' => 'Notification fetched successfully!', 'notifications' => $notifications, 'count' => $count]);
     }
 
 
