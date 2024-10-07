@@ -1084,6 +1084,43 @@ a {
   overflow: hidden;
   overflow-y: scroll;
 }
+
+
+.person-details-date {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.person-details-date button.btn.btn-danger {
+  background-color: #F0F0F0;
+  color: #000000;
+  transition: .3s;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 10px;
+  border: 1px solid #00000021 !important;
+}
+
+.person-details-date button.btn.btn-danger:hover {
+  background-color: #2cc374;
+  color: white;
+  border-color: #2cc374 !important;
+}
+
+.person-details-date button.btn.btn-danger:hover svg path {
+  fill: white;
+}
+
+
+
+
+
+
+
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 #notification-box .new-notfication-box::-webkit-scrollbar {
   display: none;
