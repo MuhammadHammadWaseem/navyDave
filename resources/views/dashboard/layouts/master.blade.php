@@ -266,7 +266,6 @@
                         $("#mark-all-read").removeClass("d-none");
 
                         response.notifications.forEach(function(notification) {
-                            console.log(notification);
                             $("#new-notfication-box").append(
                                 `
                                 <a href="#" data-id="${notification.id}" data-post-id="${notification.data['post_id']}">
@@ -316,8 +315,6 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
-                        console.log('All notifications marked as read:', response);
-
                         // Remove all notifications from the notification box
                         $('#new-notfication-box').addClass('d-none');
                         $('#no-notification-box').removeClass('d-none');

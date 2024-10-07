@@ -30,4 +30,7 @@ Broadcast::channel('like-channel', function ($data) {
 Broadcast::channel('post-notification-channel', function ($data) {
     return true;
 });
+Broadcast::channel('post-delete-channel', function ($data) {
+    return true;
+});
 
