@@ -58,6 +58,7 @@
                         <th>Service Name</th>
                         <th>Category</th>
                         <th>Duration</th>
+                        <th>Slots</th>
                         <th>Type Duration</th>
                         <th>Price</th>
                         <th>Actions</th>
@@ -147,6 +148,9 @@
                 },
                 {
                     data: 'duration'
+                },
+                {
+                    data: 'slots'
                 },
                 {
                     data: 'type_duration'

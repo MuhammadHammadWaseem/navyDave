@@ -103,6 +103,19 @@
                         </div>
                     </div>
 
+                    {{-- Slots --}}
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="slots">Slots <span class="text-danger">*</span></label>
+                            <input type="number" class="w-100 form-control @error('slots') is-invalid @enderror" id="slots" name="slots" placeholder="Add Slots" min="1" max="100">
+                            @error('slots')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+
                     <!-- Type Duration -->
                     <div class="col-md-6">
                         <div class="form-group">

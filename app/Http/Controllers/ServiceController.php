@@ -38,14 +38,11 @@ class ServiceController extends Controller
         'min_capacity' => 'required|integer',
         'max_capacity' => 'required|integer',
         'description' => 'nullable|string',
+        'slots' => 'required|string|min:1|max:1000',
     ]);
 
     // Handle image upload
     if ($request->hasFile('image')) {
-        // $imagePath = $request->file('image')->store('public','service');
-        // $finalPath = explode('public/', $imagePath)[1];
-        // $validated['image'] = "service".$finalPath;
-
         $extension = $request->file('image')->getClientOriginalExtension();
         $uniqueName = 'service' . Str::random(40) . '.' . $extension;
         $request->file('image')->storeAs('public', $uniqueName);
@@ -96,6 +93,7 @@ public function update(Request $request, $id)
             'max_capacity' => 'nullable|integer',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4048',
+            'slots' => 'nullable|string|min:1|max:1000',
         ]);
 
         // Find the service record by ID
@@ -128,6 +126,7 @@ public function update(Request $request, $id)
             'category_id' => $validated['category_id'] ?? $service->category_id,
             'price' => $validated['price'] ?? $service->price,
             'duration' => $validated['duration'] ?? $service->duration,
+            'slots' => $validated['slots'] ?? $service->slots,
             'type_duration' => $validated['type_duration'] ?? $service->type_duration,
             'buffer_time_before' => $validated['buffer_time_before'] ?? $service->buffer_time_before,
             'type_buffer_time_before' => $validated['type_buffer_time_before'] ?? $service->type_buffer_time_before,

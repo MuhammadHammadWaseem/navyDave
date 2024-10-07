@@ -15,6 +15,7 @@ class Service extends Model
         'name',
         'category_id',
         'price',
+        'slots',
         'duration',
         'type_duration',
         'buffer_time_before',
