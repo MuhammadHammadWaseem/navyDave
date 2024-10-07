@@ -25,14 +25,14 @@ class UserAuthController extends Controller
         $appointments = Appointment::where('user_id', $user)->with('slot', 'payment')->orderBy('id', 'desc')->take(10)->get();
 
         $remainingSlots = 0;
-        //Remaining Slots
-        $totalUserAppointments = Appointment::where('user_id', $user)->get();
-        foreach ($totalUserAppointments as $key => $value) {
-            if($value->status == 'confirmed' || $value->status == 'pending'){
-                $service = Service::where('id', $value->service_id)->first();
-                $remainingSlots += $service->slots;
-            }
+
+        // Remaining Slots
+        $totalUserAppointments = Appointment::where('user_id', $user)->select('total_slots', 'completed_slots')->get();
+
+        foreach ($totalUserAppointments as $totalUserAppointment) {
+            $remainingSlots += ($totalUserAppointment->total_slots - $totalUserAppointment->completed_slots);
         }
+
         //Remaining Slots
         return view('dashboard.user.dashboard', compact('appointments', 'approvedAppointments', 'totalAppointments', 'pendingAppointments', 'remainingSlots'));
     }

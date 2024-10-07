@@ -282,7 +282,7 @@
     <section class="appointment-sec-01" id="appointment">
         <div class="container">
             <div class="row">
-
+                
                 <div class="col-md-12">
                     <div class="main-steps-form">
                         <ul>
@@ -692,14 +692,13 @@
                                     <div class="step"></div>
                                     <div class="step"></div>
                                 </div>
-                            </form>
-
-                        </div>
-
-                    </div>
+                    </form>
                 </div>
 
-            </section>
+            </div>
+        </div>
+
+    </section>
             <!-- Flatpickr CSS and JS -->
             <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
             <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -858,15 +857,15 @@
                         // successTab.classList.remove("d-none");
 
                         // document.querySelector("#submitted-box .appointment-booked-details ul").innerHTML = `
-                         //     <li>Staff Member : ${data.data.staff.user.name}</li>
-                         //     <li>Date & Time : ${data.data.appointment_date}</li>
-                         //     <li>Name : ${data.data.first_name} ${data.data.last_name}</li>
-                         //     <li>Email Address : ${data.data.email}</li>
-                         //     <li>Phone Number : ${data.data.phone}</li>
-                         //     <li>Location : ${data.data.location}</li>
-                         //     <li>Price : $${data.data.price}</li>
-                         //     <li>Note : ${data.data.note}</li>
-                         // `;
+            //     <li>Staff Member : ${data.data.staff.user.name}</li>
+            //     <li>Date & Time : ${data.data.appointment_date}</li>
+            //     <li>Name : ${data.data.first_name} ${data.data.last_name}</li>
+            //     <li>Email Address : ${data.data.email}</li>
+            //     <li>Phone Number : ${data.data.phone}</li>
+            //     <li>Location : ${data.data.location}</li>
+            //     <li>Price : $${data.data.price}</li>
+            //     <li>Note : ${data.data.note}</li>
+            // `;
 
                         // Hide the submit button after success
                         submitButton.style.display = "none";
@@ -1256,7 +1255,7 @@
                             onChange: function(selectedDates, dateStr, instance) {
                                 getSlotsForDate(
                                     dateStr
-                                    ); // Trigger your existing function when a new date is selected
+                                ); // Trigger your existing function when a new date is selected
                             },
                             onReady: function(selectedDates, dateStr, instance) {
                                 instance.open(); // Automatically open the calendar on page load

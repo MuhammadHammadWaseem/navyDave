@@ -49,11 +49,7 @@ class ServiceController extends Controller
         $validated['image'] = $uniqueName;
     } else {
         // Use the default image
-        $defaultImagePath = 'assets/images/default-user.webp';
-        // Store the default image in the public storage
-        $uniqueName = 'services/default-user.webp';
-        Storage::disk('public')->copy($defaultImagePath, $uniqueName);
-        $validated['image'] = $uniqueName;
+        $validated['image'] = 'default.png';
     }
 
     // Create the service

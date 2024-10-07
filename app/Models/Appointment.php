@@ -13,6 +13,8 @@ class Appointment extends Model
         'user_id',
         'staff_id',
         'slot_id',
+        'total_slots',
+        'completed_slots',
         'appointment_date',
         'first_name',
         'last_name',

@@ -22,6 +22,8 @@ use Stripe\StripeClient;
 use App\Models\Payment;
 use Validator;
 use Illuminate\Support\Facades\Crypt;
+use App\Models\AppointmentSlot;
+use App\Models\User;
 
 class GuestController extends Controller
 {
@@ -75,7 +77,15 @@ class GuestController extends Controller
     public function appointment()
     {
         $categories = Category::all();
-        return view('guest.appointment')->with(compact('categories'));
+        $user = auth()->user();
+
+        $remaining_slots = 0;
+        $appointments = Appointment::where('user_id', $user->id)->select('total_slots', 'completed_slots')->get();
+        foreach($appointments as $appointment){
+            $remaining_slots += ($appointment->total_slots - $appointment->completed_slots);
+        }
+
+        return view('guest.appointment')->with(compact('categories', 'user', 'remaining_slots'));
     }
     public function blogs()
     {
@@ -293,9 +303,19 @@ class GuestController extends Controller
             // Retrieve the price from the Service model
             $service = Service::findOrFail($validated['service_id']);
             $validated['price'] = $service->price;
+            $validated['total_slots'] = $service->slots;
+
 
             // Create the appointment
             $data = Appointment::create($validated);
+
+            // Ensure that slot_id is set before creating the AppointmentSlot
+            if (isset($validated['slot_id'])) {
+                AppointmentSlot::create([
+                    'appointment_id' => $data->id,
+                    'slot_id' => $validated['slot_id'] // Use the validated slot_id
+                ]);
+            }
 
             // Load the appointment with relationships
             $appointment = Appointment::with('slot', 'staff.user', 'service')->findOrFail($data->id);

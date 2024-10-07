@@ -67,6 +67,9 @@
                         <th class="text-center">Email</th>
                         <th class="text-center">Staff</th>
                         <th class="text-center">Service</th>
+                        <th class="text-center">Total Slots</th>
+                        <th class="text-center">Completed Slots</th>
+                        <th class="text-center">Remaining Slots</th>
                         <th class="text-center">Day</th>
                         <th class="text-center">Date</th>
                         <th class="text-center">Time</th>
@@ -167,6 +170,9 @@
                                 <td class="text-center">${element.email}</td>
                                 <td class="text-center">${element.staff.user.name}</td>
                                 <td class="text-center">${element.service.name}</td>
+                                <td class="text-center">${element.total_slots}</td>
+                                <td class="text-center">${element.completed_slots}</td>
+                                <td class="text-center">${element.total_slots - element.completed_slots}</td>
                                 <td class="text-center">${element.slot.available_on}</td>
                                 <td class="text-center">${element.appointment_date}</td>
                                 <td class="text-center">${formatTime(element.slot.available_from) + ' - ' + formatTime(element.slot.available_to)}</td>

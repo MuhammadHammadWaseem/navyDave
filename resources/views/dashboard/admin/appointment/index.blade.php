@@ -67,6 +67,9 @@
                             <th class="text-center">Email</th>
                             <th class="text-center">Staff</th>
                             <th class="text-center">Service</th>
+                            <th class="text-center">Total Slots</th>
+                            <th class="text-center">Completed Slots</th>
+                            <th class="text-center">Remaining Slots</th>
                             <th class="text-center">Day</th>
                             <th class="text-center">Date</th>
                             <th class="text-center">Time</th>
@@ -103,6 +106,8 @@
                                 <select class="form-control" name="status" id="status">
                                     <option value="pending">Pending</option>
                                     <option value="confirmed">Confirmed</option>
+                                    <option value="awaiting_next_slot" disabled>Awaiting Next Slot</option>
+                                    <option value="fully_completed" disabled>Fully Completed</option>
                                     <option value="completed">Completed</option>
                                     <option value="canceled">Canceled</option>
                                 </select>
@@ -168,6 +173,9 @@
                                     <td class="text-center">${element.email}</td>
                                     <td class="text-center">${element.staff.user.name}</td>
                                     <td class="text-center">${element.service.name}</td>
+                                    <td class="text-center">${element.total_slots}</td>
+                                    <td class="text-center">${element.completed_slots}</td>
+                                    <td class="text-center">${element.total_slots - element.completed_slots}</td>
                                     <td class="text-center">${element.slot.available_on}</td>
                                     <td class="text-center">${element.appointment_date}</td>
                                     <td class="text-center">${formatTime(element.slot.available_from) + ' - ' + formatTime(element.slot.available_to)}</td>
