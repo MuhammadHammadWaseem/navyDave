@@ -43,6 +43,7 @@ Route::get('/check', [AdminAuthController::class, 'check']);
     Route::post('post', [CommunityController::class, 'post'])->name('post');
     Route::get('post/get', [CommunityController::class, 'postGet'])->name('post.get');
     Route::post('comment/get', [CommunityController::class, 'commentGet'])->name('comment.get');
+    Route::post('posts/delete', [CommunityController::class, 'deletePost'])->name('posts.delete');
     Route::post('/comment/like', [CommunityController::class, 'likeComment']);
 
 

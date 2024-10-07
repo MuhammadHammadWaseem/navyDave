@@ -20,6 +20,7 @@ use App\Notifications\PostLikedNotification;
 use App\Notifications\PostCommentedNotification;
 use App\Notifications\CommentRepliedNotification;
 use App\Notifications\LikeOnCommentNotification;
+use Illuminate\Support\Facades\Storage;
 
 class CommunityController extends Controller
 {
@@ -492,6 +493,43 @@ class CommunityController extends Controller
     {
         auth()->user()->unreadNotifications->markAsRead();
         return response()->json(['message' => 'All notifications marked as read successfully!']);
+    }
+
+    public function deletePost(Request $request)
+    {
+        // Find the post by the provided post_id
+        $post = Post::find($request->post_id);
+
+        if ($post) {
+            // Delete associated images from file system and database
+            foreach ($post->images as $image) {
+                $imagePath = $image->path; // Directly use the path from the database
+                if (Storage::disk('public')->exists($imagePath)) {
+                    Storage::disk('public')->delete($imagePath); // Delete the image file from storage
+                }
+                $image->delete(); // Delete the image record from the database
+            }
+
+            // Delete associated videos from file system and database
+            foreach ($post->videos as $video) {
+                $videoPath = $video->path; // Directly use the path from the database
+                if (Storage::disk('public')->exists($videoPath)) {
+                    Storage::disk('public')->delete($videoPath); // Delete the video file from storage
+                }
+                $video->delete(); // Delete the video record from the database
+            }
+
+            // Delete related likes and comments
+            $post->likes()->delete();    // Deletes all likes related to the post
+            $post->comments()->delete(); // Deletes all comments related to the post
+
+            // Finally, delete the post itself
+            $post->delete();
+
+            return response()->json(['message' => 'Post and related data deleted successfully!']);
+        } else {
+            return response()->json(['message' => 'Post not found'], 404);
+        }
     }
 
 }

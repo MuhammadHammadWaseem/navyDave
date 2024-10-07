@@ -1391,6 +1391,7 @@
                                                 contentLimit) + '...' : post.content;
 
                                             const likedStyle = post.hasLiked ? "liked" : "";
+                                            const canDeletePost = isAdmin || post.user_id === currentUserId;
 
 
                                             const image = post.user.image;
@@ -1409,6 +1410,9 @@
                                                             </div>
                                                             <div class="person-details-date">
                                                                 <h4>${timeAgo(post.created_at)}</h4>
+                                                                ${canDeletePost ? `
+                                                                <button class="btn btn-danger" onclick="deletePost(${post.id})">Delete</button>
+                                                                ` : ''}
                                                             </div>
                                                         </div>
                                                         <div class="detalingsread-more">
@@ -1822,6 +1826,7 @@
 
                                 const likedStyle = post.hasLiked ? "liked" : "";
                                 const image = post.user.image;
+                                const canDeletePost = isAdmin || post.user_id === currentUserId;
 
 
                                 $("#post-detaling").prepend(`
@@ -1837,6 +1842,9 @@
                                                             </div>
                                                             <div class="person-details-date">
                                                                 <h4>${timeAgo(post.created_at)}</h4>
+                                                                ${canDeletePost ? `
+                                                                <button class="btn btn-danger" onclick="deletePost(${post.id})">Delete</button>
+                                                                ` : ''}
                                                             </div>
                                                         </div>
                                                         <div class="detalingsread-more">
@@ -2174,6 +2182,27 @@
                             },
                             error: function(error) {
                                 console.error('Error adding reply:', error);
+                            }
+                        });
+                    }
+
+                    function deletePost(id) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/posts/delete', // Adjust the URL to your backend endpoint
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                post_id: id
+                            },
+                            success: function(response) {
+                                toastr.success('Post deleted successfully!');
+                                currentPage = 0;
+                                lastPage = 0;
+                                loadPosts('latest');
+                                $("#load-more").show();
+                            },
+                            error: function(error) {
+                                console.error('Error deleting post:', error);
                             }
                         });
                     }
