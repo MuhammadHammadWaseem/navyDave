@@ -11,6 +11,7 @@ use App\Models\Appointment;
 use App\Models\Subscriber;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Service;
 
 class UserAuthController extends Controller
 {
@@ -22,7 +23,18 @@ class UserAuthController extends Controller
         $totalAppointments = Appointment::where('user_id', $user)->count();
         $pendingAppointments = Appointment::where('user_id', $user)->where('status', 'pending')->count();
         $appointments = Appointment::where('user_id', $user)->with('slot', 'payment')->orderBy('id', 'desc')->take(10)->get();
-        return view('dashboard.user.dashboard', compact('appointments', 'approvedAppointments', 'totalAppointments', 'pendingAppointments'));
+
+        $remainingSlots = 0;
+        //Remaining Slots
+        $totalUserAppointments = Appointment::where('user_id', $user)->get();
+        foreach ($totalUserAppointments as $key => $value) {
+            if($value->status == 'confirmed' || $value->status == 'pending'){
+                $service = Service::where('id', $value->service_id)->first();
+                $remainingSlots += $service->slots;
+            }
+        }
+        //Remaining Slots
+        return view('dashboard.user.dashboard', compact('appointments', 'approvedAppointments', 'totalAppointments', 'pendingAppointments', 'remainingSlots'));
     }
 
     public function calendar()

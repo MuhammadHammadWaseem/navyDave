@@ -70,49 +70,153 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize the calendar
-            var calendarEl = document.getElementById('calendar');
-            var appointments = @json($appointments); // Load your appointments from the backend
+    <!-- Bootstrap Modal -->
+    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cancel2">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Appointment ID:</strong> <span id="modalAppointmentId"></span></p>
+                    <p><strong>Event Title:</strong> <span id="modalEventTitle"></span></p>
+                    <p><strong>Time Slot:</strong> <span id="modalEventDescription"></span></p>
+                    <p><strong>Staff Name:</strong> <span id="modalStaffName"></span></p>
+                    <p><strong>Service Name:</strong> <span id="modalServiceName"></span></p>
+                    <p><strong>Service Category:</strong> <span id="modalServiceCategory"></span></p>
+                    <p><strong>Appointment Status:</strong> <span id="modalAppointmentStatus"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="cancel1" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            // Function to map status to color
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <script>
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     // Initialize the calendar
+        //     var calendarEl = document.getElementById('calendar');
+        //     var appointments = @json($appointments); // Load your appointments from the backend
+
+        //     // Function to map status to color
+        //     function getStatusColor(status) {
+        //         switch (status) {
+        //             case 'pending':
+        //                 return {
+        //                     backgroundColor: '#ffc107', // Yellow for pending
+        //                     borderColor: '#ffc107',
+        //                     textColor: 'black'
+        //                 };
+        //             case 'confirmed':
+        //                 return {
+        //                     backgroundColor: '#28a745', // Green for confirmed
+        //                     borderColor: '#28a745',
+        //                     textColor: 'white'
+        //                 };
+        //             case 'canceled':
+        //                 return {
+        //                     backgroundColor: '#dc3545', // Red for canceled
+        //                     borderColor: '#dc3545',
+        //                     textColor: 'white'
+        //                 };
+        //             case 'completed':
+        //                 return {
+        //                     backgroundColor: '#17a2b8', // Light blue for completed
+        //                     borderColor: '#17a2b8',
+        //                     textColor: 'white'
+        //                 };
+        //             default:
+        //                 return {
+        //                     backgroundColor: '#2CC374', // Default color
+        //                     borderColor: '#2CC374',
+        //                     textColor: 'white'
+        //                 };
+        //         }
+        //     }
+
+        //     // Create the events array for FullCalendar
+        //     var events = appointments.map(function(appointment) {
+        //         var statusColors = getStatusColor(appointment.status);
+
+        //         return {
+        //             title: appointment.first_name + ' ' + appointment.last_name,
+        //             start: appointment.appointment_date,
+        //             backgroundColor: statusColors.backgroundColor,
+        //             borderColor: statusColors.borderColor,
+        //             textColor: statusColors.textColor
+        //         };
+        //     });
+
+        //     var calendar = new FullCalendar.Calendar(calendarEl, {
+        //         initialView: 'dayGridMonth',
+        //         headerToolbar: {
+        //             left: 'prev,next today',
+        //             center: 'title',
+        //             right: 'dayGridMonth,timeGridWeek,timeGridDay',
+        //         },
+        //         events: events // Add the events data
+        //     });
+
+        //     calendar.render();
+        // });
+
+        $("#cancel1 , #cancel2").click(function() {
+            $("#eventModal").modal('hide');
+        })
+        function formatTime(timeString) {
+            const [hour, minute] = timeString.split(':');
+            let hours = parseInt(hour);
+            let ampm = hours >= 12 ? 'pm' : 'am';
+            hours = hours % 12 || 12; // convert 24-hour format to 12-hour format
+            return `${hours}:${minute} ${ampm}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var appointments = @json($appointments);
+
             function getStatusColor(status) {
                 switch (status) {
                     case 'pending':
                         return {
                             backgroundColor: '#ffc107', // Yellow for pending
-                            borderColor: '#ffc107',
-                            textColor: 'black'
+                                borderColor: '#ffc107',
+                                textColor: 'black'
                         };
                     case 'confirmed':
                         return {
                             backgroundColor: '#28a745', // Green for confirmed
-                            borderColor: '#28a745',
-                            textColor: 'white'
+                                borderColor: '#28a745',
+                                textColor: 'white'
                         };
                     case 'canceled':
                         return {
                             backgroundColor: '#dc3545', // Red for canceled
-                            borderColor: '#dc3545',
-                            textColor: 'white'
+                                borderColor: '#dc3545',
+                                textColor: 'white'
                         };
                     case 'completed':
                         return {
                             backgroundColor: '#17a2b8', // Light blue for completed
-                            borderColor: '#17a2b8',
-                            textColor: 'white'
+                                borderColor: '#17a2b8',
+                                textColor: 'white'
                         };
                     default:
                         return {
                             backgroundColor: '#2CC374', // Default color
-                            borderColor: '#2CC374',
-                            textColor: 'white'
+                                borderColor: '#2CC374',
+                                textColor: 'white'
                         };
                 }
             }
 
-            // Create the events array for FullCalendar
             var events = appointments.map(function(appointment) {
                 var statusColors = getStatusColor(appointment.status);
 
@@ -121,7 +225,16 @@
                     start: appointment.appointment_date,
                     backgroundColor: statusColors.backgroundColor,
                     borderColor: statusColors.borderColor,
-                    textColor: statusColors.textColor
+                    textColor: statusColors.textColor,
+                    description: formatTime(appointment.slot.available_from) + ' ' + formatTime(appointment.slot.available_to),
+                    extendedProps: {
+                        description: formatTime(appointment.slot.available_from) + ' - ' + formatTime(appointment.slot.available_to),
+                        status: appointment.status,
+                        staff: appointment.staff,
+                        service: appointment.service,
+                        customer: appointment.customer,
+                        id: appointment.id,                        
+                    }
                 };
             });
 
@@ -132,7 +245,41 @@
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay',
                 },
-                events: events // Add the events data
+                events: events,
+                eventClick: function(info) {
+                    // Populate modal with event details
+                    document.getElementById('modalEventTitle').innerText = info.event.title;
+                    document.getElementById('modalEventDescription').innerText = info.event
+                        .extendedProps.description;
+                    document.getElementById('modalAppointmentId').innerText = info.event
+                        .extendedProps.id;
+                    document.getElementById('modalServiceName').innerText = info.event
+                        .extendedProps.service.name;
+                    document.getElementById('modalServiceCategory').innerText = info.event
+                        .extendedProps.service.category.name;
+                    document.getElementById('modalAppointmentStatus').innerText = info.event
+                        .extendedProps.status;
+                    document.getElementById('modalStaffName').innerText = info.event.extendedProps
+                        .staff.user.name;
+
+                    // Show the modal
+                    $('#eventModal').modal('show');
+                },
+                eventContent: function(info) {
+                    // Custom event rendering: show title and description (time slot)
+                    var titleEl = document.createElement('div');
+                    titleEl.innerHTML = '<b>' + info.event.title + '</b>'; // Event title
+                        
+                    var descriptionEl2 = document.createElement('div');
+                    var descriptionEl = document.createElement('div');
+                    descriptionEl2.innerHTML = '<small>' + info.event.extendedProps.service.name + '</small>'; // Time slot below title
+                    descriptionEl.innerHTML = '<small>' + info.event.extendedProps.description + '</small>'; // Time slot below title
+                        
+                    // Create a container div to hold both title and description
+                    var arrayOfDomNodes = [titleEl, descriptionEl2, descriptionEl,];
+                        
+                    return { domNodes: arrayOfDomNodes };
+                }
             });
 
             calendar.render();

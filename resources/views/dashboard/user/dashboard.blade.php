@@ -56,6 +56,17 @@
                         <img src="{{ asset('./assets/images/dashboard-img-03.png') }}" alt="">
                     </div>
                 </div>
+                <div class="box">
+                    <div class="text">
+                        <h6>Remaining Slots</h6>
+                        <div class="price-box">
+                            <h5>{{ $remainingSlots }}</h5>
+                        </div>
+                    </div>
+                    <div class="img-box img-box-gray">
+                        <img src="{{ asset('./assets/images/dashboard-img-03.png') }}" alt="">
+                    </div>
+                </div>
             </div>
         </div>
         <div class="main-table-box">
