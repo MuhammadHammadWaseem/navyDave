@@ -416,6 +416,7 @@ class CommunityController extends Controller
         // Create an object with both the like count and postId
         $likes = (object) ['count' => $likesCount, 'postId' => $postId, 'liked' => true];
 
+        dd($post->user_id !== auth()->id());
         // Notify the post owner
         if ($post->user_id !== auth()->id()) {
             $post->user->notify(new PostLikedNotification($post));

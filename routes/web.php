@@ -37,60 +37,60 @@ Route::get('/google-auth/callback', [AdminAuthController::class, 'handleGoogleCa
 Route::get('/check', [AdminAuthController::class, 'check']);
 
 
- // Community like and unlike
-    Route::post('/like/{type}/{id}', [CommunityController::class, 'like'])->name('like');
-    Route::post('/unlike/{type}/{id}', [CommunityController::class, 'unlike'])->name('unlike');
-    Route::post('post', [CommunityController::class, 'post'])->name('post');
-    Route::get('post/get', [CommunityController::class, 'postGet'])->name('post.get');
-    Route::post('comment/get', [CommunityController::class, 'commentGet'])->name('comment.get');
-    Route::post('posts/delete', [CommunityController::class, 'deletePost'])->name('posts.delete');
-    Route::post('/comment/like', [CommunityController::class, 'likeComment']);
+// Community like and unlike
+Route::post('/like/{type}/{id}', [CommunityController::class, 'like'])->name('like');
+Route::post('/unlike/{type}/{id}', [CommunityController::class, 'unlike'])->name('unlike');
+Route::post('post', [CommunityController::class, 'post'])->name('post');
+Route::get('post/get', [CommunityController::class, 'postGet'])->name('post.get');
+Route::post('comment/get', [CommunityController::class, 'commentGet'])->name('comment.get');
+Route::post('posts/delete', [CommunityController::class, 'deletePost'])->name('posts.delete');
+Route::post('/comment/like', [CommunityController::class, 'likeComment']);
 
 
-    Route::get('/comments/{post}', [CommunityController::class,'fetchReplies'])->name('comments.get');
-    Route::post('/comment/{post}', [CommunityController::class,'commentPost'])->name('post.comments');
-    Route::post('/comments/add', [CommunityController::class, 'addComment'])->middleware('auth');
-    Route::post('/comment/update/{id}', [CommunityController::class,'update'])->name('comment.update');
-    Route::post('/comment/{id}/delete', [CommunityController::class, 'deleteComment'])->name('comment.delete');
-    Route::post('/like/{post}', [CommunityController::class,'like'])->name('post.like');
+Route::get('/comments/{post}', [CommunityController::class, 'fetchReplies'])->name('comments.get');
+Route::post('/comment/{post}', [CommunityController::class, 'commentPost'])->name('post.comments');
+Route::post('/comments/add', [CommunityController::class, 'addComment'])->middleware('auth');
+Route::post('/comment/update/{id}', [CommunityController::class, 'update'])->name('comment.update');
+Route::post('/comment/{id}/delete', [CommunityController::class, 'deleteComment'])->name('comment.delete');
+Route::post('/like/{post}', [CommunityController::class, 'like'])->name('post.like');
 
-    // User Subscribe
-    Route::post('subscribe', [UserAuthController::class, 'subscribe'])->name('user.subscribe');
-    
-    Route::get('get-notification', [CommunityController::class, 'getNotification'])->name('user.get-notification');
-    Route::post('mark-notification-read/{id}', [CommunityController::class, 'markNotification'])->name('user.mark-notification-read');
-    Route::post('/mark-all-notifications-read', [CommunityController::class, 'markAllNotification'])->name('user.mark-all-notifications-read');
+// User Subscribe
+Route::post('subscribe', [UserAuthController::class, 'subscribe'])->name('user.subscribe');
+
+Route::get('get-notification', [CommunityController::class, 'getNotification'])->name('user.get-notification');
+Route::post('mark-notification-read/{id}', [CommunityController::class, 'markNotification'])->name('user.mark-notification-read');
+Route::post('/mark-all-notifications-read', [CommunityController::class, 'markAllNotification'])->name('user.mark-all-notifications-read');
 
 
 
 // Guest Route
-Route::get('/',[GuestController::class, 'home'])->name('home');
-Route::get('about',[GuestController::class, 'about'])->name('about');
-Route::get('pricing',[GuestController::class, 'pricing'])->name('pricing');
-Route::get('appointment',[GuestController::class, 'appointment'])->name('appointment');
-Route::post('appointment/create',[GuestController::class, 'appointmentCreate'])->name('appointment.create');
-Route::get('mailCheck',[GuestController::class, 'mailCheck'])->name('appointment.mailCheck');
+Route::get('/', [GuestController::class, 'home'])->name('home');
+Route::get('about', [GuestController::class, 'about'])->name('about');
+Route::get('pricing', [GuestController::class, 'pricing'])->name('pricing');
+Route::get('appointment', [GuestController::class, 'appointment'])->name('appointment');
+Route::post('appointment/create', [GuestController::class, 'appointmentCreate'])->name('appointment.create');
+Route::get('mailCheck', [GuestController::class, 'mailCheck'])->name('appointment.mailCheck');
 // Stripe
-Route::post('appointment/stripe',[GuestController::class, 'appointmentStripe'])->name('appointment.stripe');
-Route::post('appointment/nextSlot',[GuestController::class, 'nextSlot'])->name('appointment.nextSlot');
+Route::post('appointment/stripe', [GuestController::class, 'appointmentStripe'])->name('appointment.stripe');
+Route::post('appointment/nextSlot', [GuestController::class, 'nextSlot'])->name('appointment.nextSlot');
 Route::get('/payment/success', [GuestController::class, 'stripeSuccess'])->name('payment.success');
 Route::get('/payment/fail', [GuestController::class, 'paymentFail'])->name('payment.fail');
 
-Route::get('contact',[GuestController::class, 'contact'])->name('contact');
-Route::post('contact',[GuestController::class, 'contactStore'])->name('contact.store')->middleware('throttle:5,1');
-Route::get('blogs',[GuestController::class, 'blogs'])->name('blogs');
-Route::get('blog/details/{id}',[GuestController::class, 'blogDetails'])->name('blog-details');
-Route::get('faq',[GuestController::class, 'faq'])->name('faq');
+Route::get('contact', [GuestController::class, 'contact'])->name('contact');
+Route::post('contact', [GuestController::class, 'contactStore'])->name('contact.store')->middleware('throttle:5,1');
+Route::get('blogs', [GuestController::class, 'blogs'])->name('blogs');
+Route::get('blog/details/{id}', [GuestController::class, 'blogDetails'])->name('blog-details');
+Route::get('faq', [GuestController::class, 'faq'])->name('faq');
 
-Route::get('get-services/{id}',[GuestController::class, 'getServices'])->name('get-services');
-Route::get('get-staff/{id}',[GuestController::class, 'getStaff'])->name('get-staff');
-Route::get('get-slots',[GuestController::class, 'getSlots'])->name('get-slots');
-Route::get('get-slots-for-date',[GuestController::class, 'getSlotsForDate'])->name('get-slots-for-date');
+Route::get('get-services/{id}', [GuestController::class, 'getServices'])->name('get-services');
+Route::get('get-staff/{id}', [GuestController::class, 'getStaff'])->name('get-staff');
+Route::get('get-slots', [GuestController::class, 'getSlots'])->name('get-slots');
+Route::get('get-slots-for-date', [GuestController::class, 'getSlotsForDate'])->name('get-slots-for-date');
 
 
-Route::get('nextSlot-booked',[GuestController::class, 'nextSlotBook'])->name('nextSlot-booked');
-Route::get('payment-success',[GuestController::class, 'paymentSuccess'])->name('payment-success');
-Route::get('payment-fail',[GuestController::class, 'paymentFailViwe'])->name('payment-fail');
+Route::get('nextSlot-booked', [GuestController::class, 'nextSlotBook'])->name('nextSlot-booked');
+Route::get('payment-success', [GuestController::class, 'paymentSuccess'])->name('payment-success');
+Route::get('payment-fail', [GuestController::class, 'paymentFailViwe'])->name('payment-fail');
 
 
 
