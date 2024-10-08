@@ -270,6 +270,14 @@ class GuestController extends Controller
         // Validate the request
         $validated = $validator->validate();
 
+        if (isset($validated['phone'])) {
+            // Check if the phone number does not start with +1
+            if (!str_starts_with($validated['phone'], '+1')) {
+                // Prepend +1 to the phone number
+                $validated['phone'] = '+1 ' . $validated['phone'];
+            }
+        }
+
         DB::beginTransaction();
 
         try {
