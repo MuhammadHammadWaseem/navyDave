@@ -204,7 +204,7 @@ class CommunityController extends Controller
 
         if ($liked == true) {
             // Notify the post owner
-            if ($comment->user_id !== auth()->id()) {
+            if ($comment->user_id != auth()->id()) {
                 $comment->user->notify(new LikeOnCommentNotification($post));
                 event(new PostCreateNoti($post));
             }
