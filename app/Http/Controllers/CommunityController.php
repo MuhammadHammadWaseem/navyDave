@@ -316,7 +316,7 @@ class CommunityController extends Controller
         event(new NewCommentAdded($newComment));
 
         // Notify the post owner
-        if ($post->user_id !== auth()->id()) {
+        if ($post->user_id != auth()->id()) {
             $post->user->notify(new PostCommentedNotification($comment));
             event(new PostCreateNoti($post));
         }
