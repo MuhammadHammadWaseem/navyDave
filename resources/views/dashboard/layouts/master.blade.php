@@ -282,16 +282,14 @@
             });
 
             $(document).on('click', '#new-notfication-box a', function(event) {
-                event.preventDefault(); // Prevent the default action of the link
+                event.preventDefault();
 
-                const notificationId = $(this).data('id'); // Assuming you add data-id to your anchor tags
-                const postId = $(this).data('post-id'); // Assuming you add data-post-id to your anchor tags
+                const notificationId = $(this).data('id');
+                const postId = $(this).data('post-id');
 
-                // Perform an action based on the notification
-                // For example, you can mark it as read via an AJAX call
                 $.ajax({
                     url: '/mark-notification-read/' +
-                        notificationId, // Define the route in your routes/web.php
+                        notificationId,
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
@@ -308,23 +306,16 @@
 
             $('#mark-all-read').on('click', function() {
                 $.ajax({
-                    url: '/mark-all-notifications-read', // Define your route here
+                    url: '/mark-all-notifications-read',
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
-                        // Remove all notifications from the notification box
                         $('#new-notfication-box').addClass('d-none');
                         $('#no-notification-box').removeClass('d-none');
-
-                        // Hide the mark all button
                         $("#mark-all-read").addClass("d-none");
-
-                        // Optionally show a success message
                         toastr.success('All notifications marked as read.');
-
-                        // Optionally update the notification count
                         $("#notificationCount-box").text(0);
                     },
                     error: function(xhr) {
@@ -333,8 +324,6 @@
                 });
             });
 
-
-            // Function to calculate time ago
             function timeAgo(timestamp) {
                 const now = new Date();
                 const date = new Date(timestamp);
@@ -342,25 +331,22 @@
 
                 let interval = Math.floor(seconds / 31536000);
                 if (interval > 1) return `${interval} years ago`;
-                interval = Math.floor(seconds / 2592000); // 30 days
+                interval = Math.floor(seconds / 2592000);
                 if (interval > 1) return `${interval} months ago`;
-                interval = Math.floor(seconds / 86400); // 1 day
+                interval = Math.floor(seconds / 86400);
                 if (interval > 1) return `${interval} days ago`;
-                interval = Math.floor(seconds / 3600); // 1 hour
+                interval = Math.floor(seconds / 3600);
                 if (interval > 1) return `${interval} hours ago`;
-                interval = Math.floor(seconds / 60); // 1 minute
+                interval = Math.floor(seconds / 60);
                 if (interval > 1) return `${interval} minutes ago`;
                 return `${seconds} seconds ago`;
             }
 
-
-            // Toggle the notification box when the anchor is clicked
             $('#notificationLink-box').on('click', function(e) {
                 e.preventDefault();
                 $('#notification-box').toggle();
             });
-
-            // Hide the notification box when clicking outside of it
+            
             $(document).on('click', function(e) {
                 var target = $(e.target);
                 if (!target.closest('#notification-box').length && !target.closest('#notificationLink-box')
