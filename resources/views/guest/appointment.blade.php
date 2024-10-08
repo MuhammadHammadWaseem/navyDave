@@ -629,7 +629,7 @@
                                                 @if ($remaining_slots > 0) disabled @endif id="email">
                                             <label for="phone">Phone</label>
                                             @if ($remaining_slots > 0)
-                                                <input type="number" placeholder="Phone Number *" name="phone"
+                                                <input type="tel" placeholder="Phone Number *" name="phone"
                                                     value="{{ auth()->check() ? auth()->user()->phone : '' }}"
                                                     @if ($remaining_slots > 0) value="{{ $phone }}" disabled @endif>
                                             @else
