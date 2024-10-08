@@ -1028,8 +1028,8 @@
                                 let checked = serviceID == element.id ? 'checked' : '';
                                 $("#services-box").append(`
                             <div class="input-radio-box">
-                                <input type="radio" id="service_id" name="service_id" ${checked} onchange="getStaff(${element.id})" value="${element.id}">
-                                <label for="service_id">
+                                <input type="radio" id="service_id-${element.id}" name="service_id" ${checked} onchange="getStaff(${element.id})" value="${element.id}">
+                                <label for="service_id-${element.id}">
                                     <div class="main-label-content">
                                         <div class="img-box">
                                             <img src="{{ Storage::url('${element.image}') }}" width="50px" height="50px" alt="Service Image">
@@ -1064,8 +1064,8 @@
                                 let checked = staffId == element.id ? 'checked' : '';
                                 $("#staff-box").append(`
                             <div class="input-radio-box">
-                                <input type="radio" id="staff_id" name="staff_id" ${checked} onchange="getSlots(${element.id})" value="${element.id}">
-                                <label for="staff_id">
+                                <input type="radio" id="staff_id-${element.id}" name="staff_id" ${checked} onchange="getSlots(${element.id})" value="${element.id}">
+                                <label for="staff_id-${element.id}">
                                     <div class="main-label-content">
                                         <div class="img-box">
                                             <img src="{{ Storage::url('${element.image}') }}" width="50px" height="50px" alt="Staff Image">
@@ -1152,8 +1152,8 @@
                                 morningSlots.forEach(element => {
                                     $("#slots-box").append(`
                                         <div class="input-radio-box">
-                                            <input type="radio" id="slot_id" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
-                                            <label for="slot_id">
+                                            <input type="radio" id="slot_id-${element.id}" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
+                                            <label for="slot_id-${element.id}">
                                                 <div class="main-label-content">
                                                     <div class="content">
                                                         <h4 style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
@@ -1172,8 +1172,8 @@
                                 afternoonSlots.forEach(element => {
                                     $("#slots-box").append(`
                                         <div class="input-radio-box">
-                                            <input type="radio" id="slot_id" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
-                                            <label for="slot_id">
+                                            <input type="radio" id="slot_id-${element.id}" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
+                                            <label for="slot_id-${element.id}">
                                                 <div class="main-label-content">
                                                     <div class="content">
                                                         <h4 style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
@@ -1250,8 +1250,8 @@
                                 morningSlots.forEach(element => {
                                     $("#slots-box").append(`
                                         <div class="input-radio-box">
-                                            <input type="radio" id="slot_id" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
-                                            <label for="slot_id">
+                                            <input type="radio" id="slot_id-${element.id}" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
+                                            <label for="slot_id-${element.id}">
                                                 <div class="main-label-content">
                                                     <div class="content">
                                                         <h4 style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
@@ -1270,8 +1270,8 @@
                                 afternoonSlots.forEach(element => {
                                     $("#slots-box").append(`
                                         <div class="input-radio-box">
-                                            <input type="radio" id="slot_id" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
-                                            <label for="slot_id">
+                                            <input type="radio" id="slot_id-${element.id}" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
+                                            <label for="slot_id-${element.id}">
                                                 <div class="main-label-content">
                                                     <div class="content">
                                                         <h4 style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
