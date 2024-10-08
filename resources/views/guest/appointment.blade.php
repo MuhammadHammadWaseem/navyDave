@@ -1105,27 +1105,6 @@
                             staff_id: staffID,
                             service_id: serviceID
                         },
-                        // success: function(data) {
-                        //     $("#slots-box").empty();
-                        //     $("#appointment_date").val(null);
-
-                        //     data.forEach(element => {
-
-                        //         $("#slots-box").append(`
-            //     <div class="input-radio-box">
-            //         <input type="radio" id="slot_id" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
-            //         <label for="slot_id">
-            //             <div class="main-label-content">
-            //                 <div class="content">
-            //                     <h4 style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
-            //                     <p style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${element.is_booked ? 'Slot Booked' : '1 slot left'}</p>
-            //                 </div>
-            //             </div>
-            //         </label>
-            //     </div>
-            // `);
-                        //     });
-                        // },
                         success: function(data) {
                             $("#slots-box").empty(); // Clear existing slots
                             $("#appointment_date").val(null);
@@ -1206,25 +1185,6 @@
                             service_id: service_id,
                             date: date
                         },
-                        // success: function(data) {
-                        //     $("#slots-box").empty();
-
-                        //     data.forEach(element => {
-                        //         $("#slots-box").append(`
-            //     <div class="input-radio-box">
-            //         <input type="radio" id="slot_id" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
-            //         <label for="slot_id">
-            //             <div class="main-label-content">
-            //                 <div class="content">
-            //                     <h4 style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
-            //                     <p style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${element.is_booked ? 'Slot Booked' : '1 slot left'}</p>
-            //                 </div>
-            //             </div>
-            //         </label>
-            //     </div>
-            // `);
-                        //     });
-                        // },
                         success: function(data) {
                             $("#slots-box").empty(); // Clear existing slots
 
@@ -1336,55 +1296,30 @@
                     });
 
                     @if ($remaining_slots == 0)
-                        // const phoneInputField = document.querySelector("#phone");
-                        // phoneInputField.value = "{{ auth()->check() ? auth()->user()->phone : '' }}";
-                        // // phoneInputField.addEventListener('keydown', function(e) {
-                        // //     const cursorPosition = this.selectionStart;
-                        // //     if (cursorPosition <= 3 && (e.key === 'Backspace' || e.key === 'Delete')) {
-                        // //         e.preventDefault();
-                        // //     }
-                        // // });
-                        // // phoneInputField.addEventListener('click', function() {
-                        // //     if (this.selectionStart < 3) {
-                        // //         this.setSelectionRange(3, 3);
-                        // //     }
-                        // // });
-                        // // phoneInputField.addEventListener('input', function() {
-                        // //     if (this.value.indexOf("+1 ") !== 0) {
-                        // //         this.value = "+1 ";
-                        // //     }
-                        // // });
-                        // phoneInputField.addEventListener('input', function() {
-                        //     if (!this.value.startsWith("+1 ")) {
-                        //         this.value = "+1 " + this.value.replace(/^(\+1 )?/,
-                        //         ''); // Add +1 and keep the rest of the input
-                        //     }
-                        // });
-                        
-
                         const phoneInputField = document.querySelector("#phone");
 
-    // Fetch the phone number from the backend
-    let currentPhone = "{{ auth()->check() ? auth()->user()->phone : '' }}";
+                        // Fetch the phone number from the backend
+                        let currentPhone = "{{ auth()->check() ? auth()->user()->phone : '' }}";
 
-    // Check if the phone number already starts with +1
-    if (!currentPhone.startsWith("+1 ")) {
-        currentPhone = "+1 " + currentPhone.replace(/^(\+1 )?/, ''); // Ensure we don't add extra +1
-    }
+                        // Check if the phone number already starts with +1
+                        if (!currentPhone.startsWith("+1 ")) {
+                            currentPhone = "+1 " + currentPhone.replace(/^(\+1 )?/, ''); // Ensure we don't add extra +1
+                        }
 
-    // Set the value of the input field on page load
-    phoneInputField.value = currentPhone;
+                        // Set the value of the input field on page load
+                        phoneInputField.value = currentPhone;
 
-    // Add the input event listener to maintain +1
-    phoneInputField.addEventListener('input', function() {
-        if (!this.value.startsWith("+1 ")) {
-            this.value = "+1 " + this.value.replace(/^(\+1 )?/, ''); // Add +1 and keep the rest of the input
-        }
-    });
+                        // Add the input event listener to maintain +1
+                        phoneInputField.addEventListener('input', function() {
+                            if (!this.value.startsWith("+1 ")) {
+                                this.value = "+1 " + this.value.replace(/^(\+1 )?/,
+                                    ''); // Add +1 and keep the rest of the input
+                            }
+                        });
 
-    // Trigger the input event manually if needed
-    const event = new Event('input');
-    phoneInputField.dispatchEvent(event);
+                        // Trigger the input event manually if needed
+                        const event = new Event('input');
+                        phoneInputField.dispatchEvent(event);
 
 
                         const iti = window.intlTelInput(phoneInputField, {
