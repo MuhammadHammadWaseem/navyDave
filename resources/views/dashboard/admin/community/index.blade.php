@@ -1391,7 +1391,7 @@
                                                 contentLimit) + '...' : post.content;
 
                                             const likedStyle = post.hasLiked ? "liked" : "";
-                                            const canDeletePost = isAdmin || post.user_id === currentUserId;
+                                            const canDeletePost = isAdmin || post.user_id == currentUserId;
 
 
                                             const image = post.user.image;
@@ -1841,7 +1841,7 @@
 
                                 const likedStyle = post.hasLiked ? "liked" : "";
                                 const image = post.user.image;
-                                const canDeletePost = isAdmin || post.user_id === currentUserId;
+                                const canDeletePost = isAdmin || post.user_id == currentUserId;
 
 
                                 $("#post-detaling").prepend(`
