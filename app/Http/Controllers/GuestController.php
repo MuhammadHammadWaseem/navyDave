@@ -367,6 +367,7 @@ class GuestController extends Controller
             $service = Service::findOrFail($validated['service_id']);
             $validated['price'] = $service->price;
             $validated['total_slots'] = $service->slots;
+            $validated['completed_slots'] = 1;
 
 
             // Create the appointment
