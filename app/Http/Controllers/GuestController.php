@@ -82,7 +82,12 @@ class GuestController extends Controller
         if ($user) {
 
             $remaining_slots = 0;
-            $appointments = Appointment::where('user_id', $user->id)->select('id', 'last_name', 'phone', 'total_slots', 'completed_slots', 'service_id', 'staff_id')->first();
+            // $appointments = Appointment::where('user_id', $user->id)->select('id', 'last_name', 'phone', 'total_slots', 'completed_slots', 'service_id', 'staff_id')->first();
+
+            $appointments = Appointment::where('user_id', $user->id)
+            ->whereColumn('completed_slots', '!=', 'total_slots') // Correct comparison
+            ->select('id', 'last_name', 'phone', 'total_slots', 'completed_slots', 'service_id', 'staff_id')
+            ->first();
 
             if ($appointments && $appointments->total_slots > $appointments->completed_slots) {
                 $remaining_slots = ($appointments->total_slots - $appointments->completed_slots);
