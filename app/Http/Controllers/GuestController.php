@@ -280,6 +280,7 @@ class GuestController extends Controller
             // ------------------- <-- Stripe Payment --> ------------------- \\
 
             $total = $validated['price'];
+            $service = Service::findOrFail($validated['service_id']);
 
             Session::put('SessionData', $validated);
 
@@ -299,8 +300,8 @@ class GuestController extends Controller
                             'currency' => 'USD',
                             'unit_amount' => $total * 100,
                             'product_data' => [
-                                'name' => 'Your Product Name',
-                                'description' => 'Your Product Description',
+                                'name' => $service->name,
+                                'description' => 'Service charge',
                             ],
                         ],
                         'quantity' => 1,
