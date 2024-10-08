@@ -358,6 +358,9 @@ class GuestController extends Controller
             }
             $appointment->save();
 
+            // Create Google Calendar Event
+            $this->createGoogleCalendarEvent($appointment);
+
             // Commit the transaction
             DB::commit();
 
@@ -421,7 +424,7 @@ class GuestController extends Controller
             $adminEmail = 'hw13604@gmail.com';
 
             // Create Google Calendar Event
-            // $this->createGoogleCalendarEvent($appointment);
+            $this->createGoogleCalendarEvent($appointment);
 
             // Send email
             if ($userEmail) {
@@ -449,7 +452,9 @@ class GuestController extends Controller
         $token = session('google_token');
 
         if (!$token) {
-            dd('Google token not found. Please authenticate with Google.');
+            // Handle the case when the token is not found
+            // dd('Google token not found. Please authenticate with Google.');
+            return redirect('/google-auth');
         }
 
         // Convert appointment_date from string to DateTime if it's a string
