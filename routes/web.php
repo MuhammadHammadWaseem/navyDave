@@ -72,6 +72,7 @@ Route::post('appointment/create',[GuestController::class, 'appointmentCreate'])-
 Route::get('mailCheck',[GuestController::class, 'mailCheck'])->name('appointment.mailCheck');
 // Stripe
 Route::post('appointment/stripe',[GuestController::class, 'appointmentStripe'])->name('appointment.stripe');
+Route::post('appointment/nextSlot',[GuestController::class, 'nextSlot'])->name('appointment.nextSlot');
 Route::get('/payment/success', [GuestController::class, 'stripeSuccess'])->name('payment.success');
 Route::get('/payment/fail', [GuestController::class, 'paymentFail'])->name('payment.fail');
 
@@ -87,6 +88,7 @@ Route::get('get-slots',[GuestController::class, 'getSlots'])->name('get-slots');
 Route::get('get-slots-for-date',[GuestController::class, 'getSlotsForDate'])->name('get-slots-for-date');
 
 
+Route::get('nextSlot-booked',[GuestController::class, 'nextSlotBook'])->name('nextSlot-booked');
 Route::get('payment-success',[GuestController::class, 'paymentSuccess'])->name('payment-success');
 Route::get('payment-fail',[GuestController::class, 'paymentFailViwe'])->name('payment-fail');
 

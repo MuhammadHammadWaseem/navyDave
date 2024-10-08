@@ -80,12 +80,26 @@ class GuestController extends Controller
         $user = auth()->user();
 
         $remaining_slots = 0;
-        $appointments = Appointment::where('user_id', $user->id)->select('total_slots', 'completed_slots')->get();
-        foreach($appointments as $appointment){
-            $remaining_slots += ($appointment->total_slots - $appointment->completed_slots);
+        $appointments = Appointment::where('user_id', $user->id)->select('id', 'last_name', 'phone', 'total_slots', 'completed_slots', 'service_id', 'staff_id')->first();
+
+        if ($appointments && $appointments->total_slots > $appointments->completed_slots) {
+            $remaining_slots = ($appointments->total_slots - $appointments->completed_slots);
+            $service_id = $appointments->service_id;
+            $staff_id = $appointments->staff_id;
+            $appointmentId = $appointments->id;
+            $lastName = $appointments->last_name;
+            $phone = $appointments->phone;
+        } else {
+            $service_id = 0;
+            $staff_id = 0;
+            $remaining_slots = 0;
+            $appointmentId = 0;
+            $lastName = '';
+            $phone = '';
         }
 
-        return view('guest.appointment')->with(compact('categories', 'user', 'remaining_slots'));
+
+        return view('guest.appointment')->with(compact('lastName', 'phone', 'categories', 'user', 'remaining_slots', 'service_id', 'staff_id', 'appointmentId'));
     }
     public function blogs()
     {
@@ -293,6 +307,45 @@ class GuestController extends Controller
         }
     }
 
+    public function nextSlot(Request $request)
+    {
+        // Begin Transaction
+        DB::beginTransaction();
+
+        try {
+            $appointment = Appointment::with('slot')->findOrFail($request->appointment_id);
+            // If not completed, the user can choose the next slot
+            $nextSlot = Slot::where('id', $request->slot_id)->firstOrFail();
+            // Attach the next slot to the appointment
+            AppointmentSlot::create([
+                'appointment_id' => $appointment->id,
+                'slot_id' => $nextSlot->id,
+            ]);
+
+            $appointment->slot_id = $nextSlot->id;
+            $appointment->completed_slots = $appointment->completed_slots + 1;
+            $appointment->appointment_date = $request->appointment_date;
+            $appointment->note = $request->note;
+
+            if($appointment->completed_slots == $appointment->total_slots) {
+                $appointment->status = 'completed';
+            }else{
+                $appointment->status = 'awaiting_next_slot';
+            }
+            $appointment->save();
+
+            // Commit the transaction
+            DB::commit();
+            
+            $url = route('nextSlot-booked');
+            return response()->json(['success' => true, 'message' => 'Slot booked successfully', 'data' => $url]);
+        } catch (\Exception $e) {
+            // Rollback in case of error
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => 'Failed to book slot', 'error' => $e->getMessage()], 500);
+        }
+    }
+
     public function stripeSuccess(Request $request)
     {
         $validated = Session::get('SessionData');
@@ -422,6 +475,10 @@ class GuestController extends Controller
     {
         return view('guest.paymentFail');
         // return redirect()->route('appointment')->with('error', 'Payment failed');
+    }
+    public function nextSlotBook()
+    {
+        return view('guest.nextSlot');
     }
 
     public function paymentSuccess()

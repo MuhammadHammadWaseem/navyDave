@@ -282,7 +282,7 @@
     <section class="appointment-sec-01" id="appointment">
         <div class="container">
             <div class="row">
-                
+
                 <div class="col-md-12">
                     <div class="main-steps-form">
                         <ul>
@@ -363,8 +363,10 @@
                     </div>
 
                     <form id="regForm" method="POST" action="{{ route('appointment.stripe') }}">
-
                         @csrf
+                        @if ($remaining_slots > 0)
+                            <input type="hidden" name="appointment_id" id="appointment_id" value="{{ $appointmentId }}">
+                        @endif
                         <div class="tab d-none">
                             <div class="text">
                                 <h3>Category</h3>
@@ -401,7 +403,8 @@
                                                         <label for="html">
                                                             <div class="main-label-content">
                                                                 <div class="img-box">
-                                                                    <img src="assets/images/input-radio-img.jpg" alt="">
+                                                                    <img src="assets/images/input-radio-img.jpg"
+                                                                        alt="">
                                                                 </div>
                                                                 <div class="content">
                                                                     <h4>Golf Coaching Session</h4>
@@ -613,17 +616,27 @@
                                             @endif
                                             <label for="first_name">First Name</label>
                                             <input type="text" placeholder="First Name *" name="first_name"
-                                                value="{{ auth()->check() ? auth()->user()->name : '' }}" id="first_name">
+                                                value="{{ auth()->check() ? auth()->user()->name : '' }}" id="first_name"
+                                                @if ($remaining_slots > 0) disabled @endif>
                                             <label for="last_name">Last Name</label>
-                                            <input type="text" placeholder="Last Name *" name="last_name" id="last_name">
+                                            <input type="text" placeholder="Last Name *" name="last_name" id="last_name"
+                                                @if ($remaining_slots > 0) disabled value="{{ $lastName }}" @endif>
                                         </div>
                                         <div class="two-input-align">
                                             <label for="email">Email</label>
                                             <input type="email" placeholder="Email Address *" name="email"
-                                                value="{{ auth()->check() ? auth()->user()->email : '' }}" id="email">
+                                                value="{{ auth()->check() ? auth()->user()->email : '' }}"
+                                                @if ($remaining_slots > 0) disabled @endif id="email">
                                             <label for="phone">Phone</label>
-                                            <input type="tel" placeholder="Phone Number *" name="phone"
-                                                value="{{ auth()->check() ? auth()->user()->phone : '' }}" id="phone">
+                                            @if ($remaining_slots > 0)
+                                                <input type="number" placeholder="Phone Number *" name="phone"
+                                                    value="{{ auth()->check() ? auth()->user()->phone : '' }}"
+                                                    @if ($remaining_slots > 0) value="{{ $phone }}" disabled @endif>
+                                            @else
+                                                <input type="tel" placeholder="Phone Number *" name="phone"
+                                                    value="{{ auth()->check() ? auth()->user()->phone : '' }}"
+                                                    id="phone">
+                                            @endif
                                         </div>
                                         <div class="signle-input-box">
                                             <label for="location">Location</label>
@@ -692,13 +705,13 @@
                                     <div class="step"></div>
                                     <div class="step"></div>
                                 </div>
-                    </form>
+                            </form>
+                        </div>
+
+                    </div>
                 </div>
 
-            </div>
-        </div>
-
-    </section>
+            </section>
             <!-- Flatpickr CSS and JS -->
             <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
             <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -706,6 +719,14 @@
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
             <script>
+                @if ($remaining_slots != 0)
+                    getStaff({{ $service_id }});
+                    getSlots({{ $staff_id }});
+                    setTimeout(() => {
+                        nextPrev(1);
+                        nextPrev(1);
+                    }, 1);
+                @endif
                 var currentTab = 0;
                 showTab(currentTab);
 
@@ -844,81 +865,113 @@
 
                 // form.submit();
 
-                $.ajax({
-                    type: "POST",
-                    url: "appointment/stripe",
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: $(form).serialize(),
-                    success: function(data) {
-                        window.location.href = data.data;
-                        loadingTab.classList.add("d-none");
-                        // successTab.classList.remove("d-none");
+                @if ($remaining_slots == 0)
+                    $.ajax({
+                        type: "POST",
+                        url: "appointment/stripe",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: $(form).serialize(),
+                        success: function(data) {
+                            window.location.href = data.data;
+                            loadingTab.classList.add("d-none");
+                            // Hide the submit button after success
+                            submitButton.style.display = "none";
+                            prevButton.style.display = "none";
 
-                        // document.querySelector("#submitted-box .appointment-booked-details ul").innerHTML = `
-            //     <li>Staff Member : ${data.data.staff.user.name}</li>
-            //     <li>Date & Time : ${data.data.appointment_date}</li>
-            //     <li>Name : ${data.data.first_name} ${data.data.last_name}</li>
-            //     <li>Email Address : ${data.data.email}</li>
-            //     <li>Phone Number : ${data.data.phone}</li>
-            //     <li>Location : ${data.data.location}</li>
-            //     <li>Price : $${data.data.price}</li>
-            //     <li>Note : ${data.data.note}</li>
-            // `;
+                            form.reset();
 
-                        // Hide the submit button after success
-                        submitButton.style.display = "none";
-                        prevButton.style.display = "none";
+                            // Clear radio button selections
+                            var radios = form.querySelectorAll("input[type='radio']");
+                            radios.forEach(function(radio) {
+                                radio.checked = false;
+                            });
 
-                        form.reset();
+                            $("#service_id").val(null).trigger('change');
+                            $("#staff_id").val(null).trigger('change');
 
-                        // Clear radio button selections
-                        var radios = form.querySelectorAll("input[type='radio']");
-                        radios.forEach(function(radio) {
-                            radio.checked = false;
-                        });
-
-                        $("#service_id").val(null).trigger('change');
-                        $("#staff_id").val(null).trigger('change');
-
-                        // Clear validation error highlights (if you are adding "invalid" class for validation)
-                        var inputs = form.querySelectorAll("input, textarea");
-                        inputs.forEach(function(input) {
-                            input.classList.remove("invalid");
-                        });
+                            // Clear validation error highlights (if you are adding "invalid" class for validation)
+                            var inputs = form.querySelectorAll("input, textarea");
+                            inputs.forEach(function(input) {
+                                input.classList.remove("invalid");
+                            });
 
 
-                    },
-                    error: function(xhr, status, error) {
-                        loadingTab.classList.add("d-none");
+                        },
+                        error: function(xhr, status, error) {
+                            loadingTab.classList.add("d-none");
 
-                        if (xhr.status === 422) { // Validation errors
-                            var errors = xhr.responseJSON.errors;
-                            var errorList = document.getElementById("errorList");
+                            if (xhr.status === 422) { // Validation errors
+                                var errors = xhr.responseJSON.errors;
+                                var errorList = document.getElementById("errorList");
 
-                            if (errorList) {
-                                errorList.innerHTML = ""; // Clear previous errors
+                                if (errorList) {
+                                    errorList.innerHTML = ""; // Clear previous errors
 
-                                // Loop through and display each validation error
-                                for (var field in errors) {
-                                    if (errors.hasOwnProperty(field)) {
-                                        errors[field].forEach(function(message) {
-                                            var errorItem = document.createElement("li");
-                                            errorItem.textContent = message;
-                                            errorList.appendChild(errorItem);
-                                        });
+                                    // Loop through and display each validation error
+                                    for (var field in errors) {
+                                        if (errors.hasOwnProperty(field)) {
+                                            errors[field].forEach(function(message) {
+                                                var errorItem = document.createElement("li");
+                                                errorItem.textContent = message;
+                                                errorList.appendChild(errorItem);
+                                            });
+                                        }
                                     }
                                 }
-                            }
 
-                            errorTab.classList.remove("d-none");
-                        } else {
-                            console.error("Form submission failed:", error);
-                            errorTab.classList.remove("d-none");
+                                errorTab.classList.remove("d-none");
+                            } else {
+                                console.error("Form submission failed:", error);
+                                errorTab.classList.remove("d-none");
+                            }
                         }
-                    }
-                });
+                    });
+                @else
+
+                    $.ajax({
+                        type: "POST",
+                        url: "appointment/nextSlot",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: $(form).serialize(),
+                        success: function(data) {
+                            console.log(data);
+
+                            window.location.href = data.data;
+                        },
+                        error: function(xhr, status, error) {
+                            loadingTab.classList.add("d-none");
+
+                            if (xhr.status === 422) { // Validation errors
+                                var errors = xhr.responseJSON.errors;
+                                var errorList = document.getElementById("errorList");
+
+                                if (errorList) {
+                                    errorList.innerHTML = ""; // Clear previous errors
+
+                                    // Loop through and display each validation error
+                                    for (var field in errors) {
+                                        if (errors.hasOwnProperty(field)) {
+                                            errors[field].forEach(function(message) {
+                                                var errorItem = document.createElement("li");
+                                                errorItem.textContent = message;
+                                                errorList.appendChild(errorItem);
+                                            });
+                                        }
+                                    }
+                                }
+
+                                errorTab.classList.remove("d-none");
+                            } else {
+                                console.error("Form submission failed:", error);
+                                errorTab.classList.remove("d-none");
+                            }
+                        }
+                    });
+                @endif
                 }
 
                 document.getElementById("goBackBtn").addEventListener("click", function() {
@@ -959,9 +1012,11 @@
 
 
                             data.forEach(element => {
+                                let serviceID = {{ $service_id }};
+                                let checked = serviceID == element.id ? 'checked' : '';
                                 $("#services-box").append(`
                             <div class="input-radio-box">
-                                <input type="radio" id="service_id" name="service_id" onchange="getStaff(${element.id})" value="${element.id}">
+                                <input type="radio" id="service_id" name="service_id" ${checked} onchange="getStaff(${element.id})" value="${element.id}">
                                 <label for="service_id">
                                     <div class="main-label-content">
                                         <div class="img-box">
@@ -993,9 +1048,11 @@
                             $("#staff-box").empty();
                             $("#appointment_date").val(null);
                             data.forEach(element => {
+                                let staffId = {{ $staff_id }};
+                                let checked = staffId == element.id ? 'checked' : '';
                                 $("#staff-box").append(`
                             <div class="input-radio-box">
-                                <input type="radio" id="staff_id" name="staff_id" onchange="getSlots(${element.id})" value="${element.id}">
+                                <input type="radio" id="staff_id" name="staff_id" ${checked} onchange="getSlots(${element.id})" value="${element.id}">
                                 <label for="staff_id">
                                     <div class="main-label-content">
                                         <div class="img-box">
@@ -1266,6 +1323,7 @@
                         document.getElementById('appointment-calendar').appendChild(calendar.calendarContainer);
                     });
 
+                    @if ($remaining_slots == 0)
                     const phoneInputField = document.querySelector("#phone");
                     phoneInputField.value = "+1 ";
                     phoneInputField.addEventListener('keydown', function(e) {
@@ -1297,6 +1355,7 @@
                         preferredCountries: ['us', 'gb', 'ca', 'au'],
                         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
                     });
+                    @endif
                 });
             </script>
         @endsection
