@@ -368,7 +368,7 @@ class CommunityController extends Controller
 
         // Notify the post owner
         $post = Post::find($request->post_id);
-        if ($post->user_id !== auth()->id()) {
+        if ($post->user_id != auth()->id()) {
             $post->user->notify(new PostCommentedNotification($comment)); // Notify post owner
         }
 
@@ -572,7 +572,7 @@ class CommunityController extends Controller
         $post->delete();
 
         // Send notification to post owner if they are not the one deleting it
-        if ($post->user_id !== auth()->id()) {
+        if ($post->user_id != auth()->id()) {
             $post->user->notify(new PostDeleteNotification($postData)); // Pass captured post data
             event(new PostCreateNoti($postData)); // Pass captured post data to event
         }
