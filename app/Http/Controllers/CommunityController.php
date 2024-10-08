@@ -31,29 +31,6 @@ class CommunityController extends Controller
         return view('dashboard.admin.community.index');
     }
 
-    // public function postGet(Request $request)
-    // {
-    //     $posts = Post::with('user', 'likes', 'comments.user', 'images', 'videos')->latest('created_at')->paginate(10);
-
-    //     $posts->getCollection()->transform(function ($post) {
-    //         // Check if the authenticated user has liked the post
-    //         $post->hasLiked = $post->likes->where('user_id', auth()->id())->isNotEmpty();
-    //         $post->likeCount = $post->likes->count();
-
-    //         return $post;
-    //     });
-
-    //     foreach ($posts as $post) {
-    //         foreach ($post->comments as $comment) {
-    //             $comment->replyCount = $comment->replies->count();
-    //             $comment->commentHasLiked = $comment->likes->where('user_id', auth()->id())->isNotEmpty();
-    //             $comment->commentLikeCount = $comment->likes->count();
-    //         }
-    //     }
-
-    //     return response()->json($posts);
-    // }
-
     public function postGet(Request $request)
     {
         $filter = $request->input('filter', 'latest'); // Default to latest posts if no filter is specified
@@ -346,11 +323,6 @@ class CommunityController extends Controller
         $count = Comment::where('post_id', '=', $request->post_id)->count();
         $replyCount = Comment::where('parent_id', '=', $request->parent_id)->count();
 
-        // $comment = (object) $comment->toArray();
-        // $comment->count = $count;
-        // $comment->replyCount = $replyCount;
-        // $comment->isReply = true;
-        // $comment->parent_id = $request->parent_id;
         $commentData = (object) [
             'id' => $comment->id,
             'post_id' => $comment->post_id,
@@ -497,94 +469,55 @@ class CommunityController extends Controller
         return response()->json(['message' => 'All notifications marked as read successfully!']);
     }
 
-    // public function deletePost(Request $request)
-    // {
-    //     $post = Post::find($request->post_id);
-
-    //     if ($post) {
-    //         foreach ($post->images as $image) {
-    //             $imagePath = $image->path;
-    //             if (Storage::disk('public')->exists($imagePath)) {
-    //                 Storage::disk('public')->delete($imagePath);
-    //             }
-    //             $image->delete();
-    //         }
-
-    //         foreach ($post->videos as $video) {
-    //             $videoPath = $video->path;
-    //             if (Storage::disk('public')->exists($videoPath)) {
-    //                 Storage::disk('public')->delete($videoPath);
-    //             }
-    //             $video->delete();
-    //         }
-
-    //         $post->likes()->delete();
-    //         $post->comments()->delete();
-
-    //         // Finally, delete the post itself
-    //         $post->delete();
-
-    //         if($post->user_id !== auth()->id()) {
-    //             $post->user->notify(new PostDeleteNotification($post));
-    //             event(new PostCreateNoti($post));
-    //         }
-    //         event(new PostDelete($post->id));
-
-    //         return response()->json(['message' => 'Post and related data deleted successfully!']);
-    //     } else {
-    //         return response()->json(['message' => 'Post not found'], 404);
-    //     }
-    // }
-
     public function deletePost(Request $request)
-{
-    $post = Post::find($request->post_id);
+    {
+        $post = Post::find($request->post_id);
 
-    if ($post) {
-        // Capture the post details before deletion
-        $postData = [
-            'title' => $post->title,
-            'content' => $post->content,
-            'user_name' => $post->user->name,
-            'id' => $post->id,
-        ];
+        if ($post) {
+            // Capture the post details before deletion
+            $postData = [
+                'title' => $post->title,
+                'content' => $post->content,
+                'user_name' => $post->user->name,
+                'id' => $post->id,
+            ];
 
-        // Delete associated images and videos
-        foreach ($post->images as $image) {
-            $imagePath = $image->path;
-            if (Storage::disk('public')->exists($imagePath)) {
-                Storage::disk('public')->delete($imagePath);
+            // Delete associated images and videos
+            foreach ($post->images as $image) {
+                $imagePath = $image->path;
+                if (Storage::disk('public')->exists($imagePath)) {
+                    Storage::disk('public')->delete($imagePath);
+                }
+                $image->delete();
             }
-            $image->delete();
-        }
 
-        foreach ($post->videos as $video) {
-            $videoPath = $video->path;
-            if (Storage::disk('public')->exists($videoPath)) {
-                Storage::disk('public')->delete($videoPath);
+            foreach ($post->videos as $video) {
+                $videoPath = $video->path;
+                if (Storage::disk('public')->exists($videoPath)) {
+                    Storage::disk('public')->delete($videoPath);
+                }
+                $video->delete();
             }
-            $video->delete();
+
+            // Delete likes, comments, and the post itself
+            $post->likes()->delete();
+            $post->comments()->delete();
+            $post->delete();
+
+            // Send notification to post owner if they are not the one deleting it
+            if ($post->user_id != auth()->id()) {
+                $post->user->notify(new PostDeleteNotification($postData)); // Pass captured post data
+                event(new PostCreateNoti($postData)); // Pass captured post data to event
+            }
+
+            // Broadcast the post delete event
+            event(new PostDelete($post->id));
+
+            return response()->json(['message' => 'Post and related data deleted successfully!']);
+        } else {
+            return response()->json(['message' => 'Post not found'], 404);
         }
-
-        // Delete likes, comments, and the post itself
-        $post->likes()->delete();
-        $post->comments()->delete();
-        $post->delete();
-
-        // Send notification to post owner if they are not the one deleting it
-        if ($post->user_id != auth()->id()) {
-            $post->user->notify(new PostDeleteNotification($postData)); // Pass captured post data
-            event(new PostCreateNoti($postData)); // Pass captured post data to event
-        }
-
-        // Broadcast the post delete event
-        event(new PostDelete($post->id));
-
-        return response()->json(['message' => 'Post and related data deleted successfully!']);
-    } else {
-        return response()->json(['message' => 'Post not found'], 404);
     }
-}
 
 
 }
