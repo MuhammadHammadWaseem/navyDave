@@ -368,7 +368,7 @@ class CommunityController extends Controller
 
         // Notify the post owner
         $post = Post::find($request->post_id);
-        if ($post->user_id != auth()->id()) {
+        if ($post->user_id !== auth()->id()) {
             $post->user->notify(new PostCommentedNotification($comment)); // Notify post owner
         }
 
