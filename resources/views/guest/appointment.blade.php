@@ -255,6 +255,20 @@
     .flatpickr-prev-month:hover svg path {
         fill: white !important;
     }
+
+    .main-check-box-click .input-radio-box label .main-label-content .content h4 {
+        font-size: 17px;
+    }
+
+    .main-check-box-click .input-radio-box label .main-label-content .content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .main-check-box-click .input-radio-box label .main-label-content .content p {
+        font-size: 16px;
+        line-height: 1.3em;
+    }
 </style>
 @section('content')
     @if (Session::has('success'))
@@ -633,8 +647,7 @@
                                                     @if ($remaining_slots > 0) value="{{ $phone }}" disabled @endif>
                                             @else
                                                 <input type="tel" placeholder="Phone Number *" name="phone"
-                                                    value="{{ auth()->check() ? auth()->user()->phone : '' }}"
-                                                    id="phone">
+                                                    value="{{ auth()->check() ? auth()->user()->phone : '' }}" id="phone">
                                             @endif
                                         </div>
                                         <div class="signle-input-box">
@@ -1323,37 +1336,37 @@
                     });
 
                     @if ($remaining_slots == 0)
-                    const phoneInputField = document.querySelector("#phone");
-                    phoneInputField.value = "+1 ";
-                    phoneInputField.addEventListener('keydown', function(e) {
-                        const cursorPosition = this.selectionStart;
-                        if (cursorPosition <= 3 && (e.key === 'Backspace' || e.key === 'Delete')) {
-                            e.preventDefault();
-                        }
-                    });
-                    phoneInputField.addEventListener('click', function() {
-                        if (this.selectionStart < 3) {
-                            this.setSelectionRange(3, 3);
-                        }
-                    });
-                    phoneInputField.addEventListener('input', function() {
-                        if (this.value.indexOf("+1 ") !== 0) {
-                            this.value = "+1 ";
-                        }
-                    });
+                        const phoneInputField = document.querySelector("#phone");
+                        phoneInputField.value = "+1 ";
+                        phoneInputField.addEventListener('keydown', function(e) {
+                            const cursorPosition = this.selectionStart;
+                            if (cursorPosition <= 3 && (e.key === 'Backspace' || e.key === 'Delete')) {
+                                e.preventDefault();
+                            }
+                        });
+                        phoneInputField.addEventListener('click', function() {
+                            if (this.selectionStart < 3) {
+                                this.setSelectionRange(3, 3);
+                            }
+                        });
+                        phoneInputField.addEventListener('input', function() {
+                            if (this.value.indexOf("+1 ") !== 0) {
+                                this.value = "+1 ";
+                            }
+                        });
 
-                    const iti = window.intlTelInput(phoneInputField, {
-                        initialCountry: "us",
-                        geoIpLookup: function(callback) {
-                            fetch('https://ipinfo.io/json')
-                                .then(response => response.json())
-                                .then(data => callback(data.country))
-                                .catch(() => callback('US'));
-                        },
-                        separateDialCode: true,
-                        preferredCountries: ['us', 'gb', 'ca', 'au'],
-                        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
-                    });
+                        const iti = window.intlTelInput(phoneInputField, {
+                            initialCountry: "us",
+                            geoIpLookup: function(callback) {
+                                fetch('https://ipinfo.io/json')
+                                    .then(response => response.json())
+                                    .then(data => callback(data.country))
+                                    .catch(() => callback('US'));
+                            },
+                            separateDialCode: true,
+                            preferredCountries: ['us', 'gb', 'ca', 'au'],
+                            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
+                        });
                     @endif
                 });
             </script>

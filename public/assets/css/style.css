@@ -2817,8 +2817,13 @@ button.btn.btn-primary:active {
   .main-check-box-click .input-radio-box label .main-label-content .content h4 {
   font-size: 12px;
   }
+  .main-check-box-click .input-radio-box label .main-label-content .content {
+    display: flex;
+    flex-direction: column;
+  }
   .main-check-box-click .input-radio-box label .main-label-content .content p {
-  font-size: 13px;
+    font-size: 16px;
+    line-height: 1.3em;
   }
   .main-check-box-click .input-radio-box input {
   position: absolute;
