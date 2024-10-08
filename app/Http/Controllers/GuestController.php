@@ -79,26 +79,36 @@ class GuestController extends Controller
         $categories = Category::all();
         $user = auth()->user();
 
-        $remaining_slots = 0;
-        $appointments = Appointment::where('user_id', $user->id)->select('id', 'last_name', 'phone', 'total_slots', 'completed_slots', 'service_id', 'staff_id')->first();
+        if ($user) {
 
-        if ($appointments && $appointments->total_slots > $appointments->completed_slots) {
-            $remaining_slots = ($appointments->total_slots - $appointments->completed_slots);
-            $service_id = $appointments->service_id;
-            $staff_id = $appointments->staff_id;
-            $appointmentId = $appointments->id;
-            $lastName = $appointments->last_name;
-            $phone = $appointments->phone;
-        } else {
-            $service_id = 0;
-            $staff_id = 0;
             $remaining_slots = 0;
-            $appointmentId = 0;
-            $lastName = '';
-            $phone = '';
+            $appointments = Appointment::where('user_id', $user->id)->select('id', 'last_name', 'phone', 'total_slots', 'completed_slots', 'service_id', 'staff_id')->first();
+
+            if ($appointments && $appointments->total_slots > $appointments->completed_slots) {
+                $remaining_slots = ($appointments->total_slots - $appointments->completed_slots);
+                $service_id = $appointments->service_id;
+                $staff_id = $appointments->staff_id;
+                $appointmentId = $appointments->id;
+                $lastName = $appointments->last_name;
+                $phone = $appointments->phone;
+            } else {
+                $service_id = 0;
+                $staff_id = 0;
+                $remaining_slots = 0;
+                $appointmentId = 0;
+                $lastName = '';
+                $phone = '';
+            }
+
+            return view('guest.appointment')->with(compact('lastName', 'phone', 'categories', 'user', 'remaining_slots', 'service_id', 'staff_id', 'appointmentId'));
         }
 
-
+        $service_id = 0;
+        $staff_id = 0;
+        $remaining_slots = 0;
+        $appointmentId = 0;
+        $lastName = '';
+        $phone = '';
         return view('guest.appointment')->with(compact('lastName', 'phone', 'categories', 'user', 'remaining_slots', 'service_id', 'staff_id', 'appointmentId'));
     }
     public function blogs()
@@ -327,16 +337,16 @@ class GuestController extends Controller
             $appointment->appointment_date = $request->appointment_date;
             $appointment->note = $request->note;
 
-            if($appointment->completed_slots == $appointment->total_slots) {
+            if ($appointment->completed_slots == $appointment->total_slots) {
                 $appointment->status = 'completed';
-            }else{
+            } else {
                 $appointment->status = 'awaiting_next_slot';
             }
             $appointment->save();
 
             // Commit the transaction
             DB::commit();
-            
+
             $url = route('nextSlot-booked');
             return response()->json(['success' => true, 'message' => 'Slot booked successfully', 'data' => $url]);
         } catch (\Exception $e) {
