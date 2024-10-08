@@ -375,7 +375,7 @@ class CommunityController extends Controller
         // Notify the original comment owner if it's a reply
         if ($request->parent_id) {
             $parentComment = Comment::with('user')->find($request->parent_id);
-            if ($parentComment && $parentComment->user_id !== auth()->id()) {
+            if ($parentComment && $parentComment->user_id != auth()->id()) {
                 $parentComment->user->notify(new CommentRepliedNotification($comment)); // Notify the original comment owner
             }
         }
