@@ -28,7 +28,7 @@ class PostDeleteNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'title' => 'Your Post Has Been Deleted',
+            'title' => 'Your post has been deleted',
             'message' => 'Your post has been deleted by ' . auth()->user()->name . ' It may have violated our community guidelines.',
             'post_id' => $this->post['id'],
             'post_content' => $this->post['content'],
@@ -40,7 +40,7 @@ class PostDeleteNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'title' => 'Your Post Has Been Deleted',
+            'title' => 'Your post has been deleted',
             'message' => 'Your post has been deleted by ' . auth()->user()->name . ' It may have violated our community guidelines.',
             'post_id' => $this->post['id'],
             'post_content' => $this->post['content'],
@@ -53,7 +53,7 @@ class PostDeleteNotification extends Notification
     {
         return new BroadcastMessage([
             'post' => [
-                'title' => 'Your Post Has Been Deleted',
+                'title' => 'Your post has been deleted',
                 'message' => 'Your post has been deleted by ' . auth()->user()->name . ' It may have violated our community guidelines.',
                 'post_id' => $this->post['id'],
                 'post_content' => $this->post['content'],

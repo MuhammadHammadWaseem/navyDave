@@ -319,7 +319,7 @@
                         $('#no-notification-box').removeClass('d-none');
 
                         // Hide the mark all button
-                        $("#mark-all-read").css("display", "none");
+                        $("#mark-all-read").addClass("d-none");
 
                         // Optionally show a success message
                         toastr.success('All notifications marked as read.');
