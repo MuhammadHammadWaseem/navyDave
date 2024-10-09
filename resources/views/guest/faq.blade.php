@@ -96,22 +96,6 @@
                                 </div>
                             </div>
                             <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="headingfive">
-                                    <h4 class="panel-title">
-                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
-                                            href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                            What do 'smash factor', 'angle of attack', 'launch angle' and other jargon mean?
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapseSix" class="panel-collapse collapse" role="tabpanel"
-                                    aria-labelledby="headingfive">
-                                    <div class="panel-body">
-                                        DON’T WORRY ABOUT IT! One of the things that drew you to me is the avoidance of all that mess. We will go over your improvements and I will explain the numbers at the end. Our first goal is to get you swinging comfortably and not worrying about that stuff! If we focus on a number, it should be par or better!
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingSeven">
                                     <h4 class="panel-title">
                                         <a class="collapsed" role="button" data-toggle="collapse"
@@ -125,6 +109,22 @@
                                     aria-labelledby="headingSeven">
                                     <div class="panel-body">
                                         Absolutely! I happen to have a putting green in the back for just such an opportunity!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingfive">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                            href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                            What do 'smash factor', 'angle of attack', 'launch angle' and other jargon mean?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseSix" class="panel-collapse collapse" role="tabpanel"
+                                    aria-labelledby="headingfive">
+                                    <div class="panel-body">
+                                        DON’T WORRY ABOUT IT! One of the things that drew you to me is the avoidance of all that mess. We will go over your improvements and I will explain the numbers at the end. Our first goal is to get you swinging comfortably and not worrying about that stuff! If we focus on a number, it should be par or better!
                                     </div>
                                 </div>
                             </div>
