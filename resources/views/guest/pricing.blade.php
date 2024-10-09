@@ -112,25 +112,25 @@
                                 </video>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
-                                <video poster="assets/images/video-poster.png" controls>
+                                <video poster="assets/images/vid-poster-2.png" controls>
                                     <source src="assets/images/main-video.mp4" type="video/mp4">
                                     <source src="assets/images/main-video.mp4" type="video/ogg">
                                 </video>
                             </div>
                             <div class="tab-pane" id="tabs-3" role="tabpanel">
-                                <video poster="assets/images/video-poster.png" controls>
+                                <video poster="assets/images/vid-poster-3.png" controls>
                                     <source src="assets/images/main-video.mp4" type="video/mp4">
                                     <source src="assets/images/main-video.mp4" type="video/ogg">
                                 </video>
                             </div>
                             <div class="tab-pane" id="tabs-4" role="tabpanel">
-                                <video poster="assets/images/video-poster.png" controls>
+                                <video poster="assets/images/vid-poster-4.png" controls>
                                     <source src="assets/images/main-video.mp4" type="video/mp4">
                                     <source src="assets/images/main-video.mp4" type="video/ogg">
                                 </video>
                             </div>
                             <div class="tab-pane" id="tabs-5" role="tabpanel">
-                                <video poster="assets/images/video-poster.png" controls>
+                                <video poster="assets/images/vid-poster-5.png" controls>
                                     <source src="assets/images/main-video.mp4" type="video/mp4">
                                     <source src="assets/images/main-video.mp4" type="video/ogg">
                                 </video>
