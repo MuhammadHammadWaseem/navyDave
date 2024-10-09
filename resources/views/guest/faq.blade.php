@@ -117,7 +117,7 @@
                                     <h4 class="panel-title">
                                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
                                             href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                            What do 'smash factor', 'angle of attack', 'launch angle' and other jargon mean?
+                                            What do 'smash factor', 'angle of attack',<br>'launch angle' and other jargon mean?
                                         </a>
                                     </h4>
                                 </div>

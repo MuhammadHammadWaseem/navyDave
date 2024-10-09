@@ -89,20 +89,11 @@
                                 <a href="{{ route('about') }}" class="t-btn">Learn More</a>
                             </div>
                             <div class="video-btn-box">
-
-                                {{-- <a href="#">
-                                    <img src="assets/images/video-icon.png" alt="">
-                                    Video Presentation
-                                </a> --}}
-
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                    <img src="assets/images/video-icon.png" alt="">  Video Presentation
-                                  </button>
-
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#exampleModal">
+                                    <img src="assets/images/video-icon.png" alt=""> Video Presentation
+                                </button>
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -263,8 +254,10 @@
                                 <p>{{ $s->description }}</p>
                             </div>
                             <div class="sessions-box">
-                                <p><img src="{{ asset('assets/images/timer.png') }}" alt="" style="filter: invert(48%) sepia(48%) saturate(1225%) hue-rotate(83deg) brightness(92%) contrast(93%);">
+                                <p><img src="{{ asset('assets/images/timer.png') }}" alt=""
+                                        style="filter: invert(48%) sepia(48%) saturate(1225%) hue-rotate(83deg) brightness(92%) contrast(93%);">
                                     {{ $s->duration }} {{ $s->type_duration }}</p>
+                                    <p>{{ $s->slots }} @if($s->slots > 1) Slots @else Slot @endif</p>
                                 <a href="{{ route('appointment') }}" class="t-btn">Book Now</a>
                             </div>
                         </div>
@@ -284,22 +277,24 @@
                         </div>
                     </div>
                     @foreach ($services->take(2)->skip(1) as $s)
-                    <div class="pricing-box hot">
-                        <div class="pricing-box-content ">
-                            <h4>{{ $s->name }}</h4>
-                            <h5>${{ $s->price }}</h5>
-                            <p>{{ $s->description }}</p>
-                            <div class="hot-box">
-                                <img class="star" src="{{ asset('assets/images/hot-star.png') }}" alt="">
-                                <p>HOT</p>
+                        <div class="pricing-box hot">
+                            <div class="pricing-box-content ">
+                                <h4>{{ $s->name }}</h4>
+                                <h5>${{ $s->price }}</h5>
+                                <p>{{ $s->description }}</p>
+                                <div class="hot-box">
+                                    <img class="star" src="{{ asset('assets/images/hot-star.png') }}" alt="">
+                                    <p>HOT</p>
+                                </div>
+                            </div>
+                            <div class="sessions-box">
+                                <p><img src="{{ asset('assets/images/timer.png') }}" alt=""
+                                        style="filter: invert(48%) sepia(48%) saturate(1225%) hue-rotate(83deg) brightness(92%) contrast(93%);">
+                                    {{ $s->duration }} {{ $s->type_duration }}</p>
+                                    <p>{{ $s->slots }} @if($s->slots > 1) Slots @else Slot @endif</p>
+                                <a href="{{ route('appointment') }}" class="t-btn">Book Now</a>
                             </div>
                         </div>
-                        <div class="sessions-box">
-                            <p><img src="{{ asset('assets/images/timer.png') }}" alt="" style="filter: invert(48%) sepia(48%) saturate(1225%) hue-rotate(83deg) brightness(92%) contrast(93%);">
-                                {{ $s->duration }} {{ $s->type_duration }}</p>
-                            <a href="{{ route('appointment') }}" class="t-btn">Book Now</a>
-                        </div>
-                    </div>
                     @endforeach
                 </div>
             </div>
