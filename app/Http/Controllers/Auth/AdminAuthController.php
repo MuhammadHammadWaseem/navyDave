@@ -21,6 +21,7 @@ use Spatie\GoogleCalendar\Event;
 use App\Models\Slot;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use App\Jobs\SendWelcomeMail;
 
 class AdminAuthController extends Controller
 {
@@ -70,6 +71,7 @@ class AdminAuthController extends Controller
         // Validate the form data
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'phone' => 'nullable|string|max:255',
@@ -86,6 +88,7 @@ class AdminAuthController extends Controller
         // Create new user
         $user = User::create([
             'name' => $request->name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
@@ -100,8 +103,9 @@ class AdminAuthController extends Controller
         $userRole = Role::firstOrCreate(['name' => 'user']);
         // Assign the 'admin' role to the new user
         $user->assignRole($userRole);
+        SendWelcomeMail::dispatch($user->email,$user);
 
-        return redirect()->route('login')->with('success', 'Registration successful!');
+        return redirect()->route('login')->with('success', 'Your account has been created successfully!');
     }
 
     public function logout()

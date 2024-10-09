@@ -86,19 +86,23 @@
                                     @csrf
                                     <input type="hidden" name="country" value="united states">
                                     <div class="single-input-box two-inputs-alin">
-                                        <input type="text" name="name" id="name" placeholder="Full Name *"
+                                        <input type="text" name="name" id="name" placeholder="First Name *"
                                             value="{{ old('name') }}" required>
+                                            <input type="text" name="last_name" id="last_name" placeholder="Last Name *"
+                                            value="{{ old('last_name') }}" required>
+                                    </div>
+                                    <div class="single-input-box two-inputs-alin">
                                         <input type="email" name="email" id="email"
                                             placeholder="Email Address *" value="{{ old('email') }}" required>
-                                    </div>
-                                    <div class="single-input-box two-inputs-alin">
                                         <input type="tel" name="phone" id="phone" placeholder="Phone Number *"
                                             value="{{ old('phone') }}">
-                                        <input type="text" name="city" id="city" placeholder="City *"
-                                            value="{{ old('city') }}">
                                     </div>
                                     <div class="single-input-box two-inputs-alin">
+                                        <input type="text" name="city" id="city" placeholder="City *"
+                                            value="{{ old('city') }}">
                                         <input type="text" name="zipcode" id="zipcode" placeholder="Zip Code *" value="{{ old('zipcode') }}" required>
+                                    </div>
+                                    <div class="single-input-box two-inputs-alin">
                                         <select name="state" id="state" required>
                                             <option value="">Select State *</option>
                                             @php
@@ -119,8 +123,6 @@
                                                 <option value="{{ $name }}" {{ old('state') == $name ? 'selected' : '' }}>{{ $name }}</option>
                                             @endforeach
                                         </select>
-                                    </div>
-                                    <div class="single-input-box ">
                                         <input type="text" placeholder="Address *" name="address" id="address"
                                             value="{{ old('address') }}">
                                     </div>

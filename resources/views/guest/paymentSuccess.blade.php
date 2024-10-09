@@ -11,7 +11,7 @@
                     </div>
                     <div class="text">
                         <h2> Appointment Booked<br> Successfuly </h2>
-                        <p>Your payment received and your appointment booked successfully </p>
+                        <p>Your payment has been successfully received, and your appointment has been booked.</p>
                         <a href="{{ route('appointment') }}" class="t-btn">Go Back</a>
                     </div>
                 </div>

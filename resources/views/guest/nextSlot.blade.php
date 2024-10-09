@@ -11,7 +11,7 @@
                     </div>
                     <div class="text">
                         <h2> Next Slot Booked<br> Successfuly </h2>
-                        <p>Your Next Slot booked successfully</p>
+                        <p>Your next slot has been successfully booked.</p>
                         <a href="{{ route('appointment') }}" class="t-btn">Go Back</a>
                     </div>
                 </div>

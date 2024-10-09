@@ -634,6 +634,7 @@
                                                 @if ($remaining_slots > 0) disabled @endif>
                                             <label for="last_name">Last Name</label>
                                             <input type="text" placeholder="Last Name *" name="last_name" id="last_name"
+                                                value="{{ auth()->check() ? auth()->user()->last_name : '' }}"
                                                 @if ($remaining_slots > 0) disabled value="{{ $lastName }}" @endif>
                                         </div>
                                         <div class="two-input-align">
@@ -695,9 +696,10 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="d-none" id="loadingTab">
+                                <div class="d-none" style="text-align: center;" id="loadingTab">
                                     <div class="appointment-booked-details">
-                                        <p>Loading.....</p>
+                                        {{-- <p>Loading.....</p> --}}
+                                        <img src="{{ asset('assets/images/loading.gif') }}" width="100px" height="100px" alt="Loading...">
                                     </div>
                                 </div>
 
@@ -846,6 +848,9 @@
                         if (y[i].value == "") {
                             y[i].className += " invalid";
                             valid = false;
+
+                            // Show the error tab
+                            toastr.error('Please fill out all required fields.');
                         }
                     }
 

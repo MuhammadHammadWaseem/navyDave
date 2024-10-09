@@ -181,7 +181,7 @@
                                     <td class="text-center">${formatTime(element.slot.available_from) + ' - ' + formatTime(element.slot.available_to)}</td>
                                     <td class="text-center">$${element.price}</td>
                                     <td class="text-center">${element.payment ? element.payment.status : '-' }</td>
-                                    <td class="text-center">${element.status}</td>
+                                    <td class="text-center">${element.status == "awaiting_next_slot" ? "Awaiting Next Slot" : element.status == "fully_completed" ? "Fully Completed" : element.status == "completed" ? "Completed" : element.status == "canceled" ? "Canceled" : element.status == "pending" ? "Pending" : "Confirmed"}</td>
                                     <td class="text-center">${createdAtFormatted}</td>
                                     <td class="text-center">
                                         <div class="action-box mt-2">

@@ -14,6 +14,7 @@
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -59,7 +60,6 @@
 </head>
 
 <body>
-
     <section class="new-form login-form" style="background-image: url({{ asset('./assets/images/new-login-bg.png') }})">
         <div class="container">
             <div class="row">
@@ -116,10 +116,18 @@
     <script src="{{ asset('./assets/js/wow-animate.js') }}"></script>
     <script src="{{ asset('./assets/js/lib.js') }}"></script>
     <script src="{{ asset('./assets/js/custom.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastr.js/latest/toastr.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js"></script>
 
     <script>
+        let success = {{ Session::has('success') }} 
+        $(document).on('ready', function() {
+            if (success == true) {
+                toastr.success('{{ Session::get('success') }}');
+            }
+        })
         function togglePassword() {
             var passwordField = document.getElementById("password");
 

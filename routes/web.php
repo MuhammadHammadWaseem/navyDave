@@ -100,6 +100,9 @@ Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login'
 Route::post('login', [AdminAuthController::class, 'login'])->name('login.post');
 Route::get('logout', [AdminAuthController::class, 'logout'])->name('logout');
 // Guest Route End
+Route::get('welcome', function(){
+    return view('emails.welcome');
+})->name('welcome');
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {
