@@ -117,10 +117,10 @@
                                         Site</a>
                                     <a href="{{ route('logout') }}"><i class="fa fa-user"
                                             aria-hidden="true"></i>Logout</a>
-                                    @if (auth()->user()->hasRole('admin'))
+                                    {{-- @if (auth()->user()->hasRole('admin'))
                                         <a href="{{ route('admin.setting') }}"><i class="fa fa-cog"
-                                                aria-hidden="true"></i> Settings</a>
-                                    @endif
+                                                aria-hidden="true"></i> Front Settings</a>
+                                    @endif --}}
                                 </div>
                             </div>
                         </div>
@@ -176,7 +176,7 @@
                                                 alt=""></span>Subscribers</a></li>
                                 <li><a href="{{ route('admin.setting') }}" class="setting-active"><span><img
                                                 src="{{ asset('./assets/images/setting.png') }}"
-                                                alt=""></span>Setting</a></li>
+                                                alt=""></span>Front Setting</a></li>
                             @endif
                             @if (auth()->user()->hasRole('user'))
                                 <li><a href="{{ route('user.dashboard') }}" class="dashboard-active"><span><img

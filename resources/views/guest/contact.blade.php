@@ -14,8 +14,8 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-4">
+            <div class="row justify-content-center align-items-center ">
+                {{-- <div class="col-lg-4 col-md-4">
                     <div class="text-box">
                         <img src="assets/images/timer.png" alt="">
                         <ul>
@@ -28,7 +28,7 @@
                             <li>Sunday : 09 : 00 AM - 08 : 00 PM </li>
                         </ul>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-lg-4 col-md-4">
                     <div class="text-box">
                         <img src="assets/images/map.png" alt="">

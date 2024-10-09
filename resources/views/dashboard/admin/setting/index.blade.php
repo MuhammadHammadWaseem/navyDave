@@ -41,7 +41,7 @@
         @endif
         <div class="main-calendar-box main-calendar-box-list customers-box">
             <div class="two-things-align">
-                <h5>Settings</h5>
+                <h5>Front Settings</h5>
                 {{-- <a href="{{ route('admin.setting.create') }}" class="t-btn">
                     Add Settings
                 </a> --}}

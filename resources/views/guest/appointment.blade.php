@@ -641,7 +641,7 @@
                                             <input type="email" placeholder="Email Address *" name="email"
                                                 value="{{ auth()->check() ? auth()->user()->email : '' }}"
                                                 @if ($remaining_slots > 0) disabled @endif id="email">
-                                            <label for="phone">Phone</label>
+                                            <label for="phone" class="mb-1">Phone</label>
                                             @if ($remaining_slots > 0)
                                                 <input type="tel" placeholder="Phone Number *" name="phone"
                                                     @if ($remaining_slots > 0) value="{{ $phone }}" disabled @endif>
@@ -651,7 +651,7 @@
                                             @endif
                                         </div>
                                         <div class="signle-input-box">
-                                            <label for="location">Location</label>
+                                            <label for="location" style="margin-top: 10px">Location</label>
                                             <select name="location" id="location">
                                                 <option selected value="{{ $settings[0]->location ?? '-' }}">
                                                     {{ $settings[0]->location ?? '-' }}</option>
