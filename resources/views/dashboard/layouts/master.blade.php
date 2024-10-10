@@ -100,7 +100,8 @@
                                             @if ($notifications->count() > 0)
                                                 @foreach ($notifications as $notification)
                                                     <a href="#" data-id="{{ $notification->id }}"
-                                                        data-post-id="{{ $notification->data['post_id'] }}">
+                                                        {{-- data-post-id="{{ $notification->data['post_id'] }}" --}}
+                                                        >
                                                         <h5>{{ $notification->data['title'] }}</h5>
                                                         <p>{{ $notification->data['message'] }}</p>
                                                         <p>{{ $notification->created_at->diffForHumans() }}</p>

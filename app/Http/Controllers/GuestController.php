@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\SendMessage;
 use App\Models\Blog;
 use App\Models\Staff;
+use App\Notifications\AppointmentCreateNotification;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Service;
@@ -24,6 +25,7 @@ use Validator;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\AppointmentSlot;
 use App\Models\User;
+use App\Events\PostCreateNoti;
 
 class GuestController extends Controller
 {
@@ -358,8 +360,28 @@ class GuestController extends Controller
             }
             $appointment->save();
 
-            // Create Google Calendar Event
+            $newAppointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($request->appointment_id);
+
+            // ------------------- <-- Email Notification --> ------------------- \\
+            $appointment->user->notify(new AppointmentCreateNotification($newAppointment));
+            $appointment->staff->user->notify(new AppointmentCreateNotification($newAppointment));
+            event(new PostCreateNoti($newAppointment));
+            
+            // ------------------- <-- Google Calendar Event --> ------------------- \\
             $this->createGoogleCalendarEvent($appointment);
+
+            // Prepare email data
+            $userEmail = $appointment->email;
+            $staffEmail = $appointment->staff->user->email;
+            $adminEmail = 'hw13604@gmail.com';
+
+            // Send email
+            if ($userEmail) {
+                SendMail::dispatch($userEmail, $appointment, 'user');
+            }
+            SendMail::dispatch($staffEmail, $appointment, 'staff');
+            SendMail::dispatch($adminEmail, $appointment, 'admin');
+
 
             // Commit the transaction
             DB::commit();
@@ -399,7 +421,7 @@ class GuestController extends Controller
             }
 
             // Load the appointment with relationships
-            $appointment = Appointment::with('slot', 'staff.user', 'service')->findOrFail($data->id);
+            $appointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($data->id);
 
             // Retrieve the Stripe session to get payment details
             $stripeSecretKey = env('STRIPE_SECRET_KEY', 'sk_test_51LkfAQH65lvSBiDK232wi93QAEfeM0XgS8s62kRse0LGoKn2pHxZhMu23pA4w5CyqeR7jaichrCsgnSQdz5S7NPD00GOpROogE');
@@ -417,6 +439,11 @@ class GuestController extends Controller
                 'currency' => $session->currency, // Currency
                 'status' => $session->payment_status, // Payment status (e.g., 'paid')
             ]);
+
+            // Send notification
+            $appointment->user->notify(new AppointmentCreateNotification($appointment));
+            $appointment->staff->user->notify(new AppointmentCreateNotification($appointment));
+            event(new PostCreateNoti($appointment));
 
             // Prepare email data
             $userEmail = $validated['email'];

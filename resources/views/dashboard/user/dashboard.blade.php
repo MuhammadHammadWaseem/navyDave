@@ -98,7 +98,33 @@
                         </td>
                         <td class="text-start">
                             <div class="paid-unpaid-box">
-                                <p class="paid-text">{{ $a->payment ? 'Paid' : 'Unpaid' }} - {{ $a->status }}</p>
+                                <p class="paid-text">
+                                    {{ $a->payment ? 'Paid' : 'Unpaid' }} -
+                                    @switch($a->status)
+                                        @case('awaiting_next_slot')
+                                            Awaiting Next Slot
+                                        @break
+
+                                        @case('fully_completed')
+                                            Fully Completed
+                                        @break
+
+                                        @case('completed')
+                                            Completed
+                                        @break
+
+                                        @case('canceled')
+                                            Canceled
+                                        @break
+
+                                        @case('pending')
+                                            Pending
+                                        @break
+
+                                        @default
+                                            Confirmed
+                                    @endswitch
+                                </p>
                             </div>
                         </td>
                         <td class="text-start">
