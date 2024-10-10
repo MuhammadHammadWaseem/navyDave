@@ -103,7 +103,7 @@ class AdminAuthController extends Controller
         $userRole = Role::firstOrCreate(['name' => 'user']);
         // Assign the 'admin' role to the new user
         $user->assignRole($userRole);
-        SendWelcomeMail::dispatch($user->email,$user);
+        SendWelcomeMail::dispatch($user->email, $user);
 
         return redirect()->route('login')->with('success', 'Your account has been created successfully!');
     }
@@ -209,21 +209,27 @@ class AdminAuthController extends Controller
     }
 
     public function handleGoogleCallback(Request $request)
-    {
-        // Get the user from Google
-        $user = Socialite::driver('google')->stateless()->user();
+{
+    $googleUser = Socialite::driver('google')->stateless()->user();
 
-        // You can now access the user's details, such as:
-        $token = $user->token; // Access token
-        $refreshToken = $user->refreshToken; // Refresh token, if available
-        $expiresIn = $user->expiresIn; // Token expiration time
+    // Get the authenticated user
+    $user = auth()->user();
 
-        // Optionally, store the token and other info in the session or database
-        session(['google_token' => $token]);
+    // Only allow the admin to save the Google tokens
+    if ($user->hasRole('admin')) {
+        $user->google_token = $googleUser->token;
+        $user->google_refresh_token = $googleUser->refreshToken;
+        $user->google_token_expiry = now()->addSeconds($googleUser->expiresIn);
+        $user->save();
 
-        // Redirect to a different page or return a view
-        return redirect('/')->with('success', 'Google OAuth successful.');
+        Log::info('Admin Google OAuth token saved.');
+    } else {
+        Log::error('Non-admin user tried to get Google token.');
+        return redirect('/')->with('error', 'Only admin can authenticate with Google.');
     }
+
+    return redirect('/')->with('success', 'Google OAuth successful.');
+}
 
     public function syncCalendar()
     {

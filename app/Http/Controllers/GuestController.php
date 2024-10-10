@@ -88,9 +88,9 @@ class GuestController extends Controller
             // $appointments = Appointment::where('user_id', $user->id)->select('id', 'last_name', 'phone', 'total_slots', 'completed_slots', 'service_id', 'staff_id')->first();
 
             $appointments = Appointment::where('user_id', $user->id)
-            ->whereColumn('completed_slots', '!=', 'total_slots') // Correct comparison
-            ->select('id', 'last_name', 'phone', 'total_slots', 'completed_slots', 'service_id', 'staff_id')
-            ->first();
+                ->whereColumn('completed_slots', '!=', 'total_slots') // Correct comparison
+                ->select('id', 'last_name', 'phone', 'total_slots', 'completed_slots', 'service_id', 'staff_id')
+                ->first();
 
             if ($appointments && $appointments->total_slots > $appointments->completed_slots) {
                 $remaining_slots = ($appointments->total_slots - $appointments->completed_slots);
@@ -370,7 +370,7 @@ class GuestController extends Controller
             $appointment->staff->user->notify(new AppointmentCreateNotification($newAppointment));
             $adminUser->notify(new AppointmentCreateNotification($newAppointment));
             event(new PostCreateNoti($newAppointment));
-            
+
             // ------------------- <-- Google Calendar Event --> ------------------- \\
             $this->createGoogleCalendarEvent($appointment);
 
@@ -458,7 +458,15 @@ class GuestController extends Controller
             $adminEmail = 'hw13604@gmail.com';
 
             // Create Google Calendar Event
-            $this->createGoogleCalendarEvent($appointment);
+            // $this->createGoogleCalendarEvent($appointment);
+
+            // Call createGoogleCalendarEvent and check for redirect or success
+            $calendarEventResponse = $this->createGoogleCalendarEvent($appointment);
+
+            // If it's a redirect response, return it to the user
+            if ($calendarEventResponse instanceof \Illuminate\Http\RedirectResponse) {
+                return $calendarEventResponse;
+            }
 
             // Send email
             if ($userEmail) {
@@ -480,16 +488,68 @@ class GuestController extends Controller
         }
     }
 
+    private function refreshGoogleToken($user)
+    {
+        $refreshToken = $user->google_refresh_token;
+
+        if (!$refreshToken) {
+            Log::error('No refresh token available.');
+            return false;
+        }
+
+        $client = new \GuzzleHttp\Client();
+
+        $response = $client->post('https://oauth2.googleapis.com/token', [
+            'form_params' => [
+                'client_id' => config('services.google.client_id'),
+                'client_secret' => config('services.google.client_secret'),
+                'refresh_token' => $refreshToken,
+                'grant_type' => 'refresh_token',
+            ],
+        ]);
+
+        if ($response->getStatusCode() == 200) {
+            $data = json_decode($response->getBody(), true);
+
+            // Update the token in the database
+            $user->google_token = $data['access_token'];
+            $user->google_token_expiry = now()->addSeconds($data['expires_in']);
+            $user->save();
+
+            Log::info('Google token refreshed successfully for admin.');
+            return true;
+        } else {
+            Log::error('Failed to refresh Google token: ' . $response->getBody());
+            return false;
+        }
+    }
+
+
+
+
     private function createGoogleCalendarEvent($appointment)
     {
-        // Get the access token from the session
-        $token = session('google_token');
+        // Get the admin user
+        $adminUser = User::role('admin')->first();
 
-        if (!$token) {
-            // Handle the case when the token is not found
-            // dd('Google token not found. Please authenticate with Google.');
-            return redirect('/google-auth');
+        // Check if the admin has a Google token
+        if (!$adminUser->google_token) {
+            Log::error('Admin Google token not found. Please authenticate with Google.');
+            return redirect('/google-auth')->with('error', 'Admin needs to authenticate with Google.');
         }
+
+        // Check if the token is expired and try to refresh it
+        if (now()->greaterThan($adminUser->google_token_expiry)) {
+            if (!$this->refreshGoogleToken($adminUser)) {
+                return redirect('/google-auth')->with('error', 'Admin Google token expired. Please authenticate again.');
+            }
+        }
+
+        // Use the admin's token to create the calendar event
+        $token = $adminUser->google_token;
+
+        // Log the token for debugging purposes
+        Log::info('Using Google token:', ['token' => $token]);
 
         // Convert appointment_date from string to DateTime if it's a string
         $appointmentDate = new \DateTime($appointment->appointment_date);
@@ -520,18 +580,11 @@ class GuestController extends Controller
         // Check the response status
         if ($response->getStatusCode() == 200) {
             Log::info('Google Calendar Event Created Successfully', ['response' => $response->getBody()->getContents()]);
-            return;
         } else {
             Log::error('Google Calendar Event Creation Failed: ', ['response' => $response->getBody()->getContents()]);
-            return;
-        }
-
-        // Check if the token is expired
-        if (time() > session('google_token_expiry')) {
-            // Redirect for re-authentication if the token is expired
-            return redirect('/google-auth')->with('error', 'Your session has expired. Please log in again.');
         }
     }
+
 
 
 

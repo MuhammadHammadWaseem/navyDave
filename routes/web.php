@@ -30,7 +30,7 @@ use App\Http\Controllers\Auth\StaffAuthController;
 */
 
 // for Getting Google token
-Route::get('/google-auth', [AdminAuthController::class, 'redirectToGoogle']);
+Route::get('/google-auth', [AdminAuthController::class, 'redirectToGoogle'])->name('google-auth');
 // for Handling Google callback
 Route::get('/google-auth/callback', [AdminAuthController::class, 'handleGoogleCallback']);
 // for Create sample event
