@@ -556,16 +556,36 @@ class GuestController extends Controller
 
         // Prepare the event details
         $event = [
-            'summary' => 'Appointment with ' . $appointment->first_name . ' ' . $appointment->last_name, // Adjust to use the correct customer name
+            'summary' => 'Appointment with ' . $appointment->first_name . ' ' . $appointment->last_name,
+            'description' => 'Event Title: ' . $appointment->service->name .
+                ' by ' . $appointment->staff->user->name .
+                ' at ' . (new \DateTime($appointment->slot->available_from))->format('h:i A') .
+                ' to ' . (new \DateTime($appointment->slot->available_to))->format('h:i A'),
+            'location' => $appointment->location,
             'start' => [
-                'dateTime' => $appointmentDate->format(DATE_ISO8601), // Format the date as ISO8601
+                'dateTime' => $appointmentDate->format(DATE_ISO8601),
                 'timeZone' => 'America/Los_Angeles', // Adjust to your timezone
             ],
             'end' => [
                 'dateTime' => $appointmentDate->modify('+1 hour')->format(DATE_ISO8601), // Adjust the end time as needed
                 'timeZone' => 'America/Los_Angeles', // Adjust to your timezone
             ],
+            'attendees' => [
+                [
+                    'email' => $appointment->email,
+                ],
+            ],
+            'reminders' => [
+                'useDefault' => false,
+                'overrides' => [
+                    [
+                        'method' => 'popup',
+                        'minutes' => 10,
+                    ],
+                ],
+            ],
         ];
+
 
         // Use Guzzle to send the request
         $client = new \GuzzleHttp\Client();
