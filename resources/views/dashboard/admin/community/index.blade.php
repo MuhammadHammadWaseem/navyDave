@@ -951,7 +951,7 @@
                         <div id="post-detaling">
                             <!-- Loading Spinner -->
                             <div id="loading-spinner" style="display:none; text-align:center;">
-                                <img src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif" width="100px"
+                                <img src="{{ asset('assets/images/loading.gif') }}" width="100px"
                                     height="100px" class="img-fluid mb-3 mt-3" alt="Loading..." />
                             </div>
                         </div>

@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Crypt;
 use App\Models\AppointmentSlot;
 use App\Models\User;
 use App\Events\PostCreateNoti;
+use Spatie\Permission\Models\Role;
 
 class GuestController extends Controller
 {
@@ -362,9 +363,12 @@ class GuestController extends Controller
 
             $newAppointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($request->appointment_id);
 
+            $adminUser = User::role('admin')->first();
+
             // ------------------- <-- Email Notification --> ------------------- \\
             $appointment->user->notify(new AppointmentCreateNotification($newAppointment));
             $appointment->staff->user->notify(new AppointmentCreateNotification($newAppointment));
+            $adminUser->notify(new AppointmentCreateNotification($newAppointment));
             event(new PostCreateNoti($newAppointment));
             
             // ------------------- <-- Google Calendar Event --> ------------------- \\
@@ -440,9 +444,12 @@ class GuestController extends Controller
                 'status' => $session->payment_status, // Payment status (e.g., 'paid')
             ]);
 
+            $adminUser = User::role('admin')->first();
+
             // Send notification
             $appointment->user->notify(new AppointmentCreateNotification($appointment));
             $appointment->staff->user->notify(new AppointmentCreateNotification($appointment));
+            $adminUser->notify(new AppointmentCreateNotification($appointment));
             event(new PostCreateNoti($appointment));
 
             // Prepare email data
