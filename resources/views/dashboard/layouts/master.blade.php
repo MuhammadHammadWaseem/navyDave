@@ -180,6 +180,9 @@
                                 <li><a href="{{ route('admin.setting') }}" class="setting-active"><span><img
                                                 src="{{ asset('./assets/images/setting.png') }}"
                                                 alt=""></span>Front Setting</a></li>
+                                <li><a href="{{ route('admin.google-credentials.form') }}" class="google-active"><span><img
+                                                src="{{ asset('./assets/images/setting.png') }}"
+                                                alt=""></span>Google Credentials</a></li>
                             @endif
                             @if (auth()->user()->hasRole('user'))
                                 <li><a href="{{ route('user.dashboard') }}" class="dashboard-active"><span><img

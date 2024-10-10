@@ -17,6 +17,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\StaffAuthController;
+use App\Http\Controllers\GoogleCredentialsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,7 +101,7 @@ Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login'
 Route::post('login', [AdminAuthController::class, 'login'])->name('login.post');
 Route::get('logout', [AdminAuthController::class, 'logout'])->name('logout');
 // Guest Route End
-Route::get('welcome', function(){
+Route::get('welcome', function () {
     return view('emails.welcome');
 })->name('welcome');
 
@@ -172,6 +173,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('setting/show', [SettingController::class, 'show'])->name('setting.show');
         Route::get('setting/edit/{id}', [SettingController::class, 'edit'])->name('setting.edit');
         Route::post('setting/update/{id}', [SettingController::class, 'update'])->name('setting.update');
+
+        //Google API set
+        // routes/web.php
+        Route::get('/google-credentials', [GoogleCredentialsController::class, 'showForm'])->name('google-credentials.form');
+        Route::post('/google-credentials', [GoogleCredentialsController::class, 'store'])->name('google-credentials.store');
+
 
         // Subscription
         Route::get('subscribers', [AdminAuthController::class, 'subscribers'])->name('subscribers');

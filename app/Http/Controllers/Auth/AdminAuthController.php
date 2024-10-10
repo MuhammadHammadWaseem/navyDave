@@ -22,6 +22,7 @@ use App\Models\Slot;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use App\Jobs\SendWelcomeMail;
+use Illuminate\Support\Facades\DB;
 
 class AdminAuthController extends Controller
 {
@@ -201,35 +202,55 @@ class AdminAuthController extends Controller
         return view('dashboard.admin.subscribers.index', compact('subscribers'));
     }
 
+    // public function redirectToGoogle()
+    // {
+    //     return Socialite::driver('google')
+    //         ->scopes(['https://www.googleapis.com/auth/calendar'])
+    //         ->redirect();
+    // }
     public function redirectToGoogle()
     {
+        $clientId = DB::table('google_settings')->where('key', 'google_client_id')->value('value');
+
         return Socialite::driver('google')
             ->scopes(['https://www.googleapis.com/auth/calendar'])
+            ->with(['client_id' => $clientId]) // Use the client ID from the database
             ->redirect();
     }
 
+
     public function handleGoogleCallback(Request $request)
-{
-    $googleUser = Socialite::driver('google')->stateless()->user();
+    {
 
-    // Get the authenticated user
-    $user = auth()->user();
+        // Retrieve Google client credentials from the database
+        $clientId = DB::table('google_settings')->where('key', 'google_client_id')->value('value');
+        $clientSecret = DB::table('google_settings')->where('key', 'google_client_secret')->value('value');
 
-    // Only allow the admin to save the Google tokens
-    if ($user->hasRole('admin')) {
-        $user->google_token = $googleUser->token;
-        $user->google_refresh_token = $googleUser->refreshToken;
-        $user->google_token_expiry = now()->addSeconds($googleUser->expiresIn);
-        $user->save();
+        // Set the client ID and secret for the Google driver
+        $googleUser = Socialite::driver('google')
+            ->stateless()
+            ->with(['client_id' => $clientId, 'client_secret' => $clientSecret]) // Pass credentials
+            ->user();
 
-        Log::info('Admin Google OAuth token saved.');
-    } else {
-        Log::error('Non-admin user tried to get Google token.');
-        return redirect('/')->with('error', 'Only admin can authenticate with Google.');
+        // Get the authenticated user
+        $user = auth()->user();
+
+        // Only allow the admin to save the Google tokens
+        if ($user->hasRole('admin')) {
+            $user->google_token = $googleUser->token;
+            $user->google_refresh_token = $googleUser->refreshToken;
+            $user->google_token_expiry = now()->addSeconds($googleUser->expiresIn);
+            $user->save();
+
+            Log::info('Admin Google OAuth token saved.');
+        } else {
+            Log::error('Non-admin user tried to get Google token.');
+            return redirect('/')->with('error', 'Only admin can authenticate with Google.');
+        }
+
+        // return redirect('/')->with('success', 'Google OAuth successful.');
+        return redirect('/admin/google-credentials')->with('success', 'Google Credentials saved.');
     }
-
-    return redirect('/')->with('success', 'Google OAuth successful.');
-}
 
     public function syncCalendar()
     {

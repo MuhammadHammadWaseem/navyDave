@@ -13,7 +13,7 @@ return [
             /*
              * Path to the json file containing the credentials.
              */
-            'credentials_json' => base_path('clientCredantial.json'),
+            // 'credentials_json' => base_path('clientCredantial.json'),
         ],
 
         /*
