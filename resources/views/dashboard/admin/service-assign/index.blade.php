@@ -188,6 +188,12 @@
                             services: []
                         };
                     }
+                    console.log(item);
+                    if(item.service == null){
+                        item.service = {
+                            name: 'No Service'
+                        };
+                    }
                     groupedData[item.staff_id].services.push(item.service.name);
                 });
 

@@ -67,6 +67,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#myTable').DataTable();
+    $('#myTable').DataTable({
+        dom: 'Bfrtip', // This is required to enable the buttons
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
     });
+});
+
 </script>

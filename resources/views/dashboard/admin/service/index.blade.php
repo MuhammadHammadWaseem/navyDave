@@ -69,19 +69,6 @@
                 </tbody>
             </table>
         </div>
-
-
-        {{-- <div class="pagination-box">
-            <ul>
-                <li><a href="#">&lt;</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">...</a></li>
-                <li><a href="#">9</a></li>
-                <li><a href="#">10</a></li>
-                <li><a href="#">&gt;</a></li>
-            </ul>
-        </div> --}}
     </div>
 @endsection
 
@@ -90,7 +77,7 @@
 <script src="{{ asset('./assets/js/lib.js') }}"></script>
 <script src="{{ asset('./assets/js/custom.js') }}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js"></script> --}}
 
 <script type="text/javascript">
     $(document).on('ready', function() {
