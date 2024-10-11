@@ -447,8 +447,11 @@ class GuestController extends Controller
 
             $adminUser = User::role('admin')->first();
 
-            // Send notification
-            $appointment->user->notify(new AppointmentCreateNotification($appointment));
+            if($appointment->user){
+                
+                // Send notification
+                $appointment->user->notify(new AppointmentCreateNotification($appointment));
+            }
             $appointment->staff->user->notify(new AppointmentCreateNotification($appointment));
             $adminUser->notify(new AppointmentCreateNotification($appointment));
             event(new PostCreateNoti($appointment));
