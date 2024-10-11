@@ -17,7 +17,7 @@
     }
 
     .t-btn {
-        background-color: #48bb78;
+        background-color: #353535;
         border: none;
         font-size: 13px;
         border-radius: 10px;
@@ -28,8 +28,26 @@
     }
 
     .t-btn:hover {
-        background-color: #131313;
-        color: white;
+        background-color: #ffffff;
+        color: rgb(36, 36, 36);
+    }
+
+
+    .main-table-box.main-table-box-list.services-table tr td:last-child {
+        display: flex;
+        gap: 10px;
+    }
+
+    .main-table-box.main-table-box-list.services-table tr td:last-child button.t-btn {
+        background-color: #48bb78;
+    }
+
+    .main-table-box.main-table-box-list.services-table tr td:last-child button.t-btn img {
+        filter: brightness(0.5) contrast(30.5);
+    }
+
+    .main-table-box.main-table-box-list.services-table tr td:last-child button.t-btn:hover {
+        background-color: #00ff6a54;
     }
 </style>
 </head>
@@ -49,7 +67,8 @@
                     <tr>
                         <th>#</th>
                         <th>Image</th>
-                        <th>Full Name</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
                         <th>Email</th>
                         <th>Phone</th>
                         <th>City</th>
@@ -92,8 +111,12 @@
                             <input type="file" class="form-control" id="image" name="image">
                         </div>
                         <div class="form-group">
-                            <label for="name">Name:</label>
-                            <input type="text" class="form-control" id="name" name="name">
+                            <label for="first_name">First Name:</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Last Name:</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name">
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>
@@ -153,9 +176,14 @@
                             <input type="file" class="form-control" id="editImage" name="image">
                         </div>
                         <div class="form-group">
-                            <label for="editName">Name:</label>
-                            <input type="text" class="form-control" id="editName" name="name">
+                            <label for="editFirstName">First Name:</label>
+                            <input type="text" class="form-control" id="editFirstName" name="first_name">
                         </div>
+                        <div class="form-group">
+                            <label for="editLastName">Last Name:</label>
+                            <input type="text" class="form-control" id="editLastName" name="last_name">
+                        </div>
+
                         <div class="form-group">
                             <label for="editEmail">Email:</label>
                             <input type="email" class="form-control" id="editEmail" name="email">
@@ -205,11 +233,13 @@
 
         function fetchUsers() {
             $.ajax({
-                url: "{{ route('admin.users.get') }}", // The route you created for fetching users
+                url: "{{ route('admin.users.get') }}",
                 method: "GET",
                 success: function(response) {
+
                     // Clear the current table body
-                    $('#userTableBody').empty();
+                    var table = $('#userTable').DataTable();
+                    table.clear(); // Clear existing data
 
                     // Loop through the users and append them to the table
                     $.each(response.users, function(index, user) {
@@ -217,30 +247,26 @@
                             `<img width="50px" src="/storage/${user.image}" />` :
                             `<img width="50px" src="{{ asset('./assets/images/default-user.webp') }}" alt="">`;
 
-                        var row = `<tr>
-                                <td>${user.id}</td>
-                                <td>${image}</td>
-                                <td>${user.name} ${user.last_name ? user.last_name : ''}</td>
-                                <td>${user.email}</td>
-                                <td>${user.phone ? user.phone : 'NA'}</td>
-                                <td>${user.city ? user.city : 'NA'}</td>
-                                <td>${user.state ? user.state : 'NA'}</td>
-                                <td>${user.zipcode ? user.zipcode : 'NA'}</td>
-                                <td>${user.address ? user.address : 'NA'}</td>
-                                <td>
-                                    <button type="button" class="t-btn editBtn" data-id="${user.id}">Edit</button>
-                                    <button type="button" class="t-btn deleteBtn" data-id="${user.id}">Delete</button>
-                                </td>
-                            </tr>`;
+                        var row = [
+                            user.id,
+                            image,
+                            user.name, // First name
+                            user.last_name, // Last name
+                            user.email,
+                            user.phone ? user.phone : 'NA',
+                            user.city ? user.city : 'NA',
+                            user.state ? user.state : 'NA',
+                            user.zipcode ? user.zipcode : 'NA',
+                            user.address ? user.address : 'NA',
+                            `<button type="button" class="t-btn editBtn" data-id="${user.id}"><img src="{{ asset('assets/images/pencil.png') }}" width="20px" alt=""></button>
+                     <button type="button" class="t-btn deleteBtn" data-id="${user.id}"><img src="{{ asset('assets/images/delete.png') }}" width="20px" alt=""></button>`
+                        ];
 
-                        $('#userTableBody').append(row); // Add the row to the table body
+                        table.row.add(row); // Add new row to the DataTable
                     });
 
-                    $('#userTable').DataTable().destroy(); // Destroy existing DataTable instance
-                    $('#userTable').DataTable({ // Reinitialize DataTable
-                        dom: 'Bfrtip',
-                        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
-                    });
+                    // Draw the updated table (without reinitializing the entire DataTable)
+                    table.draw();
                 },
                 error: function(xhr, status, error) {
                     console.error("An error occurred while fetching users:", error);
@@ -248,11 +274,12 @@
             });
         }
 
+
         function saveUser() {
             // Get form values
-            var name = $("#name").val();
+            var first_name = $("#first_name").val();
+            var last_name = $("#last_name").val();
             var email = $("#email").val();
-            // var password = $("#password").val();
             var phone = $("#phone").val();
             var city = $("#city").val();
             var state = $("#state").val();
@@ -263,9 +290,9 @@
             // Create FormData to handle file upload
             var formData = new FormData();
             formData.append("_token", "{{ csrf_token() }}");
-            formData.append("name", name);
+            formData.append("first_name", first_name);
+            formData.append("last_name", last_name);
             formData.append("email", email);
-            // formData.append("password", password);
             formData.append("phone", phone);
             formData.append("city", city);
             formData.append("state", state);
@@ -283,22 +310,12 @@
                 contentType: false, // Set content type to false to let the browser set it
                 success: function(data) {
                     $("#exampleModal").modal("hide");
-                    $("#name").val("");
-                    $("#email").val("");
-                    // $("#password").val("");
-                    $("#phone").val("");
-                    $("#city").val("");
-                    $("#state").val("");
-                    $("#zipcode").val("");
-                    $("#address").val("");
-                    $("#image").val("");
                     toastr.success("User added successfully");
-                    fetchUsers();
+                    fetchUsers(); // Refresh the table after adding the user
                 },
-                error: function(xhr, status, error) {
+                error: function(xhr) {
                     if (xhr.status === 422) { // Laravel validation error
                         var errors = xhr.responseJSON.errors;
-
                         $.each(errors, function(key, value) {
                             toastr.error(value[0]); // Display each error message using Toastr
                         });
@@ -308,6 +325,8 @@
                 }
             });
         }
+
+
 
         $(document).ready(function() {
 
@@ -336,12 +355,9 @@
                                 "_token": "{{ csrf_token() }}" // CSRF token for security
                             },
                             success: function(response) {
-                                Swal.fire(
-                                    'Deleted!',
-                                    'User has been deleted.',
-                                    'success'
-                                );
-                                fetchUsers(); // Refresh the user table
+                                Swal.fire('Deleted!', 'User has been deleted.',
+                                    'success');
+                                fetchUsers(); // Refresh the user table after deletion
                             },
                             error: function(xhr, status, error) {
                                 toastr.error("An error occurred. Please try again.");
@@ -350,6 +366,7 @@
                     }
                 });
             });
+
 
 
             // Edit user
@@ -363,7 +380,8 @@
                     success: function(data) {
                         // Populate the modal with user data
                         $("#editUserId").val(data.id);
-                        $("#editName").val(data.name);
+                        $("#editFirstName").val(data.name); // Populate first name
+                        $("#editLastName").val(data.last_name); // Populate last name
                         $("#editEmail").val(data.email);
                         $("#editPhone").val(data.phone);
                         $("#editCity").val(data.city);
@@ -412,13 +430,12 @@
                 });
             });
 
-            // DataTable initialization
-            $('#usersTable').DataTable({
+            $('#userTable').DataTable({
                 dom: 'Bfrtip',
-                buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ]
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
             });
+
+
         });
     </script>
 @endsection

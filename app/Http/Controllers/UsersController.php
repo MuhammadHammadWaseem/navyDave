@@ -29,7 +29,8 @@ class UsersController extends Controller
     {
         // Validate the form data
         $request->validate([
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => 'nullable|string',
@@ -49,7 +50,7 @@ class UsersController extends Controller
 
         // Create the user
         $user = User::create([
-            'name' => $request->name,
+            'name' => $request->first_name ?? null,
             'last_name' => $request->last_name ?? null,
             'email' => $request->email,
             'password' => bcrypt("user123"),
@@ -79,7 +80,8 @@ class UsersController extends Controller
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'phone' => 'nullable|string',
             'city' => 'nullable|string|max:100',
@@ -89,7 +91,8 @@ class UsersController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $user->name = $request->name;
+        $user->name = $request->first_name;
+        $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->city = $request->city;
