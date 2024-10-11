@@ -373,7 +373,7 @@ class GuestController extends Controller
             event(new PostCreateNoti($newAppointment));
 
             // ------------------- <-- Google Calendar Event --> ------------------- \\
-            $this->createGoogleCalendarEvent($appointment);
+            // $this->createGoogleCalendarEvent($appointment);
 
             // Prepare email data
             $userEmail = $appointment->email;
@@ -448,9 +448,7 @@ class GuestController extends Controller
             $adminUser = User::role('admin')->first();
 
             // Send notification
-            if($appointment->user){
-                $appointment->user->notify(new AppointmentCreateNotification($appointment));
-            }
+            $appointment->user->notify(new AppointmentCreateNotification($appointment));
             $appointment->staff->user->notify(new AppointmentCreateNotification($appointment));
             $adminUser->notify(new AppointmentCreateNotification($appointment));
             event(new PostCreateNoti($appointment));
@@ -460,13 +458,14 @@ class GuestController extends Controller
             $staffEmail = $appointment->staff->user->email;
             $adminEmail = 'hw13604@gmail.com';
 
-            //
-            $calendarEventResponse = $this->createGoogleCalendarEvent($appointment);
+            // Create Google Calendar Event
+            
+            // $calendarEventResponse = $this->createGoogleCalendarEvent($appointment);
 
-            // If it's a redirect response, return it to the user
-            if ($calendarEventResponse instanceof \Illuminate\Http\RedirectResponse) {
-                return $calendarEventResponse;
-            }
+            // // If it's a redirect response, return it to the user
+            // if ($calendarEventResponse instanceof \Illuminate\Http\RedirectResponse) {
+            //     return $calendarEventResponse;
+            // }
 
             // Send email
             if ($userEmail) {
@@ -626,9 +625,6 @@ class GuestController extends Controller
         // Use the admin's token to create the calendar event
         $adminToken = $adminUser->google_token;
 
-        if($adminToken == null){
-            return;
-        }
         // Prepare the event details
         $appointmentDate = new \DateTime($appointment->appointment_date);
         $event = [
