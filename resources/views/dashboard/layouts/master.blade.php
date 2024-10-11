@@ -223,10 +223,10 @@
                                 <li><a href="{{ route('staff.community') }}" class="community-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>Community</a></li>
-                                <li><a href="{{ route('staff.google.credentials.show') }}"
+                                {{-- <li><a href="{{ route('staff.google.credentials.show') }}"
                                         class="staffGoogle-active"><span><img
                                                 src="{{ asset('./assets/images/setting.png') }}"
-                                                alt=""></span>Google Credentials</a></li>
+                                                alt=""></span>Google Credentials</a></li> --}}
                             @endif
                         </ul>
                     </div>
