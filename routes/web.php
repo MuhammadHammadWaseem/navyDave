@@ -19,6 +19,7 @@ use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\StaffAuthController;
 use App\Http\Controllers\GoogleCredentialsController;
 use App\Http\Controllers\StaffGoogleCredentialsController;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +34,7 @@ use App\Http\Controllers\StaffGoogleCredentialsController;
 
 // for Getting Google token
 Route::get('/google-auth', [AdminAuthController::class, 'redirectToGoogle'])->name('google-auth');
-Route::get('/staff-google-auth', [AdminAuthController::class, 'staffRedirectToGoogle'])->name('google-auth');
+Route::get('/staff-google-auth', [AdminAuthController::class, 'staffRedirectToGoogle'])->name('staff-google-auth');
 // for Handling Google callback
 Route::get('/google-auth/callback', [AdminAuthController::class, 'handleGoogleCallback']);
 // for Create sample event
@@ -176,8 +177,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('setting/edit/{id}', [SettingController::class, 'edit'])->name('setting.edit');
         Route::post('setting/update/{id}', [SettingController::class, 'update'])->name('setting.update');
 
+        // Users
+        Route::get('users', [UsersController::class, 'users'])->name('users');
+        Route::get('getUsers', [UsersController::class, 'getUsers'])->name('users.get');
+        Route::post('user', [UsersController::class, 'store'])->name('users.store');
+        Route::get('users/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
+        Route::post('users/{user}', [UsersController::class, 'update'])->name('users.update');
+        Route::delete('users/{user}', [UsersController::class, 'destroy'])->name('users.destroy');
+
+
         //Google API set
-        // routes/web.php
         Route::get('/google-credentials', [GoogleCredentialsController::class, 'showForm'])->name('google-credentials.form');
         Route::post('/google-credentials', [GoogleCredentialsController::class, 'store'])->name('google-credentials.store');
 

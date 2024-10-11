@@ -6,6 +6,16 @@
         background-color: white;
         font-weight: 600;
     }
+
+    .main-box-navy .left-all-links ul li a.google-active span,
+    .main-box-navy .left-all-links ul li a:hover span {
+        background-color: #2CC374;
+    }
+
+    .main-box-navy .left-all-links ul li a.google-active span img,
+    .main-box-navy .left-all-links ul li a:hover span img {
+        filter: invert(0) hue-rotate(465deg) brightness(10.5);
+    }
 </style>
 @section('content')
     <div class="col-lg-10">

@@ -153,6 +153,9 @@
                                 <li><a href="{{ route('admin.appointment') }}" class="appointment-active"><span><img
                                                 src="{{ asset('./assets/images/appointment.png') }}"
                                                 alt=""></span>Appointments</a></li>
+                                <li><a href="{{ route('admin.users') }}" class="users-active"><span><img
+                                                src="{{ asset('./assets/images/Customers.png') }}"
+                                                alt=""></span>Users</a></li>
                                 <li><a href="{{ route('admin.payment') }}" class="payment-active"><span><img
                                                 src="{{ asset('./assets/images/Payments.png') }}"
                                                 alt=""></span>Payments</a></li>
