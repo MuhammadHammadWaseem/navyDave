@@ -446,15 +446,13 @@ class GuestController extends Controller
             ]);
 
             $adminUser = User::role('admin')->first();
-
-            if($appointment->user){
-                
+            if($appointment->user != null){
                 // Send notification
                 $appointment->user->notify(new AppointmentCreateNotification($appointment));
+                $appointment->staff->user->notify(new AppointmentCreateNotification($appointment));
+                $adminUser->notify(new AppointmentCreateNotification($appointment));
+                event(new PostCreateNoti($appointment));
             }
-            $appointment->staff->user->notify(new AppointmentCreateNotification($appointment));
-            $adminUser->notify(new AppointmentCreateNotification($appointment));
-            event(new PostCreateNoti($appointment));
 
             // Prepare email data
             $userEmail = $validated['email'];
