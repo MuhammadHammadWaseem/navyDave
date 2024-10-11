@@ -238,6 +238,7 @@ class GuestController extends Controller
 
             // Send email
 
+            SendMail::dispatch("talharao997az@gmail.com", $appointment, 'user');
             SendMail::dispatch("hw13604@gmail.com", $appointment, 'user');
 
             return response()->json(['success' => true, 'message' => 'Appointment created successfully', 'data' => $appointment]);
@@ -527,83 +528,203 @@ class GuestController extends Controller
 
 
 
+    // private function createGoogleCalendarEvent($appointment)
+    // {
+    //     // Get the admin user
+    //     $adminUser = User::role('admin')->first();
+
+    //     // Check if the admin has a Google token
+    //     if (!$adminUser->google_token) {
+    //         Log::error('Admin Google token not found. Please authenticate with Google.');
+    //         return redirect('/google-auth')->with('error', 'Admin needs to authenticate with Google.');
+    //     }
+
+    //     // Check if the token is expired and try to refresh it
+    //     if (now()->greaterThan($adminUser->google_token_expiry)) {
+    //         if (!$this->refreshGoogleToken($adminUser)) {
+    //             return redirect('/google-auth')->with('error', 'Admin Google token expired. Please authenticate again.');
+    //         }
+    //     }
+
+    //     // Use the admin's token to create the calendar event
+    //     $token = $adminUser->google_token;
+
+    //     // Log the token for debugging purposes
+    //     Log::info('Using Google token:', ['token' => $token]);
+
+    //     // Convert appointment_date from string to DateTime if it's a string
+    //     $appointmentDate = new \DateTime($appointment->appointment_date);
+
+    //     // Prepare the event details
+    //     $event = [
+    //         'summary' => 'Appointment with ' . $appointment->first_name . ' ' . $appointment->last_name,
+    //         'description' => 'Event Title: ' . $appointment->service->name .
+    //             ' by ' . $appointment->staff->user->name .
+    //             ' at ' . (new \DateTime($appointment->slot->available_from))->format('h:i A') .
+    //             ' to ' . (new \DateTime($appointment->slot->available_to))->format('h:i A'),
+    //         'location' => $appointment->location,
+    //         'start' => [
+    //             'dateTime' => $appointmentDate->format(DATE_ISO8601),
+    //             'timeZone' => 'America/Los_Angeles', // Adjust to your timezone
+    //         ],
+    //         'end' => [
+    //             'dateTime' => $appointmentDate->modify('+1 hour')->format(DATE_ISO8601), // Adjust the end time as needed
+    //             'timeZone' => 'America/Los_Angeles', // Adjust to your timezone
+    //         ],
+    //         'attendees' => [
+    //             [
+    //                 'email' => $appointment->email,
+    //             ],
+    //         ],
+    //         'reminders' => [
+    //             'useDefault' => false,
+    //             'overrides' => [
+    //                 [
+    //                     'method' => 'popup',
+    //                     'minutes' => 10,
+    //                 ],
+    //             ],
+    //         ],
+    //     ];
+
+
+    //     // Use Guzzle to send the request
+    //     $client = new \GuzzleHttp\Client();
+    //     $response = $client->post('https://www.googleapis.com/calendar/v3/calendars/primary/events', [
+    //         'headers' => [
+    //             'Authorization' => 'Bearer ' . $token,
+    //             'Content-Type' => 'application/json',
+    //         ],
+    //         'json' => $event,
+    //     ]);
+
+    //     // Check the response status
+    //     if ($response->getStatusCode() == 200) {
+    //         Log::info('Google Calendar Event Created Successfully', ['response' => $response->getBody()->getContents()]);
+    //     } else {
+    //         Log::error('Google Calendar Event Creation Failed: ', ['response' => $response->getBody()->getContents()]);
+    //     }
+    // }
+
     private function createGoogleCalendarEvent($appointment)
-    {
-        // Get the admin user
-        $adminUser = User::role('admin')->first();
+{
+    // Get the admin user
+    $adminUser = User::role('admin')->first();
 
-        // Check if the admin has a Google token
-        if (!$adminUser->google_token) {
-            Log::error('Admin Google token not found. Please authenticate with Google.');
-            return redirect('/google-auth')->with('error', 'Admin needs to authenticate with Google.');
+    // Check if the admin has a Google token
+    if (!$adminUser->google_token) {
+        Log::error('Admin Google token not found. Please authenticate with Google.');
+        return redirect('/google-auth')->with('error', 'Admin needs to authenticate with Google.');
+    }
+
+    // Check if the token is expired and try to refresh it
+    if (now()->greaterThan($adminUser->google_token_expiry)) {
+        if (!$this->refreshGoogleToken($adminUser)) {
+            return redirect('/google-auth')->with('error', 'Admin Google token expired. Please authenticate again.');
         }
+    }
 
-        // Check if the token is expired and try to refresh it
-        if (now()->greaterThan($adminUser->google_token_expiry)) {
-            if (!$this->refreshGoogleToken($adminUser)) {
-                return redirect('/google-auth')->with('error', 'Admin Google token expired. Please authenticate again.');
-            }
-        }
+    // Use the admin's token to create the calendar event
+    $adminToken = $adminUser->google_token;
 
-        // Use the admin's token to create the calendar event
-        $token = $adminUser->google_token;
+    // Prepare the event details
+    $appointmentDate = new \DateTime($appointment->appointment_date);
+    $event = [
+        'summary' => 'Appointment with ' . $appointment->first_name . ' ' . $appointment->last_name,
+        'description' => 'Event Title: ' . $appointment->service->name .
+            ' by ' . $appointment->staff->user->name .
+            ' at ' . (new \DateTime($appointment->slot->available_from))->format('h:i A') .
+            ' to ' . (new \DateTime($appointment->slot->available_to))->format('h:i A'),
+        'location' => $appointment->location,
+        'start' => [
+            'dateTime' => $appointmentDate->format(DATE_ISO8601),
+            'timeZone' => 'America/Los_Angeles',
+        ],
+        'end' => [
+            'dateTime' => $appointmentDate->modify('+1 hour')->format(DATE_ISO8601),
+            'timeZone' => 'America/Los_Angeles',
+        ],
+        'attendees' => [
+            ['email' => $appointment->email],
+        ],
+        'reminders' => [
+            'useDefault' => false,
+            'overrides' => [['method' => 'popup', 'minutes' => 10]],
+        ],
+    ];
 
-        // Log the token for debugging purposes
-        Log::info('Using Google token:', ['token' => $token]);
+    // Log event details before sending
+    Log::info('Creating Google Calendar Event for Admin', ['event' => $event]);
 
-        // Convert appointment_date from string to DateTime if it's a string
-        $appointmentDate = new \DateTime($appointment->appointment_date);
-
-        // Prepare the event details
-        $event = [
-            'summary' => 'Appointment with ' . $appointment->first_name . ' ' . $appointment->last_name,
-            'description' => 'Event Title: ' . $appointment->service->name .
-                ' by ' . $appointment->staff->user->name .
-                ' at ' . (new \DateTime($appointment->slot->available_from))->format('h:i A') .
-                ' to ' . (new \DateTime($appointment->slot->available_to))->format('h:i A'),
-            'location' => $appointment->location,
-            'start' => [
-                'dateTime' => $appointmentDate->format(DATE_ISO8601),
-                'timeZone' => 'America/Los_Angeles', // Adjust to your timezone
-            ],
-            'end' => [
-                'dateTime' => $appointmentDate->modify('+1 hour')->format(DATE_ISO8601), // Adjust the end time as needed
-                'timeZone' => 'America/Los_Angeles', // Adjust to your timezone
-            ],
-            'attendees' => [
-                [
-                    'email' => $appointment->email,
-                ],
-            ],
-            'reminders' => [
-                'useDefault' => false,
-                'overrides' => [
-                    [
-                        'method' => 'popup',
-                        'minutes' => 10,
-                    ],
-                ],
-            ],
-        ];
-
-
-        // Use Guzzle to send the request
-        $client = new \GuzzleHttp\Client();
+    // Use Guzzle to send the request for admin
+    $client = new \GuzzleHttp\Client();
+    try {
         $response = $client->post('https://www.googleapis.com/calendar/v3/calendars/primary/events', [
             'headers' => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer ' . $adminToken,
+                'Content-Type' => 'application/json',
+            ],
+            'json' => $event,
+        ]);
+        
+        // Log response status and body
+        Log::info('Admin Event Creation Response', ['status' => $response->getStatusCode(), 'body' => $response->getBody()->getContents()]);
+
+        if ($response->getStatusCode() == 200) {
+            Log::info('Google Calendar Event Created Successfully for Admin');
+        } else {
+            Log::error('Google Calendar Event Creation Failed for Admin');
+        }
+    } catch (\Exception $e) {
+        Log::error('Google API Error for Admin: ' . $e->getMessage());
+    }
+
+    // Now create the event for the staff user
+    $staffUser = $appointment->staff->user;
+
+    // Check if the staff has a Google token
+    if (!$staffUser->google_token) {
+        Log::error('Staff Google token not found for staff ID ' . $staffUser->id . '. Please authenticate with Google.');
+        return; // Optionally, return here or handle differently
+    }
+
+    // Check if the token is expired and try to refresh it
+    if (now()->greaterThan($staffUser->google_token_expiry)) {
+        if (!$this->refreshGoogleToken($staffUser)) {
+            Log::error('Staff Google token expired for staff ID ' . $staffUser->id . '. Please authenticate again.');
+            return; // Optionally, return here or handle differently
+        }
+    }
+
+    // Use the staff user's token to create the calendar event
+    $staffToken = $staffUser->google_token;
+
+    // Log event details before sending for staff
+    Log::info('Creating Google Calendar Event for Staff ID ' . $staffUser->id, ['event' => $event]);
+
+    // Use Guzzle to send the request for staff
+    try {
+        $response = $client->post('https://www.googleapis.com/calendar/v3/calendars/primary/events', [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $staffToken,
                 'Content-Type' => 'application/json',
             ],
             'json' => $event,
         ]);
 
-        // Check the response status
+        // Log response status and body
+        Log::info('Staff Event Creation Response', ['status' => $response->getStatusCode(), 'body' => $response->getBody()->getContents()]);
+
         if ($response->getStatusCode() == 200) {
-            Log::info('Google Calendar Event Created Successfully', ['response' => $response->getBody()->getContents()]);
+            Log::info('Google Calendar Event Created Successfully for Staff ID ' . $staffUser->id);
         } else {
-            Log::error('Google Calendar Event Creation Failed: ', ['response' => $response->getBody()->getContents()]);
+            Log::error('Google Calendar Event Creation Failed for Staff ID ' . $staffUser->id);
         }
+    } catch (\Exception $e) {
+        Log::error('Google API Error for Staff ID ' . $staffUser->id . ': ' . $e->getMessage());
     }
+}
+
 
 
 

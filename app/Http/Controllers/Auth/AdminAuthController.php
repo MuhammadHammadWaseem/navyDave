@@ -217,40 +217,122 @@ class AdminAuthController extends Controller
             ->with(['client_id' => $clientId]) // Use the client ID from the database
             ->redirect();
     }
+    public function staffRedirectToGoogle()
+    {
+        // Ensure the user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must be logged in to access this page.');
+        }
 
+        // Fetch client ID and secret from the database
+        $googleCredentials = DB::table('staff_google_credentials')->where('staff_id', Auth::id())->first();
+
+        if ($googleCredentials) {
+            config(['services.google.client_id' => $googleCredentials->google_client_id]);
+            config(['services.google.client_secret' => $googleCredentials->google_client_secret]);
+
+            // Debugging: Log client credentials
+            \Log::info('Redirecting to Google with Client ID: ' . $googleCredentials->google_client_id);
+
+            return Socialite::driver('google')->redirect();
+        }
+
+        return redirect()->back()->with('error', 'Google credentials not found.');
+    }
+
+
+
+
+
+    // public function handleGoogleCallback(Request $request)
+    // {
+
+    //     // Retrieve Google client credentials from the database
+    //     $clientId = DB::table('google_settings')->where('key', 'google_client_id')->value('value');
+    //     $clientSecret = DB::table('google_settings')->where('key', 'google_client_secret')->value('value');
+
+    //     // Set the client ID and secret for the Google driver
+    //     $googleUser = Socialite::driver('google')
+    //         ->stateless()
+    //         ->with(['client_id' => $clientId, 'client_secret' => $clientSecret]) // Pass credentials
+    //         ->user();
+
+    //     // Get the authenticated user
+    //     $user = auth()->user();
+
+    //     // Only allow the admin to save the Google tokens
+    //     if ($user->hasRole('admin')) {
+    //         $user->google_token = $googleUser->token;
+    //         $user->google_refresh_token = $googleUser->refreshToken;
+    //         $user->google_token_expiry = now()->addSeconds($googleUser->expiresIn);
+    //         $user->save();
+
+    //         Log::info('Admin Google OAuth token saved.');
+    //     } else {
+    //         Log::error('Non-admin user tried to get Google token.');
+    //         return redirect('/')->with('error', 'Only admin can authenticate with Google.');
+    //     }
+
+    //     // return redirect('/')->with('success', 'Google OAuth successful.');
+    //     return redirect('/admin/google-credentials')->with('success', 'Google Credentials saved.');
+    // }
 
     public function handleGoogleCallback(Request $request)
     {
-
-        // Retrieve Google client credentials from the database
-        $clientId = DB::table('google_settings')->where('key', 'google_client_id')->value('value');
-        $clientSecret = DB::table('google_settings')->where('key', 'google_client_secret')->value('value');
-
-        // Set the client ID and secret for the Google driver
-        $googleUser = Socialite::driver('google')
-            ->stateless()
-            ->with(['client_id' => $clientId, 'client_secret' => $clientSecret]) // Pass credentials
-            ->user();
-
         // Get the authenticated user
         $user = auth()->user();
-
-        // Only allow the admin to save the Google tokens
+    
+        // Determine if the user is admin or staff and fetch the appropriate Google credentials
         if ($user->hasRole('admin')) {
+            // Admin: Fetch credentials from the admin settings table
+            $clientId = DB::table('google_settings')->where('key', 'google_client_id')->value('value');
+            $clientSecret = DB::table('google_settings')->where('key', 'google_client_secret')->value('value');
+        } elseif ($user->hasRole('staff')) {
+            // Staff: Fetch credentials from the staff settings table
+            $googleCredentials = DB::table('staff_google_credentials')->where('staff_id', $user->id)->first();
+    
+            if (!$googleCredentials) {
+                Log::error('Staff user has no Google credentials.');
+                return redirect('/')->with('error', 'No Google credentials found for staff.');
+            }
+    
+            $clientId = $googleCredentials->google_client_id;
+            $clientSecret = $googleCredentials->google_client_secret;
+        } else {
+            Log::error('User has no valid role.');
+            return redirect('/')->with('error', 'Unauthorized user.');
+        }
+    
+        // Set the client ID and secret for the Google driver
+        try {
+            $googleUser = Socialite::driver('google')
+                ->stateless()
+                ->with(['client_id' => $clientId, 'client_secret' => $clientSecret]) // Pass credentials
+                ->user();
+    
+            // Save Google tokens for both admin and staff in the users table
             $user->google_token = $googleUser->token;
             $user->google_refresh_token = $googleUser->refreshToken;
             $user->google_token_expiry = now()->addSeconds($googleUser->expiresIn);
             $user->save();
-
-            Log::info('Admin Google OAuth token saved.');
-        } else {
-            Log::error('Non-admin user tried to get Google token.');
-            return redirect('/')->with('error', 'Only admin can authenticate with Google.');
+    
+            if ($user->hasRole('admin')) {
+                Log::info('Admin Google OAuth token saved for user ID: ' . $user->id);
+                return redirect('/admin/google-credentials')->with('success', 'Google Credentials saved.');
+            } elseif ($user->hasRole('staff')) {
+                // Log::info('Staff Google OAuth token saved for staff ID: ' . $user->id);
+                Log::info('Staff Google OAuth token saved for staff ID: ' . $user->id);
+                return redirect('/staff/google-credentials')->with('success', 'Google Credentials saved.');
+            }
+    
+    
+        } catch (\Exception $e) {
+            Log::error('Google OAuth error: ' . $e->getMessage());
+            return redirect('/')->with('error', 'Failed to authenticate with Google.');
         }
-
-        // return redirect('/')->with('success', 'Google OAuth successful.');
-        return redirect('/admin/google-credentials')->with('success', 'Google Credentials saved.');
     }
+    
+
 
     public function syncCalendar()
     {

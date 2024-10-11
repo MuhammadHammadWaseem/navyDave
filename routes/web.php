@@ -18,6 +18,7 @@ use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\StaffAuthController;
 use App\Http\Controllers\GoogleCredentialsController;
+use App\Http\Controllers\StaffGoogleCredentialsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,7 @@ use App\Http\Controllers\GoogleCredentialsController;
 
 // for Getting Google token
 Route::get('/google-auth', [AdminAuthController::class, 'redirectToGoogle'])->name('google-auth');
+Route::get('/staff-google-auth', [AdminAuthController::class, 'staffRedirectToGoogle'])->name('google-auth');
 // for Handling Google callback
 Route::get('/google-auth/callback', [AdminAuthController::class, 'handleGoogleCallback']);
 // for Create sample event
@@ -197,6 +199,9 @@ Route::prefix('staff')->name('staff.')->group(function () {
         Route::post('edit-appointment', [StaffAuthController::class, 'edit'])->name('appointment.edit');
         Route::get('calendar', [StaffAuthController::class, 'calendar'])->name('calendar');
         Route::get('community', [StaffAuthController::class, 'community'])->name('community');
+
+        Route::get('google-credentials', [StaffGoogleCredentialsController::class, 'showForm'])->name('google.credentials.show');
+        Route::post('google-credentials', [StaffGoogleCredentialsController::class, 'store'])->name('google.credentials.store');
     });
 });
 

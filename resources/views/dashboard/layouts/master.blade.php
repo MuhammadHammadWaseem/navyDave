@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css' rel='stylesheet' />
-    
+
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
 </head>
 
@@ -98,12 +98,12 @@
                                                 class="btn btn-primary @if ($notifications->count() == 0) d-none @endif">Mark
                                                 All as Read</button>
                                         </div>
-                                        <div class="new-notfication-box @if ($notifications->count() == 0) d-none @endif" id="new-notfication-box">
+                                        <div class="new-notfication-box @if ($notifications->count() == 0) d-none @endif"
+                                            id="new-notfication-box">
                                             @if ($notifications->count() > 0)
                                                 @foreach ($notifications as $notification)
                                                     <a href="#" data-id="{{ $notification->id }}"
-                                                        {{-- data-post-id="{{ $notification->data['post_id'] }}" --}}
-                                                        >
+                                                        {{-- data-post-id="{{ $notification->data['post_id'] }}" --}}>
                                                         <h5>{{ $notification->data['title'] }}</h5>
                                                         <p>{{ $notification->data['message'] }}</p>
                                                         <p>{{ $notification->created_at->diffForHumans() }}</p>
@@ -111,7 +111,8 @@
                                                 @endforeach
                                             @endif
                                         </div>
-                                        <div class="no-notification-box @if ($notifications->count() > 0) d-none @endif" id="no-notification-box">
+                                        <div class="no-notification-box @if ($notifications->count() > 0) d-none @endif"
+                                            id="no-notification-box">
                                             <i class="fa fa-bell-slash" aria-hidden="true"></i>
                                             - No new notifications -
                                         </div>
@@ -180,7 +181,8 @@
                                 <li><a href="{{ route('admin.setting') }}" class="setting-active"><span><img
                                                 src="{{ asset('./assets/images/setting.png') }}"
                                                 alt=""></span>Front Setting</a></li>
-                                <li><a href="{{ route('admin.google-credentials.form') }}" class="google-active"><span><img
+                                <li><a href="{{ route('admin.google-credentials.form') }}"
+                                        class="google-active"><span><img
                                                 src="{{ asset('./assets/images/setting.png') }}"
                                                 alt=""></span>Google Credentials</a></li>
                             @endif
@@ -218,6 +220,10 @@
                                 <li><a href="{{ route('staff.community') }}" class="community-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>Community</a></li>
+                                <li><a href="{{ route('staff.google.credentials.show') }}"
+                                        class="staffGoogle-active"><span><img
+                                                src="{{ asset('./assets/images/setting.png') }}"
+                                                alt=""></span>Google Credentials</a></li>
                             @endif
                         </ul>
                     </div>
@@ -233,7 +239,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -244,12 +250,12 @@
     <script src="{{ asset('assets/js/custom.js') }}"></script>
 
     <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.flash.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
 
 
 
@@ -361,7 +367,7 @@
                 e.preventDefault();
                 $('#notification-box').toggle();
             });
-            
+
             $(document).on('click', function(e) {
                 var target = $(e.target);
                 if (!target.closest('#notification-box').length && !target.closest('#notificationLink-box')
