@@ -458,10 +458,7 @@ class GuestController extends Controller
             $staffEmail = $appointment->staff->user->email;
             $adminEmail = 'hw13604@gmail.com';
 
-            // Create Google Calendar Event
-            // $this->createGoogleCalendarEvent($appointment);
-
-            // Call createGoogleCalendarEvent and check for redirect or success
+            //
             $calendarEventResponse = $this->createGoogleCalendarEvent($appointment);
 
             // If it's a redirect response, return it to the user
@@ -627,6 +624,9 @@ class GuestController extends Controller
         // Use the admin's token to create the calendar event
         $adminToken = $adminUser->google_token;
 
+        if($adminToken == null){
+            return;
+        }
         // Prepare the event details
         $appointmentDate = new \DateTime($appointment->appointment_date);
         $event = [
