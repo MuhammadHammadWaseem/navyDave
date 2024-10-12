@@ -347,6 +347,67 @@ class GuestController extends Controller
 
     public function nextSlot(Request $request)
     {
+        if (empty(env('GOOGLE_CLIENT_ID')) || empty(env('GOOGLE_CLIENT_SECRET'))) {
+            // Begin Transaction
+            DB::beginTransaction();
+
+            try {
+                $appointment = Appointment::with('slot')->findOrFail($request->appointment_id);
+                // If not completed, the user can choose the next slot
+                $nextSlot = Slot::where('id', $request->slot_id)->firstOrFail();
+                // Attach the next slot to the appointment
+                AppointmentSlot::create([
+                    'appointment_id' => $appointment->id,
+                    'slot_id' => $nextSlot->id,
+                ]);
+
+                $appointment->slot_id = $nextSlot->id;
+                $appointment->completed_slots = $appointment->completed_slots + 1;
+                $appointment->appointment_date = $request->appointment_date;
+                $appointment->note = $request->note;
+
+                if ($appointment->completed_slots == $appointment->total_slots) {
+                    $appointment->status = 'completed';
+                } else {
+                    $appointment->status = 'awaiting_next_slot';
+                }
+                $appointment->save();
+
+                $newAppointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($request->appointment_id);
+
+                $adminUser = User::role('admin')->first();
+
+                // ------------------- <-- Email Notification --> ------------------- \\
+                $appointment->user->notify(new AppointmentCreateNotification($newAppointment));
+                $appointment->staff->user->notify(new AppointmentCreateNotification($newAppointment));
+                $adminUser->notify(new AppointmentCreateNotification($newAppointment));
+                event(new PostCreateNoti($newAppointment));
+
+
+                // Prepare email data
+                $userEmail = $appointment->email;
+                $staffEmail = $appointment->staff->user->email;
+                $adminEmail = 'hw13604@gmail.com';
+
+                // Send email
+                if ($userEmail) {
+                    SendMail::dispatch($userEmail, $appointment, 'user');
+                }
+                SendMail::dispatch($staffEmail, $appointment, 'staff');
+                SendMail::dispatch($adminEmail, $appointment, 'admin');
+
+
+                // Commit the transaction
+                DB::commit();
+
+                $url = route('nextSlot-booked');
+                return response()->json(['success' => true, 'message' => 'Slot booked successfully', 'data' => $url]);
+            } catch (\Exception $e) {
+                // Rollback in case of error
+                DB::rollBack();
+                return response()->json(['success' => false, 'message' => 'Failed to book slot', 'error' => $e->getMessage()], 500);
+            }
+        }
         // Begin Transaction
         DB::beginTransaction();
 
@@ -400,12 +461,14 @@ class GuestController extends Controller
             $adminUser->notify(new AppointmentCreateNotification($newAppointment));
             event(new PostCreateNoti($newAppointment));
 
-            // ------------------- <-- Google Calendar Event --> ------------------- \\
-            $calendarEventResponse = $this->createGoogleCalendarEvent($newAppointment);
+            if (env('GOOGLE_CLIENT_ID') && env('GOOGLE_CLIENT_SECRET')) {
+                // ------------------- <-- Google Calendar Event --> ------------------- \\
+                $calendarEventResponse = $this->createGoogleCalendarEvent($newAppointment);
 
-            // Handle any redirect response
-            if ($calendarEventResponse instanceof \Illuminate\Http\RedirectResponse) {
-                return $calendarEventResponse;
+                // Handle any redirect response
+                if ($calendarEventResponse instanceof \Illuminate\Http\RedirectResponse) {
+                    return $calendarEventResponse;
+                }
             }
 
 
@@ -436,104 +499,184 @@ class GuestController extends Controller
 
     public function stripeSuccess(Request $request)
     {
-        $validated = Session::get('SessionData');
+        if (empty(env('GOOGLE_CLIENT_ID')) || empty(env('GOOGLE_CLIENT_SECRET'))) {
 
-        DB::beginTransaction();
+            $validated = Session::get('SessionData');
 
-        if (!session()->has('google_token')) {
-            return redirect()->route('auth.google');
-        }
 
-        // Handle token refresh if expired
-        $client = new Google_Client();
-        $client->setAccessToken(session('google_token'));
+            DB::beginTransaction();
 
-        if ($client->isAccessTokenExpired()) {
-            $refreshToken = $client->getRefreshToken();
-            if ($refreshToken) {
-                $client->fetchAccessTokenWithRefreshToken($refreshToken);
-                session(['google_token' => $client->getAccessToken()]); // Store the refreshed token
-            } else {
-                // If no refresh token is available, redirect the admin for re-authentication
+            try {
+                // Retrieve the price from the Service model
+                $service = Service::findOrFail($validated['service_id']);
+                $validated['price'] = $service->price;
+                $validated['total_slots'] = $service->slots;
+                $validated['completed_slots'] = 1;
+
+
+                // Create the appointment
+                $data = Appointment::create($validated);
+
+                // Ensure that slot_id is set before creating the AppointmentSlot
+                if (isset($validated['slot_id'])) {
+                    AppointmentSlot::create([
+                        'appointment_id' => $data->id,
+                        'slot_id' => $validated['slot_id'] // Use the validated slot_id
+                    ]);
+                }
+
+                // Load the appointment with relationships
+                $appointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($data->id);
+
+                // Retrieve the Stripe session to get payment details
+                $stripeSecretKey = env('STRIPE_SECRET_KEY', 'sk_test_51LkfAQH65lvSBiDK232wi93QAEfeM0XgS8s62kRse0LGoKn2pHxZhMu23pA4w5CyqeR7jaichrCsgnSQdz5S7NPD00GOpROogE');
+                $stripe = new StripeClient([
+                    'api_key' => $stripeSecretKey,
+                ]);
+                $sessionId = Session::get('stripe_checkout_id');
+                $session = $stripe->checkout->sessions->retrieve($sessionId);
+
+                // Save payment data
+                Payment::create([
+                    'appointment_id' => $appointment->id,
+                    'payment_id' => $session->payment_intent, // Payment Intent ID
+                    'amount' => $session->amount_total, // Total amount in cents
+                    'currency' => $session->currency, // Currency
+                    'status' => $session->payment_status, // Payment status (e.g., 'paid')
+                ]);
+
+                $adminUser = User::role('admin')->first();
+                if ($appointment->user != null) {
+                    // Send notification
+                    $appointment->user->notify(new AppointmentCreateNotification($appointment));
+                    $appointment->staff->user->notify(new AppointmentCreateNotification($appointment));
+                    $adminUser->notify(new AppointmentCreateNotification($appointment));
+                    event(new PostCreateNoti($appointment));
+                }
+
+                // Prepare email data
+                $userEmail = $validated['email'];
+                $staffEmail = $appointment->staff->user->email;
+                $adminEmail = 'hw13604@gmail.com';
+
+                // Send email
+                if ($userEmail) {
+                    SendMail::dispatch($userEmail, $appointment, 'user');
+                }
+                SendMail::dispatch($staffEmail, $appointment, 'staff');
+                SendMail::dispatch($adminEmail, $appointment, 'admin');
+
+                // Commit the transaction
+                DB::commit();
+                return redirect()->route('payment-success')->with('success', 'Appointment created successfully');
+
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return redirect()->route('appointment')->with('error', 'Failed to create appointment');
+            }
+        } else {
+            $validated = Session::get('SessionData');
+
+
+            DB::beginTransaction();
+
+            if (!session()->has('google_token')) {
                 return redirect()->route('auth.google');
             }
-        }
 
-        try {
-            // Retrieve the price from the Service model
-            $service = Service::findOrFail($validated['service_id']);
-            $validated['price'] = $service->price;
-            $validated['total_slots'] = $service->slots;
-            $validated['completed_slots'] = 1;
+            // Handle token refresh if expired
+            $client = new Google_Client();
+            $client->setAccessToken(session('google_token'));
+
+            if ($client->isAccessTokenExpired()) {
+                $refreshToken = $client->getRefreshToken();
+                if ($refreshToken) {
+                    $client->fetchAccessTokenWithRefreshToken($refreshToken);
+                    session(['google_token' => $client->getAccessToken()]); // Store the refreshed token
+                } else {
+                    // If no refresh token is available, redirect the admin for re-authentication
+                    return redirect()->route('auth.google');
+                }
+            }
+
+            try {
+                // Retrieve the price from the Service model
+                $service = Service::findOrFail($validated['service_id']);
+                $validated['price'] = $service->price;
+                $validated['total_slots'] = $service->slots;
+                $validated['completed_slots'] = 1;
 
 
-            // Create the appointment
-            $data = Appointment::create($validated);
+                // Create the appointment
+                $data = Appointment::create($validated);
 
-            // Ensure that slot_id is set before creating the AppointmentSlot
-            if (isset($validated['slot_id'])) {
-                AppointmentSlot::create([
-                    'appointment_id' => $data->id,
-                    'slot_id' => $validated['slot_id'] // Use the validated slot_id
+                // Ensure that slot_id is set before creating the AppointmentSlot
+                if (isset($validated['slot_id'])) {
+                    AppointmentSlot::create([
+                        'appointment_id' => $data->id,
+                        'slot_id' => $validated['slot_id'] // Use the validated slot_id
+                    ]);
+                }
+
+                // Load the appointment with relationships
+                $appointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($data->id);
+
+                // Retrieve the Stripe session to get payment details
+                $stripeSecretKey = env('STRIPE_SECRET_KEY', 'sk_test_51LkfAQH65lvSBiDK232wi93QAEfeM0XgS8s62kRse0LGoKn2pHxZhMu23pA4w5CyqeR7jaichrCsgnSQdz5S7NPD00GOpROogE');
+                $stripe = new StripeClient([
+                    'api_key' => $stripeSecretKey,
                 ]);
+                $sessionId = Session::get('stripe_checkout_id');
+                $session = $stripe->checkout->sessions->retrieve($sessionId);
+
+                // Save payment data
+                Payment::create([
+                    'appointment_id' => $appointment->id,
+                    'payment_id' => $session->payment_intent, // Payment Intent ID
+                    'amount' => $session->amount_total, // Total amount in cents
+                    'currency' => $session->currency, // Currency
+                    'status' => $session->payment_status, // Payment status (e.g., 'paid')
+                ]);
+
+                $adminUser = User::role('admin')->first();
+                if ($appointment->user != null) {
+                    // Send notification
+                    $appointment->user->notify(new AppointmentCreateNotification($appointment));
+                    $appointment->staff->user->notify(new AppointmentCreateNotification($appointment));
+                    $adminUser->notify(new AppointmentCreateNotification($appointment));
+                    event(new PostCreateNoti($appointment));
+                }
+
+                // Prepare email data
+                $userEmail = $validated['email'];
+                $staffEmail = $appointment->staff->user->email;
+                $adminEmail = 'hw13604@gmail.com';
+
+                if (env('GOOGLE_CLIENT_ID') && env('GOOGLE_CLIENT_SECRET')) {
+                    // Create Google Calendar event
+                    $calendarEventResponse = $this->createGoogleCalendarEvent($appointment);
+
+                    // Handle any redirect response
+                    if ($calendarEventResponse instanceof \Illuminate\Http\RedirectResponse) {
+                        return $calendarEventResponse;
+                    }
+                }
+
+                // Send email
+                if ($userEmail) {
+                    SendMail::dispatch($userEmail, $appointment, 'user');
+                }
+                SendMail::dispatch($staffEmail, $appointment, 'staff');
+                SendMail::dispatch($adminEmail, $appointment, 'admin');
+
+                // Commit the transaction
+                DB::commit();
+                return redirect()->route('payment-success')->with('success', 'Appointment created successfully');
+
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return redirect()->route('appointment')->with('error', 'Failed to create appointment');
             }
-
-            // Load the appointment with relationships
-            $appointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($data->id);
-
-            // Retrieve the Stripe session to get payment details
-            $stripeSecretKey = env('STRIPE_SECRET_KEY', 'sk_test_51LkfAQH65lvSBiDK232wi93QAEfeM0XgS8s62kRse0LGoKn2pHxZhMu23pA4w5CyqeR7jaichrCsgnSQdz5S7NPD00GOpROogE');
-            $stripe = new StripeClient([
-                'api_key' => $stripeSecretKey,
-            ]);
-            $sessionId = Session::get('stripe_checkout_id');
-            $session = $stripe->checkout->sessions->retrieve($sessionId);
-
-            // Save payment data
-            Payment::create([
-                'appointment_id' => $appointment->id,
-                'payment_id' => $session->payment_intent, // Payment Intent ID
-                'amount' => $session->amount_total, // Total amount in cents
-                'currency' => $session->currency, // Currency
-                'status' => $session->payment_status, // Payment status (e.g., 'paid')
-            ]);
-
-            $adminUser = User::role('admin')->first();
-            if ($appointment->user != null) {
-                // Send notification
-                $appointment->user->notify(new AppointmentCreateNotification($appointment));
-                $appointment->staff->user->notify(new AppointmentCreateNotification($appointment));
-                $adminUser->notify(new AppointmentCreateNotification($appointment));
-                event(new PostCreateNoti($appointment));
-            }
-
-            // Prepare email data
-            $userEmail = $validated['email'];
-            $staffEmail = $appointment->staff->user->email;
-            $adminEmail = 'hw13604@gmail.com';
-
-            // Create Google Calendar event
-            $calendarEventResponse = $this->createGoogleCalendarEvent($appointment);
-
-            // Handle any redirect response
-            if ($calendarEventResponse instanceof \Illuminate\Http\RedirectResponse) {
-                return $calendarEventResponse;
-            }
-
-            // Send email
-            if ($userEmail) {
-                SendMail::dispatch($userEmail, $appointment, 'user');
-            }
-            SendMail::dispatch($staffEmail, $appointment, 'staff');
-            SendMail::dispatch($adminEmail, $appointment, 'admin');
-
-            // Commit the transaction
-            DB::commit();
-            return redirect()->route('payment-success')->with('success', 'Appointment created successfully');
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->route('appointment')->with('error', 'Failed to create appointment');
         }
     }
 
