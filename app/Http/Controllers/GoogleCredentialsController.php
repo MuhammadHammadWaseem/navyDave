@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Artisan;
 
 class GoogleCredentialsController extends Controller
 {
@@ -15,46 +17,82 @@ class GoogleCredentialsController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the file upload
-        $request->validate([
-            'credentials' => 'required|file|mimes:json',
+        // Validate the form input
+        $validated = $request->validate([
+            'client_id' => 'required|string',
+            'client_secret' => 'required|string',
+            // 'refresh_token' => 'required|string',
         ]);
 
-        // Store the file in storage/app/google
-        $path = $request->file('credentials')->storeAs('google', 'credentials.json');
+        // Retrieve the current .env file path
+        $envPath = base_path('.env');
 
-        // Optionally, you can parse and extract the client ID and secret to store in the database
-        $credentials = json_decode(file_get_contents(Storage::path($path)), true);
+        // Read the current .env content
+        $envContent = File::get($envPath);
 
-        // Log the credentials to understand the structure
-        \Log::info('Credentials:', $credentials);
+        // Update the values of the required keys
+        $envContent = str_replace(
+            ['GOOGLE_CLIENT_ID=' . env('GOOGLE_CLIENT_ID'), 'GOOGLE_CLIENT_SECRET=' . env('GOOGLE_CLIENT_SECRET'), 'GOOGLE_REFRESH_TOKEN=' . env('GOOGLE_REFRESH_TOKEN')],
+            [
+                'GOOGLE_CLIENT_ID=' . $validated['client_id'],
+                'GOOGLE_CLIENT_SECRET=' . $validated['client_secret'],
+                // 'GOOGLE_REFRESH_TOKEN=' . $validated['refresh_token'],
+            ],
+            $envContent
+        );
 
-        // Check for the web key
-        if (isset($credentials['web'])) {
-            $clientId = $credentials['web']['client_id'];
-            $clientSecret = $credentials['web']['client_secret'];
+        // Write the updated content back to the .env file
+        File::put($envPath, $envContent);
 
-            // Save the credentials to the database
-            try {
-                DB::table('google_settings')->updateOrInsert(
-                    ['key' => 'google_client_id'],
-                    ['value' => $clientId]
-                );
-                DB::table('google_settings')->updateOrInsert(
-                    ['key' => 'google_client_secret'],
-                    ['value' => $clientSecret]
-                );
+        // Clear the config cache so that the new values are used
+        Artisan::call('config:clear');
 
-                return redirect('/google-auth');
-                // return redirect()->back()->with('success', 'Google credentials saved successfully.');
-            } catch (\Exception $e) {
-                \Log::error('Database error: ' . $e->getMessage());
-                return redirect()->back()->with('error', 'Failed to save Google credentials.');
-            }
-        }
-
-        return redirect()->back()->with('error', 'Invalid credentials.json format.');
+        return redirect('/auth/google');
+        // return redirect()->route('admin.google.credentials')->with('success', 'Credentials updated successfully!');
     }
+
+    // public function store(Request $request)
+    // {
+    //     // Validate the file upload
+    //     $request->validate([
+    //         'credentials' => 'required|file|mimes:json',
+    //     ]);
+
+    //     // Store the file in storage/app/google
+    //     $path = $request->file('credentials')->storeAs('google', 'credentials.json');
+
+    //     // Optionally, you can parse and extract the client ID and secret to store in the database
+    //     $credentials = json_decode(file_get_contents(Storage::path($path)), true);
+
+    //     // Log the credentials to understand the structure
+    //     \Log::info('Credentials:', $credentials);
+
+    //     // Check for the web key
+    //     if (isset($credentials['web'])) {
+    //         $clientId = $credentials['web']['client_id'];
+    //         $clientSecret = $credentials['web']['client_secret'];
+
+    //         // Save the credentials to the database
+    //         try {
+    //             DB::table('google_settings')->updateOrInsert(
+    //                 ['key' => 'google_client_id'],
+    //                 ['value' => $clientId]
+    //             );
+    //             DB::table('google_settings')->updateOrInsert(
+    //                 ['key' => 'google_client_secret'],
+    //                 ['value' => $clientSecret]
+    //             );
+
+    //             return redirect('/google-auth');
+    //             // return redirect()->back()->with('success', 'Google credentials saved successfully.');
+    //         } catch (\Exception $e) {
+    //             \Log::error('Database error: ' . $e->getMessage());
+    //             return redirect()->back()->with('error', 'Failed to save Google credentials.');
+    //         }
+    //     }
+
+    //     return redirect()->back()->with('error', 'Invalid credentials.json format.');
+    // }
 
 
 

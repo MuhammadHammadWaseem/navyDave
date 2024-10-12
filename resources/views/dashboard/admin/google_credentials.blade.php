@@ -111,7 +111,7 @@
 
 
                 <div class="form-box">
-                    <form action="{{ route('admin.google-credentials.store') }}" method="POST"
+                    {{-- <form action="{{ route('admin.google-credentials.store') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
@@ -121,6 +121,27 @@
                                 Console.</small>
                         </div>
                         <button type="submit" class="btn">Save Credentials</button>
+                    </form> --}}
+
+                    <form method="POST" action="{{ url('admin/google-credentials') }}" enctype="multipart/form-data">
+                        @csrf
+        
+                        <div class="form-group">
+                            <label for="client_id">Google Client ID</label>
+                            <input type="text" class="form-control" id="client_id" name="client_id" required>
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="client_secret">Google Client Secret</label>
+                            <input type="text" class="form-control" id="client_secret" name="client_secret" required>
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="refresh_token">Google Refresh Token</label>
+                            <input type="text" class="form-control" id="refresh_token" name="refresh_token" required>
+                        </div>
+            
+                        <button type="submit" class="btn btn-primary">Save Credentials</button>
                     </form>
                 </div>
             </div>
