@@ -14,15 +14,23 @@ class GoogleCalendarService
     public function createEvent($appointment)
     {
         $client = new Google_Client();
+
+        // Check if the token exists and set the token
         $client->setAccessToken(session('google_token'));
 
-        // Check if token is expired
+        // If the token is expired
         if ($client->isAccessTokenExpired()) {
+            // Check if a refresh token is available
             $refreshToken = $client->getRefreshToken();
-            $client->fetchAccessTokenWithRefreshToken($refreshToken);
-            session(['google_token' => $client->getAccessToken()]);
+            if ($refreshToken) {
+                // Attempt to refresh the token
+                $client->fetchAccessTokenWithRefreshToken($refreshToken);
+                session(['google_token' => $client->getAccessToken()]);
+            } else {
+                // Handle the case where there is no refresh token
+                return redirect()->route('auth.google');  // Admin needs to re-authenticate
+            }
         }
-
 
         $service = new Google_Service_Calendar($client);
 

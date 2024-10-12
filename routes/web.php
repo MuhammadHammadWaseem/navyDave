@@ -33,6 +33,8 @@ use App\Http\Controllers\GoogleController;
 |
 */
 
+Route::get('/sessionCheck', [GoogleController::class, 'sessionCheck']);
+
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/google-auth/callback', [GoogleController::class, 'handleGoogleCallback']);
 

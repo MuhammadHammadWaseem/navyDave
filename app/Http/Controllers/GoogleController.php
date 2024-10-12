@@ -10,6 +10,7 @@ use Google_Service_Calendar_EventDateTime;
 use App\Models\Appointment;
 use Carbon\Carbon;
 use App\Services\GoogleCalendarService;
+use Illuminate\Support\Facades\Session;
 
 class GoogleController extends Controller
 {
@@ -66,5 +67,14 @@ class GoogleController extends Controller
     {
         $appointment = Appointment::with('service', 'staff', 'user')->latest()->first();
         return $this->googleCalendarService->createEvent($appointment);
+    }
+
+    public function sessionCheck()
+    {
+        // Session::forget('google_token');
+        // session(['google_token' => null]); // Set token to null to simulate it being expired
+
+        $sessions = Session::all();
+        dd($sessions);
     }
 }

@@ -28,6 +28,8 @@ use App\Models\User;
 use App\Events\PostCreateNoti;
 use Spatie\Permission\Models\Role;
 use App\Services\GoogleCalendarService;
+use Google_Client;
+
 
 class GuestController extends Controller
 {
@@ -352,6 +354,20 @@ class GuestController extends Controller
             return redirect()->route('auth.google');
         }
 
+        // Handle token refresh if expired
+        $client = new Google_Client();
+        $client->setAccessToken(session('google_token'));
+
+        if ($client->isAccessTokenExpired()) {
+            $refreshToken = $client->getRefreshToken();
+            if ($refreshToken) {
+                $client->fetchAccessTokenWithRefreshToken($refreshToken);
+                session(['google_token' => $client->getAccessToken()]);
+            } else {
+                return redirect()->route('auth.google');
+            }
+        }
+
         try {
             $appointment = Appointment::with('slot')->findOrFail($request->appointment_id);
             // If not completed, the user can choose the next slot
@@ -385,21 +401,18 @@ class GuestController extends Controller
             event(new PostCreateNoti($newAppointment));
 
             // ------------------- <-- Google Calendar Event --> ------------------- \\
-            $this->createGoogleCalendarEvent($appointment);
-
-            // Prepare email data
-            $userEmail = $appointment->email;
-            $staffEmail = $appointment->staff->user->email;
-            $adminEmail = 'hw13604@gmail.com';
-
-
-            // Create Google Calendar event
             $calendarEventResponse = $this->createGoogleCalendarEvent($newAppointment);
 
             // Handle any redirect response
             if ($calendarEventResponse instanceof \Illuminate\Http\RedirectResponse) {
                 return $calendarEventResponse;
             }
+
+
+            // Prepare email data
+            $userEmail = $appointment->email;
+            $staffEmail = $appointment->staff->user->email;
+            $adminEmail = 'hw13604@gmail.com';
 
             // Send email
             if ($userEmail) {
@@ -430,6 +443,22 @@ class GuestController extends Controller
         if (!session()->has('google_token')) {
             return redirect()->route('auth.google');
         }
+
+        // Handle token refresh if expired
+        $client = new Google_Client();
+        $client->setAccessToken(session('google_token'));
+
+        if ($client->isAccessTokenExpired()) {
+            $refreshToken = $client->getRefreshToken();
+            if ($refreshToken) {
+                $client->fetchAccessTokenWithRefreshToken($refreshToken);
+                session(['google_token' => $client->getAccessToken()]); // Store the refreshed token
+            } else {
+                // If no refresh token is available, redirect the admin for re-authentication
+                return redirect()->route('auth.google');
+            }
+        }
+
         try {
             // Retrieve the price from the Service model
             $service = Service::findOrFail($validated['service_id']);
