@@ -251,7 +251,7 @@
                             <div class="pricing-box-content">
                                 <h4>{{ $s->name }}</h4>
                                 <h5>${{ $s->price }}</h5>
-                                <p>{{ $s->description }}</p>
+                                <p>{{ \Illuminate\Support\Str::limit($s->description, 71) }}</p>
                             </div>
                             <div class="sessions-box">
                                 <p><img src="{{ asset('assets/images/timer.png') }}" alt=""
@@ -281,7 +281,9 @@
                             <div class="pricing-box-content ">
                                 <h4>{{ $s->name }}</h4>
                                 <h5>${{ $s->price }}</h5>
-                                <p>{{ $s->description }}</p>
+                                {{-- <p>{{ $s->description }}</p> --}}
+                                <p>{{ \Illuminate\Support\Str::limit($s->description, 71) }}</p>
+
                                 <div class="hot-box">
                                     <img class="star" src="{{ asset('assets/images/hot-star.png') }}" alt="">
                                     <p>HOT</p>
