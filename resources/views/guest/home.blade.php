@@ -34,8 +34,7 @@
                 </div>
                 <div class="col-lg-6 col-md-12">
                     <div class="text">
-                        <p>NavyDaveGolf is here to help guide you to your best golf. On every professional tour, there are
-                            100’s of different swings!</p>
+                        <p>NavyDaveGolf is here to help guide you to your best golf. There is no ONE perfect swing, but there is a perfect swing for you!</p>
                         <p>Navy Dave uses his unique approach to help you find the best version of you.</p>
                     </div>
                 </div>
@@ -108,7 +107,8 @@
                 <div class="col-md-12">
                     <div class="text text-center">
                         <h3>Precision In Every Stroke</h3>
-                        <h2>Welcome To Navy <span>Dave's Swing</span> Academy</h2>
+                        {{-- <h2>Welcome To Navy <span>Dave's Swing</span> Academy</h2> --}}
+                        <h2>Welcome to Navy <span>Dave Golf</span> </h2>
                         <img src="assets/images/home-sec-03-img.png" alt="">
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                             to help you to your specific goal!</p>
                         <div class="two-thing-aline">
                             <div class="btn-box">
-                                <a href="{{ route('contact') }}" class="t-btn">Schedule Meeting</a>
+                                <a href="{{ route('appointment') }}" class="t-btn">Book a lesson</a>
                             </div>
                         </div>
                     </div>
@@ -156,7 +156,7 @@
                     <div class="text">
                         <h3>Navy Dave Golf</h3>
                         <h2>What Makes Me <span> Different</span></h2>
-                        <p>There is no perfect swing. My experience in this game has taught me that. We don’t believe in a
+                        <p> We don’t believe in a
                             singular approach. While in the Navy, I earned the qualification of Master Training Specialist.
                             It’s a fancy way to say I know 537 different ways to make a lightbulb turn on. Together, we will
                             work with your strengths to make your bulb the brightest!</p>
