@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('type_buffer_time_after')->enum(['mins', 'hours']);
             $table->integer('min_capacity');
             $table->integer('max_capacity');
-            $table->string('description');
+            $table->text('description');
             $table->timestamps();
         });
     }
