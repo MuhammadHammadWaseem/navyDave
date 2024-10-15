@@ -143,9 +143,9 @@
 
                                 <div class="socail-icons">
                                     <ul>
-                                        <li><a href="{{ $settings[0]->linkedin_link ?? '#' }}"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                        <li><a href="{{ $settings[0]->instagram_link ?? '#' }}"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
                                         <li><a href="{{ $settings[0]->facebook_link ?? '#' }}"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="{{ $settings[0]->twitter_link ?? '#' }}"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                        {{-- <li><a href="{{ $settings[0]->twitter_link ?? '#' }}"><i class="fa fa-twitter" aria-hidden="true"></i></a></li> --}}
                                     </ul>
                                 </div>
                     </div>

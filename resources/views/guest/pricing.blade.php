@@ -106,33 +106,33 @@
                         </ul><!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                <video poster="assets/images/video-poster.png" controls>
-                                    <source src="assets/images/main-video.mp4" type="video/mp4">
-                                    <source src="assets/images/main-video.mp4" type="video/ogg">
+                                <video poster="assets/images/Thumbnail 1.png" controls>
+                                    <source src="assets/images/IMG_1716.MOV" type="video/mp4">
+                                    <source src="assets/images/IMG_1716.MOV" type="video/ogg">
                                 </video>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
-                                <video poster="assets/images/vid-poster-2.png" controls>
-                                    <source src="assets/images/main-video.mp4" type="video/mp4">
-                                    <source src="assets/images/main-video.mp4" type="video/ogg">
+                                <video poster="assets/images/Thumbnail 2.png" controls>
+                                    <source src="assets/images/Brookelle.MOV" type="video/mp4">
+                                    <source src="assets/images/Brookelle.MOV" type="video/ogg">
                                 </video>
                             </div>
                             <div class="tab-pane" id="tabs-3" role="tabpanel">
-                                <video poster="assets/images/vid-poster-3.png" controls>
-                                    <source src="assets/images/main-video.mp4" type="video/mp4">
-                                    <source src="assets/images/main-video.mp4" type="video/ogg">
+                                <video poster="assets/images/Thumbnail 3.png" controls>
+                                    <source src="assets/images/Brookelle.MOV" type="video/mp4">
+                                    <source src="assets/images/Brookelle.MOV" type="video/ogg">
                                 </video>
                             </div>
                             <div class="tab-pane" id="tabs-4" role="tabpanel">
-                                <video poster="assets/images/vid-poster-4.png" controls>
-                                    <source src="assets/images/main-video.mp4" type="video/mp4">
-                                    <source src="assets/images/main-video.mp4" type="video/ogg">
+                                <video poster="assets/images/Thumbnail 4.png" controls>
+                                    <source src="assets/images/Brookelle.MOV" type="video/mp4">
+                                    <source src="assets/images/Brookelle.MOV" type="video/ogg">
                                 </video>
                             </div>
                             <div class="tab-pane" id="tabs-5" role="tabpanel">
-                                <video poster="assets/images/vid-poster-5.png" controls>
-                                    <source src="assets/images/main-video.mp4" type="video/mp4">
-                                    <source src="assets/images/main-video.mp4" type="video/ogg">
+                                <video poster="assets/images/Thumbnail 5.png" controls>
+                                    <source src="assets/images/Brookelle.MOV" type="video/mp4">
+                                    <source src="assets/images/Brookelle.MOV" type="video/ogg">
                                 </video>
                             </div>
                         </div>

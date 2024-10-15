@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="hero-img">
-            <img src="assets/images/hero-main-img.png" alt="">
+            <img src="assets/images/image.png" alt="">
         </div>
     </section>
 
@@ -34,7 +34,8 @@
                 </div>
                 <div class="col-lg-6 col-md-12">
                     <div class="text">
-                        <p>NavyDaveGolf is here to help guide you to your best golf. There is no ONE perfect swing, but there is a perfect swing for you!</p>
+                        <p>NavyDaveGolf is here to help guide you to your best golf. There is no ONE perfect swing, but
+                            there is a perfect swing for you!</p>
                         <p>Navy Dave uses his unique approach to help you find the best version of you.</p>
                     </div>
                 </div>
@@ -109,7 +110,7 @@
                         <h3>Precision In Every Stroke</h3>
                         {{-- <h2>Welcome To Navy <span>Dave's Swing</span> Academy</h2> --}}
                         <h2>Welcome to Navy <span>Dave Golf</span> </h2>
-                        <img src="assets/images/home-sec-03-img.png" alt="">
+                        <img src="assets/images/ImageCover.png" alt="">
                     </div>
                 </div>
             </div>
@@ -136,7 +137,7 @@
                 </div>
                 <div class="col-lg-5 col-md-12">
                     <div class="main-img">
-                        <img src="assets/images/home-sec-04-img.png" alt="">
+                        <img src="assets/images/Side Image.png" alt="">
                     </div>
                 </div>
 
@@ -149,7 +150,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-5 col-md-12">
                     <div class="main-img">
-                        <img src="assets/images/home-sec-05-img.png" alt="">
+                        <img src="assets/images/Side Image (1).png" alt="">
                     </div>
                 </div>
                 <div class="col-lg-7 col-md-12">
@@ -172,7 +173,7 @@
                 <div class="col-md-12">
                     <div class="text text-center">
                         <h3>Navy Dave Golf</h3>
-                        <h2>Students Said <span> About </span> Me</h2>
+                        <h2>What Clients Are <span> Saying </span></h2>
                     </div>
                 </div>
             </div>
@@ -180,60 +181,99 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="testi-img-box">
                         <div class="person-heading">
-                            <img src="assets/images/person-01.png" alt="">
-                            <h5>Hannah Schmitt</h5>
-                            <h6>Lead designer</h6>
+                            <img src="assets/images/r2.png" alt="">
+                            <h5>Jenny K Burchette</h5>
+                            <h6>Local Guide</h6>
                             <img src="assets/images/testi-inverted-comas.png" alt="">
                         </div>
                         <div class="person-comment">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus nibh mauris, nec turpis orci
-                                lectus maecenas. Suspendisse sed magna eget nibh in turpis. Consequat duis diam lacus arcu.
-                                Faucibus venenatis felis id augue sit cursus pellentesque enim</p>
+                            <a href="https://www.google.com/search?q=navy+dave+golf&sca_esv=28f8fab5923385a6&sxsrf=ADLYWIIqPQyG4ZyAHjuSXE3pBHESZnC9KA%3A1729025787789&ei=-9YOZ_zzL-OYkdUPkNebYA&ved=0ahUKEwi83Y3_opGJAxVjTKQEHZDrBgwQ4dUDCA8&uact=5&oq=navy+dave+golf&gs_lp=Egxnd3Mtd2l6LXNlcnAiDm5hdnkgZGF2ZSBnb2xmSAdQAFgAcAB4AJABAJgBAKABAKoBALgBA8gBAJgCAKACAJgDAJIHAKAHAA&sclient=gws-wiz-serp#lrd=0x872bad1f47089b73:0x20767639374507b1,1,,,," target="_blank"
+                                class="text-dark">
+                            <p>{{ \Illuminate\Support\Str::limit(
+                                "There is no one better than Navy Dave! I needed trustworthy help purchasing new clubs for my
+                                                                                                                                                husband. I was in over my head and asked a friend where to begin; his immediate answer was
+                                                                                                                                                Navy Dave. I reached out and Dave was easy to contact, and beyond helpful! He is patient,
+                                                                                                                                                funny, and an excellent educator! He walked me through the process of buying clubs that my
+                                                                                                                                                husband would be proud to own, while sticking to my tight budget. That gift reveal was the
+                                                                                                                                                greatest surprise for my husband and I couldn’t have done it without Navy Dave! He also gave
+                                                                                                                                                my husband a brief golf lesson while we were in his incredible indoor golf studio. Within a
+                                                                                                                                                few moments of watching my hubby’s swing, he gave him a suggestion to slightly tweak his
+                                                                                                                                                form and it totally transformed his golf swing!! What?! We were amazed! Needless to say we
+                                                                                                                                                will be back. Navy Dave is an extremely knowledgeable golf instructor, but even better than
+                                                                                                                                                that, he is a wonderful person. I give him my highest recommendation!",
+                                269,
+                            ) }}
+                            </p>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="testi-img-box">
                         <div class="person-heading">
-                            <img src="assets/images/person-02.png" alt="">
-                            <h5>Hannah Schmitt</h5>
-                            <h6>Lead designer</h6>
+                            <img src="assets/images/r1.png" alt="">
+                            <h5>T&B Berens</h5>
                             <img src="assets/images/testi-inverted-comas.png" alt="">
                         </div>
                         <div class="person-comment">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus nibh mauris, nec turpis orci
-                                lectus maecenas. Suspendisse sed magna eget nibh in turpis. Consequat duis diam lacus arcu.
-                                Faucibus venenatis felis id augue sit cursus pellentesque enim</p>
+                            <a href="https://www.google.com/search?q=navy+dave+golf&sca_esv=28f8fab5923385a6&sxsrf=ADLYWIIqPQyG4ZyAHjuSXE3pBHESZnC9KA%3A1729025787789&ei=-9YOZ_zzL-OYkdUPkNebYA&ved=0ahUKEwi83Y3_opGJAxVjTKQEHZDrBgwQ4dUDCA8&uact=5&oq=navy+dave+golf&gs_lp=Egxnd3Mtd2l6LXNlcnAiDm5hdnkgZGF2ZSBnb2xmSAdQAFgAcAB4AJABAJgBAKABAKoBALgBA8gBAJgCAKACAJgDAJIHAKAHAA&sclient=gws-wiz-serp#lrd=0x872bad1f47089b73:0x20767639374507b1,1,,,," target="_blank"
+                                class="text-dark">
+                            <p>{{ \Illuminate\Support\Str::limit(
+                                "Navy Dave looked at my swing and ability and gave me instruction in a simple and positive
+                                                                                                                                                approach. His video reminders after my 2 hr lesson helped me immensely to review what I
+                                                                                                                                                learned. He has a very unique style of teaching and gave me enthusiasm to improve my game.",
+                                269,
+                            ) }}
+                            </p>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="testi-img-box">
                         <div class="person-heading">
-                            <img src="assets/images/person-03.png" alt="">
-                            <h5>Hannah Schmitt</h5>
-                            <h6>Lead designer</h6>
+                            <img src="assets/images/r3.png" alt="">
+                            <h5>Keith Davis</h5>
+                            <h6>Local Guide</h6>
                             <img src="assets/images/testi-inverted-comas.png" alt="">
                         </div>
                         <div class="person-comment">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus nibh mauris, nec turpis orci
-                                lectus maecenas. Suspendisse sed magna eget nibh in turpis. Consequat duis diam lacus arcu.
-                                Faucibus venenatis felis id augue sit cursus pellentesque enim</p>
+                            <a href="https://www.google.com/search?q=navy+dave+golf&sca_esv=28f8fab5923385a6&sxsrf=ADLYWIIqPQyG4ZyAHjuSXE3pBHESZnC9KA%3A1729025787789&ei=-9YOZ_zzL-OYkdUPkNebYA&ved=0ahUKEwi83Y3_opGJAxVjTKQEHZDrBgwQ4dUDCA8&uact=5&oq=navy+dave+golf&gs_lp=Egxnd3Mtd2l6LXNlcnAiDm5hdnkgZGF2ZSBnb2xmSAdQAFgAcAB4AJABAJgBAKABAKoBALgBA8gBAJgCAKACAJgDAJIHAKAHAA&sclient=gws-wiz-serp#lrd=0x872bad1f47089b73:0x20767639374507b1,1,,,," target="_blank"
+                                class="text-dark">
+                            <p>{{ \Illuminate\Support\Str::limit(
+                                "What a terrific golf coach!! Lessons with Dave are full of laughs and he really focuses on
+                                                                                                                    keeping it simple. As a result the time together flies by, it is a relaxed learning
+                                                                                                                    environment, and I'm seeing immediate results. Dave isn't trying to fit me into a
+                                                                                                                    one-size-fits-all 'PGA Tour' swing, but instead is helping me to make the best of my senior
+                                                                                                                    swing! I have to add how nice is it to have a long lesson in his state-of-the-art indoor,
+                                                                                                                    AIR CONDITIONED teaching studio!",
+                                269,
+                            ) }}
+                            </p>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="testi-img-box">
                         <div class="person-heading">
-                            <img src="assets/images/person-03.png" alt="">
-                            <h5>Hannah Schmitt</h5>
-                            <h6>Lead designer</h6>
+                            <img src="assets/images/r4.png" alt="">
+                            <h5>Tye Van Haren</h5>
                             <img src="assets/images/testi-inverted-comas.png" alt="">
                         </div>
                         <div class="person-comment">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus nibh mauris, nec turpis orci
-                                lectus maecenas. Suspendisse sed magna eget nibh in turpis. Consequat duis diam lacus arcu.
-                                Faucibus venenatis felis id augue sit cursus pellentesque enim</p>
+                            <a href="https://www.google.com/search?q=navy+dave+golf&sca_esv=28f8fab5923385a6&sxsrf=ADLYWIIqPQyG4ZyAHjuSXE3pBHESZnC9KA%3A1729025787789&ei=-9YOZ_zzL-OYkdUPkNebYA&ved=0ahUKEwi83Y3_opGJAxVjTKQEHZDrBgwQ4dUDCA8&uact=5&oq=navy+dave+golf&gs_lp=Egxnd3Mtd2l6LXNlcnAiDm5hdnkgZGF2ZSBnb2xmSAdQAFgAcAB4AJABAJgBAKABAKoBALgBA8gBAJgCAKACAJgDAJIHAKAHAA&sclient=gws-wiz-serp#lrd=0x872bad1f47089b73:0x20767639374507b1,1,,,," target="_blank"
+                                class="text-dark">
+                                <p>{{ \Illuminate\Support\Str::limit(
+                                    "Dave has a unique way of connecting with you and taking your swing and improving it, not
+                                                                                                trying to make it someone else’s swing. He is able to show you why and how to make
+                                                                                                modifications that are comfortable to get desired results. He has a relaxing and inviting
+                                                                                                atmosphere and clearly loves what he does and is knowledgeable in his approach and teaching.
+                                                                                                Highly recommend Navy Dave!!",
+                                    269,
+                                ) }}
+                                </p>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -257,7 +297,12 @@
                                 <p><img src="{{ asset('assets/images/timer.png') }}" alt=""
                                         style="filter: invert(48%) sepia(48%) saturate(1225%) hue-rotate(83deg) brightness(92%) contrast(93%);">
                                     {{ $s->duration }} {{ $s->type_duration }}</p>
-                                    <p>{{ $s->slots }} @if($s->slots > 1) Slots @else Slot @endif</p>
+                                <p>{{ $s->slots }} @if ($s->slots > 1)
+                                        Slots
+                                    @else
+                                        Slot
+                                    @endif
+                                </p>
                                 <a href="{{ route('appointment') }}" class="t-btn">Book Now</a>
                             </div>
                         </div>
@@ -293,7 +338,12 @@
                                 <p><img src="{{ asset('assets/images/timer.png') }}" alt=""
                                         style="filter: invert(48%) sepia(48%) saturate(1225%) hue-rotate(83deg) brightness(92%) contrast(93%);">
                                     {{ $s->duration }} {{ $s->type_duration }}</p>
-                                    <p>{{ $s->slots }} @if($s->slots > 1) Slots @else Slot @endif</p>
+                                <p>{{ $s->slots }} @if ($s->slots > 1)
+                                        Slots
+                                    @else
+                                        Slot
+                                    @endif
+                                </p>
                                 <a href="{{ route('appointment') }}" class="t-btn">Book Now</a>
                             </div>
                         </div>
