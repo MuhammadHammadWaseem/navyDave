@@ -119,14 +119,14 @@
                             </div>
                             <div class="tab-pane" id="tabs-3" role="tabpanel">
                                 <video poster="assets/images/Thumbnail 3.png" controls>
-                                    <source src="assets/images/Brookelle.MOV" type="video/mp4">
-                                    <source src="assets/images/Brookelle.MOV" type="video/ogg">
+                                    <source src="assets/images/Copy of IMG_4541.mp4" type="video/mp4">
+                                    <source src="assets/images/Copy of IMG_4541.mp4" type="video/ogg">
                                 </video>
                             </div>
                             <div class="tab-pane" id="tabs-4" role="tabpanel">
                                 <video poster="assets/images/Thumbnail 4.png" controls>
-                                    <source src="assets/images/Brookelle.MOV" type="video/mp4">
-                                    <source src="assets/images/Brookelle.MOV" type="video/ogg">
+                                    <source src="assets/images/Copy of IMG_0038.mp4" type="video/mp4">
+                                    <source src="assets/images/Copy of IMG_0038.mp4" type="video/ogg">
                                 </video>
                             </div>
                             <div class="tab-pane" id="tabs-5" role="tabpanel">

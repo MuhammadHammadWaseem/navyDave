@@ -106,18 +106,6 @@
             </table>
         </div>
 
-
-        {{-- <div class="pagination-box">
-        <ul>
-            <li><a href="#">&lt;</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">...</a></li>
-            <li><a href="#">9</a></li>
-            <li><a href="#">10</a></li>
-            <li><a href="#">&gt;</a></li>
-        </ul>
-    </div> --}}
     </div>
 
     <!-- Modal Structure -->
@@ -128,7 +116,7 @@
                 <form id="saveStaff" method="post">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Assign Service</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" id="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -154,7 +142,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" onclick="assignService()" id="createStaff">Assign
                             Service</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" id="close2" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -167,6 +155,9 @@
     $(document).ready(function() {
         $('#services').select2();
         showTable();
+        $("#close , #close2").on("click", function(){
+            $("#assignService").modal('hide');
+        });
     });
 
     function addService() {
@@ -223,7 +214,6 @@
                                 return `<div class="action-box">
                                 <ul>
                                     <li><button onclick="deleteService(${data})"><img src="/assets/images/delete.png" alt=""></button></li>
-                                    <li><a href="javascript:void(0)" onclick="editService(${data})"><img src="/assets/images/pencil.png" alt=""></a></li>
                                 </ul>
                             </div>`;
                             }

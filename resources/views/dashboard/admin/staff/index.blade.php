@@ -22,7 +22,7 @@
         <div class="main-calendar-box main-calendar-box-list customers-box">
             <div class="two-things-align" bis_skin_checked="1">
                 <h5>Staff Members</h5>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                <button type="button" class="btn btn-primary" id="addBtn" data-toggle="modal" data-target="#exampleModal">
                     Add Staff
                 </button>
             </div>
@@ -97,7 +97,7 @@
                 <form id="saveStaff" method="post" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Add Staff Member</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" id="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -133,7 +133,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" onclick="saveStaff()" id="createStaff">Add
                             Staff</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" id="close2" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -154,6 +154,15 @@
             $('.modal-backdrop').remove(); // Remove the backdrop
             $('body').removeClass('modal-open'); // Remove the modal-open class from the body
         });
+    });
+
+    $(document).on('click', '#addBtn', function() {
+        $("#exampleModal").modal("show");
+        console.log("Button clicked");
+    });
+
+    $(document).on('click', '#close , #close2', function() {
+        $("#exampleModal").modal("hide");
     });
 
     function saveStaff() {

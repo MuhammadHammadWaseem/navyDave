@@ -171,25 +171,87 @@ class GuestController extends Controller
         $slotIds = Appointment::where('appointment_date', $now)->where('status', '!=', 'canceled')->pluck('slot_id');
 
         $slots = Slot::where('staff_id', $request->staff_id)->where('service_id', $request->service_id)->where('available_on', $todayName)->get();
+        
+        $appointments = Appointment::with('slot')
+            ->where('staff_id', $request->staff_id)
+            ->where('appointment_date', $now)
+            ->get();
+
         foreach ($slots as $slot) {
             $slot->is_booked = $slotIds->contains($slot->id) ? true : false;
+
+            foreach($appointments as $a){
+                if($slot->available_from == $a->slot->available_from){
+                    $slot->is_booked = true;
+                }
+            }
         }
         return response()->json($slots);
     }
+    // public function getSlotsForDate(Request $request)
+    // {
+    //     $dayName = date('l', strtotime($request->date));
+
+    //     $data = $request->date;
+    //     $data = date('Y-m-d', strtotime($data));
+    //     $slotIds = Appointment::where('appointment_date', $data)->where('status', '!=', 'canceled')->pluck('slot_id');
+
+    //     $slots = Slot::where('staff_id', $request->staff_id)->where('service_id', $request->service_id)->where('available_on', $dayName)->get();
+
+    //     $appointmnet = Appointment::with('slot')->where('staff_id',$request->staff_id)->where('appointment_date', $data)->get();
+    //     foreach ($slots as $slot) {
+    //         $slot->is_booked = $slotIds->contains($slot->id) ? true : false;
+    //         foreach($appointmnet as $a){
+    //             if($slot->available_from == $a->slot->available_from){
+    //                 $slot->is_booked = true;
+    //             }
+    //         }
+    //     }
+    //     return response()->json($slots);
+    // }
+
     public function getSlotsForDate(Request $request)
     {
         $dayName = date('l', strtotime($request->date));
 
-        $data = $request->date;
-        $data = date('Y-m-d', strtotime($data));
-        $slotIds = Appointment::where('appointment_date', $data)->where('status', '!=', 'canceled')->pluck('slot_id');
+        // Convert the input date into Y-m-d format
+        $data = date('Y-m-d', strtotime($request->date));
 
-        $slots = Slot::where('staff_id', $request->staff_id)->where('service_id', $request->service_id)->where('available_on', $dayName)->get();
+        // Retrieve the slot IDs for appointments on the selected date (non-canceled)
+        $slotIds = Appointment::where('appointment_date', $data)
+            ->where('staff_id', $request->staff_id) // Only for the same staff
+            ->where('status', '!=', 'canceled')
+            ->pluck('slot_id');
+
+        // Retrieve slots for the selected staff, service, and day of the week
+        $slots = Slot::where('staff_id', $request->staff_id)
+            ->where('service_id', $request->service_id)
+            ->where('available_on', $dayName)
+            ->get();
+
+        // Retrieve appointments with slot info for the same date and staff
+        $appointments = Appointment::with('slot')
+            ->where('staff_id', $request->staff_id)
+            ->where('appointment_date', $data)
+            ->get();
+
+        // Mark each slot as booked based on previous appointments or overlapping available_from time
         foreach ($slots as $slot) {
-            $slot->is_booked = $slotIds->contains($slot->id) ? true : false;
+            // First check if the slot is booked by slot_id
+            $slot->is_booked = $slotIds->contains($slot->id);
+
+            // Further check if any appointment has a matching available_from time
+            foreach ($appointments as $appointment) {
+                if ($slot->available_from == $appointment->slot->available_from) {
+                    $slot->is_booked = true;
+                    break; // No need to check further once it's marked as booked
+                }
+            }
         }
+
         return response()->json($slots);
     }
+
 
     public function appointmentCreate(Request $request)
     {
