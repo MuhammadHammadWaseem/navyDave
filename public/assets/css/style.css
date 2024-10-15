@@ -2903,7 +2903,12 @@ button.btn.btn-primary:active {
 }
 
 @media only screen and (max-width: 575px) {
+  .home-sec-02.home-sec-07 .pricing-box .sessions-box a.t-btn {
 
+    padding: 8px 15px;
+            font-size: 14px;
+            margin-top: 10px;
+  }
   .main-footer-logo {
     display: flex;
     justify-content: center;
