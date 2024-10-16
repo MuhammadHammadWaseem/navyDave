@@ -23,8 +23,6 @@
                     <tr>
                         <td align="center" bgcolor="#2CC374" style="border-radius: 5px;">
                             <a href="{{ config('app.url') }}login" style="display: inline-block; padding: 15px 30px; font-size: 16px; color: #ffffff; text-decoration: none; background-color: #2CC374; border-radius: 5px;">Login to Your Account</a>
-                            <a href="{{ config('app.url') }}user/dashboard" style="background-color: #2CC374; color: white; padding: 15px 30px; text-align: center; text-decoration: none; border-radius: 5px; font-size: 16px; display: inline-block;">View All Appointments</a>
-                        
                         </td>
                     </tr>
                 </table>
