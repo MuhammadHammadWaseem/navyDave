@@ -131,8 +131,8 @@
                             </div>
                             <div class="tab-pane" id="tabs-5" role="tabpanel">
                                 <video poster="assets/images/Thumbnail 5.png" controls>
-                                    <source src="assets/images/Brookelle.MOV" type="video/mp4">
-                                    <source src="assets/images/Brookelle.MOV" type="video/ogg">
+                                    <source src="assets/images/Client 1 (1) (1).mp4" type="video/mp4">
+                                    <source src="assets/images/Client 1 (1) (1).mp4" type="video/ogg">
                                 </video>
                             </div>
                         </div>
