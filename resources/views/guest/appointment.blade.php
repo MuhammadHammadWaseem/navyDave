@@ -65,7 +65,7 @@
         transform: translateY(250%);
         position: absolute;
         z-index: 999999999;
-        top: 0;
+        top: 80px;
         right: 0;
         margin: auto;
         text-align: center;

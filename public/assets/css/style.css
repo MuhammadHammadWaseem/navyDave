@@ -2919,9 +2919,10 @@ button.btn.btn-primary:active {
 
   .when-user-logout a {
     width: 47%;
+    top: 46px;
   }
 
-  .alert-danger{
+  .alert-danger {
     top: 0;
   }
 
