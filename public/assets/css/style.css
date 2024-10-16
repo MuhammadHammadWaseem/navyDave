@@ -2921,6 +2921,10 @@ button.btn.btn-primary:active {
     width: 47%;
   }
 
+  .alert-danger{
+    top: 0;
+  }
+
   .main-footer-logo {
     display: flex;
     justify-content: center;
