@@ -2917,6 +2917,10 @@ button.btn.btn-primary:active {
     width: 100%;
   }
 
+  .when-user-logout a {
+    width: 47%;
+  }
+
   .main-footer-logo {
     display: flex;
     justify-content: center;
