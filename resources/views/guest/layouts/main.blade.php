@@ -69,13 +69,15 @@
                                     <ul class="drop-dwon-menu">
                                         @if (auth()->check() && auth()->user()->hasRole('user'))
                                         <li><a href="{{ route('user.dashboard') }}">Dashboard</a></li>
-                                        <li><a href="{{ route('user.profile') }}">Profile</a></li>
-                                        @elseif (auth()->check() && auth()->user()->hasRole('admin'))
+                                        <li><a href="{{ route('user.profile') }}">Profile</a></li>                    
+                                        @endif
+                                        @if (auth()->check() && auth()->user()->hasRole('admin'))
                                         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                                         <li><a href="{{ route('admin.profile') }}">Profile</a></li>
-                                        @else
+                                        @endif
+                                        @if (auth()->check() && auth()->user()->hasRole('staff'))
                                         <li><a href="{{ route('staff.dashboard') }}">Dashboard</a></li>
-                                        <li><a href="{{ route('staff.profile') }}">Profile</a></li>
+                                        <li><a href="{{ route('staff.profile') }}">Profile</a></li>       
                                         @endif
                                         <li><a href="{{ route('logout') }}">Logout</a></li>
                                     </ul>
