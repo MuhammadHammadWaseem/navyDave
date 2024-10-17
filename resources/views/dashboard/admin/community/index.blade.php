@@ -1,5 +1,135 @@
             @extends('dashboard.layouts.master')
             @section('content')
+
+
+
+
+                <div class="col-lg-10">
+                    <div class="main-calendar-box main-calendar-box-list customers-box community-new ">
+                        <div class="two-align-things">
+                            <h5> Community Feeds</h5>
+
+                            <div class="two-btns-inline">
+                                <a class="btn filter-button" id="latest-btn" data-filter="latest">
+                                    <img src="{{ asset('assets/images/filter.png') }}" width="20px" height="20px"
+                                        alt="">
+                                    Latest</a>
+                                <a class="btn filter-button" id="popular-btn" data-filter="popular">
+                                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M6.78818 14.9198L5.2361 21.6406C5.18803 21.8441 5.20246 22.0574 5.2775 22.2526C5.35253 22.4478 5.48468 22.6158 5.65669 22.7347C5.8287 22.8536 6.03257 22.9179 6.24167 22.9191C6.45078 22.9204 6.65539 22.8585 6.8288 22.7416L12.5007 18.9604L18.1726 22.7416C18.35 22.8595 18.5592 22.9201 18.7722 22.9154C18.9851 22.9108 19.1915 22.841 19.3636 22.7155C19.5357 22.5901 19.6652 22.4149 19.7348 22.2136C19.8044 22.0123 19.8106 21.7945 19.7528 21.5896L17.8476 14.9229L22.5726 10.6708C22.7239 10.5346 22.832 10.3569 22.8834 10.1599C22.9349 9.96286 22.9274 9.75507 22.862 9.56221C22.7966 9.36936 22.6762 9.1999 22.5155 9.0748C22.3548 8.9497 22.161 8.87443 21.958 8.85831L16.0194 8.3854L13.4496 2.69686C13.3677 2.51369 13.2345 2.35814 13.0661 2.249C12.8977 2.13986 12.7013 2.08179 12.5007 2.08179C12.3 2.08179 12.1036 2.13986 11.9353 2.249C11.7669 2.35814 11.6337 2.51369 11.5517 2.69686L8.98193 8.3854L3.04339 8.85727C2.84386 8.87308 2.65311 8.94603 2.49396 9.06741C2.33482 9.18879 2.214 9.35344 2.14598 9.54168C2.07796 9.72992 2.06561 9.93377 2.11041 10.1288C2.15521 10.3239 2.25526 10.5019 2.3986 10.6416L6.78818 14.9198Z"
+                                            fill="white" />
+                                    </svg>
+                                    Popular</a>
+                                <a class="btn filter-button" id="hot-btn" data-filter="hot">
+                                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M17.1875 8.33328C17.1875 9.89578 16.6667 11.9791 14.1667 12.8124C14.8958 11.0416 15 9.27078 14.4792 7.60411C13.75 5.41661 11.3542 3.74995 9.6875 2.81245C9.27083 2.49995 8.54167 2.91661 8.64583 3.54161C8.64583 4.68745 8.33333 6.35411 6.5625 8.12495C4.27083 10.4166 3.125 12.8124 3.125 15.1041C3.125 18.1249 5.20833 21.8749 9.375 21.8749C5.20833 17.7083 8.33333 14.0624 8.33333 14.0624C9.16667 20.2083 13.5417 21.8749 15.625 21.8749C17.3958 21.8749 20.8333 20.6249 20.8333 15.2083C20.8333 11.9791 19.4792 9.47911 18.3333 8.02078C18.0208 7.49995 17.2917 7.81245 17.1875 8.33328Z"
+                                            fill="#222222" />
+                                    </svg>
+                                    Hot</a>
+                            </div>
+
+                        </div>
+
+                        <div class="shadow-box">
+                            <div class="input-post-inline">
+                                <input type="text" id="post_text" placeholder="What's on your mind?">
+                                <button id="post-submit-button">Post</button>
+                            </div>
+
+                            <div class="three-link-align">
+                                <div class="box">
+                                    <label id="upload-photo" for="image-input" style="cursor: pointer">
+                                        <img src="{{ asset('assets/images/upload-images.png') }}" width="100%"
+                                            height="40px" alt="">
+                                    </label>
+                                    <input type="file" id="image-input" class="d-none" multiple name="image[]"
+                                        accept="image/*" />
+                                </div>
+
+                                <div class="box">
+                                    <label id="upload-video" for="video-input" style="cursor: pointer">
+                                        <img src="{{ asset('assets/images/upload-videos.png') }}" width="100%"
+                                            height="40px" alt="">
+                                    </label>
+                                    <input type="file" id="video-input" class="d-none" multiple name="image[]"
+                                        accept="video/*" />
+                                </div>
+
+                            </div>
+
+                            <!-- Container for previewing uploaded files -->
+                            <div id="preview-container" style="display:none; margin-top: 20px;">
+                                <h5>Preview:</h5>
+                                <div id="preview-box" class="preview-box"
+                                    style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div id="post-detaling">
+                            <!-- Loading Spinner -->
+                            <div id="loading-spinner" style="display:none; text-align:center;">
+                                <img src="{{ asset('assets/images/loading.gif') }}" width="100px"
+                                    height="100px" class="img-fluid mb-3 mt-3" alt="Loading..." />
+                            </div>
+                        </div>
+
+                        <button id="load-more" onclick="loadPosts('latest')" class="btn btn-secondary text-center mt-3">Show
+                            More</button>
+
+                    </div>
+                </div>
+
+                <!-- Modal For Edit -->
+                <div class="modal fade comment-edit" id="exampleModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Edit Your Comment</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="editCommentForm">
+                                    <textarea id="editCommentInput" placeholder="Edit your comment"></textarea>
+                                    <input type="hidden" id="commentId" />
+                                    <button type="submit">Save Changes</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comments Modal -->
+                <div class="modal fade comment-edit main-calendar-box main-calendar-box-list customers-box community-new"
+                    id="CommentsModal" tabindex="-1" role="dialog" aria-labelledby="CommentsModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content shadow-box">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="CommentsModalLabel">Comments</h5>
+                                <button type="button" class="close" onclick="closeCommentsModal()"
+                                    data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="comments-container">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <style>
                     .main-box-navy .left-all-links ul li a.community-active,
                     .main-box-navy .left-all-links ul li a:hover {
@@ -231,7 +361,6 @@
                         column-gap: 20px;
                     }
 
-                    .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .main-admin-blog {}
 
                     .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .main-admin-blog .detalingsread-more .content {
                         margin: 20px 0;
@@ -690,27 +819,19 @@
 
                     .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box div#preview-container div#preview-box div {
                         border: none !important;
-                        !i;
-                        !;
                         background-color: #ff000000;
                         margin: 0;
                         padding-bottom: 0 !important;
-                        !i;
-                        !;
                     }
 
                     .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box div#preview-container div#preview-box div {
                         display: flex !important;
-                        !i;
-                        !;
                         width: 150px;
                         height: 100px;
                     }
 
                     .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box div#preview-container div#preview-box div img {
                         width: 100% !important;
-                        !i;
-                        !;
                         height: 100% !important;
                     }
 
@@ -727,11 +848,8 @@
 
                     .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box div#preview-container div#preview-box div button.remove-file img {
                         border: none !important;
-                        ;
                         width: 12px !important;
-                        ;
                         height: 12px !important;
-                        ;
                         transition: .3s;
                     }
 
@@ -754,8 +872,6 @@
                         display: block;
                         margin: auto;
                         margin-top: 30px !important;
-                        !i;
-                        !;
                     }
 
                     .main-calendar-box.main-calendar-box-list.customers-box.community-new button#load-more:hover {
@@ -786,8 +902,6 @@
                     div#exampleModal .modal-dialog .modal-content {
                         display: block;
                         margin: auto !important;
-                        !i;
-                        !;
                     }
 
                     .no-comments {
@@ -839,7 +953,6 @@
                     #CommentsModal .person-comment-content {
                         position: relative;
                         margin: 10px 0 20px 0;
-                        /* border-bottom: 1px solid #00000024; */
                     }
 
                     #CommentsModal .person-comment-content.person-comment-content-parent {
@@ -871,140 +984,260 @@
 
                     #CommentsModal .two-btns-inline button.like-class-parent svg path {
                         background-color: #2CC374 !important;
-                        fill: r#2CC374ed !important;
+                        fill: #2CC374ed !important;
                     }
 
                     #CommentsModal .two-btns-inline button.like-class-parent svg path {
                         fill: #2CC374 !important;
                     }
+
+                    @media only screen and (max-width: 1199px){
+
+                        .community-new .two-align-things .two-btns-inline .btn {
+        font-size: 14px !important;
+        padding: 6px 10px !important;
+        column-gap: 5px !important;
+    }
+
+    .main-calendar-box.main-calendar-box-list.customers-box.community-new .three-link-align .box label img {
+    width: 120px;
+    height: 18px;
+}
+.shadow-box.post-detaling .parent-person-box .person-details {
+
+    column-gap: 10px;
+}
+
+.shadow-box.post-detaling .parent-person-box .person-details .content h6 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .input-post-inline button {
+    padding: 10px 0px;
+    font-size: 13px;
+    width: 100px;
+}
+
+.main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .scroll-full-box .box.imge.video img, .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .scroll-full-box .box.imge.video video {
+    width: 250px;
+    height: 250px;
+}
+
+.main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .comment-input-box .two-btns-inline .box button svg {
+    width: 20px;
+    height: 20px;
+}
+
+
+
+                    }
+
+                    @media only screen and (max-width: 1024px){
+
+                        .shadow-box.post-detaling .parent-person-box .person-details-date h4 {
+        font-size: 14px !important;
+    }
+    .person-details-date button.btn.btn-danger {
+        font-size: 14px !important;
+        gap: 0px;
+    }
+    .person-details-date button.btn.btn-danger svg {
+    width: 20px;
+    height: 20px;
+}
+
+
+
+                    }
+
+                    @media only screen and (max-width: 991px){
+
+                        .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .scroll-full-box .box.imge.video img, .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .scroll-full-box .box.imge.video video {
+                            height: 150px;
+                            width: 150px;
+                        }
+
+
+
+                    }
+
+                    @media only screen and (max-width: 767px){
+                        .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .comment-input-box {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: stretch;
+                            justify-content: center;
+                            row-gap: 20px;
+                        }
+
+                        .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .comment-input-box .box.input-box {
+                            width: 100% !important;
+                        }
+
+                        .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .main-admin-blog .detalingsread-more .content p {
+                            font-size: 15px;
+                        }
+
+                        .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .person-comment-content .content-area-comment p {
+                            font-size: 15px;
+                        }
+
+                        .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .person-comment-box .two-btns-inline button {
+                            padding: 5px 18px;
+                            font-size: 14px;
+                        }
+
+                        .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .input-post-inline input {
+                            padding: 0px 15px;
+                        }
+
+                        .shadow-box.post-detaling .parent-person-box .person-details .content h5 {
+                        font-size: 13px;
+                    }
+
+
+                    }
+
+
+                    @media only screen and (max-width: 575px){
+
+                        .main-calendar-box.main-calendar-box-list.customers-box.community-new {
+                            padding: 15px !important;
+                        }
+
+
+                        .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .input-post-inline {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 10px;
+                            justify-content: center;
+                            align-items: stretch;
+                        }
+
+                    .shadow-box .three-link-align {
+                        display: flex;
+                        column-gap: 30px;
+                        margin: 15px 0;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 5px;
+                    }
+
+                    .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .input-post-inline input, .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .input-post-inline button {
+                        width: 100% !important;
+                    }
+
+                    .community-new .two-align-things {
+                        display: flex;
+                        flex-direction: column;
+                        row-gap: 10px;
+                    }
+
+                    .community-new .two-align-things .two-btns-inline .btn svg, .community-new .two-align-things .two-btns-inline .btn img {
+                        width: 16px;
+                        max-width: 16px;
+                    }
+
+                    .shadow-box.post-detaling .parent-person-box {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        flex-direction: column;
+                        row-gap: 10px;
+                    }
+
+                    .community-new .two-align-things .two-btns-inline .btn {
+                        font-size: 12px !important;
+                    }
+
+                    .person-details-date button.btn.btn-danger {
+                        font-size: 12px !important;
+                    }
+
+                    .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .scroll-full-box .box.imge.video img, .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .scroll-full-box .box.imge.video video {
+                        width: 100px;
+                        height: 100px;
+                    }
+
+                    .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .main-admin-blog .detalingsread-more .content p {
+                        font-size: 14px;
+                        text-align: center;
+                    }
+
+                    .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .comment-input-box .two-btns-inline {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: stretch;
+                        justify-content: center;
+                    }
+
+                    .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .comment-input-box .two-btns-inline .box button {
+                        width: 100%;
+                        margin: 0;
+                    }
+
+                    .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .comment-input-box .box.input-box button {
+                        position: relative;
+                        width: 100%;
+                        right: 0;
+                    }
+
+                    .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .person-comment-box {
+                        display: flex;
+                        flex-direction: column;
+                        row-gap: 10px;
+                    }
+
+                    .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .person-comment-box .img-box .content-name h6 {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start !important;
+                        justify-content: center;
+                        font-size: 15px !important;
+                        text-transform: capitalize;
+                    }
+
+                    .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .person-comment-box .img-box .content-name h6 span {
+                        font-size: 12px !important;
+                        margin-left: -5px;
+                    }
+
+                    .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .person-comment-box .img-box .content-name h5 {
+                        font-size: 12px;
+                    }
+
+                    .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .person-comment-box .two-btns-inline button {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                    }
+
+                    .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .person-comment-box .two-btns-inline {
+                        display: contents;
+                    }
+
+                    .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .person-comment-content .content-area-comment p {
+                        font-size: 13px;
+                        text-align: center;
+                    }
+
+                    .main-calendar-box.main-calendar-box-list.customers-box.community-new {
+                        padding: 15px 0px !important;
+                    }
+
+                    .main-calendar-box h5 {
+                        font-size: 20px;
+                    }
+
+                            }
+
                 </style>
 
 
-                <div class="col-lg-10">
-                    <div class="main-calendar-box main-calendar-box-list customers-box community-new ">
-                        <div class="two-align-things">
-                            <h5> Community Feeds</h5>
 
-                            <div class="two-btns-inline">
-                                <a class="btn filter-button" id="latest-btn" data-filter="latest">
-                                    <img src="{{ asset('assets/images/filter.png') }}" width="20px" height="20px"
-                                        alt="">
-                                    Latest</a>
-                                <a class="btn filter-button" id="popular-btn" data-filter="popular">
-                                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M6.78818 14.9198L5.2361 21.6406C5.18803 21.8441 5.20246 22.0574 5.2775 22.2526C5.35253 22.4478 5.48468 22.6158 5.65669 22.7347C5.8287 22.8536 6.03257 22.9179 6.24167 22.9191C6.45078 22.9204 6.65539 22.8585 6.8288 22.7416L12.5007 18.9604L18.1726 22.7416C18.35 22.8595 18.5592 22.9201 18.7722 22.9154C18.9851 22.9108 19.1915 22.841 19.3636 22.7155C19.5357 22.5901 19.6652 22.4149 19.7348 22.2136C19.8044 22.0123 19.8106 21.7945 19.7528 21.5896L17.8476 14.9229L22.5726 10.6708C22.7239 10.5346 22.832 10.3569 22.8834 10.1599C22.9349 9.96286 22.9274 9.75507 22.862 9.56221C22.7966 9.36936 22.6762 9.1999 22.5155 9.0748C22.3548 8.9497 22.161 8.87443 21.958 8.85831L16.0194 8.3854L13.4496 2.69686C13.3677 2.51369 13.2345 2.35814 13.0661 2.249C12.8977 2.13986 12.7013 2.08179 12.5007 2.08179C12.3 2.08179 12.1036 2.13986 11.9353 2.249C11.7669 2.35814 11.6337 2.51369 11.5517 2.69686L8.98193 8.3854L3.04339 8.85727C2.84386 8.87308 2.65311 8.94603 2.49396 9.06741C2.33482 9.18879 2.214 9.35344 2.14598 9.54168C2.07796 9.72992 2.06561 9.93377 2.11041 10.1288C2.15521 10.3239 2.25526 10.5019 2.3986 10.6416L6.78818 14.9198Z"
-                                            fill="white" />
-                                    </svg>
-                                    Popular</a>
-                                <a class="btn filter-button" id="hot-btn" data-filter="hot">
-                                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M17.1875 8.33328C17.1875 9.89578 16.6667 11.9791 14.1667 12.8124C14.8958 11.0416 15 9.27078 14.4792 7.60411C13.75 5.41661 11.3542 3.74995 9.6875 2.81245C9.27083 2.49995 8.54167 2.91661 8.64583 3.54161C8.64583 4.68745 8.33333 6.35411 6.5625 8.12495C4.27083 10.4166 3.125 12.8124 3.125 15.1041C3.125 18.1249 5.20833 21.8749 9.375 21.8749C5.20833 17.7083 8.33333 14.0624 8.33333 14.0624C9.16667 20.2083 13.5417 21.8749 15.625 21.8749C17.3958 21.8749 20.8333 20.6249 20.8333 15.2083C20.8333 11.9791 19.4792 9.47911 18.3333 8.02078C18.0208 7.49995 17.2917 7.81245 17.1875 8.33328Z"
-                                            fill="#222222" />
-                                    </svg>
-                                    Hot</a>
-                            </div>
-
-                        </div>
-
-                        <div class="shadow-box">
-                            <div class="input-post-inline">
-                                <input type="text" id="post_text" placeholder="What's on your mind?">
-                                <button id="post-submit-button">Post</button>
-                            </div>
-
-                            <div class="three-link-align">
-                                <div class="box">
-                                    <label id="upload-photo" for="image-input" style="cursor: pointer">
-                                        <img src="{{ asset('assets/images/upload-images.png') }}" width="100%"
-                                            height="40px" alt="">
-                                    </label>
-                                    <input type="file" id="image-input" class="d-none" multiple name="image[]"
-                                        accept="image/*" />
-                                </div>
-
-                                <div class="box">
-                                    <label id="upload-video" for="video-input" style="cursor: pointer">
-                                        <img src="{{ asset('assets/images/upload-videos.png') }}" width="100%"
-                                            height="40px" alt="">
-                                    </label>
-                                    <input type="file" id="video-input" class="d-none" multiple name="image[]"
-                                        accept="video/*" />
-                                </div>
-
-                            </div>
-
-                            <!-- Container for previewing uploaded files -->
-                            <div id="preview-container" style="display:none; margin-top: 20px;">
-                                <h5>Preview:</h5>
-                                <div id="preview-box" class="preview-box"
-                                    style="display: flex; gap: 10px; flex-wrap: wrap;">
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                        <div id="post-detaling">
-                            <!-- Loading Spinner -->
-                            <div id="loading-spinner" style="display:none; text-align:center;">
-                                <img src="{{ asset('assets/images/loading.gif') }}" width="100px"
-                                    height="100px" class="img-fluid mb-3 mt-3" alt="Loading..." />
-                            </div>
-                        </div>
-
-                        <button id="load-more" onclick="loadPosts('latest')" class="btn btn-secondary text-center mt-3">Show
-                            More</button>
-
-                    </div>
-                </div>
-
-                <!-- Modal For Edit -->
-                <div class="modal fade comment-edit" id="exampleModal" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Edit Your Comment</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="editCommentForm">
-                                    <textarea id="editCommentInput" placeholder="Edit your comment"></textarea>
-                                    <input type="hidden" id="commentId" />
-                                    <button type="submit">Save Changes</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Comments Modal -->
-                <div class="modal fade comment-edit main-calendar-box main-calendar-box-list customers-box community-new"
-                    id="CommentsModal" tabindex="-1" role="dialog" aria-labelledby="CommentsModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content shadow-box">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="CommentsModalLabel">Comments</h5>
-                                <button type="button" class="close" onclick="closeCommentsModal()"
-                                    data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div id="comments-container">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
 
 

@@ -1402,7 +1402,26 @@ header .header-two-things-align .header-logo {
 
         }
 
-        
+        .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .comment-input-box .two-btns-inline {
+            gap: 10px !important;
+        }
+        .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .comment-input-box .box.input-box {
+            width: 60% !important;
+        }
+        .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .comment-input-box .two-btns-inline .box button {
+            font-size: 16px !important;
+        }
+        .community-new .two-align-things {
+            margin-bottom: 25px !important;
+        }
+        .community-new .two-align-things .two-btns-inline .btn {
+            font-size: 16px !important;
+        }
+
+        ol, ul {
+            padding-left: 0rem !important;
+        }
+
 
 
 
@@ -1504,13 +1523,30 @@ header .header-two-things-align .header-logo {
             padding: 15px;
             font-size: 14px;
         }
+        .main-calendar-box.main-calendar-box-list.customers-box.community-new {
+            padding: 10px 30px !important;
+        }
 
+        .community-new .two-align-things .two-btns-inline {
+            column-gap: 10px !important;
+        }
 
-
-
-
-
-
+        .person-details-date button.btn.btn-danger {
+            font-size: 15px !important;
+        }
+        .shadow-box.post-detaling .parent-person-box .person-details-date h4 {
+            font-size: 16px !important;
+        }
+        .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .comment-input-box .box.input-box input {
+            height: 40px !important;
+            padding: 15px !important;
+            font-size: 14px !important;
+        }
+        .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .comment-input-box .box.input-box button {
+            padding: 5px 15px !important;
+            top: 6px !important;
+            font-size: 12px !important;
+        }
 
 
 
@@ -1592,24 +1628,9 @@ header .header-two-things-align .header-logo {
             padding: 8px 15px !important;
             column-gap: 5px !important;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        td {
+            font-size: 12px !important;
+        }
 
 
 
@@ -1696,6 +1717,8 @@ header .header-two-things-align .header-logo {
         .community-new .two-align-things {
             margin-bottom: 25px !important;
         }
+
+
 
 
     }
@@ -1785,6 +1808,8 @@ header .header-two-things-align .header-logo {
             font-size: 13px !important;
 
         }
+
+
 
 
 
@@ -1917,9 +1942,27 @@ header .header-two-things-align .header-logo {
             padding: 0;
         }
 
+        .main-calendar-box.main-calendar-box-list.customers-box .two-things-align {
+            gap: 20px;
+        }
 
+        h2.mb-4 {
+            font-size: 15px;
+            margin-bottom: 10px !important;
+            text-align: center;
+        }
+        .alert.alert-info {
+            text-align: center;
+            font-size: 12px;
+        }
 
+        .alert.alert-info h4 {
+            font-size: 16px;
+        }
 
+        .form-group {
+            margin-bottom: 0rem;
+        }
 
 
     }
@@ -2046,6 +2089,8 @@ div#Table_length {
 a{
     text-decoration: none !important;
 }
+
+
 
 
 

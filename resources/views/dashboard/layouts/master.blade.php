@@ -443,12 +443,8 @@ document.querySelectorAll('.main-box-navy .col-lg-2').forEach(function(col2) {
 });
 
 
-
-
-
-
-
     </script>
+
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
