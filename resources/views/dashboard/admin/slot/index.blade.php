@@ -68,7 +68,7 @@
                         <tr>
                             <td>{{ $slot->id }}</td>
                             <td>{{ $slot->staff->user->name }}</td>
-                            <td>{{ $slot->service->name }}</td>
+                            <td>{{ optional($slot->service)->name }}</td>
                             <td>{{ $slot->available_on }}</td>
                             <td>{{ date('g:i a', strtotime($slot->available_from)) }}</td>
                             <td>{{ date('g:i a', strtotime($slot->available_to)) }}</td>

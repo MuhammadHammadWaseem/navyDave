@@ -19,7 +19,10 @@
 </style>
 
 @section('content')
-    <div class="col-lg-10">
+
+
+
+    <div class="col-lg-10 col-md-12">
         <div class="welcome-and-user-name">
             <h6>Welcome Back,</h6>
             <h5>Admin</h5>
