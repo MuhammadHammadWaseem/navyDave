@@ -1058,6 +1058,11 @@
                             width: 150px;
                         }
 
+                        div#CommentsModal .modal-dialog {
+    max-width: 95%;
+    margin-left: 0; 
+}
+
 
 
                     }

@@ -1899,6 +1899,10 @@ button.btn.btn-primary:active {
 
 /* mobile-menu-css-end */
 
+.modal {
+    z-index: 99999999 !important;
+}
+
 
 
 @media (min-width: 1200px) {
@@ -2209,6 +2213,7 @@ button.btn.btn-primary:active {
 }
 
 
+
 }
 
 @media only screen and (max-width: 1199px) {
@@ -2343,6 +2348,8 @@ button.btn.btn-primary:active {
   .payment-sec-new {
     padding: 120px 0 50px;
 }
+
+
 
 
 
@@ -2636,6 +2643,17 @@ button.btn.btn-primary:active {
     margin-top: 10px;
     padding-top: 10px;
 }
+div#CommentsModal .modal-dialog {
+    max-width: 95% !important;
+    margin-left: 0 !important;
+}
+
+
+
+
+
+
+
 
 
 
@@ -2938,6 +2956,9 @@ button.btn.btn-primary:active {
   .payment-sec-new .display-aligns {
     row-gap: 20px;
 }
+
+
+
 
 
 }
@@ -3245,6 +3266,10 @@ button.btn.btn-primary:active {
     padding: 7px 20px;
     font-size: 14px;
 }
+
+
+
+
 
 }
 

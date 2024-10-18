@@ -1345,6 +1345,10 @@ header .header-two-things-align .header-logo {
     display: none;
 }
 
+.main-calendar-box input {
+    border: 1px solid #0000002b;
+}
+
 
 
     @media only screen and (max-width: 1600px){
@@ -2089,6 +2093,20 @@ div#Table_length {
 a{
     text-decoration: none !important;
 }
+
+.main-box-navy .col-lg-2, .main-box-navy .col-lg-10, .main-box-navy .col-lg-11, .main-box-navy .col-lg-1 {
+    padding-left: 10px !important;
+  }
+  .col-lg-10, .col-lg-11 {
+    padding-left: 10px !important;
+  }
+
+  .main-table-box table tr th, .main-table-box table tr td {
+    padding: 5px 5px;
+}
+
+
+
 
 
 
