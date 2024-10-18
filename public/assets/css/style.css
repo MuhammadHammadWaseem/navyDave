@@ -1062,14 +1062,19 @@ footer .container {
 
 
 .blog-sec-01.blog-sec-details .two-boxes-align {
-  display: flex;
-  justify-content: space-between;
-  margin: 30px 0;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+    align-items: center;
+    flex-direction: column;
 }
 
 .blog-sec-01.blog-sec-details .two-boxes-align .box {
-  width: 48%;
+    width: 100%;
+    text-align: center;
+}
+.main-blog-detail-box {
+    text-align: center;
 }
 
 .blog-sec-01.blog-sec-details .two-boxes-align .main-img-blog-single img {
