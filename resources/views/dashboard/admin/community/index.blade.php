@@ -1060,7 +1060,7 @@
 
                         div#CommentsModal .modal-dialog {
     max-width: 95%;
-    margin-left: 0; 
+    margin-left: 0;
 }
 
 
@@ -1236,6 +1236,47 @@
                     .main-calendar-box h5 {
                         font-size: 20px;
                     }
+
+                    .main-calendar-box.main-calendar-box-list.customers-box.community-new .shadow-box .comment-input-box .two-btns-inline .box button {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content.shadow-box {
+    padding: 10px;
+}
+
+.modal-content.shadow-box {
+    padding: 10px;
+}
+
+.modal-content.shadow-box .reply-box button {
+    position: relative !important;
+    margin: auto;
+    font-size: 12px;
+}
+
+.modal-content.shadow-box .reply-box {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.modal-content.shadow-box .reply-box input {
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: 12px;
+}
+
+.modal-content.shadow-box .content-area-comment p {
+    font-size: 12px !important;
+    margin-bottom: 0 !important;
+}
+
 
                             }
 

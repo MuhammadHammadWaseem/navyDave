@@ -743,6 +743,25 @@
         margin: 0;
     }
 
+    .action-box ul {
+        display: flex;
+        column-gap: 10px;
+        margin: 0;
+        align-items: center;
+        padding: 0 !important;
+    }
+
+    .action-box li button {
+        border: 1px solid #00000026;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: white !important;
+    }
+
+    .action-box li button img {
+        max-width: 15px;
+    }
+
     .action-box ul li a {
         border: 1px solid #00000033;
         border-radius: 5px;
@@ -1363,6 +1382,19 @@ header .header-two-things-align .header-logo {
 
 .col-lg-1.col-md-1.col-1.resized {
     transition: .5s !important;
+}
+
+.col-lg-10.col-md-10.col-10 {
+    transition: .3s !important;
+}
+
+.col-lg-11.col-md-11.col-11.resized {
+    transition: .3s !important;
+}
+
+.modal {
+    z-index: 9999999 !important;
+
 }
 
 
@@ -2120,6 +2152,9 @@ a{
   .main-table-box table tr th, .main-table-box table tr td {
     padding: 5px 5px;
 }
+
+
+
 
 
 
