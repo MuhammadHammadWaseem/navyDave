@@ -1055,11 +1055,13 @@ footer .container {
 }
 
 .blog-sec-01.blog-sec-details .main-blog-details-img img {
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 20px;
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    height: 600px;
+    object-fit: cover;
+    border-radius: 20px;
 }
-
 
 .blog-sec-01.blog-sec-details .two-boxes-align {
     display: flex;
@@ -1076,6 +1078,7 @@ footer .container {
 .main-blog-detail-box {
     text-align: center;
 }
+
 
 .blog-sec-01.blog-sec-details .two-boxes-align .main-img-blog-single img {
   height: 600px;

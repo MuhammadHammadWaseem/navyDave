@@ -1349,6 +1349,22 @@ header .header-two-things-align .header-logo {
     border: 1px solid #0000002b;
 }
 
+.main-calendar-box input {
+    border: 1px solid #0000002b !important;
+}
+
+.col-lg-1.col-md-1.col-1.resized .button-wrapper button i {
+    transform: rotate(178deg);
+}
+
+.col-lg-2.col-md-2.col-2 {
+    transition: .5s !important;
+}
+
+.col-lg-1.col-md-1.col-1.resized {
+    transition: .5s !important;
+}
+
 
 
     @media only screen and (max-width: 1600px){
