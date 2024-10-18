@@ -2192,6 +2192,22 @@ button.btn.btn-primary:active {
     font-size: 20px;
   }
 
+  .payment-sec-new {
+    padding: 50px 0;
+}
+
+.payment-sec-new .img-box img {
+    max-width: 300px;
+}
+
+.payment-sec-new .display-aligns {
+    row-gap: 30px;
+}
+
+.payment-sec-new .display-aligns h2 {
+    font-size: 35px;
+}
+
 
 }
 
@@ -2323,6 +2339,11 @@ button.btn.btn-primary:active {
   .pricings-sec-03 .text h2 {
     font-size: 40px;
   }
+
+  .payment-sec-new {
+    padding: 120px 0 50px;
+}
+
 
 
 }
@@ -2601,6 +2622,21 @@ button.btn.btn-primary:active {
   .contact-us-sec-02 .text h2 {
     margin-bottom: 20px;
   }
+
+  .payment-sec-new .img-box img {
+    max-width: 200px;
+}
+
+.payment-sec-new .display-aligns h2 {
+    font-size: 30px;
+}
+
+.payment-sec-new .display-aligns .text p {
+    width: 350px;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
 
 
 
@@ -2899,6 +2935,10 @@ button.btn.btn-primary:active {
     margin-top: 20px;
   }
 
+  .payment-sec-new .display-aligns {
+    row-gap: 20px;
+}
+
 
 }
 
@@ -3186,6 +3226,25 @@ button.btn.btn-primary:active {
   .hero-banner .text {
     padding-top: 50px;
   }
+
+  .payment-sec-new .img-box img {
+    max-width: 150px;
+}
+.payment-sec-new .display-aligns h2 {
+    font-size: 18px;
+}
+.payment-sec-new .display-aligns .text p {
+    width: 250px;
+    margin-top: 7px;
+    padding-top: 7px;
+
+}
+
+.payment-sec-new .display-aligns .text a.t-btn {
+    margin-top: 15px;
+    padding: 7px 20px;
+    font-size: 14px;
+}
 
 }
 
