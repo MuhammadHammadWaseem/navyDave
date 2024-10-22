@@ -155,4 +155,9 @@ class UserAuthController extends Controller
         // Redirect back with a success message
         return redirect()->back()->with('success', 'You have successfully subscribed to the newsletter!');
     }
+
+    public function videoTutorial()
+    {
+        return view("dashboard.user.videoTutorial");
+    }
 }

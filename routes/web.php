@@ -238,5 +238,6 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::get('community', [UserAuthController::class, 'community'])->name('community');
         Route::get('get-appointment', [UserAuthController::class, 'getAppointment'])->name('appointment.get');
         Route::get('get-user-appointment', [UserAuthController::class, 'getUserAppointment'])->name('appointment.get.user');
+        Route::get('video-tutorial', [UserAuthController::class, 'videoTutorial'])->name('video.tutorial');
     });
 });

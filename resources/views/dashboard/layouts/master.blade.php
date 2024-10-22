@@ -129,6 +129,9 @@
                                         <li><a href="{{ route('user.community') }}"><span><img
                                                         src="{{ asset('./assets/images/Customers.png') }}"
                                                         alt=""></span>Community</a></li>
+                                        <li><a href="{{ route('user.video.tutorial') }}"><span><img
+                                                        src="{{ asset('./assets/images/Customers.png') }}"
+                                                        alt=""></span>Video Tutorial</a></li>
                                     @endif
 
                                     @if (auth()->user()->hasRole('staff'))
@@ -332,6 +335,9 @@
                                 <li><a href="{{ route('user.community') }}"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>Community</a></li>
+                                                <li><a href="{{ route('user.video.tutorial') }}"><span><img
+                                                    src="{{ asset('./assets/images/Customers.png') }}"
+                                                    alt=""></span>Video Tutorial</a></li>
                             @endif
 
                             @if (auth()->user()->hasRole('staff'))
