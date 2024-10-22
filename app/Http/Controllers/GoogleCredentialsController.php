@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Artisan;
+use App\Models\GoogleCredential;
 
 class GoogleCredentialsController extends Controller
 {
@@ -23,6 +24,15 @@ class GoogleCredentialsController extends Controller
             'client_secret' => 'required|string',
             // 'refresh_token' => 'required|string',
         ]);
+
+        // Save credentials in the database
+        GoogleCredential::updateOrCreate(
+            ['id' => 1],
+            [
+                'client_id' => $validated['client_id'],
+                'client_secret' => $validated['client_secret'],
+            ]
+        );
 
         // Retrieve the current .env file path
         $envPath = base_path('.env');

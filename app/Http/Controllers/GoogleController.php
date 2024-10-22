@@ -11,6 +11,7 @@ use App\Models\Appointment;
 use Carbon\Carbon;
 use App\Services\GoogleCalendarService;
 use Illuminate\Support\Facades\Session;
+use App\Models\GoogleCredential;
 
 class GoogleController extends Controller
 {
@@ -28,6 +29,8 @@ class GoogleController extends Controller
         $client->setClientSecret(config('services.google.client_secret'));
         $client->setRedirectUri(config('services.google.redirect'));
         $client->addScope(\Google_Service_Calendar::CALENDAR);
+
+        $client->setPrompt('consent');
 
         // Generate the URL for Google authentication
         $authUrl = $client->createAuthUrl();
@@ -57,6 +60,26 @@ class GoogleController extends Controller
 
         // Save token for future use
         session(['google_token' => $token]);
+
+        // Save access and refresh token in the database
+        $refreshToken = $token['refresh_token'] ?? null;
+        if ($refreshToken) {
+            // Store or update the refresh token in the database
+            GoogleCredential::updateOrCreate(
+                ['id' => 1], // Assuming you have a single set of credentials
+                [
+                    'access_token' => $token['access_token'],
+                    'refresh_token' => $refreshToken,
+                    'expires_at' => now()->addSeconds($token['expires_in']),
+                ]
+            );
+        } else {
+            // Just update the access token and expiration time if no new refresh token is provided
+            GoogleCredential::where('id', 1)->update([
+                'access_token' => $token['access_token'],
+                'expires_at' => now()->addSeconds($token['expires_in']),
+            ]);
+        }
 
         // Redirect to dashboard
         return redirect('/');

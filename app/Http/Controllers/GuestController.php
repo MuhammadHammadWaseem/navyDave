@@ -29,6 +29,7 @@ use App\Events\PostCreateNoti;
 use Spatie\Permission\Models\Role;
 use App\Services\GoogleCalendarService;
 use Google_Client;
+use App\Models\GoogleCredential;
 
 
 class GuestController extends Controller
@@ -171,7 +172,7 @@ class GuestController extends Controller
         $slotIds = Appointment::where('appointment_date', $now)->where('status', '!=', 'canceled')->pluck('slot_id');
 
         $slots = Slot::where('staff_id', $request->staff_id)->where('service_id', $request->service_id)->where('available_on', $todayName)->get();
-        
+
         $appointments = Appointment::with('slot')
             ->where('staff_id', $request->staff_id)
             ->where('appointment_date', $now)
@@ -180,8 +181,8 @@ class GuestController extends Controller
         foreach ($slots as $slot) {
             $slot->is_booked = $slotIds->contains($slot->id) ? true : false;
 
-            foreach($appointments as $a){
-                if($slot->available_from == $a->slot->available_from){
+            foreach ($appointments as $a) {
+                if ($slot->available_from == $a->slot->available_from) {
                     $slot->is_booked = true;
                 }
             }
@@ -409,7 +410,9 @@ class GuestController extends Controller
 
     public function nextSlot(Request $request)
     {
-        if (empty(env('GOOGLE_CLIENT_ID')) || empty(env('GOOGLE_CLIENT_SECRET'))) {
+        $googleCredentials = GoogleCredential::first();
+        // if (empty(env('GOOGLE_CLIENT_ID')) || empty(env('GOOGLE_CLIENT_SECRET'))) {
+        if (empty($googleCredentials) || empty($googleCredentials->client_id) || empty($googleCredentials->client_secret)) {
             // Begin Transaction
             DB::beginTransaction();
 
@@ -473,23 +476,26 @@ class GuestController extends Controller
         // Begin Transaction
         DB::beginTransaction();
 
-        if (!session()->has('google_token')) {
-            return redirect()->route('auth.google');
-        }
-
-        // Handle token refresh if expired
-        $client = new Google_Client();
-        $client->setAccessToken(session('google_token'));
-
-        if ($client->isAccessTokenExpired()) {
-            $refreshToken = $client->getRefreshToken();
-            if ($refreshToken) {
-                $client->fetchAccessTokenWithRefreshToken($refreshToken);
-                session(['google_token' => $client->getAccessToken()]);
-            } else {
-                return redirect()->route('auth.google');
+        // Check for tokens in the database
+            $credentials = GoogleCredential::first(); // Assuming only one set of credentials
+            if (!$credentials || empty($credentials->access_token)) {
+                // return redirect()->route('auth.google');
             }
-        }
+            // Handle token refresh if expired
+            $client = new Google_Client();
+            $client->setClientId($credentials->client_id);
+            $client->setClientSecret($credentials->client_secret);
+            $client->setAccessToken($credentials->access_token);
+
+            if ($client->isAccessTokenExpired()) {
+                $refreshToken = $credentials->refresh_token;
+                if ($refreshToken) {
+                    $client->fetchAccessTokenWithRefreshToken($refreshToken);
+                    // Store the refreshed token back in the database
+                    $credentials->access_token = $client->getAccessToken()['access_token'];
+                    $credentials->save();
+                }
+            }
 
         try {
             $appointment = Appointment::with('slot')->findOrFail($request->appointment_id);
@@ -523,7 +529,7 @@ class GuestController extends Controller
             $adminUser->notify(new AppointmentCreateNotification($newAppointment));
             event(new PostCreateNoti($newAppointment));
 
-            if (env('GOOGLE_CLIENT_ID') && env('GOOGLE_CLIENT_SECRET')) {
+            if ($credentials->client_id && $credentials->client_secret) {
                 // ------------------- <-- Google Calendar Event --> ------------------- \\
                 $calendarEventResponse = $this->createGoogleCalendarEvent($newAppointment);
 
@@ -561,7 +567,9 @@ class GuestController extends Controller
 
     public function stripeSuccess(Request $request)
     {
-        if (empty(env('GOOGLE_CLIENT_ID')) || empty(env('GOOGLE_CLIENT_SECRET'))) {
+        $googleCredentials = GoogleCredential::first();
+        // if (empty(env('GOOGLE_CLIENT_ID')) || empty(env('GOOGLE_CLIENT_SECRET'))) {
+        if (empty($googleCredentials) || empty($googleCredentials->client_id) || empty($googleCredentials->client_secret)) {
 
             $validated = Session::get('SessionData');
 
@@ -641,23 +649,24 @@ class GuestController extends Controller
 
 
             DB::beginTransaction();
-
-            if (!session()->has('google_token')) {
-                return redirect()->route('auth.google');
+            // Check for tokens in the database
+            $credentials = GoogleCredential::first(); // Assuming only one set of credentials
+            if (!$credentials || empty($credentials->access_token)) {
+                // return redirect()->route('auth.google');
             }
-
             // Handle token refresh if expired
             $client = new Google_Client();
-            $client->setAccessToken(session('google_token'));
+            $client->setClientId($credentials->client_id);
+            $client->setClientSecret($credentials->client_secret);
+            $client->setAccessToken($credentials->access_token);
 
             if ($client->isAccessTokenExpired()) {
-                $refreshToken = $client->getRefreshToken();
+                $refreshToken = $credentials->refresh_token;
                 if ($refreshToken) {
                     $client->fetchAccessTokenWithRefreshToken($refreshToken);
-                    session(['google_token' => $client->getAccessToken()]); // Store the refreshed token
-                } else {
-                    // If no refresh token is available, redirect the admin for re-authentication
-                    return redirect()->route('auth.google');
+                    // Store the refreshed token back in the database
+                    $credentials->access_token = $client->getAccessToken()['access_token'];
+                    $credentials->save();
                 }
             }
 
@@ -714,7 +723,7 @@ class GuestController extends Controller
                 $staffEmail = $appointment->staff->user->email;
                 $adminEmail = 'hw13604@gmail.com';
 
-                if (env('GOOGLE_CLIENT_ID') && env('GOOGLE_CLIENT_SECRET')) {
+                if ($credentials->client_id && $credentials->client_secret) {
                     // Create Google Calendar event
                     $calendarEventResponse = $this->createGoogleCalendarEvent($appointment);
 
