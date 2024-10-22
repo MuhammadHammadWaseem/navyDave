@@ -14,6 +14,11 @@
 .main-box-navy .left-all-links ul li a.dashboard-active span img,.main-box-navy .left-all-links ul li a:hover span img {
   filter: invert(0) hue-rotate(465deg) brightness(10.5);
 }
+@media only screen and (max-width: 575px) {
+    .main-table-box {
+        margin-top: 90px !important;
+    }
+}
 </style>
 @section('content')
     <div class="col-lg-10">

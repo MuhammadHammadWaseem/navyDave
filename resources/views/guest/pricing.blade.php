@@ -80,7 +80,7 @@
 
     </section>
 
-    <section class="pricings-sec-03">
+    {{-- <section class="pricings-sec-03">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -141,5 +141,5 @@
             </div>
         </div>
 
-    </section>
+    </section> --}}
 @endsection
