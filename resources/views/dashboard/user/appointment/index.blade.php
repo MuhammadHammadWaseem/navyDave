@@ -67,9 +67,9 @@
                         <th class="text-center">Email</th>
                         <th class="text-center">Staff</th>
                         <th class="text-center">Service</th>
-                        <th class="text-center">Total Slots</th>
-                        <th class="text-center">Completed Slots</th>
-                        <th class="text-center">Remaining Slots</th>
+                        <th class="text-center">Total Session</th>
+                        <th class="text-center">Completed Session</th>
+                        <th class="text-center">Remaining Session</th>
                         <th class="text-center">Day</th>
                         <th class="text-center">Date</th>
                         <th class="text-center">Time</th>

@@ -298,9 +298,9 @@
                                         style="filter: invert(48%) sepia(48%) saturate(1225%) hue-rotate(83deg) brightness(92%) contrast(93%);">
                                     {{ $s->duration }} {{ $s->type_duration }}</p>
                                 <p>{{ $s->slots }} @if ($s->slots > 1)
-                                        Slots
+                                        Sessions
                                     @else
-                                        Slot
+                                        Session
                                     @endif
                                 </p>
                                 <a href="{{ route('appointment') }}" class="t-btn">Book Now</a>
@@ -339,9 +339,9 @@
                                         style="filter: invert(48%) sepia(48%) saturate(1225%) hue-rotate(83deg) brightness(92%) contrast(93%);">
                                     {{ $s->duration }} {{ $s->type_duration }}</p>
                                 <p>{{ $s->slots }} @if ($s->slots > 1)
-                                        Slots
+                                    Sessions
                                     @else
-                                        Slot
+                                    Session
                                     @endif
                                 </p>
                                 <a href="{{ route('appointment') }}" class="t-btn">Book Now</a>

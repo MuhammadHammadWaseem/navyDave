@@ -58,7 +58,7 @@
                         <th>Service Name</th>
                         <th>Category</th>
                         <th>Duration</th>
-                        <th>Slots</th>
+                        <th>Sessions</th>
                         <th>Type Duration</th>
                         <th>Price</th>
                         <th>Actions</th>

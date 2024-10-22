@@ -32,7 +32,7 @@
                                 <h5>${{ $s->price }}</h5>
                                 <p>{{ $s->description }}</p>
                                 <p>{{ $s->duration }} {{ $s->type_duration }}</p>
-                                <p>{{ $s->slots }} @if($s->slots > 1) Slots @else Slot @endif</p>
+                                <p>{{ $s->slots }} @if($s->slots > 1) Sessions @else Session @endif</p>
                                 <a href="{{ route('appointment') }}">Book Now</a>
                             </div>
                         @endforeach

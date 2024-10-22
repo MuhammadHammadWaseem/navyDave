@@ -1042,7 +1042,7 @@
                                         <div class="content">
                                             <h4>${element.name}</h4>
                                             <p>Duration <b>: ${element.duration} ${element.type_duration}</b> </p>
-                                            <p>Slots <b>: ${element.slots}</b></p>
+                                            <p>Session <b>: ${element.slots}</b></p>
                                             <p>Price <b>: $${element.price}</b></p>
                                         </div>
                                     </div>
