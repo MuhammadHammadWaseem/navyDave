@@ -71,8 +71,8 @@
                             who commits to what Dave sees that could help their golf game will be enjoying and playing their
                             best golf ever. I’m 66 years old and I thought because of aging, my game was on the way down. I
                             was wrong, Dave Delano has me playing my best golf of my life. Thank you Dave Delano.</p>
-                        <h2>Paul Thomforde</h2>
-                        <p>Happy to help</p>
+                        {{-- <h2>Paul Thomforde</h2>
+                        <p>Happy to help</p> --}}
                     </div>
                 </div>
             </div>
