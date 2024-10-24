@@ -1111,8 +1111,23 @@
                             service_id: serviceID
                         },
                         success: function(data) {
+                            console.log(data.length);
                             $("#slots-box").empty(); // Clear existing slots
                             $("#appointment_date").val(null);
+
+                            if(data.length == 0){
+                                $("#slots-box").append(`
+                                    <div class="input-radio-box">
+                                        <label for="">
+                                            <div class="main-label-content">
+                                                <div class="content">
+                                                    <h4 style="">No Slots Available</h4>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                `);
+                            }
 
                             // Separate slots into Morning and Afternoon categories
                             var morningSlots = [];
@@ -1192,6 +1207,20 @@
                         },
                         success: function(data) {
                             $("#slots-box").empty(); // Clear existing slots
+
+                            if(data.length == 0){
+                                $("#slots-box").append(`
+                                    <div class="input-radio-box">
+                                        <label for="">
+                                            <div class="main-label-content">
+                                                <div class="content">
+                                                    <h4 style="">No Slots Available</h4>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                `);
+                            }
 
                             // Separate slots into Morning and Afternoon categories
                             var morningSlots = [];
