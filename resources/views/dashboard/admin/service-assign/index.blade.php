@@ -34,6 +34,11 @@
         color: white;
         border-color: #50bc7a;
     }
+
+    span.select2-dropdown.select2-dropdown--below {
+    z-index: 999999999999999 !important;
+}
+
 </style>
 
 
@@ -152,6 +157,8 @@
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
+
     $(document).ready(function() {
         $('#services').select2();
         showTable();
