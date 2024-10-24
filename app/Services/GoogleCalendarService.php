@@ -83,6 +83,9 @@ class GoogleCalendarService
                 ['email' => $appointment->email], // User's email
                 ['email' => $appointment->staff->user->email], // Staff email
             ],
+            'organizer' => [
+                'email' => "navydavegolfmail@gmail.com", // Organizer's email (staff's email in this case)
+            ],
             'reminders' => [
                 'useDefault' => false,
                 'overrides' => [['method' => 'popup', 'minutes' => 10]],
