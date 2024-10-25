@@ -1222,6 +1222,19 @@
                                 `);
                             }
 
+
+                            $("#slots-box").append(`
+                                <div style="text-align: center;" id="loadingTab2">
+                                    <div class="appointment-booked-details">
+                                        {{-- <p>Loading.....</p> --}}
+                                        <img src="{{ asset('assets/images/loading.gif') }}" width="100px" height="100px" alt="Loading...">
+                                    </div>
+                                </div>
+                            `);
+
+                            setTimeout(() => {
+                                $("#loadingTab2").remove();
+
                             // Separate slots into Morning and Afternoon categories
                             var morningSlots = [];
                             var afternoonSlots = [];
@@ -1277,6 +1290,11 @@
                                     `);
                                 });
                             }
+
+
+                        }, 1000);
+
+
                         },
 
                         error: function(data) {
