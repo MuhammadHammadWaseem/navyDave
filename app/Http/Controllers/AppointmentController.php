@@ -63,7 +63,7 @@ class AppointmentController extends Controller
         // Send emails notifying user, staff, and admin
         $userEmail = $appointment->email;
         $staffEmail = $appointment->staff->user->email;
-        $adminEmail = 'hw13604@gmail.com';
+        $adminEmail = 'info@navydavegolf.com';
 
         SendStatusMail::dispatch($userEmail, $appointment, 'user');
         SendStatusMail::dispatch($staffEmail, $appointment, 'staff');
