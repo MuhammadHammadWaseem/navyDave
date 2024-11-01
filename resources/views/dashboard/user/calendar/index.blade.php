@@ -83,7 +83,7 @@
                 </div>
                 <div class="modal-body">
                     <p><strong>Appointment ID:</strong> <span id="modalAppointmentId"></span></p>
-                    <p><strong>Event Title:</strong> <span id="modalEventTitle"></span></p>
+                    <p><strong>Customer Name:</strong> <span id="modalEventTitle"></span></p>
                     <p><strong>Time Slot:</strong> <span id="modalEventDescription"></span></p>
                     <p><strong>Staff Name:</strong> <span id="modalStaffName"></span></p>
                     <p><strong>Service Name:</strong> <span id="modalServiceName"></span></p>
