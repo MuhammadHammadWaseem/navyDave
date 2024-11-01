@@ -426,6 +426,24 @@ class GuestController extends Controller
                     'slot_id' => $nextSlot->id,
                 ]);
 
+                Appointment::create([
+                    'service_id' => $appointment->service_id,
+                    'user_id' => $appointment->user_id, 
+                    'staff_id' => $appointment->staff_id,
+                    'slot_id' => $appointment->slot_id,
+                    'total_slots' => $appointment->total_slots,
+                    'completed_slots' => $appointment->completed_slots,
+                    'appointment_date' => $appointment->appointment_date,
+                    'first_name' => $appointment->first_name,
+                    'last_name' => $appointment->last_name,
+                    'email' => $appointment->email,
+                    'phone' => $appointment->phone,
+                    'location' => $appointment->location,
+                    'price' => $appointment->price,
+                    'status' => $appointment->status,
+                    'note' => $appointment->note,
+                ]);
+
                 $appointment->slot_id = $nextSlot->id;
                 $appointment->completed_slots = $appointment->completed_slots + 1;
                 $appointment->appointment_date = $request->appointment_date;
@@ -507,6 +525,25 @@ class GuestController extends Controller
                 'slot_id' => $nextSlot->id,
             ]);
 
+            Appointment::create([
+                'service_id' => $appointment->service_id,
+                'user_id' => $appointment->user_id, 
+                'staff_id' => $appointment->staff_id,
+                'slot_id' => $appointment->slot_id,
+                'total_slots' => 0,
+                'completed_slots' => 0,
+                'appointment_date' => $appointment->appointment_date,
+                'first_name' => $appointment->first_name,
+                'last_name' => $appointment->last_name,
+                'email' => $appointment->email,
+                'phone' => $appointment->phone,
+                'location' => $appointment->location,
+                'price' => $appointment->price,
+                'status' => $appointment->status,
+                'note' => $appointment->note,
+            ]);
+
+
             $appointment->slot_id = $nextSlot->id;
             $appointment->completed_slots = $appointment->completed_slots + 1;
             $appointment->appointment_date = $request->appointment_date;
@@ -518,6 +555,7 @@ class GuestController extends Controller
                 $appointment->status = 'awaiting_next_slot';
             }
             $appointment->save();
+
 
             $newAppointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($request->appointment_id);
 
