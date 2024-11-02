@@ -161,9 +161,9 @@
                     backgroundColor: statusColors.backgroundColor,
                     borderColor: statusColors.borderColor,
                     textColor: statusColors.textColor,
-                    description: formatTime(appointment.slot.available_from) + ' ' + formatTime(appointment.slot.available_to),
+                    description: appointment.slot ? formatTime(appointment.slot.available_from) + ' ' + formatTime(appointment.slot.available_to) : '9:00 am - 11:00 am',
                     extendedProps: {
-                        description: formatTime(appointment.slot.available_from) + ' - ' + formatTime(appointment.slot.available_to),
+                        description: appointment.slot ? formatTime(appointment.slot.available_from) + ' - ' + formatTime(appointment.slot.available_to) : 'No slot available',
                         status: appointment.status,
                         staff: appointment.staff,
                         service: appointment.service,
