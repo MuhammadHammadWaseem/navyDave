@@ -21,7 +21,7 @@ class GoogleCalendarService
              return redirect()->route('auth.google'); // Handle missing credentials
          }
 
-         
+
         $client = new Google_Client();
 
         $client->setClientId($credentials->client_id);
@@ -63,6 +63,7 @@ class GoogleCalendarService
         // Convert appointment date and time to Google Calendar format
         $appointmentDate = new \DateTime($appointment->appointment_date, new \DateTimeZone('America/Los_Angeles')); // Ensure time zone
 
+        dd($appointment->email,$appointment->staff->user->email);
         // Create a Google_Service_Calendar_Event object
         $event = new Google_Service_Calendar_Event([
             'summary' => 'Appointment with ' . $appointment->staff->user->name,
