@@ -63,7 +63,6 @@ class GoogleCalendarService
         // Convert appointment date and time to Google Calendar format
         $appointmentDate = new \DateTime($appointment->appointment_date, new \DateTimeZone('America/Los_Angeles')); // Ensure time zone
 
-        dd($appointment->email,$appointment->staff->user->email);
         // Create a Google_Service_Calendar_Event object
         $event = new Google_Service_Calendar_Event([
             'summary' => 'Appointment with ' . $appointment->staff->user->name,
@@ -95,7 +94,8 @@ class GoogleCalendarService
 
         try {
             $calendarId = 'primary';  // 'primary' for the user's main calendar
-            $service->events->insert($calendarId, $event);  // Pass the event object, not an array
+            // $service->events->insert($calendarId, $event);  // Pass the event object, not an array
+            $service->events->insert($calendarId, $event, ['sendUpdates' => 'all']);
             return response()->json(['success' => true, 'message' => 'Event created successfully']);
         } catch (\Exception $e) {
             \Log::error('Google Calendar event creation failed: ' . $e->getMessage());
