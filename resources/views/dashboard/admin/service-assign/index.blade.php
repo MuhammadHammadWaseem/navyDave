@@ -71,7 +71,7 @@
     .select2-dropdown--below {
         z-index: 99999 !important;
     }
-    
+
 </style>
 
 @section('content')
@@ -178,22 +178,38 @@
             dataType: "json",
             success: function(response) {
                 let groupedData = {};
+                // response.services.forEach(function(item) {
+                //     if (!groupedData[item.staff_id]) {
+                //         groupedData[item.staff_id] = {
+                //             id: item.staff.id,
+                //             staff_name: item.staff.user.name,
+                //             services: []
+                //         };
+                //     }
+                //     console.log(item);
+                //     if(item.service == null){
+                //         item.service = {
+                //             name: 'No Service'
+                //         };
+                //     }
+                //     groupedData[item.staff_id].services.push(item.service.name);
+                // });
                 response.services.forEach(function(item) {
-                    if (!groupedData[item.staff_id]) {
-                        groupedData[item.staff_id] = {
-                            id: item.staff.id,
-                            staff_name: item.staff.user.name,
-                            services: []
-                        };
-                    }
-                    console.log(item);
-                    if(item.service == null){
-                        item.service = {
-                            name: 'No Service'
-                        };
-                    }
-                    groupedData[item.staff_id].services.push(item.service.name);
-                });
+    if (item.staff && !groupedData[item.staff_id]) {
+        groupedData[item.staff_id] = {
+            id: item.staff.id,
+            staff_name: item.staff.user.name,
+            services: []
+        };
+    }
+    if (item.service == null) {
+        item.service = { name: 'No Service' };
+    }
+    if (item.staff) {
+        groupedData[item.staff_id].services.push(item.service.name);
+    }
+});
+
 
                 // Convert grouped data to an array
                 let tableData = Object.keys(groupedData).map(key => {
