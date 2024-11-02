@@ -67,7 +67,7 @@
                     @foreach ($slots as $slot)
                         <tr>
                             <td>{{ $slot->id }}</td>
-                            <td>{{ $slot->staff->user->name }}</td>
+                            <td>{{ $slot->staff ? $slot->staff->user->name : 'No Staff Assigned' }}</td>
                             <td>{{ optional($slot->service)->name }}</td>
                             <td>{{ $slot->available_on }}</td>
                             <td>{{ date('g:i a', strtotime($slot->available_from)) }}</td>
