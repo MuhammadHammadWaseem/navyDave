@@ -16,8 +16,7 @@ class GoogleCalendarService
     {
          // Fetch Google credentials from the database
          $credentials = GoogleCredential::first(); // Fetch the first record
-        //  dd($credentials);
-         if (!$credentials) {
+         if (!$credentials || !$credentials->access_token) {
              return redirect()->route('auth.google'); // Handle missing credentials
          }
 
@@ -26,18 +25,27 @@ class GoogleCalendarService
 
         $client->setClientId($credentials->client_id);
         $client->setClientSecret($credentials->client_secret);
-        $client->setAccessToken($credentials->access_token);
+        $client->setAccessToken([
+            'access_token' => $credentials->access_token,
+            'expires_in' => strtotime($credentials->expires_at) - time(),
+            'refresh_token' => $credentials->refresh_token,
+        ]);
 
         // If the token is expired
         if ($client->isAccessTokenExpired()) {
             // Check if a refresh token is available
-            $refreshToken = $credentials->refresh_token;
-            if ($refreshToken) {
-                // Attempt to refresh the token
-                $client->fetchAccessTokenWithRefreshToken($refreshToken);
-                // Store the new access token in the database
-                $credentials->access_token = $client->getAccessToken()['access_token'];
-                $credentials->save();
+            if ($credentials->refresh_token) {
+                $client->fetchAccessTokenWithRefreshToken($credentials->refresh_token);
+                $newAccessToken = $client->getAccessToken();
+    
+                // Update the database with the new access token and expiration time
+                $credentials->update([
+                    'access_token' => $newAccessToken['access_token'],
+                    'expires_at' => now()->addSeconds($newAccessToken['expires_in']),
+                ]);
+            } else {
+                // Redirect to Google authorization if refresh token is missing or expired
+                return redirect()->route('auth.google');
             }
         }
 
@@ -94,8 +102,8 @@ class GoogleCalendarService
 
         try {
             $calendarId = 'primary';  // 'primary' for the user's main calendar
-            // $service->events->insert($calendarId, $event);  // Pass the event object, not an array
-            $service->events->insert($calendarId, $event, ['sendUpdates' => 'all']);
+            $result = $service->events->insert($calendarId, $event, ['sendUpdates' => 'all']);
+            \Log::info('Google Calendar event created:', ['event_id' => $result->getId()]);
             return response()->json(['success' => true, 'message' => 'Event created successfully']);
         } catch (\Exception $e) {
             \Log::error('Google Calendar event creation failed: ' . $e->getMessage());

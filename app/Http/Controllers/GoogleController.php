@@ -24,65 +24,107 @@ class GoogleController extends Controller
     }
     public function redirectToGoogle()
     {
-        $client = new \Google_Client();
-        $client->setClientId(config('services.google.client_id'));
-        $client->setClientSecret(config('services.google.client_secret'));
-        $client->setRedirectUri(config('services.google.redirect'));
-        $client->addScope(\Google_Service_Calendar::CALENDAR);
+        $credentials = GoogleCredential::find(1);
 
+        if (!$credentials) {
+            return redirect('/')->with('error', 'Google credentials are missing.');
+        }
+        $client = new \Google_Client();
+        $client->setClientId($credentials->client_id);
+        $client->setClientSecret($credentials->client_secret);
+        $client->setRedirectUri(route('google.callback'));
+        $client->addScope(\Google_Service_Calendar::CALENDAR);
+        $client->setAccessType('offline');
         $client->setPrompt('consent');
 
-        // Generate the URL for Google authentication
         $authUrl = $client->createAuthUrl();
         return redirect()->away($authUrl);
     }
 
 
     // Handle the OAuth callback and save access token
-    public function handleGoogleCallback(Request $request)
+    // public function handleGoogleCallback(Request $request)
+    // {
+    //     $client = new \Google_Client();
+    //     $client->setClientId(env('GOOGLE_CLIENT_ID'));
+    //     $client->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
+    //     $client->setRedirectUri(env('GOOGLE_REDIRECT_URI'));
+    //     $client->addScope(\Google_Service_Calendar::CALENDAR);
+
+    //     // Exchange the authorization code for an access token
+    //     $token = $client->fetchAccessTokenWithAuthCode($request->code);
+
+    //     // Handle token error if present
+    //     if (isset($token['error'])) {
+    //         return redirect()->route('login')->withErrors('Error fetching token: ' . $token['error_description']);
+    //     }
+
+    //     // Set the access token
+    //     $client->setAccessToken($token);
+
+    //     // Save token for future use
+    //     session(['google_token' => $token]);
+
+    //     // Save access and refresh token in the database
+    //     $refreshToken = $token['refresh_token'] ?? null;
+    //     if ($refreshToken) {
+    //         // Store or update the refresh token in the database
+    //         GoogleCredential::updateOrCreate(
+    //             ['id' => 1], // Assuming you have a single set of credentials
+    //             [
+    //                 'access_token' => $token['access_token'],
+    //                 'refresh_token' => $refreshToken,
+    //                 'expires_at' => now()->addSeconds($token['expires_in']),
+    //             ]
+    //         );
+    //     } else {
+    //         // Just update the access token and expiration time if no new refresh token is provided
+    //         GoogleCredential::where('id', 1)->update([
+    //             'access_token' => $token['access_token'],
+    //             'expires_at' => now()->addSeconds($token['expires_in']),
+    //         ]);
+    //     }
+
+    //     // Redirect to dashboard
+    //     return redirect('/');
+    // }
+
+    // Callback to handle Google response and save tokens
+    public function handleGoogleCallback()
     {
+        // Fetch client ID and secret from the database
+        $credentials = GoogleCredential::find(1);
+
         $client = new \Google_Client();
-        $client->setClientId(env('GOOGLE_CLIENT_ID'));
-        $client->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
-        $client->setRedirectUri(env('GOOGLE_REDIRECT_URI'));
-        $client->addScope(\Google_Service_Calendar::CALENDAR);
+        $client->setClientId($credentials->client_id);
+        $client->setClientSecret($credentials->client_secret);
+        $client->setRedirectUri(route('google.callback'));
 
-        // Exchange the authorization code for an access token
-        $token = $client->fetchAccessTokenWithAuthCode($request->code);
+        $code = request('code');
+        $tokenResponse = $client->fetchAccessTokenWithAuthCode($code);
 
-        // Handle token error if present
-        if (isset($token['error'])) {
-            return redirect()->route('login')->withErrors('Error fetching token: ' . $token['error_description']);
+        if (isset($tokenResponse['error'])) {
+            return redirect('/')->with('error', 'Failed to authenticate with Google.');
         }
 
-        // Set the access token
-        $client->setAccessToken($token);
+        $accessToken = $client->getAccessToken();
+        $refreshToken = $client->getRefreshToken();
 
-        // Save token for future use
-        session(['google_token' => $token]);
-
-        // Save access and refresh token in the database
-        $refreshToken = $token['refresh_token'] ?? null;
-        if ($refreshToken) {
-            // Store or update the refresh token in the database
+        if ($accessToken && $refreshToken) {
+            // Save both access and refresh tokens
             GoogleCredential::updateOrCreate(
-                ['id' => 1], // Assuming you have a single set of credentials
+                ['id' => 1], // Assuming only one set of credentials in the table
                 [
-                    'access_token' => $token['access_token'],
+                    'access_token' => $accessToken['access_token'],
                     'refresh_token' => $refreshToken,
-                    'expires_at' => now()->addSeconds($token['expires_in']),
+                    'expires_at' => now()->addSeconds($accessToken['expires_in'])
                 ]
             );
-        } else {
-            // Just update the access token and expiration time if no new refresh token is provided
-            GoogleCredential::where('id', 1)->update([
-                'access_token' => $token['access_token'],
-                'expires_at' => now()->addSeconds($token['expires_in']),
-            ]);
-        }
 
-        // Redirect to dashboard
-        return redirect('/');
+            return redirect('/')->with('success', 'Google Calendar connected successfully!');
+        } else {
+            return redirect('/')->with('error', 'Failed to retrieve Google Calendar tokens.');
+        }
     }
 
 

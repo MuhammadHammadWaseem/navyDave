@@ -22,7 +22,6 @@ class GoogleCredentialsController extends Controller
         $validated = $request->validate([
             'client_id' => 'required|string',
             'client_secret' => 'required|string',
-            // 'refresh_token' => 'required|string',
         ]);
 
         // Save credentials in the database
@@ -34,31 +33,7 @@ class GoogleCredentialsController extends Controller
             ]
         );
 
-        // Retrieve the current .env file path
-        $envPath = base_path('.env');
-
-        // Read the current .env content
-        $envContent = File::get($envPath);
-
-        // Update the values of the required keys
-        $envContent = str_replace(
-            ['GOOGLE_CLIENT_ID=' . env('GOOGLE_CLIENT_ID'), 'GOOGLE_CLIENT_SECRET=' . env('GOOGLE_CLIENT_SECRET'), 'GOOGLE_REFRESH_TOKEN=' . env('GOOGLE_REFRESH_TOKEN')],
-            [
-                'GOOGLE_CLIENT_ID=' . $validated['client_id'],
-                'GOOGLE_CLIENT_SECRET=' . $validated['client_secret'],
-                // 'GOOGLE_REFRESH_TOKEN=' . $validated['refresh_token'],
-            ],
-            $envContent
-        );
-
-        // Write the updated content back to the .env file
-        File::put($envPath, $envContent);
-
-        // Clear the config cache so that the new values are used
-        Artisan::call('config:clear');
-
         return redirect('/auth/google');
-        // return redirect()->route('admin.google.credentials')->with('success', 'Credentials updated successfully!');
     }
 
     // public function store(Request $request)

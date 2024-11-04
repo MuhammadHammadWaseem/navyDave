@@ -136,10 +136,10 @@
                             <input type="text" class="form-control" id="client_secret" name="client_secret" required>
                         </div>
             
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="refresh_token">Google Refresh Token</label>
                             <input type="text" class="form-control" id="refresh_token" name="refresh_token" required>
-                        </div>
+                        </div> --}}
             
                         <button type="submit" class="btn btn-primary">Save Credentials</button>
                     </form>

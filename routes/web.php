@@ -36,17 +36,9 @@ use App\Http\Controllers\GoogleController;
 Route::get('/sessionCheck', [GoogleController::class, 'sessionCheck']);
 
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
-Route::get('/google-auth/callback', [GoogleController::class, 'handleGoogleCallback']);
+Route::get('/google-auth/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
 
 Route::get('/calStore', [GoogleController::class, 'store']);
-
-
-// // for Getting Google token
-// Route::get('/google-auth', [AdminAuthController::class, 'redirectToGoogle'])->name('google-auth');
-// Route::get('/staff-google-auth', [AdminAuthController::class, 'staffRedirectToGoogle'])->name('staff-google-auth');
-// // for Handling Google callback
-// Route::get('/google-auth/callback', [AdminAuthController::class, 'handleGoogleCallback']);
-// for Create sample event
 Route::get('/check', [AdminAuthController::class, 'check']);
 
 
