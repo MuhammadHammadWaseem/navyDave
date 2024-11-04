@@ -170,6 +170,14 @@ public function update(Request $request, $id)
 public function destroy($id)
 {
     $staff = Staff::findOrFail($id);
+
+    if ($staff->user_id) {
+        $user = User::find($staff->user_id);
+        if ($user) {
+            $user->delete();
+        }
+    }
+
      // Delete the image file if it exists
      if ($staff->image) {
         $imagePath = storage_path('app/public/' . $staff->image);
