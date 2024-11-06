@@ -71,7 +71,7 @@
                         </div>
                         <div class="form-box">
                             <div class="text">
-                                <h2> <span>Reset</span>Your<br>Passsword</h2>
+                                <h2> <span>Reset </span>Your <br>Passsword</h2>
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
                                         <ul>
@@ -87,7 +87,7 @@
                                         <input type="text" name="email" placeholder="Email *" aria-label="Email"
                                             aria-describedby="basic-addon1" required>
                                     </div>
-                                    <button type="submit">Send Mail</button>
+                                    <button type="submit">Reset password</button>
 
                                 </form>
                             </div>
