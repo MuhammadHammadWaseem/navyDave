@@ -71,7 +71,7 @@
                         </div>
                         <div class="form-box">
                             <div class="text">
-                                <h2> <span>Login</span>To Your<br> Account </h2>
+                                <h2> <span>Reset</span>Your<br>Passsword</h2>
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
                                         <ul>
@@ -81,32 +81,37 @@
                                         </ul>
                                     </div>
                                 @endif
-                                <form action="{{ route('login.post') }}" method="POST">
+                                <form method="POST" action="{{ route('password.update') }}">
                                     @csrf
                                     <div class="single-input-box">
-                                        <input type="text" name="email" placeholder="Email *" aria-label="Email"
-                                            aria-describedby="basic-addon1" required>
+                                        <input type="hidden" name="token" value="{{ $token }}">
+                                        <input type="hidden" name="email" value="{{ request('email') }}">
                                     </div>
+
                                     <div class="single-input-box">
-                                        <input type="password" name="password" id="password" placeholder="Password * "
-                                            aria-label="Password" aria-describedby="basic-addon2" required>
+                                        <label>New Password</label>
+                                        <input type="password" name="password" id="password" required autocomplete="new-password">
                                     </div>
+
+                                    <div class="single-input-box">
+                                        <label>Confirm Password</label>
+                                        <input type="password" id="n-password" name="password_confirmation" required
+                                            autocomplete="new-password">
+                                    </div>
+
                                     <div class="input-check-box">
                                         <input type="checkbox" id="show-password" name="remember-me"
                                             onclick="togglePassword()">
                                         <label for="show-password">Show password</label>
-                                        
-                                        <a href="{{ route('password.request') }}">Forgot Your Password?</a>
                                     </div>
 
-                                    <button type="submit">Login</button>
-
+                                    <button type="submit">Reset Password</button>
                                 </form>
                             </div>
                         </div>
 
                         <div class="form-btm-content">
-                            <p>Don’t have an account! <a href="{{ route('register') }}">Create One</a></p>
+                            <p>Remember your password? <a href="{{ route('login') }}">Log In</a></p>
                         </div>
                     </div>
                 </div>
@@ -124,21 +129,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js"></script>
 
     <script>
-        let success = {{ Session::has('success') }} 
+        let success = {{ Session::has('success') }}
         $(document).on('ready', function() {
             if (success == true) {
                 toastr.success('{{ Session::get('success') }}');
             }
         })
+
         function togglePassword() {
             var passwordField = document.getElementById("password");
+            var passwordField2 = document.getElementById("n-password");
 
             var checkbox = document.getElementById("show-password");
 
             if (checkbox.checked) {
                 passwordField.type = "text";
+                passwordField2.type = "text";
             } else {
                 passwordField.type = "password";
+                passwordField2.type = "password";
             }
         }
     </script>

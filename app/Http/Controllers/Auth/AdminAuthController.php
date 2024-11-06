@@ -23,6 +23,8 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use App\Jobs\SendWelcomeMail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Password;
+use App\Notifications\ResetPasswordNotification;
 
 class AdminAuthController extends Controller
 {
@@ -30,6 +32,51 @@ class AdminAuthController extends Controller
     {
         return view('dashboard.admin.auth.login');
     }
+    public function showLinkRequestForm()
+    {
+        return view('dashboard.admin.auth.resetPassword');
+    }
+
+    public function sendResetLinkEmail(Request $request)
+    {
+        $request->validate(['email' => 'required|email|exists:users,email']);
+
+        $user = User::where('email', $request->email)->first();
+        $token = Password::createToken($user);
+
+        $user->notify(new ResetPasswordNotification($token));
+
+        return back()->with('success', 'Password reset link sent!');
+    }
+
+    public function showResetForm(Request $request, $token = null)
+    {
+        return view('dashboard.admin.auth.reset-password-form')->with(['token' => $token, 'email' => $request->email]);
+    }
+
+    public function reset(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|confirmed|min:8',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user) use ($request) {
+                $user->password = bcrypt($request->password);
+                $user->save();
+            }
+        );
+
+        if ($status == Password::PASSWORD_RESET) {
+            return redirect()->route('login')->with('success', 'Password reset successfully!');
+        }
+
+        return back()->withErrors(['email' => [__($status)]]);
+    }
+
 
 
     public function login(Request $request)
@@ -281,7 +328,7 @@ class AdminAuthController extends Controller
     {
         // Get the authenticated user
         $user = auth()->user();
-    
+
         // Determine if the user is admin or staff and fetch the appropriate Google credentials
         if ($user->hasRole('admin')) {
             // Admin: Fetch credentials from the admin settings table
@@ -290,32 +337,32 @@ class AdminAuthController extends Controller
         } elseif ($user->hasRole('staff')) {
             // Staff: Fetch credentials from the staff settings table
             $googleCredentials = DB::table('staff_google_credentials')->where('staff_id', $user->id)->first();
-    
+
             if (!$googleCredentials) {
                 Log::error('Staff user has no Google credentials.');
                 return redirect('/')->with('error', 'No Google credentials found for staff.');
             }
-    
+
             $clientId = $googleCredentials->google_client_id;
             $clientSecret = $googleCredentials->google_client_secret;
         } else {
             Log::error('User has no valid role.');
             return redirect('/')->with('error', 'Unauthorized user.');
         }
-    
+
         // Set the client ID and secret for the Google driver
         try {
             $googleUser = Socialite::driver('google')
                 ->stateless()
                 ->with(['client_id' => $clientId, 'client_secret' => $clientSecret]) // Pass credentials
                 ->user();
-    
+
             // Save Google tokens for both admin and staff in the users table
             $user->google_token = $googleUser->token;
             $user->google_refresh_token = $googleUser->refreshToken;
             $user->google_token_expiry = now()->addSeconds($googleUser->expiresIn);
             $user->save();
-    
+
             if ($user->hasRole('admin')) {
                 Log::info('Admin Google OAuth token saved for user ID: ' . $user->id);
                 return redirect('/admin/google-credentials')->with('success', 'Google Credentials saved.');
@@ -324,14 +371,14 @@ class AdminAuthController extends Controller
                 Log::info('Staff Google OAuth token saved for staff ID: ' . $user->id);
                 return redirect('/staff/google-credentials')->with('success', 'Google Credentials saved.');
             }
-    
-    
+
+
         } catch (\Exception $e) {
             Log::error('Google OAuth error: ' . $e->getMessage());
             return redirect('/')->with('error', 'Failed to authenticate with Google.');
         }
     }
-    
+
 
 
     public function syncCalendar()

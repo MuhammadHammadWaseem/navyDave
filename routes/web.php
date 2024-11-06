@@ -104,6 +104,11 @@ Route::post('register', [AdminAuthController::class, 'register'])->name('registe
 Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AdminAuthController::class, 'login'])->name('login.post');
 Route::get('logout', [AdminAuthController::class, 'logout'])->name('logout');
+Route::get('password/reset', [AdminAuthController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [AdminAuthController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [AdminAuthController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [AdminAuthController::class, 'reset'])->name('password.update');
+
 // Guest Route End
 Route::get('welcome', function () {
     return view('emails.welcome');
