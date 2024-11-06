@@ -25,6 +25,7 @@ use App\Jobs\SendWelcomeMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
 use App\Notifications\ResetPasswordNotification;
+use App\Jobs\SendPasswordResetEmail;
 
 class AdminAuthController extends Controller
 {
@@ -44,7 +45,9 @@ class AdminAuthController extends Controller
         $user = User::where('email', $request->email)->first();
         $token = Password::createToken($user);
 
-        $user->notify(new ResetPasswordNotification($token));
+        // $user->notify(new ResetPasswordNotification($token));
+        $resetUrl = url(route('password.reset', ['token' => $token, 'email' => $user->email], false));
+        SendPasswordResetEmail::dispatch($user->email, $resetUrl);
 
         return back()->with('success', 'Password reset link sent!');
     }
