@@ -69,7 +69,9 @@ class GoogleCalendarService
         $service = new Google_Service_Calendar($client);
 
         // Convert appointment date and time to Google Calendar format
-        $appointmentDate = new \DateTime($appointment->appointment_date, new \DateTimeZone('America/Los_Angeles')); // Ensure time zone
+        // $appointmentDate = new \DateTime($appointment->appointment_date, new \DateTimeZone('America/Los_Angeles')); // Ensure time zone
+        $appointmentDate = new \DateTime($appointment->appointment_date, new \DateTimeZone('America/Phoenix'));
+
 
         // Create a Google_Service_Calendar_Event object
         $event = new Google_Service_Calendar_Event([
@@ -80,12 +82,12 @@ class GoogleCalendarService
                 ' to ' . (new \DateTime($appointment->slot->available_to))->format('h:i A'),
             'location' => $appointment->location,
             'start' => [
-                'dateTime' => $appointmentDate->format(DATE_ISO8601),
-                'timeZone' => 'America/Los_Angeles',
+                'dateTime' => (new \DateTime($appointment->slot->available_from, new \DateTimeZone('America/Phoenix')))->format(DATE_ISO8601),
+                'timeZone' => 'America/Phoenix',
             ],
             'end' => [
-                'dateTime' => $appointmentDate->modify('+1 hour')->format(DATE_ISO8601),
-                'timeZone' => 'America/Los_Angeles',
+                'dateTime' => (new \DateTime($appointment->slot->available_to, new \DateTimeZone('America/Phoenix')))->format(DATE_ISO8601),
+                'timeZone' => 'America/Phoenix',
             ],
             'attendees' => [
                 ['email' => $appointment->email], // User's email
