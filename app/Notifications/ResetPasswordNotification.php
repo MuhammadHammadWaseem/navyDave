@@ -6,8 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\URL;
 
-class ResetPasswordNotification extends Notification
+
+class ResetPasswordNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -36,13 +38,15 @@ class ResetPasswordNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $resetUrl = url(route('password.reset', ['token' => $this->token, 'email' => $notifiable->email], false));
+        $resetUrl = URL::route('password.reset', ['token' => $this->token, 'email' => $notifiable->email]);
 
         return (new MailMessage)
-            ->subject('Custom Password Reset Notification')
-            ->line('You requested a password reset. Click the button below to reset your password.')
-            ->action('Reset Password', $resetUrl)
-            ->line('If you did not request a password reset, please ignore this email.');
+            ->view('vendor.notifications.password_reset', [
+                'notifiable' => $notifiable,
+                'resetUrl' => $resetUrl,
+                'supportEmail' => config('app.support_email', 'support@example.com')
+            ])
+            ->subject('Reset Your Password');
     }
 
     /**
