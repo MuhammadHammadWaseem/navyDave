@@ -14,11 +14,11 @@ class GoogleCalendarService
 {
     public function createEvent($appointment)
     {
-         // Fetch Google credentials from the database
-         $credentials = GoogleCredential::first(); // Fetch the first record
-         if (!$credentials || !$credentials->access_token) {
-             return redirect()->route('auth.google'); // Handle missing credentials
-         }
+        // Fetch Google credentials from the database
+        $credentials = GoogleCredential::first(); // Fetch the first record
+        if (!$credentials || !$credentials->access_token) {
+            return redirect()->route('auth.google'); // Handle missing credentials
+        }
 
 
         $client = new Google_Client();
@@ -37,7 +37,7 @@ class GoogleCalendarService
             if ($credentials->refresh_token) {
                 $client->fetchAccessTokenWithRefreshToken($credentials->refresh_token);
                 $newAccessToken = $client->getAccessToken();
-    
+
                 // Update the database with the new access token and expiration time
                 $credentials->update([
                     'access_token' => $newAccessToken['access_token'],
@@ -68,9 +68,19 @@ class GoogleCalendarService
 
         $service = new Google_Service_Calendar($client);
 
-        // Convert appointment date and time to Google Calendar format
         // $appointmentDate = new \DateTime($appointment->appointment_date, new \DateTimeZone('America/Los_Angeles')); // Ensure time zone
+        // Convert appointment date and time to Google Calendar format
         $appointmentDate = new \DateTime($appointment->appointment_date, new \DateTimeZone('America/Phoenix'));
+
+        // Create the start and end DateTime objects by combining the appointment date with slot times
+        $startDateTime = new \DateTime(
+            $appointment->appointment_date . ' ' . (new \DateTime($appointment->slot->available_from))->format('H:i:s'),
+            new \DateTimeZone('America/Phoenix')
+        );
+        $endDateTime = new \DateTime(
+            $appointment->appointment_date . ' ' . (new \DateTime($appointment->slot->available_to))->format('H:i:s'),
+            new \DateTimeZone('America/Phoenix')
+        );
 
 
         // Create a Google_Service_Calendar_Event object
@@ -82,11 +92,11 @@ class GoogleCalendarService
                 ' to ' . (new \DateTime($appointment->slot->available_to))->format('h:i A'),
             'location' => $appointment->location,
             'start' => [
-                'dateTime' => (new \DateTime($appointment->slot->available_from, new \DateTimeZone('America/Phoenix')))->format(DATE_ISO8601),
+                'dateTime' => $startDateTime->format(DATE_ISO8601),
                 'timeZone' => 'America/Phoenix',
             ],
             'end' => [
-                'dateTime' => (new \DateTime($appointment->slot->available_to, new \DateTimeZone('America/Phoenix')))->format(DATE_ISO8601),
+                'dateTime' => $endDateTime->format(DATE_ISO8601),
                 'timeZone' => 'America/Phoenix',
             ],
             'attendees' => [
