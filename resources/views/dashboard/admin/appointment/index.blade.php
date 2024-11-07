@@ -104,9 +104,9 @@
                             <div class="form-group">
                                 <label for="status">Status</label>
                                 <select class="form-control" name="status" id="status">
-                                    <option value="pending">Pending</option>
+                                    {{-- <option value="pending">Pending</option> --}}
                                     <option value="confirmed">Confirmed</option>
-                                    <option value="awaiting_next_slot" disabled>Awaiting Next Slot</option>
+                                    {{-- <option value="awaiting_next_slot" disabled>Awaiting Next Slot</option> --}}
                                     <option value="fully_completed" disabled>Fully Completed</option>
                                     <option value="completed">Completed</option>
                                     <option value="canceled">Cancelled</option>
@@ -166,6 +166,7 @@
                         $("#Table").empty();
                         response.forEach(element => {
                             let createdAtFormatted = formatDate(element.created_at);
+                            let isEditable = !["fully_completed", "awaiting_next_slot", "completed","canceled"].includes(element.status);
                             $('#Table').append(`
                                 <tr>
                                     <td class="text-center">${element.id}</td>
@@ -179,9 +180,9 @@
                                     <td class="text-center">${element.slot ? (element.slot.available_on ? element.slot.available_on : "") : ""}</td>
                                     <td class="text-center">${element.appointment_date}</td>
                                     <td class="text-center">
-            ${element.slot ? (element.slot.available_from && element.slot.available_to ? 
-            formatTime(element.slot.available_from) + ' - ' + formatTime(element.slot.available_to) : "") : ""}
-        </td>
+                                        ${element.slot ? (element.slot.available_from && element.slot.available_to ? 
+                                        formatTime(element.slot.available_from) + ' - ' + formatTime(element.slot.available_to) : "") : ""}
+                                    </td>
                                     <td class="text-center">$${element.price}</td>
                                     <td class="text-center">${element.payment ? element.payment.status : '-' }</td>
                                     <td class="text-center">${element.status == "awaiting_next_slot" ? "Awaiting Next Slot" : element.status == "fully_completed" ? "Fully Completed" : element.status == "completed" ? "Completed" : element.status == "canceled" ? "Cancelled" : element.status == "pending" ? "Pending" : "Confirmed"}</td>
@@ -189,8 +190,7 @@
                                     <td class="text-center">
                                         <div class="action-box mt-2">
                                             <ul>
-                                                <li><a onclick="showEditModal(${element.id})"><img src="{{ asset('assets/images/pencil.png') }}" alt=""></a>
-                                                </li>
+                                                ${isEditable ? `<li><a onclick="showEditModal(${element.id})"><img src="{{ asset('assets/images/pencil.png') }}" alt=""></a></li>` : "N/A"}
                                             </ul>
                                         </div>
                                     </td>

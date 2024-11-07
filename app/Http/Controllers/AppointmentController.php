@@ -29,7 +29,7 @@ class AppointmentController extends Controller
 
     //     $userEmail = $appointment->email;
     //     $staffEmail = $appointment->staff->user->email;
-    //     $adminEmail = 'hw13604@gmail.com';
+    //     $adminEmail = 'info@navydavegolf.com';
 
     //     // Email Work
     //     SendStatusMail::dispatch($userEmail, $appointment, 'user');
@@ -74,12 +74,14 @@ class AppointmentController extends Controller
                 $appointment->completed_slots -= 1;
             }
 
+            $userSessions = UserSession::where('user_id',$appointment->user_id)->first();
+            $sessions = $userSessions->sessions+1 ?? 0;
             $userSession = UserSession::updateOrCreate(
                 ['user_id' => $appointment->user_id],
                 [
                     'user_id' => $appointment->user_id,
                     'service_id' => $appointment->service_id,
-                    'sessions' => $appointment->total_slots-$appointment->completed_slots,
+                    'sessions' => $sessions,
                 ]
             );
         }
@@ -90,7 +92,7 @@ class AppointmentController extends Controller
         $userEmail = $appointment->email;
         $staffEmail = $appointment->staff->user->email;
         $adminEmail = 'info@navydavegolf.com';
-        // $adminEmail = 'hw13604@gmail.com';
+        // $adminEmail = 'info@navydavegolf.com';
 
         SendStatusMail::dispatch($userEmail, $appointment, 'user');
         SendStatusMail::dispatch($staffEmail, $appointment, 'staff');
