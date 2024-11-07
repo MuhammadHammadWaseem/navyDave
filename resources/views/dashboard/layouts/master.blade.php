@@ -93,6 +93,10 @@
                                         <li><a href="{{ route('admin.service') }}" class="service-active"><span><img
                                                         src="{{ asset('./assets/images/Services.png') }}"
                                                         alt=""></span>Services</a></li>
+                                        <li><a href="{{ route('admin.restrict-slots') }}"
+                                                class="restrict-active"><span><img
+                                                        src="{{ asset('./assets/images/Services.png') }}"
+                                                        alt=""></span>Restrict Slots</a></li>
                                         <li><a href="{{ route('admin.service.assign') }}"
                                                 class="service-assign-active"><span><img
                                                         src="{{ asset('./assets/images/service-assign.png') }}"
@@ -302,7 +306,8 @@
                                 <li><a href="{{ route('admin.users') }}" class="users-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>Users</a></li>
-                                <li><a href="{{ route('admin.users.session') }}" class="user-session-active"><span><img
+                                <li><a href="{{ route('admin.users.session') }}"
+                                        class="user-session-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>User Sessions</a></li>
                                 <li><a href="{{ route('admin.payment') }}" class="payment-active"><span><img
@@ -311,6 +316,9 @@
                                 <li><a href="{{ route('admin.service') }}" class="service-active"><span><img
                                                 src="{{ asset('./assets/images/Services.png') }}"
                                                 alt=""></span>Services</a></li>
+                                <li><a href="{{ route('admin.restrict-slots') }}" class="restrict-active"><span><img
+                                                src="{{ asset('./assets/images/Services.png') }}"
+                                                alt=""></span>Restrict Slots</a></li>
                                 <li><a href="{{ route('admin.service.assign') }}"
                                         class="service-assign-active"><span><img
                                                 src="{{ asset('./assets/images/service-assign.png') }}"
@@ -453,17 +461,17 @@
                     if (col10 && col10.classList.contains('col-lg-10')) {
                         col10.classList.remove('col-lg-10', 'col-md-10', 'col-10');
                         col10.classList.add('col-lg-11', 'col-md-11', 'col-11',
-                        'resized'); // Add 'resized' class to col-lg-11 and col-md-11
+                            'resized'); // Add 'resized' class to col-lg-11 and col-md-11
                     }
                 } else {
                     // If currently col-lg-1, change back to col-lg-2, col-md-2, col-2, and remove 'resized' class
                     col2.classList.remove('col-lg-1', 'col-md-1', 'col-1',
-                    'resized'); // Remove 'resized' class
+                        'resized'); // Remove 'resized' class
                     col2.classList.add('col-lg-2', 'col-md-2', 'col-2'); // Add col-2
 
                     if (col10 && col10.classList.contains('col-lg-11')) {
                         col10.classList.remove('col-lg-11', 'col-md-11', 'col-11',
-                        'resized'); // Remove 'resized' class from col-lg-11 and col-md-11
+                            'resized'); // Remove 'resized' class from col-lg-11 and col-md-11
                         col10.classList.add('col-lg-10', 'col-md-10', 'col-10'); // Add col-10
                     }
                 }

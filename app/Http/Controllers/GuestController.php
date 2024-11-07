@@ -31,6 +31,7 @@ use App\Services\GoogleCalendarService;
 use Google_Client;
 use App\Models\GoogleCredential;
 use App\Models\UserSession;
+use App\Models\RestrictSlot;
 
 
 class GuestController extends Controller
@@ -223,8 +224,8 @@ class GuestController extends Controller
     public function getSlots(Request $request)
     {
         $todayName = date('l');
-
         $now = now()->format('Y-m-d');
+
         $slotIds = Appointment::where('appointment_date', $now)->where('status', '!=', 'canceled')->pluck('slot_id');
 
         $slots = Slot::where('staff_id', $request->staff_id)->where('service_id', $request->service_id)->where('available_on', $todayName)->get();
@@ -243,6 +244,15 @@ class GuestController extends Controller
                 }
             }
         }
+
+        $restrict_slot = RestrictSlot::where('date', $now)->first();
+        if ($restrict_slot) {
+            // foreach ($slots as $slot) {
+            //     $slot->is_booked = true;
+            // }
+            $slots = [];
+        }
+
         return response()->json($slots);
     }
     // public function getSlotsForDate(Request $request)
@@ -305,6 +315,11 @@ class GuestController extends Controller
                     break; // No need to check further once it's marked as booked
                 }
             }
+        }
+
+        $restrict_slot = RestrictSlot::where('date', $data)->first();
+        if ($restrict_slot) {
+            $slots = [];
         }
 
         return response()->json($slots);
@@ -526,8 +541,8 @@ class GuestController extends Controller
 
                 $appointment->save();
 
-                $userSessions = UserSession::where('user_id',$appointment->user_id)->first();
-                $sessions = $userSessions->sessions-1 ?? 0;
+                $userSessions = UserSession::where('user_id', $appointment->user_id)->first();
+                $sessions = $userSessions->sessions - 1 ?? 0;
                 $userSession = UserSession::updateOrCreate(
                     ['user_id' => $appointment->user_id],
                     [
@@ -649,8 +664,8 @@ class GuestController extends Controller
             }
             $appointment->save();
 
-            $userSessions = UserSession::where('user_id',$appointment->user_id)->first();
-            $sessions = $userSessions->sessions-1 ?? 0;
+            $userSessions = UserSession::where('user_id', $appointment->user_id)->first();
+            $sessions = $userSessions->sessions - 1 ?? 0;
             $userSession = UserSession::updateOrCreate(
                 ['user_id' => $appointment->user_id],
                 [

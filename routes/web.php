@@ -21,6 +21,7 @@ use App\Http\Controllers\GoogleCredentialsController;
 use App\Http\Controllers\StaffGoogleCredentialsController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\RestrictSlotsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -202,8 +203,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/google-credentials', [GoogleCredentialsController::class, 'store'])->name('google-credentials.store');
 
 
-        // Subscription
         Route::get('subscribers', [AdminAuthController::class, 'subscribers'])->name('subscribers');
+        
+        
+        // Restrict Slots
+        Route::get('restrict-slots', [RestrictSlotsController::class, 'index'])->name('restrict-slots');
+        Route::get('restrict_slots/get', [RestrictSlotsController::class, 'get'])->name('restrict_slots.get');
+        Route::post('restrict_slot/store', [RestrictSlotsController::class, 'store'])->name('restrict_slot.store');
+        Route::get('restrict_slot/edit/{id}', [RestrictSlotsController::class, 'edit'])->name('restrict_slot.edit');
+        Route::post('restrict_slot/update', [RestrictSlotsController::class, 'update'])->name('restrict_slot.update');
+        Route::post('restrict_slot/delete/{id}', [RestrictSlotsController::class, 'delete'])->name('restrict_slot.delete');
     });
 });
 
