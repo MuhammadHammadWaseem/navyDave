@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
 
 </head>
+
 <body>
 
     <header>
@@ -58,14 +59,15 @@
                         <div class="main-toggle-menu">
                             <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
                             <label for="openSidebarMenu" class="sidebarIconToggle">
-                              <div class="spinner diagonal part-1"></div>
-                              <div class="spinner horizontal"></div>
-                              <div class="spinner diagonal part-2"></div>
+                                <div class="spinner diagonal part-1"></div>
+                                <div class="spinner horizontal"></div>
+                                <div class="spinner diagonal part-2"></div>
                             </label>
                             <div id="sidebarMenu">
-                              <ul class="sidebarMenuInner">
-                                @if (auth()->user()->hasRole('admin'))
-                                        <li><a href="{{ route('admin.dashboard') }}" class="dashboard-active"><span><img
+                                <ul class="sidebarMenuInner">
+                                    @if (auth()->user()->hasRole('admin'))
+                                        <li><a href="{{ route('admin.dashboard') }}"
+                                                class="dashboard-active"><span><img
                                                         src="{{ asset('./assets/images/Dashboard.png') }}"
                                                         alt=""></span>Dashboard</a></li>
                                         <li><a href="{{ route('admin.profile') }}" class="profile-active"><span><img
@@ -74,12 +76,17 @@
                                         <li><a href="{{ route('admin.calendar') }}" class="calendar-active"><span><img
                                                         src="{{ asset('./assets/images/Calendar.png') }}"
                                                         alt=""></span>Calendar</a></li>
-                                        <li><a href="{{ route('admin.appointment') }}" class="appointment-active"><span><img
+                                        <li><a href="{{ route('admin.appointment') }}"
+                                                class="appointment-active"><span><img
                                                         src="{{ asset('./assets/images/appointment.png') }}"
                                                         alt=""></span>Appointments</a></li>
                                         <li><a href="{{ route('admin.users') }}" class="users-active"><span><img
                                                         src="{{ asset('./assets/images/Customers.png') }}"
                                                         alt=""></span>Users</a></li>
+                                        <li><a href="{{ route('admin.users.session') }}"
+                                                class="user-session-active"><span><img
+                                                        src="{{ asset('./assets/images/Customers.png') }}"
+                                                        alt=""></span>User Sessions</a></li>
                                         <li><a href="{{ route('admin.payment') }}" class="payment-active"><span><img
                                                         src="{{ asset('./assets/images/Payments.png') }}"
                                                         alt=""></span>Payments</a></li>
@@ -96,13 +103,15 @@
                                         <li><a href="{{ route('admin.staff') }}" class="staff-active"><span><img
                                                         src="{{ asset('./assets/images/staff.png') }}"
                                                         alt=""></span>Staff Members</a></li>
-                                        <li><a href="{{ route('admin.community') }}" class="community-active"><span><img
+                                        <li><a href="{{ route('admin.community') }}"
+                                                class="community-active"><span><img
                                                         src="{{ asset('./assets/images/Customers.png') }}"
                                                         alt=""></span>Community</a></li>
                                         <li><a href="{{ route('admin.blog') }}" class="blog-active"><span><img
                                                         src="{{ asset('./assets/images/blog.png') }}"
                                                         alt=""></span>Blogs</a></li>
-                                        <li><a href="{{ route('admin.subscribers') }}" class="subscribers-active"><span><img
+                                        <li><a href="{{ route('admin.subscribers') }}"
+                                                class="subscribers-active"><span><img
                                                         src="{{ asset('./assets/images/Profile.png') }}"
                                                         alt=""></span>Subscribers</a></li>
                                         <li><a href="{{ route('admin.setting') }}" class="setting-active"><span><img
@@ -114,7 +123,8 @@
                                                         alt=""></span>Google Credentials</a></li>
                                     @endif
                                     @if (auth()->user()->hasRole('user'))
-                                        <li><a href="{{ route('user.dashboard') }}" class="dashboard-active"><span><img
+                                        <li><a href="{{ route('user.dashboard') }}"
+                                                class="dashboard-active"><span><img
                                                         src="{{ asset('./assets/images/Dashboard.png') }}"
                                                         alt=""></span>Dashboard</a></li>
                                         <li><a href="{{ route('user.profile') }} " class="profile-active"><span><img
@@ -123,7 +133,8 @@
                                         <li><a href="{{ route('user.calendar') }}" class="calendar-active"><span><img
                                                         src="{{ asset('./assets/images/Calendar.png') }}"
                                                         alt=""></span>Calendar</a></li>
-                                        <li><a href="{{ route('user.appointment') }}" class="appointment-active"><span><img
+                                        <li><a href="{{ route('user.appointment') }}"
+                                                class="appointment-active"><span><img
                                                         src="{{ asset('./assets/images/Customers.png') }}"
                                                         alt=""></span>Appointments</a></li>
                                         <li><a href="{{ route('user.community') }}"><span><img
@@ -135,19 +146,23 @@
                                     @endif
 
                                     @if (auth()->user()->hasRole('staff'))
-                                        <li><a href="{{ route('staff.dashboard') }}" class="dashboard-active"><span><img
+                                        <li><a href="{{ route('staff.dashboard') }}"
+                                                class="dashboard-active"><span><img
                                                         src="{{ asset('./assets/images/Dashboard.png') }}"
                                                         alt=""></span>Dashboard</a></li>
                                         <li><a href="{{ route('staff.profile') }}" class="profile-active"><span><img
                                                         src="{{ asset('./assets/images/Profile.png') }}"
                                                         alt=""></span>Profile</a></li>
-                                        <li><a href="{{ route('staff.calendar') }}" class="calendar-active"><span><img
+                                        <li><a href="{{ route('staff.calendar') }}"
+                                                class="calendar-active"><span><img
                                                         src="{{ asset('./assets/images/Calendar.png') }}"
                                                         alt=""></span>Calendar</a></li>
-                                        <li><a href="{{ route('staff.appointment') }}" class="appointment-active"><span><img
+                                        <li><a href="{{ route('staff.appointment') }}"
+                                                class="appointment-active"><span><img
                                                         src="{{ asset('./assets/images/Customers.png') }}"
                                                         alt=""></span>Appointments</a></li>
-                                        <li><a href="{{ route('staff.community') }}" class="community-active"><span><img
+                                        <li><a href="{{ route('staff.community') }}"
+                                                class="community-active"><span><img
                                                         src="{{ asset('./assets/images/Customers.png') }}"
                                                         alt=""></span>Community</a></li>
                                         {{-- <li><a href="{{ route('staff.google.credentials.show') }}"
@@ -155,7 +170,7 @@
                                                         src="{{ asset('./assets/images/setting.png') }}"
                                                         alt=""></span>Google Credentials</a></li> --}}
                                     @endif
-                              </ul>
+                                </ul>
                             </div>
                         </div>
 
@@ -246,7 +261,8 @@
                                             - No new notifications -
                                         </div>
                                     </div>
-                                    <a href="{{ route('home') }}"><i class="fa fa-globe" aria-hidden="true"></i>Visit
+                                    <a href="{{ route('home') }}"><i class="fa fa-globe"
+                                            aria-hidden="true"></i>Visit
                                         Site</a>
                                     <a href="{{ route('logout') }}"><i class="fa fa-user"
                                             aria-hidden="true"></i>Logout</a>
@@ -286,6 +302,9 @@
                                 <li><a href="{{ route('admin.users') }}" class="users-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>Users</a></li>
+                                <li><a href="{{ route('admin.users.session') }}" class="user-session-active"><span><img
+                                                src="{{ asset('./assets/images/Customers.png') }}"
+                                                alt=""></span>User Sessions</a></li>
                                 <li><a href="{{ route('admin.payment') }}" class="payment-active"><span><img
                                                 src="{{ asset('./assets/images/Payments.png') }}"
                                                 alt=""></span>Payments</a></li>
@@ -335,9 +354,9 @@
                                 <li><a href="{{ route('user.community') }}"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>Community</a></li>
-                                                <li><a href="{{ route('user.video.tutorial') }}"><span><img
-                                                    src="{{ asset('./assets/images/bx-play-circle.svg.png') }}"
-                                                    alt=""></span>Video Tutorial</a></li>
+                                <li><a href="{{ route('user.video.tutorial') }}"><span><img
+                                                src="{{ asset('./assets/images/bx-play-circle.svg.png') }}"
+                                                alt=""></span>Video Tutorial</a></li>
                             @endif
 
                             @if (auth()->user()->hasRole('staff'))
@@ -372,83 +391,84 @@
     </section>
 
     <script>
+        function hideTextInAnchors() {
+            // Select all anchor tags within the specified class
+            const anchors = document.querySelectorAll(
+                '.header .header-two-things-align .input-box-other-details .logout-setting-bell-all .logout-box a');
 
-function hideTextInAnchors() {
-    // Select all anchor tags within the specified class
-    const anchors = document.querySelectorAll('.header .header-two-things-align .input-box-other-details .logout-setting-bell-all .logout-box a');
+            // Get the current viewport width
+            const viewportWidth = window.innerWidth;
 
-    // Get the current viewport width
-    const viewportWidth = window.innerWidth;
-
-    // Loop through each anchor
-    anchors.forEach(anchor => {
-        // If viewport is 991px or less, hide the text
-        if (viewportWidth <= 991) {
-            // Hide the text by setting it to an empty string
-            anchor.childNodes.forEach(node => {
-                if (node.nodeType === Node.TEXT_NODE) {
-                    node.textContent = ''; // Remove the text content
+            // Loop through each anchor
+            anchors.forEach(anchor => {
+                // If viewport is 991px or less, hide the text
+                if (viewportWidth <= 991) {
+                    // Hide the text by setting it to an empty string
+                    anchor.childNodes.forEach(node => {
+                        if (node.nodeType === Node.TEXT_NODE) {
+                            node.textContent = ''; // Remove the text content
+                        }
+                    });
+                } else {
+                    // Restore the text content if needed (if you know the text)
+                    // Uncomment and replace 'Logout' with the actual text if you need to restore it
+                    // anchor.textContent = 'Logout'; // Restore original text if necessary
                 }
             });
-        } else {
-            // Restore the text content if needed (if you know the text)
-            // Uncomment and replace 'Logout' with the actual text if you need to restore it
-            // anchor.textContent = 'Logout'; // Restore original text if necessary
         }
-    });
-}
 
-// Run on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', hideTextInAnchors);
+        // Run on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', hideTextInAnchors);
 
-// Add event listener for window resize
-window.addEventListener('resize', hideTextInAnchors);
+        // Add event listener for window resize
+        window.addEventListener('resize', hideTextInAnchors);
 
 
-document.querySelectorAll('.main-box-navy .col-lg-2').forEach(function(col2) {
-    // Create a div to wrap the button
-    let buttonWrapper = document.createElement('div');
-    buttonWrapper.classList.add('button-wrapper'); // Add a custom class to the wrapper div
+        document.querySelectorAll('.main-box-navy .col-lg-2').forEach(function(col2) {
+            // Create a div to wrap the button
+            let buttonWrapper = document.createElement('div');
+            buttonWrapper.classList.add('button-wrapper'); // Add a custom class to the wrapper div
 
-    // Create the button
-    let button = document.createElement('button');
-    button.innerHTML = '<i class="fa fa-angle-right" aria-hidden="true"></i>'; // Add icon instead of text
-    button.classList.add('resize-btn'); // Add a custom class to the button
+            // Create the button
+            let button = document.createElement('button');
+            button.innerHTML = '<i class="fa fa-angle-right" aria-hidden="true"></i>'; // Add icon instead of text
+            button.classList.add('resize-btn'); // Add a custom class to the button
 
-    // Append button inside the wrapper div
-    buttonWrapper.appendChild(button);
+            // Append button inside the wrapper div
+            buttonWrapper.appendChild(button);
 
-    // Prepend the wrapper div inside the .col-lg-2 (insert at the top)
-    col2.insertBefore(buttonWrapper, col2.firstChild);
+            // Prepend the wrapper div inside the .col-lg-2 (insert at the top)
+            col2.insertBefore(buttonWrapper, col2.firstChild);
 
-    // Add event listener to button
-    button.addEventListener('click', function() {
-        let col10 = col2.nextElementSibling; // Assuming .col-lg-10 is next to .col-lg-2
+            // Add event listener to button
+            button.addEventListener('click', function() {
+                let col10 = col2.nextElementSibling; // Assuming .col-lg-10 is next to .col-lg-2
 
-        // Toggle logic for resizing
-        if (col2.classList.contains('col-lg-2')) {
-            // If currently col-lg-2, change to col-lg-1, col-md-1, col-1, and add 'resized' class
-            col2.classList.remove('col-lg-2', 'col-md-2', 'col-2');
-            col2.classList.add('col-lg-1', 'col-md-1', 'col-1', 'resized'); // Add 'resized' class
+                // Toggle logic for resizing
+                if (col2.classList.contains('col-lg-2')) {
+                    // If currently col-lg-2, change to col-lg-1, col-md-1, col-1, and add 'resized' class
+                    col2.classList.remove('col-lg-2', 'col-md-2', 'col-2');
+                    col2.classList.add('col-lg-1', 'col-md-1', 'col-1', 'resized'); // Add 'resized' class
 
-            if (col10 && col10.classList.contains('col-lg-10')) {
-                col10.classList.remove('col-lg-10', 'col-md-10', 'col-10');
-                col10.classList.add('col-lg-11', 'col-md-11', 'col-11', 'resized'); // Add 'resized' class to col-lg-11 and col-md-11
-            }
-        } else {
-            // If currently col-lg-1, change back to col-lg-2, col-md-2, col-2, and remove 'resized' class
-            col2.classList.remove('col-lg-1', 'col-md-1', 'col-1', 'resized'); // Remove 'resized' class
-            col2.classList.add('col-lg-2', 'col-md-2', 'col-2'); // Add col-2
+                    if (col10 && col10.classList.contains('col-lg-10')) {
+                        col10.classList.remove('col-lg-10', 'col-md-10', 'col-10');
+                        col10.classList.add('col-lg-11', 'col-md-11', 'col-11',
+                        'resized'); // Add 'resized' class to col-lg-11 and col-md-11
+                    }
+                } else {
+                    // If currently col-lg-1, change back to col-lg-2, col-md-2, col-2, and remove 'resized' class
+                    col2.classList.remove('col-lg-1', 'col-md-1', 'col-1',
+                    'resized'); // Remove 'resized' class
+                    col2.classList.add('col-lg-2', 'col-md-2', 'col-2'); // Add col-2
 
-            if (col10 && col10.classList.contains('col-lg-11')) {
-                col10.classList.remove('col-lg-11', 'col-md-11', 'col-11', 'resized'); // Remove 'resized' class from col-lg-11 and col-md-11
-                col10.classList.add('col-lg-10', 'col-md-10', 'col-10'); // Add col-10
-            }
-        }
-    });
-});
-
-
+                    if (col10 && col10.classList.contains('col-lg-11')) {
+                        col10.classList.remove('col-lg-11', 'col-md-11', 'col-11',
+                        'resized'); // Remove 'resized' class from col-lg-11 and col-md-11
+                        col10.classList.add('col-lg-10', 'col-md-10', 'col-10'); // Add col-10
+                    }
+                }
+            });
+        });
     </script>
 
 

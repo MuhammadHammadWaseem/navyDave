@@ -109,7 +109,7 @@
                                     <option value="awaiting_next_slot" disabled>Awaiting Next Slot</option>
                                     <option value="fully_completed" disabled>Fully Completed</option>
                                     <option value="completed">Completed</option>
-                                    <option value="canceled">Canceled</option>
+                                    <option value="canceled">Cancelled</option>
                                 </select>
                                 <input type="hidden" name="id" id="id">
                             </div>
@@ -184,7 +184,7 @@
         </td>
                                     <td class="text-center">$${element.price}</td>
                                     <td class="text-center">${element.payment ? element.payment.status : '-' }</td>
-                                    <td class="text-center">${element.status == "awaiting_next_slot" ? "Awaiting Next Slot" : element.status == "fully_completed" ? "Fully Completed" : element.status == "completed" ? "Completed" : element.status == "canceled" ? "Canceled" : element.status == "pending" ? "Pending" : "Confirmed"}</td>
+                                    <td class="text-center">${element.status == "awaiting_next_slot" ? "Awaiting Next Slot" : element.status == "fully_completed" ? "Fully Completed" : element.status == "completed" ? "Completed" : element.status == "canceled" ? "Cancelled" : element.status == "pending" ? "Pending" : "Confirmed"}</td>
                                     <td class="text-center">${createdAtFormatted}</td>
                                     <td class="text-center">
                                         <div class="action-box mt-2">

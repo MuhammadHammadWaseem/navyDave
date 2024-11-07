@@ -12,6 +12,7 @@ use App\Models\Subscriber;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Service;
+use App\Models\UserSession;
 
 class UserAuthController extends Controller
 {
@@ -24,13 +25,21 @@ class UserAuthController extends Controller
         $pendingAppointments = Appointment::where('user_id', $user)->where('status', 'pending')->count();
         $appointments = Appointment::where('user_id', $user)->with('slot', 'payment')->orderBy('id', 'desc')->take(10)->get();
 
-        $remainingSlots = 0;
+        // $remainingSlots = 0;
 
         // Remaining Slots
         $totalUserAppointments = Appointment::where('user_id', $user)->select('total_slots', 'completed_slots')->get();
 
-        foreach ($totalUserAppointments as $totalUserAppointment) {
-            $remainingSlots += ($totalUserAppointment->total_slots - $totalUserAppointment->completed_slots);
+        // foreach ($totalUserAppointments as $totalUserAppointment) {
+        //     $remainingSlots += ($totalUserAppointment->total_slots - $totalUserAppointment->completed_slots);
+        // }
+
+        $userSession = UserSession::where('user_id',$user)->first();
+
+        if($userSession){
+            $remainingSlots = $userSession->sessions;
+        }else{
+            $remainingSlots = 0;
         }
 
         //Remaining Slots

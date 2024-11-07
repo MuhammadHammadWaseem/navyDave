@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Jobs\SendWelcomeMail;
 use App\Jobs\SendWelcomeMail2;
+use App\Models\Service;
+use App\Models\ServiceAssign;
+use App\Models\UserSession;
+use App\Models\Staff;
 
 class UsersController extends Controller
 {
@@ -19,7 +23,7 @@ class UsersController extends Controller
     }
     public function getUsers()
     {
-        $users = User::role('user')->get();
+        $users = User::with('sessions.service')->role('user')->get();
         return response()->json([
             'users' => $users
         ]);
@@ -145,6 +149,48 @@ class UsersController extends Controller
         $user->delete();
 
         return response()->json(['message' => 'User deleted successfully!'], 200);
+    }
+
+    public function usersSession()
+    {
+        $users = User::role('user')->get();
+        return view('dashboard.admin.user-session.index', compact('users'));
+    }
+    public function sessionAssign($id)
+    {
+        $user = User::where('id', $id)->first();
+        $serviceAssign = ServiceAssign::pluck('service_id');
+        $services = Service::whereIn('id', $serviceAssign)->get();
+
+        $staff = Staff::with('user')->where('status','Active')->get();
+        return view('dashboard.admin.user-session.edit', compact('user', 'services','staff'));
+    }
+    public function sessionAssignSet(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'sessions' => 'required|integer',
+            'service' => 'required|integer|min:1',
+            'staff' => 'required|',
+        ]);
+
+        // Find the user by ID
+        $user = User::findOrFail($id);
+
+        $userSession = UserSession::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'user_id' => $user->id,
+                'service_id' => $request->service,
+                'sessions' => $request->sessions,
+                'staff_id' => $request->staff,
+            ]
+        );
+
+        return redirect()->back()->with([
+            'success' => 'Session Updated Successfully!',
+        ]);
     }
 
 }

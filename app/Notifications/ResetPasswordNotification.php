@@ -28,8 +28,13 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
      *
      * @return array<int, string>
      */
-    public function via(object $notifiable): array
+    // public function via(object $notifiable): array
+    // {
+    //     return ['mail'];
+    // }
+    public function via($notifiable)
     {
+        $this->locale($notifiable->preferredLocale ?? 'en'); // Set a default locale
         return ['mail'];
     }
 

@@ -32,4 +32,9 @@ class Service extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function sessions()
+    {
+        return $this->hasMany(UserSession::class);
+    }
 }

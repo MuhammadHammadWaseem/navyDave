@@ -99,7 +99,7 @@
                         <td class="text-start">
                             <div class="paid-unpaid-box">
                                 <p class="paid-text">
-                                    {{ $a->payment ? 'Paid' : 'Unpaid' }} -
+                                    {{ $a->payment ? 'Paid' : 'Paid' }} -
                                     @switch($a->status)
                                         @case('awaiting_next_slot')
                                             Awaiting Next Slot
@@ -114,7 +114,7 @@
                                         @break
 
                                         @case('canceled')
-                                            Canceled
+                                            Cancelled
                                         @break
 
                                         @case('pending')

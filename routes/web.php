@@ -190,7 +190,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('users/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
         Route::post('users/{user}', [UsersController::class, 'update'])->name('users.update');
         Route::delete('users/{user}', [UsersController::class, 'destroy'])->name('users.destroy');
-
+        
+        
+        // Users Sessions
+        Route::get('user/sessions', [UsersController::class, 'usersSession'])->name('users.session');
+        Route::get('sessions/assign/{id}', [UsersController::class, 'sessionAssign'])->name('users.session.assign');
+        Route::post('sessions/assign/{id}', [UsersController::class, 'sessionAssignSet'])->name('users.session.assign.set');
 
         //Google API set
         Route::get('/google-credentials', [GoogleCredentialsController::class, 'showForm'])->name('google-credentials.form');

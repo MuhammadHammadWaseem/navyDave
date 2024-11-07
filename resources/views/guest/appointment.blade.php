@@ -645,7 +645,7 @@
                                             <label for="phone" class="mb-1">Phone</label>
                                             @if ($remaining_slots > 0)
                                                 <input type="tel" placeholder="Phone Number *" name="phone"
-                                                    @if ($remaining_slots > 0) value="{{ $phone }}" disabled @endif>
+                                                    @if ($remaining_slots > 0) value="{{ $phone }}" @endif>
                                             @else
                                                 <input type="tel" placeholder="Phone Number *" name="phone"
                                                     value="{{ auth()->check() ? auth()->user()->phone : '' }}" id="phone">

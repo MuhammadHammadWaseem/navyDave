@@ -30,6 +30,7 @@ use Spatie\Permission\Models\Role;
 use App\Services\GoogleCalendarService;
 use Google_Client;
 use App\Models\GoogleCredential;
+use App\Models\UserSession;
 
 
 class GuestController extends Controller
@@ -88,6 +89,48 @@ class GuestController extends Controller
 
         return redirect()->back()->with('success', 'Your message has been sent successfully.');
     }
+    // public function appointment()
+    // {
+    //     $categories = Category::all();
+    //     $user = auth()->user();
+
+    //     if ($user) {
+
+    //         $remaining_slots = 0;
+    //         // $appointments = Appointment::where('user_id', $user->id)->select('id', 'last_name', 'phone', 'total_slots', 'completed_slots', 'service_id', 'staff_id')->first();
+
+    //         $appointments = Appointment::where('user_id', $user->id)
+    //             ->whereColumn('completed_slots', '!=', 'total_slots') // Correct comparison
+    //             ->select('id', 'last_name', 'phone', 'total_slots', 'completed_slots', 'service_id', 'staff_id')
+    //             ->first();
+
+    //         if ($appointments && $appointments->total_slots > $appointments->completed_slots) {
+    //             $remaining_slots = ($appointments->total_slots - $appointments->completed_slots);
+    //             $service_id = $appointments->service_id;
+    //             $staff_id = $appointments->staff_id;
+    //             $appointmentId = $appointments->id;
+    //             $lastName = $appointments->last_name;
+    //             $phone = $appointments->phone;
+    //         } else {
+    //             $service_id = 0;
+    //             $staff_id = 0;
+    //             $remaining_slots = 0;
+    //             $appointmentId = 0;
+    //             $lastName = '';
+    //             $phone = '';
+    //         }
+
+    //         return view('guest.appointment')->with(compact('lastName', 'phone', 'categories', 'user', 'remaining_slots', 'service_id', 'staff_id', 'appointmentId'));
+    //     }
+
+    //     $service_id = 0;
+    //     $staff_id = 0;
+    //     $remaining_slots = 0;
+    //     $appointmentId = 0;
+    //     $lastName = '';
+    //     $phone = '';
+    //     return view('guest.appointment')->with(compact('lastName', 'phone', 'categories', 'user', 'remaining_slots', 'service_id', 'staff_id', 'appointmentId'));
+    // }
     public function appointment()
     {
         $categories = Category::all();
@@ -95,7 +138,15 @@ class GuestController extends Controller
 
         if ($user) {
 
-            $remaining_slots = 0;
+            // $remaining_slots = 0;
+            $userSession = UserSession::where('user_id', $user->id)->first();
+            if ($userSession) {
+                $remaining_slots = $userSession->sessions;
+            } else {
+                $remaining_slots = 0;
+            }
+
+
             // $appointments = Appointment::where('user_id', $user->id)->select('id', 'last_name', 'phone', 'total_slots', 'completed_slots', 'service_id', 'staff_id')->first();
 
             $appointments = Appointment::where('user_id', $user->id)
@@ -104,16 +155,21 @@ class GuestController extends Controller
                 ->first();
 
             if ($appointments && $appointments->total_slots > $appointments->completed_slots) {
-                $remaining_slots = ($appointments->total_slots - $appointments->completed_slots);
+                // $remaining_slots = ($appointments->total_slots - $appointments->completed_slots);
                 $service_id = $appointments->service_id;
                 $staff_id = $appointments->staff_id;
                 $appointmentId = $appointments->id;
                 $lastName = $appointments->last_name;
                 $phone = $appointments->phone;
             } else {
-                $service_id = 0;
-                $staff_id = 0;
-                $remaining_slots = 0;
+                if ($userSession && $userSession->sessions > 0) {
+                    $service_id = $userSession->service_id ?? 0;
+                    $staff_id = $userSession->staff_id ?? 0;
+                } else {
+                    $service_id = 0;
+                    $staff_id = 0;
+                }
+                // $remaining_slots = 0;
                 $appointmentId = 0;
                 $lastName = '';
                 $phone = '';
@@ -234,6 +290,7 @@ class GuestController extends Controller
         $appointments = Appointment::with('slot')
             ->where('staff_id', $request->staff_id)
             ->where('appointment_date', $data)
+            ->where('status', '!=', 'canceled')
             ->get();
 
         // Mark each slot as booked based on previous appointments or overlapping available_from time
@@ -428,7 +485,7 @@ class GuestController extends Controller
 
                 Appointment::create([
                     'service_id' => $appointment->service_id,
-                    'user_id' => $appointment->user_id, 
+                    'user_id' => $appointment->user_id,
                     'staff_id' => $appointment->staff_id,
                     'slot_id' => $appointment->slot_id,
                     'total_slots' => $appointment->total_slots,
@@ -444,6 +501,8 @@ class GuestController extends Controller
                     'note' => $appointment->note,
                 ]);
 
+
+
                 $appointment->slot_id = $nextSlot->id;
                 $appointment->completed_slots = $appointment->completed_slots + 1;
                 $appointment->appointment_date = $request->appointment_date;
@@ -455,6 +514,16 @@ class GuestController extends Controller
                     $appointment->status = 'awaiting_next_slot';
                 }
                 $appointment->save();
+
+                $userSession = UserSession::updateOrCreate(
+                    ['user_id' => $appointment->user_id],
+                    [
+                        'user_id' => $appointment->user_id,
+                        'service_id' => $appointment->service_id,
+                        'sessions' => $appointment->total_slots - $appointment->completed_slots,
+                        'staff_id' => $appointment->staff_id,
+                    ]
+                );
 
                 $newAppointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($request->appointment_id);
 
@@ -491,10 +560,12 @@ class GuestController extends Controller
                 return response()->json(['success' => false, 'message' => 'Failed to book slot', 'error' => $e->getMessage()], 500);
             }
         }
-        // Begin Transaction
-        DB::beginTransaction();
 
-        // Check for tokens in the database
+        if ($request->appointment_id == 0) {
+            // Begin Transaction
+            DB::beginTransaction();
+
+            // Check for tokens in the database
             $credentials = GoogleCredential::first(); // Assuming only one set of credentials
             if (!$credentials || empty($credentials->access_token)) {
                 // return redirect()->route('auth.google');
@@ -514,9 +585,153 @@ class GuestController extends Controller
                     $credentials->save();
                 }
             }
+            try {
+                // $appointment = Appointment::with('slot')->findOrFail($request->appointment_id);
+                $serviceN = Service::findOrFail($request->service_id);
+                $price = $serviceN->price;
+                $userN = User::find($request->user_id);
+
+                $appointmentNew = Appointment::create([
+                    'service_id' => $request->service_id,
+                    'user_id' => $request->user_id,
+                    'staff_id' => $request->staff_id,
+                    'slot_id' => $request->slot_id,
+                    'total_slots' => $serviceN->slots,
+                    'completed_slots' => 0,
+                    'appointment_date' => $request->appointment_date,
+                    'first_name' => $userN->name,
+                    'last_name' => $userN->last_name,
+                    'email' => $userN->email,
+                    'phone' => $userN->phone,
+                    'location' => $request->location,
+                    'price' => $price,
+                    'note' => $request->note,
+                    'status' => 'confirmed',
+                ]);
+
+                $appointment = Appointment::with('slot')->findOrFail($appointmentNew->id);
+                // If not completed, the user can choose the next slot
+                $nextSlot = Slot::where('id', $request->slot_id)->firstOrFail();
+                // Attach the next slot to the appointment
+                AppointmentSlot::create([
+                    'appointment_id' => $appointment->id,
+                    'slot_id' => $nextSlot->id,
+                ]);
+
+
+                Appointment::create([
+                    'service_id' => $appointment->service_id,
+                    'user_id' => $appointment->user_id,
+                    'staff_id' => $appointment->staff_id,
+                    'slot_id' => $appointment->slot_id,
+                    'total_slots' => 0,
+                    'completed_slots' => 0,
+                    'appointment_date' => $appointment->appointment_date,
+                    'first_name' => $appointment->first_name,
+                    'last_name' => $appointment->last_name,
+                    'email' => $appointment->email,
+                    'phone' => $appointment->phone,
+                    'location' => $appointment->location,
+                    'price' => $appointment->price,
+                    'status' => $appointment->status,
+                    'note' => $appointment->note,
+                ]);
+                
+                $appointment->slot_id = $nextSlot->id;
+                $appointment->completed_slots = $appointment->completed_slots + 1;
+                $appointment->appointment_date = $request->appointment_date;
+                $appointment->note = $request->note;
+
+                if ($appointment->completed_slots == $appointment->total_slots) {
+                    $appointment->status = 'completed';
+                } else {
+                    $appointment->status = 'awaiting_next_slot';
+                }
+                $appointment->save();
+
+                $userSession = UserSession::updateOrCreate(
+                    ['user_id' => $appointment->user_id],
+                    [
+                        'user_id' => $appointment->user_id,
+                        'service_id' => $appointment->service_id,
+                        'sessions' => $appointment->total_slots - $appointment->completed_slots,
+                        'staff_id' => $appointment->staff_id,
+                    ]
+                );
+
+
+                $newAppointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($appointmentNew->id);
+
+                $adminUser = User::role('admin')->first();
+
+                // ------------------- <-- Email Notification --> ------------------- \\
+                $appointment->user->notify(new AppointmentCreateNotification($newAppointment));
+                $appointment->staff->user->notify(new AppointmentCreateNotification($newAppointment));
+                $adminUser->notify(new AppointmentCreateNotification($newAppointment));
+                event(new PostCreateNoti($newAppointment));
+
+                if ($credentials->client_id && $credentials->client_secret) {
+                    // ------------------- <-- Google Calendar Event --> ------------------- \\
+                    $calendarEventResponse = $this->createGoogleCalendarEvent($newAppointment);
+
+                    // Handle any redirect response
+                    if ($calendarEventResponse instanceof \Illuminate\Http\RedirectResponse) {
+                        return $calendarEventResponse;
+                    }
+                }
+
+
+                // Prepare email data
+                $userEmail = $appointment->email;
+                $staffEmail = $appointment->staff->user->email;
+                $adminEmail = 'info@navydavegolf.com';
+
+                // Send email
+                if ($userEmail) {
+                    SendMail::dispatch($userEmail, $appointment, 'user');
+                }
+                SendMail::dispatch($staffEmail, $appointment, 'staff');
+                SendMail::dispatch($adminEmail, $appointment, 'admin');
+
+
+                // Commit the transaction
+                DB::commit();
+
+                $url = route('nextSlot-booked');
+                return response()->json(['success' => true, 'message' => 'Slot booked successfully', 'data' => $url]);
+            } catch (\Exception $e) {
+                // Rollback in case of error
+                DB::rollBack();
+                return response()->json(['success' => false, 'message' => 'Failed to book slot', 'error' => $e->getMessage()], 500);
+            }
+        }
+        // Begin Transaction
+        DB::beginTransaction();
+
+        // Check for tokens in the database
+        $credentials = GoogleCredential::first(); // Assuming only one set of credentials
+        if (!$credentials || empty($credentials->access_token)) {
+            // return redirect()->route('auth.google');
+        }
+        // Handle token refresh if expired
+        $client = new Google_Client();
+        $client->setClientId($credentials->client_id);
+        $client->setClientSecret($credentials->client_secret);
+        $client->setAccessToken($credentials->access_token);
+
+        if ($client->isAccessTokenExpired()) {
+            $refreshToken = $credentials->refresh_token;
+            if ($refreshToken) {
+                $client->fetchAccessTokenWithRefreshToken($refreshToken);
+                // Store the refreshed token back in the database
+                $credentials->access_token = $client->getAccessToken()['access_token'];
+                $credentials->save();
+            }
+        }
 
         try {
             $appointment = Appointment::with('slot')->findOrFail($request->appointment_id);
+
             // If not completed, the user can choose the next slot
             $nextSlot = Slot::where('id', $request->slot_id)->firstOrFail();
             // Attach the next slot to the appointment
@@ -527,7 +742,7 @@ class GuestController extends Controller
 
             Appointment::create([
                 'service_id' => $appointment->service_id,
-                'user_id' => $appointment->user_id, 
+                'user_id' => $appointment->user_id,
                 'staff_id' => $appointment->staff_id,
                 'slot_id' => $appointment->slot_id,
                 'total_slots' => 0,
@@ -543,7 +758,6 @@ class GuestController extends Controller
                 'note' => $appointment->note,
             ]);
 
-
             $appointment->slot_id = $nextSlot->id;
             $appointment->completed_slots = $appointment->completed_slots + 1;
             $appointment->appointment_date = $request->appointment_date;
@@ -555,6 +769,16 @@ class GuestController extends Controller
                 $appointment->status = 'awaiting_next_slot';
             }
             $appointment->save();
+
+            $userSession = UserSession::updateOrCreate(
+                ['user_id' => $appointment->user_id],
+                [
+                    'user_id' => $appointment->user_id,
+                    'service_id' => $appointment->service_id,
+                    'sessions' => $appointment->total_slots - $appointment->completed_slots,
+                    'staff_id' => $appointment->staff_id,
+                ]
+            );
 
 
             $newAppointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($request->appointment_id);
@@ -625,6 +849,29 @@ class GuestController extends Controller
                 // Create the appointment
                 $data = Appointment::create($validated);
 
+                if ($data->total_slots == 1) {
+                    $userSession = UserSession::updateOrCreate(
+                        ['user_id' => $data->user_id],
+                        [
+                            'user_id' => $data->user_id,
+                            'service_id' => $data->service_id,
+                            'sessions' => 0,
+                            'staff_id' => $data->staff_id,
+                        ]
+                    );
+                } else {
+                    $sessions = $data->total_slots - 1;
+                    $userSession = UserSession::updateOrCreate(
+                        ['user_id' => $data->user_id],
+                        [
+                            'user_id' => $data->user_id,
+                            'service_id' => $data->service_id,
+                            'sessions' => $sessions,
+                            'staff_id' => $data->staff_id,
+                        ]
+                    );
+                }
+
                 // Ensure that slot_id is set before creating the AppointmentSlot
                 if (isset($validated['slot_id'])) {
                     AppointmentSlot::create([
@@ -685,7 +932,6 @@ class GuestController extends Controller
         } else {
             $validated = Session::get('SessionData');
 
-
             DB::beginTransaction();
             // Check for tokens in the database
             $credentials = GoogleCredential::first(); // Assuming only one set of credentials
@@ -718,6 +964,29 @@ class GuestController extends Controller
 
                 // Create the appointment
                 $data = Appointment::create($validated);
+
+                if ($data->total_slots == 1) {
+                    $userSession = UserSession::updateOrCreate(
+                        ['user_id' => $data->user_id],
+                        [
+                            'user_id' => $data->user_id,
+                            'service_id' => $data->service_id,
+                            'sessions' => 0,
+                            'staff_id' => $data->staff_id,
+                        ]
+                    );
+                } else {
+                    $sessions = $data->total_slots - 1;
+                    $userSession = UserSession::updateOrCreate(
+                        ['user_id' => $data->user_id],
+                        [
+                            'user_id' => $data->user_id,
+                            'service_id' => $data->service_id,
+                            'sessions' => $sessions,
+                            'staff_id' => $data->staff_id,
+                        ]
+                    );
+                }
 
                 // Ensure that slot_id is set before creating the AppointmentSlot
                 if (isset($validated['slot_id'])) {
