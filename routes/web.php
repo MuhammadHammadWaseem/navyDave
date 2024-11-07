@@ -22,6 +22,7 @@ use App\Http\Controllers\StaffGoogleCredentialsController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\RestrictSlotsController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,7 +76,8 @@ Route::get('about', [GuestController::class, 'about'])->name('about');
 Route::get('pricing', [GuestController::class, 'pricing'])->name('pricing');
 Route::get('appointment', [GuestController::class, 'appointment'])->name('appointment');
 Route::post('appointment/create', [GuestController::class, 'appointmentCreate'])->name('appointment.create');
-Route::get('mailCheck', [GuestController::class, 'mailCheck'])->name('appointment.mailCheck');
+// Route::get('mailCheck', [GuestController::class, 'mailCheck'])->name('appointment.mailCheck');
+Route::get('mailCheck', [TestController::class, 'mailCheck'])->name('appointment.mailCheck');
 // Stripe
 Route::post('appointment/stripe', [GuestController::class, 'appointmentStripe'])->name('appointment.stripe');
 Route::post('appointment/nextSlot', [GuestController::class, 'nextSlot'])->name('appointment.nextSlot');
