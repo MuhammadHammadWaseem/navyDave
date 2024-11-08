@@ -17,7 +17,8 @@ class TestController extends Controller
 
             // Send email
 
-            SendMail::dispatch("navydavegolf@gmail.com", $appointment, 'staff');
+            SendMail::dispatch("talharao997az@gmail.com", $appointment, 'staff');
+            // SendMail::dispatch("navydavegolf@gmail.com", $appointment, 'staff');
             SendMail::dispatch("hw13604@gmail.com", $appointment, 'staff');
 
             return response()->json(['success' => true, 'message' => 'Appointment created successfully', 'data' => $appointment]);
