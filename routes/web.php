@@ -23,6 +23,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\RestrictSlotsController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\DiscountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -215,6 +216,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('restrict_slot/edit/{id}', [RestrictSlotsController::class, 'edit'])->name('restrict_slot.edit');
         Route::post('restrict_slot/update', [RestrictSlotsController::class, 'update'])->name('restrict_slot.update');
         Route::post('restrict_slot/delete/{id}', [RestrictSlotsController::class, 'delete'])->name('restrict_slot.delete');
+        
+        // Restrict Slots
+        Route::get('discount', [DiscountController::class, 'index'])->name('discount');
+        Route::get('get-discount', [DiscountController::class, 'getData'])->name('discount.get');
+        Route::post('discount/store', [DiscountController::class, 'store'])->name('discount.store');
+        Route::post('discount/update', [DiscountController::class, 'update'])->name('discount.update');
+        Route::post('discount/duplicate/{id}', [DiscountController::class, 'duplicate'])->name('discount.duplicate');
+        Route::post('discount/delete/{id}', [DiscountController::class, 'destroy'])->name('discount.destroy');
     });
 });
 

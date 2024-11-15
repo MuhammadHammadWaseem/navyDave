@@ -101,6 +101,10 @@
                                                 class="service-assign-active"><span><img
                                                         src="{{ asset('./assets/images/service-assign.png') }}"
                                                         alt=""></span>Services Assign</a></li>
+                                        <li><a href="{{ route('admin.discount') }}"
+                                                class="discount-active"><span><img
+                                                        src="{{ asset('./assets/images/service-assign.png') }}"
+                                                        alt=""></span>Discounts</a></li>
                                         <li><a href="{{ route('admin.slot') }}" class="slots-active"><span><img
                                                         src="{{ asset('./assets/images/appointment-slot.png') }}"
                                                         alt=""></span>Appointment Slots</a></li>
@@ -323,6 +327,9 @@
                                         class="service-assign-active"><span><img
                                                 src="{{ asset('./assets/images/service-assign.png') }}"
                                                 alt=""></span>Services Assign</a></li>
+                                <li><a href="{{ route('admin.discount') }}" class="discount-active"><span><img
+                                                src="{{ asset('./assets/images/service-assign.png') }}"
+                                                alt=""></span>Discounts</a></li>
                                 <li><a href="{{ route('admin.slot') }}" class="slots-active"><span><img
                                                 src="{{ asset('./assets/images/appointment-slot.png') }}"
                                                 alt=""></span>Appointment Slots</a></li>
