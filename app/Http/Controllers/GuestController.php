@@ -86,7 +86,7 @@ class GuestController extends Controller
         ];
 
         // Send email
-        $adminEmail = 'hw13604@gmail.com';
+        $adminEmail = 'info@navydavegolf.com';
         SendMessage::dispatch($adminEmail, $data);
 
         return redirect()->back()->with('success', 'Your message has been sent successfully.');
@@ -409,7 +409,7 @@ class GuestController extends Controller
             // Prepare email data
             $userEmail = $validated['email'];
             $staffEmail = $appointment->staff->user->email;
-            $adminEmail = 'hw13604@gmail.com';
+            $adminEmail = 'info@navydavegolf.com';
 
             // Send email
             if ($userEmail) {
@@ -654,7 +654,7 @@ class GuestController extends Controller
                 // Prepare email data
                 $userEmail = $appointment->email;
                 $staffEmail = $appointment->staff->user->email;
-                $adminEmail = 'hw13604@gmail.com';
+                $adminEmail = 'info@navydavegolf.com';
 
                 // Send email
                 if ($userEmail) {
@@ -777,7 +777,7 @@ class GuestController extends Controller
             // Prepare email data
             $userEmail = $appointment->email;
             $staffEmail = $appointment->staff->user->email;
-            $adminEmail = 'hw13604@gmail.com';
+            $adminEmail = 'info@navydavegolf.com';
 
             // Send email
             if ($userEmail) {
@@ -896,7 +896,7 @@ class GuestController extends Controller
                 // Prepare email data
                 $userEmail = $validated['email'];
                 $staffEmail = $appointment->staff->user->email;
-                $adminEmail = 'hw13604@gmail.com';
+                $adminEmail = 'info@navydavegolf.com';
 
                 // Send email
                 if ($userEmail) {
@@ -1024,7 +1024,7 @@ class GuestController extends Controller
                 // Prepare email data
                 $userEmail = $validated['email'];
                 $staffEmail = $appointment->staff->user->email;
-                $adminEmail = 'hw13604@gmail.com';
+                $adminEmail = 'info@navydavegolf.com';
 
                 if ($credentials->client_id && $credentials->client_secret) {
                     // Create Google Calendar event
