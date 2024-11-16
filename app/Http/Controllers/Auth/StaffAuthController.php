@@ -89,7 +89,7 @@ class StaffAuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-            'phone' => 'nullable|string|max:15',
+            'phone' => 'nullable|string',
             'address' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
             'password' => 'nullable|string|min:8',

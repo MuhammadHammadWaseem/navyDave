@@ -699,7 +699,8 @@
                                 <div class="d-none" style="text-align: center;" id="loadingTab">
                                     <div class="appointment-booked-details">
                                         {{-- <p>Loading.....</p> --}}
-                                        <img src="{{ asset('assets/images/loading.gif') }}" width="100px" height="100px" alt="Loading...">
+                                        <img src="{{ asset('assets/images/loading.gif') }}" width="100px" height="100px"
+                                            alt="Loading...">
                                     </div>
                                 </div>
 
@@ -1043,7 +1044,8 @@
                                             <h4>${element.name}</h4>
                                             <p>Duration <b>: ${element.duration} ${element.type_duration}</b> </p>
                                             <p>Session <b>: ${element.slots}</b></p>
-                                            <p>Price <b>: $${element.price}</b></p>
+                                            ${(element.discount > 0) ? `<p>Discount <b>: ${element.discount}%</b></p>` : ''}
+                                            <p>Price <b>: ${(element.discount > 0 ? `<del> $${element.original_price} </del>` : '' )}$${element.price}</b></p>
                                         </div>
                                     </div>
                                 </label>
@@ -1115,7 +1117,7 @@
                             $("#slots-box").empty(); // Clear existing slots
                             $("#appointment_date").val(null);
 
-                            if(data.length == 0){
+                            if (data.length == 0) {
                                 $("#slots-box").append(`
                                     <div class="input-radio-box">
                                         <label for="">
@@ -1208,7 +1210,7 @@
                         success: function(data) {
                             $("#slots-box").empty(); // Clear existing slots
 
-                            if(data.length == 0){
+                            if (data.length == 0) {
                                 $("#slots-box").append(`
                                     <div class="input-radio-box">
                                         <label for="">
@@ -1235,27 +1237,49 @@
                             setTimeout(() => {
                                 $("#loadingTab2").remove();
 
-                            // Separate slots into Morning and Afternoon categories
-                            var morningSlots = [];
-                            var afternoonSlots = [];
+                                // Separate slots into Morning and Afternoon categories
+                                var morningSlots = [];
+                                var afternoonSlots = [];
 
-                            data.forEach(element => {
-                                const fromTime = new Date('1970-01-01T' + element
-                                    .available_from); // Convert available_from to a Date object
-                                const hours = fromTime.getHours();
+                                data.forEach(element => {
+                                    const fromTime = new Date('1970-01-01T' + element
+                                        .available_from); // Convert available_from to a Date object
+                                    const hours = fromTime.getHours();
 
-                                if (hours < 12) {
-                                    morningSlots.push(element); // AM slot (Morning)
-                                } else {
-                                    afternoonSlots.push(element); // PM slot (Afternoon)
+                                    if (hours < 12) {
+                                        morningSlots.push(element); // AM slot (Morning)
+                                    } else {
+                                        afternoonSlots.push(element); // PM slot (Afternoon)
+                                    }
+                                });
+
+                                // Append Morning heading and slots if there are morning slots
+                                if (morningSlots.length > 0) {
+                                    $("#slots-box").append(
+                                    `<h3 style="color:#535D71 !important;">Morning</h3>`);
+                                    morningSlots.forEach(element => {
+                                        $("#slots-box").append(`
+                                        <div class="input-radio-box">
+                                            <input type="radio" id="slot_id-${element.id}" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
+                                            <label for="slot_id-${element.id}">
+                                                <div class="main-label-content">
+                                                    <div class="content">
+                                                        <h4 style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
+                                                        <p style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${element.is_booked ? 'Slot Booked' : '1 slot left'}</p>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    `);
+                                    });
                                 }
-                            });
 
-                            // Append Morning heading and slots if there are morning slots
-                            if (morningSlots.length > 0) {
-                                $("#slots-box").append(`<h3 style="color:#535D71 !important;">Morning</h3>`);
-                                morningSlots.forEach(element => {
-                                    $("#slots-box").append(`
+                                // Append Afternoon heading and slots if there are afternoon slots
+                                if (afternoonSlots.length > 0) {
+                                    $("#slots-box").append(
+                                        `<h3 style="color:#535D71 !important;">Afternoon</h3>`);
+                                    afternoonSlots.forEach(element => {
+                                        $("#slots-box").append(`
                                         <div class="input-radio-box">
                                             <input type="radio" id="slot_id-${element.id}" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
                                             <label for="slot_id-${element.id}">
@@ -1268,31 +1292,11 @@
                                             </label>
                                         </div>
                                     `);
-                                });
-                            }
-
-                            // Append Afternoon heading and slots if there are afternoon slots
-                            if (afternoonSlots.length > 0) {
-                                $("#slots-box").append(`<h3 style="color:#535D71 !important;">Afternoon</h3>`);
-                                afternoonSlots.forEach(element => {
-                                    $("#slots-box").append(`
-                                        <div class="input-radio-box">
-                                            <input type="radio" id="slot_id-${element.id}" name="slot_id" value="${element.id}" ${element.is_booked ? 'disabled' : ''}>
-                                            <label for="slot_id-${element.id}">
-                                                <div class="main-label-content">
-                                                    <div class="content">
-                                                        <h4 style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${formatTime(element.available_from)} - ${formatTime(element.available_to)}</h4>
-                                                        <p style="${element.is_booked ? 'color: #b5b5b5;' : ''}">${element.is_booked ? 'Slot Booked' : '1 slot left'}</p>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </div>
-                                    `);
-                                });
-                            }
+                                    });
+                                }
 
 
-                        }, 1000);
+                            }, 1000);
 
 
                         },

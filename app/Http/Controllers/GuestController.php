@@ -32,6 +32,7 @@ use Google_Client;
 use App\Models\GoogleCredential;
 use App\Models\UserSession;
 use App\Models\RestrictSlot;
+use App\Models\Discount;
 
 
 class GuestController extends Controller
@@ -204,10 +205,51 @@ class GuestController extends Controller
     }
     public function getServices($id)
     {
+        $today = now();
+
         if ($id == 0) {
-            return response()->json(Service::all());
+            $service = Service::all();
+            foreach ($service as $s) {
+                $discount = Discount::where('status', 1)
+                    ->where('service_id', $s->id)
+                    ->whereDate('expired_date', '>=', $today)
+                    ->first();
+
+                if ($discount) {
+                    $s->is_discount = true;
+                    $s->discount = $discount->percentage;
+                    $s->original_price = $s->price;
+                    $s->price = $s->price - ($s->price * $discount->percentage / 100);
+                } else {
+                    $s->is_discount = false;
+                    $s->discount = 0;
+                    $s->original_price = $s->price;
+                }
+            }
+            return response()->json($service);
         }
-        return response()->json(Service::where('category_id', $id)->get());
+
+        $service = Service::where('category_id', $id)->get();
+
+        foreach ($service as $s) {
+            $discount = Discount::where('status', 1)
+                ->where('service_id', $s->id)
+                ->whereDate('expired_date', '>=', $today)
+                ->first();
+
+            if ($discount) {
+                $s->is_discount = true;
+                $s->discount = $discount->percentage;
+                $s->original_price = $s->price;
+                $s->price = $s->price - ($s->price * $discount->percentage / 100);
+            } else {
+                $s->is_discount = false;
+                $s->discount = 0;
+                $s->original_price = $s->price;
+            }
+        }
+
+        return response()->json($service);
     }
 
     public function getStaff($id)
@@ -346,7 +388,18 @@ class GuestController extends Controller
         try {
             // Retrieve the price from the Service model
             $service = Service::findOrFail($validated['service_id']);
-            $validated['price'] = $service->price;
+
+            $discount = Discount::where('status', 1)
+                ->where('service_id', $service->id)
+                ->whereDate('expired_date', '>=', now())
+                ->first();
+
+            if ($discount) {
+                $validated['price'] = $service->price - ($service->price * ($discount->percentage / 100));
+            }else {
+                $validated['price'] = $service->price;
+            }
+
             // Create the appointment
             $data = Appointment::create($validated);
 
@@ -432,7 +485,18 @@ class GuestController extends Controller
         try {
             // Retrieve the price from the Service model
             $service = Service::findOrFail($validated['service_id']);
-            $validated['price'] = $service->price;
+
+            // Discount Work
+            $discount = Discount::where('status', 1)
+                ->where('service_id', $service->id)
+                ->whereDate('expired_date', '>=', now())
+                ->first();
+
+            if ($discount) {
+                $validated['price'] = $service->price - ($service->price * ($discount->percentage / 100));
+            }else {
+                $validated['price'] = $service->price;
+            }
 
             // ------------------- <-- Stripe Payment --> ------------------- \\
 
@@ -509,7 +573,19 @@ class GuestController extends Controller
             try {
                 // $appointment = Appointment::with('slot')->findOrFail($request->appointment_id);
                 $serviceN = Service::findOrFail($request->service_id);
-                $price = $serviceN->price;
+
+                // Discount Work
+                $discount = Discount::where('status', 1)
+                ->where('service_id', $serviceN->id)
+                ->whereDate('expired_date', '>=', now())
+                ->first();
+
+                if ($discount) {
+                    $price = $serviceN->price - ($serviceN->price * ($discount->percentage / 100));
+                }else {
+                    $price = $serviceN->price;
+                }
+
                 $userN = User::find($request->user_id);
 
                 $appointmentNew = Appointment::create([
@@ -737,7 +813,19 @@ class GuestController extends Controller
             try {
                 // Retrieve the price from the Service model
                 $service = Service::findOrFail($validated['service_id']);
-                $validated['price'] = $service->price;
+
+                // Discount Work
+                $discount = Discount::where('service_id', $validated['service_id'])
+                    ->where('expired_date', '>=', now())
+                    ->first();
+
+                if ($discount) {
+                    $discountedPrice = $service->price - ($service->price * ($discount->percentage / 100));
+                    $validated['price'] = $discountedPrice;
+                }else{
+                    $validated['price'] = $service->price;
+                }           
+
                 $validated['total_slots'] = $service->slots;
                 $validated['completed_slots'] = 1;
 
@@ -853,7 +941,19 @@ class GuestController extends Controller
             try {
                 // Retrieve the price from the Service model
                 $service = Service::findOrFail($validated['service_id']);
-                $validated['price'] = $service->price;
+
+                // Discount Work
+                $discount = Discount::where('status', 1)
+                ->where('service_id', $service->id)
+                ->whereDate('expired_date', '>=', now())
+                ->first();
+
+                if ($discount) {
+                    $validated['price'] = $service->price - ($service->price * ($discount->percentage / 100));
+                }else {
+                    $validated['price'] = $service->price;
+                }
+
                 $validated['total_slots'] = $service->slots;
                 $validated['completed_slots'] = 1;
 
