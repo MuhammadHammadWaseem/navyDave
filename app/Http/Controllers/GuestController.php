@@ -52,6 +52,7 @@ class GuestController extends Controller
         foreach ($services as $s) {
             $discount = Discount::where('status', 1)
                 ->where('service_id', $s->id)
+                ->whereDate('start_date', '<=', $today)
                 ->whereDate('expired_date', '>=', $today)
                 ->first();
 
@@ -81,6 +82,7 @@ class GuestController extends Controller
         foreach ($services as $s) {
             $discount = Discount::where('status', 1)
                 ->where('service_id', $s->id)
+                ->whereDate('start_date', '<=', $today)
                 ->whereDate('expired_date', '>=', $today)
                 ->first();
 
@@ -251,6 +253,7 @@ class GuestController extends Controller
             foreach ($service as $s) {
                 $discount = Discount::where('status', 1)
                     ->where('service_id', $s->id)
+                    ->whereDate('start_date', '<=', $today)
                     ->whereDate('expired_date', '>=', $today)
                     ->first();
 
@@ -273,6 +276,7 @@ class GuestController extends Controller
         foreach ($service as $s) {
             $discount = Discount::where('status', 1)
                 ->where('service_id', $s->id)
+                ->whereDate('start_date', '<=', $today)
                 ->whereDate('expired_date', '>=', $today)
                 ->first();
 
@@ -430,6 +434,7 @@ class GuestController extends Controller
 
             $discount = Discount::where('status', 1)
                 ->where('service_id', $service->id)
+                ->whereDate('start_date', '<=', now())
                 ->whereDate('expired_date', '>=', now())
                 ->first();
 
@@ -528,6 +533,7 @@ class GuestController extends Controller
             // Discount Work
             $discount = Discount::where('status', 1)
                 ->where('service_id', $service->id)
+                ->whereDate('start_date', '<=', now())
                 ->whereDate('expired_date', '>=', now())
                 ->first();
 
@@ -616,6 +622,7 @@ class GuestController extends Controller
                 // Discount Work
                 $discount = Discount::where('status', 1)
                 ->where('service_id', $serviceN->id)
+                ->whereDate('start_date', '<=', now())
                 ->whereDate('expired_date', '>=', now())
                 ->first();
 
@@ -855,6 +862,8 @@ class GuestController extends Controller
 
                 // Discount Work
                 $discount = Discount::where('service_id', $validated['service_id'])
+                    ->where('status', 1)
+                    ->where('start_date', '<=', now())
                     ->where('expired_date', '>=', now())
                     ->first();
 
@@ -984,6 +993,7 @@ class GuestController extends Controller
                 // Discount Work
                 $discount = Discount::where('status', 1)
                 ->where('service_id', $service->id)
+                ->where('start_date', '<=', now())
                 ->whereDate('expired_date', '>=', now())
                 ->first();
 
