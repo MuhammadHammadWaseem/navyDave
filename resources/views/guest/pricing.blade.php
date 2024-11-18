@@ -3,6 +3,36 @@
     header .header-nav ul li a.pricing-active::after {
         opacity: 100%;
     }
+
+    .hot .hot-box {
+        position: relative;
+        position: absolute;
+        top: -70px;
+        right: -30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hot {
+        z-index: 999;
+        box-shadow: 0px 0px 20px 0px #00000038;
+        position: relative;
+        /* margin-left: -340px; */
+        margin-top: 130px;
+    }
+
+    .hot .hot-box p {
+        position: absolute;
+        color: #2cc374 !important;
+        font-size: 18px;
+    }
+
+    .pricing_container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 </style>
 @section('content')
     <section class="hero-banner">
@@ -27,13 +57,33 @@
                 <div class="col-md-12">
                     <div class="pricing-box-main">
                         @foreach ($services as $s)
-                            <div class="pricing-box">
+                            <div class="pricing-box hot">
                                 <h6>{{ $s->name }}</h6>
-                                <h5>${{ $s->price }}</h5>
+                                <div class="pricing_container">
+                                    <h5>${{ $s->price }}</h5>
+                                    @if ($s->discount > 0)
+                                        <p><del>${{ $s->original_price }}</del></p>
+                                    @endif
+                                </div>
                                 <p>{{ $s->description }}</p>
                                 <p>{{ $s->duration }} {{ $s->type_duration }}</p>
-                                <p>{{ $s->slots }} @if($s->slots > 1) Sessions @else Session @endif</p>
+                                <p>{{ $s->slots }} @if ($s->slots > 1)
+                                        Sessions
+                                    @else
+                                        Session
+                                    @endif
+                                </p>
                                 <a href="{{ route('appointment') }}">Book Now</a>
+
+                                @if ($s->discount > 0)
+                                    <div class="hot-box">
+                                        <img class="star" src="{{ asset('assets/images/hot-star.png') }}" alt="">
+                                        <p>{{ $s->discount }}% OFF</p>
+                                    </div>
+                                @endif
+
+
+
                             </div>
                         @endforeach
                     </div>

@@ -46,7 +46,27 @@ class GuestController extends Controller
 
     public function home()
     {
+        $today = now();
         $services = Service::with('category')->orderBy('id', 'desc')->take(2)->get();
+
+        foreach ($services as $s) {
+            $discount = Discount::where('status', 1)
+                ->where('service_id', $s->id)
+                ->whereDate('expired_date', '>=', $today)
+                ->first();
+
+            if ($discount) {
+                $s->is_discount = true;
+                $s->discount = $discount->percentage;
+                $s->original_price = $s->price;
+                $s->price = $s->price - ($s->price * $discount->percentage / 100);
+            } else {
+                $s->is_discount = false;
+                $s->discount = 0;
+                $s->original_price = $s->price;
+            }
+        }
+
         return view('guest.home', compact('services'));
     }
     public function about()
@@ -55,7 +75,26 @@ class GuestController extends Controller
     }
     public function pricing()
     {
+        $today = now();
         $services = Service::with('category')->orderBy('id', 'desc')->get();
+
+        foreach ($services as $s) {
+            $discount = Discount::where('status', 1)
+                ->where('service_id', $s->id)
+                ->whereDate('expired_date', '>=', $today)
+                ->first();
+
+            if ($discount) {
+                $s->is_discount = true;
+                $s->discount = $discount->percentage;
+                $s->original_price = $s->price;
+                $s->price = $s->price - ($s->price * $discount->percentage / 100);
+            } else {
+                $s->is_discount = false;
+                $s->discount = 0;
+                $s->original_price = $s->price;
+            }
+        }
         return view('guest.pricing', compact('services'));
     }
 

@@ -531,6 +531,7 @@ button:active {
 .home-sec-02.home-sec-07 .pricing-box.hot .hot-box p {
   position: absolute;
   color: #2cc374;
+  font-size: 18px;
 }
 
 @keyframes rotate {

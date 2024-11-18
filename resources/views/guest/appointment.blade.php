@@ -269,6 +269,52 @@
         font-size: 16px;
         line-height: 1.3em;
     }
+
+
+    .main-check-box-click .input-radio-box label .main-label-content .discount_container {
+    width: 100px;
+    text-align: center;
+    border: 2px solid #4EAC7B;
+    border-radius: 10px;
+    background: #4eac7b1f;
+    position: absolute;
+    right: 20%;
+}
+
+.main-check-box-click .input-radio-box label .main-label-content .discount_container p {
+    color: #4EAC7B;
+    font-weight: 600;
+    font-family: inherit;
+    font-size: 25px;
+}
+
+.main-check-box-click .input-radio-box label .main-label-content .discount_container span {
+    color: #4EAC7B;
+}
+
+.main-check-box-click .input-radio-box label .main-label-content {
+    position: relative;
+}
+
+
+
+@media only screen and (max-width: 575px){
+
+.main-check-box-click .input-radio-box label .main-label-content .discount_container {
+    width: 100px;
+    text-align: center;
+    border: none;
+    border-radius: 0px;
+    background: transparent;
+    position: absolute;
+    right: 5%;
+}
+
+
+.main-check-box-click .input-radio-box label .main-label-content .discount_container p {
+    font-size: 18px;
+}
+}
 </style>
 @section('content')
     @if (Session::has('success'))
@@ -1044,9 +1090,13 @@
                                             <h4>${element.name}</h4>
                                             <p>Duration <b>: ${element.duration} ${element.type_duration}</b> </p>
                                             <p>Session <b>: ${element.slots}</b></p>
-                                            ${(element.discount > 0) ? `<p>Discount <b>: ${element.discount}%</b></p>` : ''}
                                             <p>Price <b>: ${(element.discount > 0 ? `<del> $${element.original_price} </del>` : '' )}$${element.price}</b></p>
                                         </div>
+                                        ${element.discount > 0 ? `
+                                            <div class="discount_container">
+                                                <p>${element.discount}%</p>
+                                                <span>Discount</span>
+                                            </div>` : ''}
                                     </div>
                                 </label>
                             </div>
