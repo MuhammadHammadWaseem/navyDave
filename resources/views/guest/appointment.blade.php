@@ -618,7 +618,7 @@
 
                                     </div>
                                 </div>
-                                <div class="tab d-none">
+                                {{-- <div class="tab d-none">
                                     <div class="text">
                                         <h3>Staff Members</h3>
                                     </div>
@@ -635,7 +635,11 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div> --}}
+                                <div id="staff-box">
                                 </div>
+
+                                
                                 <div class="tab d-none">
                                     <div class="text">
                                         <h3>Available Date & Time</h3>
@@ -763,7 +767,7 @@
                                 <div style="text-align:center;margin-top:40px;">
                                     <div class="step"></div>
                                     <div class="step"></div>
-                                    <div class="step"></div>
+                                    {{-- <div class="step"></div> --}}
                                     <div class="step"></div>
                                 </div>
                             </form>
@@ -1116,26 +1120,41 @@
                         success: function(data) {
                             $("#staff-box").empty();
                             $("#appointment_date").val(null);
-                            data.forEach(element => {
+
+                            if(data.length == 1){
+                                data.forEach(element => {
                                 let staffId = {{ $staff_id }};
                                 let checked = staffId == element.id ? 'checked' : '';
-                                $("#staff-box").append(`
-                            <div class="input-radio-box">
-                                <input type="radio" id="staff_id-${element.id}" name="staff_id" ${checked} onchange="getSlots(${element.id})" value="${element.id}">
-                                <label for="staff_id-${element.id}">
-                                    <div class="main-label-content">
-                                        <div class="img-box">
-                                            <img src="{{ Storage::url('${element.image}') }}" width="50px" height="50px" alt="Staff Image">
+                                    $("#staff-box").append(`
+                                            <input type="radio" class="d-none" id="staff_id-${element.id}" name="staff_id" ${checked} onchange="getSlots(${element.id})" value="${element.id}">
                                         </div>
-                                        <div class="content">
-                                            <h4>${element.user.name}</h4>
-                                            <p>Duration <b>: 2 Hours</b> </p>
+                                    `);
+
+                                    getSlots(element.id);
+                                    $(`#staff_id-${element.id}`).prop('checked', true);
+                                });
+                            }else{
+                                data.forEach(element => {
+                                let staffId = {{ $staff_id }};
+                                let checked = staffId == element.id ? 'checked' : '';
+                                    $("#staff-box").append(`
+                                        <div class="input-radio-box">
+                                            <input type="radio" id="staff_id-${element.id}" name="staff_id" ${checked} onchange="getSlots(${element.id})" value="${element.id}">
+                                            <label for="staff_id-${element.id}">
+                                                <div class="main-label-content">
+                                                    <div class="img-box">
+                                                        <img src="{{ Storage::url('${element.image}') }}" width="50px" height="50px" alt="Staff Image">
+                                                    </div>
+                                                    <div class="content">
+                                                        <h4>${element.user.name}</h4>
+                                                        <p>Duration <b>: 2 Hours</b> </p>
+                                                    </div>
+                                                </div>
+                                            </label>
                                         </div>
-                                    </div>
-                                </label>
-                            </div>
-                        `);
-                            });
+                                    `);
+                                });
+                            }
                         },
                         error: function(data) {
                             console.log(data);
@@ -1163,7 +1182,6 @@
                             service_id: serviceID
                         },
                         success: function(data) {
-                            console.log(data.length);
                             $("#slots-box").empty(); // Clear existing slots
                             $("#appointment_date").val(null);
 

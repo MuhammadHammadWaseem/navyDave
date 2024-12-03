@@ -395,9 +395,11 @@ class GuestController extends Controller
 
             // Further check if any appointment has a matching available_from time
             foreach ($appointments as $appointment) {
-                if ($slot->available_from == $appointment->slot->available_from) {
-                    $slot->is_booked = true;
-                    break; // No need to check further once it's marked as booked
+                if($appointment->slot){
+                    if ($slot->available_from == $appointment->slot->available_from) {
+                        $slot->is_booked = true;
+                        break; // No need to check further once it's marked as booked
+                    }
                 }
             }
         }
