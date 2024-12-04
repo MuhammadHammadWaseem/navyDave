@@ -296,6 +296,18 @@
     position: relative;
 }
 
+.appointment-sec-01 .main-steps-form ul {
+                                display: flex                            ;
+                                justify-content: center !important;
+                                flex-direction: row;
+                                flex-wrap: wrap;
+                                gap: 120px !important;
+                            }
+
+.appointment-sec-01 .main-steps-form ul li:last-child::after {
+    content: none;
+}
+
 
 
 @media only screen and (max-width: 575px){
@@ -362,7 +374,7 @@
                                     <p>Service</p>
                                 </a>
                             </li>
-                            <li><a>
+                            {{-- <li><a>
                                     <div class="svg-box">
                                         <svg width="51" height="50" viewBox="0 0 51 50" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -376,7 +388,9 @@
                                     </div>
                                     <p>Staff</p>
                                 </a>
-                            </li>
+                            </li> --}}
+
+                            
                             <li><a>
                                     <div class="svg-box">
                                         <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
