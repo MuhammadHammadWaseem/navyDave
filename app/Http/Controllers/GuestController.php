@@ -33,6 +33,7 @@ use App\Models\GoogleCredential;
 use App\Models\UserSession;
 use App\Models\RestrictSlot;
 use App\Models\Discount;
+use Illuminate\Support\Facades\Cache;
 
 
 class GuestController extends Controller
@@ -127,7 +128,7 @@ class GuestController extends Controller
         ];
 
         // Send email
-        $adminEmail = 'info@navydavegolf.com';
+        $adminEmail = 'hw13604@gmail.com';
         SendMessage::dispatch($adminEmail, $data);
 
         return redirect()->back()->with('success', 'Your message has been sent successfully.');
@@ -194,7 +195,11 @@ class GuestController extends Controller
 
             $appointments = Appointment::where('user_id', $user->id)
                 ->whereColumn('completed_slots', '!=', 'total_slots') // Correct comparison
+                // ->where('status', '!=', 'canceled')
+                ->where('active',  '1')
+                ->where('status', '!=', 'completed')
                 ->select('id', 'last_name', 'phone', 'total_slots', 'completed_slots', 'service_id', 'staff_id')
+                ->latest()
                 ->first();
 
             if ($appointments && $appointments->total_slots > $appointments->completed_slots) {
@@ -218,6 +223,7 @@ class GuestController extends Controller
                 $phone = '';
             }
 
+            // dd($appointmentId);
             return view('guest.appointment')->with(compact('lastName', 'phone', 'categories', 'user', 'remaining_slots', 'service_id', 'staff_id', 'appointmentId'));
         }
 
@@ -455,7 +461,7 @@ class GuestController extends Controller
             // Prepare email data
             $userEmail = $validated['email'];
             $staffEmail = $appointment->staff->user->email;
-            $adminEmail = 'info@navydavegolf.com';
+            $adminEmail = 'hw13604@gmail.com';
 
             // Send email
             if ($userEmail) {
@@ -495,6 +501,10 @@ class GuestController extends Controller
 
     public function appointmentStripe(Request $request)
     {
+        // dd($request->all());
+        $lockKey = 'lock:appointment:' . $request->slot_id . ':' . $request->appointment_date . ':' . $request->staff_id;
+        $lockDuration = 30;
+
         $validator = Validator::make($request->all(), [
             'service_id' => 'required|integer',
             'staff_id' => 'required|integer',
@@ -514,6 +524,24 @@ class GuestController extends Controller
             'staff_id' => 'Staff',
             'slot_id' => 'Slot',
         ]);
+
+        $lock = Cache::lock($lockKey, $lockDuration);
+
+        if (!$lock->get()) {
+            return response()->json(['success' => false, 'message' => 'This slot is already being booked by another user'], 429);
+        }
+        
+        $testAppointment = Appointment::where('slot_id', $request->slot_id)
+        ->where('appointment_date', $request->appointment_date)
+        ->where('staff_id' , $request->staff_id)
+        ->where('status', '!=', 'canceled')
+        ->lockForUpdate()
+        ->first();
+        
+        if(isset($testAppointment)) {
+            return response()->json(['success' => false, 'message' => 'This Slot is already Booked'], 500);
+        }
+        
 
         // Validate the request
         $validated = $validator->validate();
@@ -593,6 +621,17 @@ class GuestController extends Controller
 
     public function nextSlot(Request $request)
     {
+        // dd($request->all());
+        $testAppointment = Appointment::where('slot_id', $request->slot_id)
+        ->where('appointment_date', $request->appointment_date)
+        ->where('staff_id' , $request->staff_id)
+        ->where('status', '!=', 'canceled')
+        ->lockForUpdate()
+        ->first();
+        if(isset($testAppointment)) {
+            return response()->json(['success' => false, 'message' => 'Slot is full', 'error' => 'Slot is full'], 500);
+        }
+
         if ($request->appointment_id == 0) {
             // Begin Transaction
             DB::beginTransaction();
@@ -641,9 +680,8 @@ class GuestController extends Controller
                     'user_id' => $request->user_id,
                     'staff_id' => $request->staff_id,
                     'slot_id' => $request->slot_id,
-                    'total_slots' => 0,
-                    // 'total_slots' => $serviceN->slots,
-                    'completed_slots' => 0,
+                    'total_slots' => $serviceN->slots,
+                    'completed_slots' => 1,
                     'appointment_date' => $request->appointment_date,
                     'first_name' => $userN->name,
                     'last_name' => $userN->last_name,
@@ -654,6 +692,14 @@ class GuestController extends Controller
                     'note' => $request->note,
                     'status' => 'confirmed',
                 ]);
+
+                if($appointmentNew->total_slots == 1) {
+                    $appointmentNew->active = '0';
+                }else{
+                    $appointmentNew->active = '1';
+                }
+
+                $appointmentNew->save();
 
                 $appointment = Appointment::with('slot')->findOrFail($appointmentNew->id);
 
@@ -702,7 +748,7 @@ class GuestController extends Controller
                 // Prepare email data
                 $userEmail = $appointment->email;
                 $staffEmail = $appointment->staff->user->email;
-                $adminEmail = 'info@navydavegolf.com';
+                $adminEmail = 'hw13604@gmail.com';
 
                 // Send email
                 if ($userEmail) {
@@ -757,38 +803,63 @@ class GuestController extends Controller
                 'appointment_id' => $appointment->id,
                 'slot_id' => $nextSlot->id,
             ]);
-
-            Appointment::create([
-                'service_id' => $appointment->service_id,
-                'user_id' => $appointment->user_id,
-                'staff_id' => $appointment->staff_id,
+            
+            $userSessions = UserSession::where('user_id', $appointment->user_id)->first();
+            $veryNewService = Service::findOrFail($request->service_id);
+            $veryNewAppointment = Appointment::create([
+                'service_id' => $request->service_id,
+                'user_id' => $request->user_id,
+                'staff_id' => $request->staff_id,
                 'slot_id' => $nextSlot->id,
-                'total_slots' => 0,
-                'completed_slots' => 0,
-                'appointment_date' => $appointment->appointment_date,
+                'total_slots' => $veryNewService->slots,
+                'completed_slots' => $appointment->completed_slots + 1,
+                'appointment_date' => $request->appointment_date,
                 'first_name' => $appointment->first_name,
                 'last_name' => $appointment->last_name,
                 'email' => $appointment->email,
                 'phone' => $appointment->phone,
                 'location' => $appointment->location,
                 'price' => 0,
-                'status' => $appointment->status,
-                'note' => $appointment->note,
+                'status' => 'confirmed',
+                'note' => $request->note,
             ]);
+            
+            // $appointment->completed_slots = $appointment->completed_slots + 1;
+            // $appointment->appointment_date = $request->appointment_date;
+            // $appointment->note = $request->note;
 
-            // $appointment->slot_id = $nextSlot->id;
-            $appointment->completed_slots = $appointment->completed_slots + 1;
-            $appointment->appointment_date = $request->appointment_date;
-            $appointment->note = $request->note;
-
-            if ($appointment->completed_slots == $appointment->total_slots) {
-                $appointment->status = 'confirmed';
-            } else {
-                $appointment->status = 'confirmed';
+            if($veryNewAppointment->total_slots == 1) {
+                $veryNewAppointment->active = '0';
+            }else{
+                $veryNewAppointment->active = '1';
             }
+
+            if ($veryNewAppointment->completed_slots == $veryNewAppointment->total_slots) {
+                $veryNewAppointment->status = 'confirmed';
+                $veryNewAppointment->active = '0';
+            } else {
+                $veryNewAppointment->status = 'confirmed';
+                $veryNewAppointment->active = '1';
+            }
+            $veryNewAppointment->save();
+
+            $appointment->active = '0';
+
+            if($appointment->status != 'canceled') {
+                if($appointment->total_slots > $appointment->completed_slots) {
+                    $appointment->status = 'awaiting_next_slot';
+                }
+                if($appointment->total_slots == $appointment->completed_slots) {
+                    $appointment->status = 'fully_completed';
+                }
+            }
+
+            // if($appointment->status != 'canceled'){
+            //     $appointment->status = 'confirmed';
+            // }
+
             $appointment->save();
 
-            $userSessions = UserSession::where('user_id', $appointment->user_id)->first();
             $sessions = $userSessions->sessions - 1 ?? 0;
             $userSession = UserSession::updateOrCreate(
                 ['user_id' => $appointment->user_id],
@@ -825,7 +896,7 @@ class GuestController extends Controller
             // Prepare email data
             $userEmail = $appointment->email;
             $staffEmail = $appointment->staff->user->email;
-            $adminEmail = 'info@navydavegolf.com';
+            $adminEmail = 'hw13604@gmail.com';
 
             // Send email
             if ($userEmail) {
@@ -878,7 +949,21 @@ class GuestController extends Controller
 
                 $validated['total_slots'] = $service->slots;
                 $validated['completed_slots'] = 1;
-
+                
+                if($validated['total_slots'] == 1){
+                    $validated['active'] = '0';
+                }else{
+                    $validated['active'] = '1';
+                }
+                
+                
+                if($validated['total_slots'] == $validated['completed_slots']) {
+                    $validated['status'] = 'fully_completed';
+                }else if($validated['total_slots'] > $validated['completed_slots']) {
+                    $validated['status'] = 'awaiting_next_slot';
+                }else{
+                    $validated['status'] = 'confirmed';
+                }
 
                 // Create the appointment
                 $data = Appointment::create($validated);
@@ -946,7 +1031,7 @@ class GuestController extends Controller
                 // Prepare email data
                 $userEmail = $validated['email'];
                 $staffEmail = $appointment->staff->user->email;
-                $adminEmail = 'info@navydavegolf.com';
+                $adminEmail = 'hw13604@gmail.com';
 
                 // Send email
                 if ($userEmail) {
@@ -1008,6 +1093,12 @@ class GuestController extends Controller
                 $validated['total_slots'] = $service->slots;
                 $validated['completed_slots'] = 1;
 
+                if($validated['total_slots'] == 1){
+                    $validated['active'] = '0';
+                }else{
+                    $validated['active'] = '1';
+                }
+
 
                 // Create the appointment
                 $data = Appointment::create($validated);
@@ -1075,7 +1166,7 @@ class GuestController extends Controller
                 // Prepare email data
                 $userEmail = $validated['email'];
                 $staffEmail = $appointment->staff->user->email;
-                $adminEmail = 'info@navydavegolf.com';
+                $adminEmail = 'hw13604@gmail.com';
 
                 if ($credentials->client_id && $credentials->client_secret) {
                     // Create Google Calendar event

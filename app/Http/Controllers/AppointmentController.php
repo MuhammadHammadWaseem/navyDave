@@ -29,7 +29,7 @@ class AppointmentController extends Controller
 
     //     $userEmail = $appointment->email;
     //     $staffEmail = $appointment->staff->user->email;
-    //     $adminEmail = 'info@navydavegolf.com';
+    //     $adminEmail = 'hw13604@gmail.com';
 
     //     // Email Work
     //     SendStatusMail::dispatch($userEmail, $appointment, 'user');
@@ -48,16 +48,16 @@ class AppointmentController extends Controller
 
         // If the current slot is marked as completed, increment completed slots
         if ($request->status == 'completed') {
-            $appointment->completed_slots += 1;
+            // $appointment->completed_slots += 1;
 
-            $userSession = UserSession::updateOrCreate(
-                ['user_id' => $appointment->user_id],
-                [
-                    'user_id' => $appointment->user_id,
-                    'service_id' => $appointment->service_id,
-                    'sessions' => $appointment->total_slots-$appointment->completed_slots,
-                ]
-            );
+            // $userSession = UserSession::updateOrCreate(
+            //     ['user_id' => $appointment->user_id],
+            //     [
+            //         'user_id' => $appointment->user_id,
+            //         'service_id' => $appointment->service_id,
+            //         'sessions' => $appointment->total_slots-$appointment->completed_slots,
+            //     ]
+            // );
 
             // If the appointment is not fully completed, allow the user to select the next slot later
             if ($appointment->completed_slots < $appointment->total_slots) {
@@ -86,13 +86,19 @@ class AppointmentController extends Controller
             );
         }
 
+        if($appointment->completed_slots == $appointment->total_slots){
+            $appointment->active = '0';
+        }else{
+            $appointment->active = '1';
+        }
+
         $appointment->save();
 
         // Send emails notifying user, staff, and admin
         $userEmail = $appointment->email;
         $staffEmail = $appointment->staff->user->email;
-        $adminEmail = 'info@navydavegolf.com';
-        // $adminEmail = 'info@navydavegolf.com';
+        $adminEmail = 'hw13604@gmail.com';
+        // $adminEmail = 'hw13604@gmail.com';
 
         SendStatusMail::dispatch($userEmail, $appointment, 'user');
         SendStatusMail::dispatch($staffEmail, $appointment, 'staff');

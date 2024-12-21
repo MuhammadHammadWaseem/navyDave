@@ -334,6 +334,11 @@
             {{ Session::get('success') }}
         </div>
     @endif
+    @if (Session::has('error'))
+        <div class="alert alert-danger">
+            {{ Session::get('error') }}
+        </div>
+    @endif
     <section class="hero-banner other-pages-banner">
         <div class="container">
             <div class="row">
@@ -349,6 +354,8 @@
             <img src="{{ asset('assets/images/Appointment ( P 1 ).png') }}" alt="">
         </div>
     </section>
+    
+    
 
 
     <section class="appointment-sec-01" id="appointment">
@@ -752,7 +759,7 @@
                                 <div class="d-none" id="error-box">
                                     <div class="text">
                                         <img src="assets/images/warning.png" alt="">
-                                        <h3>Error</h3>
+                                        <h3 id="errorTitle">Error</h3>
                                     </div>
                                     <div class="appointment-booked-details">
                                         <ul id="errorList">
@@ -983,6 +990,7 @@
                         },
                         error: function(xhr, status, error) {
                             loadingTab.classList.add("d-none");
+                            $("#errorTitle").text("This Slot is not available!");
 
                             if (xhr.status === 422) { // Validation errors
                                 var errors = xhr.responseJSON.errors;
@@ -1025,32 +1033,10 @@
                             window.location.href = data.data;
                         },
                         error: function(xhr, status, error) {
+                            console.log("Error Response:", xhr.responseJSON.error);
+                            $("#errorTitle").text("This Slot is not available!");
                             loadingTab.classList.add("d-none");
-
-                            if (xhr.status === 422) { // Validation errors
-                                var errors = xhr.responseJSON.errors;
-                                var errorList = document.getElementById("errorList");
-
-                                if (errorList) {
-                                    errorList.innerHTML = ""; // Clear previous errors
-
-                                    // Loop through and display each validation error
-                                    for (var field in errors) {
-                                        if (errors.hasOwnProperty(field)) {
-                                            errors[field].forEach(function(message) {
-                                                var errorItem = document.createElement("li");
-                                                errorItem.textContent = message;
-                                                errorList.appendChild(errorItem);
-                                            });
-                                        }
-                                    }
-                                }
-
-                                errorTab.classList.remove("d-none");
-                            } else {
-                                console.error("Form submission failed:", error);
-                                errorTab.classList.remove("d-none");
-                            }
+                            errorTab.classList.remove("d-none");
                         }
                     });
                 @endif
