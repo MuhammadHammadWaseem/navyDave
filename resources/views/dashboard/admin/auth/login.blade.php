@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+@extends('guest.layouts.main')
+
+{{-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">--}}
     <title>{{ config('app.name') }}</title>
     <link rel="icon" href="{{ asset('./assets/images/favicon.png') }}" type="favicon.png" sizes="32x32">
     <link rel="stylesheet" href="{{ asset('./assets/css/lib.css') }}">
@@ -19,7 +21,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
+        rel="stylesheet"> 
     <style>
         .main-box-navy2 {
             padding: 50px;
@@ -57,9 +59,10 @@
             color: #4c4d4c;
         }
     </style>
-</head>
+{{-- </head>
 
-<body>
+<body> --}}
+    @section('content')
     <section class="new-form login-form" style="background-image: url({{ asset('./assets/images/new-login-bg.png') }})">
         <div class="container">
             <div class="row">
@@ -71,7 +74,7 @@
                         </div>
                         <div class="form-box">
                             <div class="text">
-                                <h2> <span>Login</span>To Your<br> Account </h2>
+                                <h2> <span>Login </span>To Your<br> Account </h2>
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
                                         <ul>
@@ -115,6 +118,7 @@
 
     </section>
 
+    @endsection
     <script src="{{ asset('./assets/js/wow-animate.js') }}"></script>
     <script src="{{ asset('./assets/js/lib.js') }}"></script>
     <script src="{{ asset('./assets/js/custom.js') }}"></script>
@@ -142,6 +146,6 @@
             }
         }
     </script>
-</body>
+{{-- </body>
 
-</html>
+</html> --}}

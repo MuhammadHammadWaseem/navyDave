@@ -905,6 +905,7 @@
 
 
                 function validateForm() {
+                    console.log("Validating form...");
                     var x, y, i, valid = true;
                     x = document.getElementsByClassName("tab");
 
@@ -922,7 +923,7 @@
                             valid = false;
 
                             // Show the error tab
-                            toastr.error('Please fill out all required fields.');
+                            // toastr.error('Please fill out all required fields.');
                         }
                     }
 

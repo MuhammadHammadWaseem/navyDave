@@ -120,7 +120,7 @@ Route::get('welcome', function () {
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::middleware(['role:admin'])->group(function () {
+    Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('profile', [AdminAuthController::class, 'profile'])->name('profile');
         Route::post('profile/update/{id}', [AdminAuthController::class, 'profileupdate'])->name('profile.update');
         Route::get('calendar', [CalendarController::class, 'index'])->name('calendar');
@@ -229,7 +229,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 // Staff Routes
 Route::prefix('staff')->name('staff.')->group(function () {
-    Route::middleware(['role:staff'])->group(function () {
+    Route::middleware(['auth', 'role:staff'])->group(function () {
         Route::get('dashboard', [StaffAuthController::class, 'dashboard'])->name('dashboard');
         Route::get('profile', [StaffAuthController::class, 'profile'])->name('profile');
         Route::post('profile/update/{id}', [StaffAuthController::class, 'profileupdate'])->name('profile.update');
@@ -249,7 +249,7 @@ Route::prefix('staff')->name('staff.')->group(function () {
 Route::prefix('user')->name('user.')->group(function () {
     Route::get('login', [UserAuthController::class, 'showLoginForm'])->name('login');
     Route::post('login', [UserAuthController::class, 'login']);
-    Route::middleware(['role:user'])->group(function () {
+    Route::middleware(['auth', 'role:user'])->group(function () {
         // Routes only Users can access
         Route::get('dashboard', [UserAuthController::class, 'dashboard'])->name('dashboard');
         Route::get('profile', [UserAuthController::class, 'profile'])->name('profile');

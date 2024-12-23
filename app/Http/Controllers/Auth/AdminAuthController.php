@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
 use App\Notifications\ResetPasswordNotification;
 use App\Jobs\SendPasswordResetEmail;
+use App\Models\Staff;
 
 class AdminAuthController extends Controller
 {
@@ -96,7 +97,13 @@ class AdminAuthController extends Controller
             if (Auth::user()->hasRole('admin')) {
                 return redirect()->route('admin.dashboard'); // Redirect to admin dashboard
             } else if (Auth::user()->hasRole('staff')) {
-                return redirect()->route('staff.dashboard');
+                $staff = Staff::where('user_id', auth()->user()->id)->get();
+                if(count($staff) > 0){
+                    return redirect()->route('staff.dashboard');
+                }else{
+                    Auth::logout(); // Log out if not an admin
+                    return redirect()->route('login')->withErrors('Unauthorized access.');
+                }
             } else if (Auth::user()->hasRole('user')) {
                 return redirect()->route('user.dashboard');
             } else {

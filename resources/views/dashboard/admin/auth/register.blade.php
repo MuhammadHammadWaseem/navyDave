@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+@extends('guest.layouts.main')
+{{-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"> --}}
     <title>{{ config('app.name') }}</title>
     <link rel="icon" href="{{ asset('./assets/images/favicon.png') }}" type="favicon.png" sizes="32x32">
     <link rel="stylesheet" href="{{ asset('./assets/css/lib.css') }}">
@@ -56,9 +57,11 @@
             color: #4c4d4c;
         }
     </style>
-</head>
+{{-- </head>
 
-<body>
+<body> --}}
+
+    @section('content')
 
     <section class="new-form login-form"
         style="background-image: url({{ asset('./assets/images/new-register-bg.png') }})">
@@ -155,6 +158,8 @@
 
     </section>
 
+    @endsection
+
     <script src="{{ asset('./assets/js/wow-animate.js') }}"></script>
     <script src="{{ asset('./assets/js/lib.js') }}"></script>
     <script src="{{ asset('./assets/js/custom.js') }}"></script>
@@ -178,6 +183,6 @@
         }
     </script>
 
-</body>
+{{-- </body>
 
-</html>
+</html> --}}

@@ -872,7 +872,9 @@ class GuestController extends Controller
             );
 
 
-            $newAppointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($request->appointment_id);
+            // $newAppointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($request->appointment_id);
+            $newAppointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($veryNewAppointment->id);
+
 
             $adminUser = User::role('admin')->first();
 
