@@ -12,6 +12,7 @@ use App\Models\Service;
 use App\Models\ServiceAssign;
 use App\Models\UserSession;
 use App\Models\Staff;
+use App\Models\UserPackage;
 
 class UsersController extends Controller
 {
@@ -162,8 +163,8 @@ class UsersController extends Controller
         $serviceAssign = ServiceAssign::pluck('service_id');
         $services = Service::whereIn('id', $serviceAssign)->get();
 
-        $staff = Staff::with('user')->where('status','Active')->get();
-        return view('dashboard.admin.user-session.edit', compact('user', 'services','staff'));
+        $staff = Staff::with('user')->where('status', 'Active')->get();
+        return view('dashboard.admin.user-session.edit', compact('user', 'services', 'staff'));
     }
     public function sessionAssignSet(Request $request, $id)
     {
@@ -178,15 +179,29 @@ class UsersController extends Controller
         // Find the user by ID
         $user = User::findOrFail($id);
 
-        $userSession = UserSession::updateOrCreate(
-            ['user_id' => $user->id],
-            [
-                'user_id' => $user->id,
-                'service_id' => $request->service,
-                'sessions' => $request->sessions,
-                'staff_id' => $request->staff,
-            ]
-        );
+        $ExistingUserSession = UserSession::where('user_id', $user->id)->first(); // Get the existing userSession
+        if ($ExistingUserSession) {
+            $ExistingUserSession->sessions += $request->sessions; 
+            $ExistingUserSession->save();
+        }else{
+            $userSession = UserSession::updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'user_id' => $user->id,
+                    'service_id' => $request->service,
+                    'sessions' => $request->sessions,
+                    'staff_id' => $request->staff,
+                ]
+            );
+        }
+
+        $package = UserPackage::create([
+            'user_id' => $user->id,
+            'service_id' => $request->service,
+            'sessions' => $request->sessions,
+            'used_sessions' => 0,
+            'status' => 'active',
+        ]);
 
         return redirect()->back()->with([
             'success' => 'Session Updated Successfully!',

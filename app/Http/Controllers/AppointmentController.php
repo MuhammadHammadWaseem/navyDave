@@ -8,6 +8,7 @@ use App\Jobs\SendStatusMail;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AppointmentStatusUpdated;
 use App\Models\UserSession;
+use App\Models\UserPackage;
 
 class AppointmentController extends Controller
 {
@@ -29,7 +30,7 @@ class AppointmentController extends Controller
 
     //     $userEmail = $appointment->email;
     //     $staffEmail = $appointment->staff->user->email;
-    //     $adminEmail = 'info@navydavegolf.com';
+    //     $adminEmail = 'hw13604@gmail.com';
 
     //     // Email Work
     //     SendStatusMail::dispatch($userEmail, $appointment, 'user');
@@ -84,6 +85,21 @@ class AppointmentController extends Controller
                     'sessions' => $sessions,
                 ]
             );
+
+            $UserPackage = UserPackage::where('user_id', $appointment->user_id)
+                ->where('service_id', $appointment->service_id)
+                ->where('id', $appointment->package_id)
+                ->first();
+
+                if ($UserPackage) {
+                    $UserPackage->used_sessions = $UserPackage->used_sessions - 1;
+                    $UserPackage->save();
+                }
+
+                if(($UserPackage->sessions != $UserPackage->used_sessions) && ($UserPackage->status == 'inactive')){
+                    $UserPackage->status = 'active';
+                    $UserPackage->save();
+                }
         }
 
         if($appointment->completed_slots == $appointment->total_slots){
@@ -97,8 +113,8 @@ class AppointmentController extends Controller
         // Send emails notifying user, staff, and admin
         $userEmail = $appointment->email;
         $staffEmail = $appointment->staff->user->email;
-        $adminEmail = 'info@navydavegolf.com';
-        // $adminEmail = 'info@navydavegolf.com';
+        $adminEmail = 'hw13604@gmail.com';
+        // $adminEmail = 'hw13604@gmail.com';
 
         SendStatusMail::dispatch($userEmail, $appointment, 'user');
         SendStatusMail::dispatch($staffEmail, $appointment, 'staff');

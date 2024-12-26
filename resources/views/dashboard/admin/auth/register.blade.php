@@ -70,8 +70,8 @@
                 <div class="col-md-12">
                     <div class="vertical-align-box">
                         <div class="logo-box">
-                            <a href="{{ route('home') }}"><img src="{{ Storage::url($settings[0]->logo ?? '') }}"
-                                    alt=""></a>
+                            {{-- <a href="{{ route('home') }}"><img src="{{ Storage::url($settings[0]->logo ?? '') }}"
+                                    alt=""></a> --}}
                         </div>
                         <div class="form-box">
                             <div class="text">

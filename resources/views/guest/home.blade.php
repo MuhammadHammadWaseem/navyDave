@@ -321,7 +321,12 @@
                                         Session
                                     @endif
                                 </p>
-                                <a href="{{ route('appointment') }}" class="t-btn">Book Now</a>
+                                @guest
+                                <a href="{{ route('login') }}" class="t-btn">Book Now</a>
+                                @endguest
+                                @auth
+                                <a href="{{ route('user.packages') }}" class="t-btn">Book Now</a>
+                                @endauth
                             </div>
                         </div>
                     @endforeach
@@ -369,7 +374,12 @@
                                         Session
                                     @endif
                                 </p>
-                                <a href="{{ route('appointment') }}" class="t-btn">Book Now</a>
+                                @guest
+                                <a href="{{ route('login') }}" class="t-btn">Book Now</a>
+                                @endguest
+                                @auth
+                                <a href="{{ route('user.packages') }}" class="t-btn">Book Now</a>
+                                @endauth
                             </div>
                         </div>
                     @endforeach

@@ -378,7 +378,7 @@
                                                 fill="#3A3A3A" />
                                         </svg>
                                     </div>
-                                    <p>Service</p>
+                                    <p>Packages</p>
                                 </a>
                             </li>
                             {{-- <li><a>

@@ -34,6 +34,7 @@ use App\Models\UserSession;
 use App\Models\RestrictSlot;
 use App\Models\Discount;
 use Illuminate\Support\Facades\Cache;
+use App\Models\UserPackage;
 
 
 class GuestController extends Controller
@@ -128,7 +129,7 @@ class GuestController extends Controller
         ];
 
         // Send email
-        $adminEmail = 'info@navydavegolf.com';
+        $adminEmail = 'hw13604@gmail.com';
         SendMessage::dispatch($adminEmail, $data);
 
         return redirect()->back()->with('success', 'Your message has been sent successfully.');
@@ -461,7 +462,7 @@ class GuestController extends Controller
             // Prepare email data
             $userEmail = $validated['email'];
             $staffEmail = $appointment->staff->user->email;
-            $adminEmail = 'info@navydavegolf.com';
+            $adminEmail = 'hw13604@gmail.com';
 
             // Send email
             if ($userEmail) {
@@ -657,8 +658,18 @@ class GuestController extends Controller
                 }
             }
             try {
+                $UserPackageNew = UserPackage::where('user_id', $request->user_id)
+                ->where('status', 'active')
+                ->first();
+
+
                 // $appointment = Appointment::with('slot')->findOrFail($request->appointment_id);
-                $serviceN = Service::findOrFail($request->service_id);
+                if(isset($UserPackageNew)) {
+                    $serviceN = Service::findOrFail($UserPackageNew->service_id);
+                }else{
+                    $serviceN = Service::findOrFail($request->service_id);
+                }
+
 
                 // Discount Work
                 $discount = Discount::where('status', 1)
@@ -676,7 +687,7 @@ class GuestController extends Controller
                 $userN = User::find($request->user_id);
 
                 $appointmentNew = Appointment::create([
-                    'service_id' => $request->service_id,
+                    'service_id' => $serviceN->id,
                     'user_id' => $request->user_id,
                     'staff_id' => $request->staff_id,
                     'slot_id' => $request->slot_id,
@@ -722,7 +733,24 @@ class GuestController extends Controller
                         'staff_id' => $appointment->staff_id,
                     ]
                 );
+                
+                $UserPackage = UserPackage::where('user_id', $appointment->user_id)
+                ->where('service_id', $appointment->service_id)
+                ->where('status', 'active')
+                ->first();
 
+                if ($UserPackage) {
+                    $UserPackage->used_sessions = $UserPackage->used_sessions + 1;
+                    $UserPackage->save();
+                }
+
+                if ($UserPackage && $UserPackage->used_sessions == $UserPackage->sessions) {
+                    $UserPackage->status = 'inactive';
+                    $UserPackage->save();
+                }
+
+                $appointment->package_id = $UserPackage->id ?? null;
+                $appointment->save();
 
                 $newAppointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($appointmentNew->id);
 
@@ -748,7 +776,7 @@ class GuestController extends Controller
                 // Prepare email data
                 $userEmail = $appointment->email;
                 $staffEmail = $appointment->staff->user->email;
-                $adminEmail = 'info@navydavegolf.com';
+                $adminEmail = 'hw13604@gmail.com';
 
                 // Send email
                 if ($userEmail) {
@@ -871,10 +899,28 @@ class GuestController extends Controller
                 ]
             );
 
+            $UserPackage = UserPackage::where('user_id', $appointment->user_id)
+                ->where('service_id', $appointment->service_id)
+                ->where('status', 'active')
+                ->first();
+
+                if ($UserPackage) {
+                    $UserPackage->used_sessions = $UserPackage->used_sessions + 1;
+                    $UserPackage->save();
+                }
+
+                if($UserPackage->used_sessions == $UserPackage->sessions) {
+                    $UserPackage->status = 'inactive';
+                    $UserPackage->save();
+                }
+
 
             // $newAppointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($request->appointment_id);
             $newAppointment = Appointment::with('slot', 'staff.user', 'service', 'user')->findOrFail($veryNewAppointment->id);
 
+
+            $newAppointment->package_id = $UserPackage->id ?? null;
+            $newAppointment->save();
 
             $adminUser = User::role('admin')->first();
 
@@ -898,7 +944,7 @@ class GuestController extends Controller
             // Prepare email data
             $userEmail = $appointment->email;
             $staffEmail = $appointment->staff->user->email;
-            $adminEmail = 'info@navydavegolf.com';
+            $adminEmail = 'hw13604@gmail.com';
 
             // Send email
             if ($userEmail) {
@@ -1021,6 +1067,25 @@ class GuestController extends Controller
                     'status' => $session->payment_status, // Payment status (e.g., 'paid')
                 ]);
 
+                $package = UserPackage::create([
+                    'user_id' => $appointment->user_id,
+                    'service_id' => $appointment->service_id,
+                    'sessions' => $appointment->total_slots,
+                    'used_sessions' => 1,
+                ]);
+
+                if($appointment->total_slots == 1){
+                    $package->status = 'inactive';
+                }else{
+                    $package->status = 'active';
+                }
+
+                // Save package
+                $package->save();
+
+                $appointment->package_id = $package->id;
+                $appointment->save();
+
                 $adminUser = User::role('admin')->first();
                 if ($appointment->user != null) {
                     // Send notification
@@ -1033,7 +1098,7 @@ class GuestController extends Controller
                 // Prepare email data
                 $userEmail = $validated['email'];
                 $staffEmail = $appointment->staff->user->email;
-                $adminEmail = 'info@navydavegolf.com';
+                $adminEmail = 'hw13604@gmail.com';
 
                 // Send email
                 if ($userEmail) {
@@ -1156,6 +1221,25 @@ class GuestController extends Controller
                     'status' => $session->payment_status, // Payment status (e.g., 'paid')
                 ]);
 
+                $package = UserPackage::create([
+                    'user_id' => $appointment->user_id,
+                    'service_id' => $appointment->service_id,
+                    'sessions' => $appointment->total_slots,
+                    'used_sessions' => 1,
+                ]);
+
+                if($appointment->total_slots == 1){
+                    $package->status = 'inactive';
+                }else{
+                    $package->status = 'active';
+                }
+
+                // Save package
+                $package->save();
+
+                $appointment->package_id = $package->id;
+                $appointment->save();
+
                 $adminUser = User::role('admin')->first();
                 if ($appointment->user != null) {
                     // Send notification
@@ -1168,7 +1252,7 @@ class GuestController extends Controller
                 // Prepare email data
                 $userEmail = $validated['email'];
                 $staffEmail = $appointment->staff->user->email;
-                $adminEmail = 'info@navydavegolf.com';
+                $adminEmail = 'hw13604@gmail.com';
 
                 if ($credentials->client_id && $credentials->client_secret) {
                     // Create Google Calendar event

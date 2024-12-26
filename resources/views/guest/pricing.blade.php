@@ -73,7 +73,12 @@
                                         Session
                                     @endif
                                 </p>
-                                <a href="{{ route('appointment') }}">Book Now</a>
+                                @guest
+                                <a href="{{ route('login') }}">Book Now</a>
+                                @endguest
+                                @auth
+                                <a href="{{ route('user.packages') }}">Book Now</a>
+                                @endauth
 
                                 @if ($s->discount > 0)
                                     <div class="hot-box">

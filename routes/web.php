@@ -24,6 +24,7 @@ use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\RestrictSlotsController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\UserPackageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -224,6 +225,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('discount/update', [DiscountController::class, 'update'])->name('discount.update');
         Route::post('discount/duplicate/{id}', [DiscountController::class, 'duplicate'])->name('discount.duplicate');
         Route::post('discount/delete/{id}', [DiscountController::class, 'destroy'])->name('discount.destroy');
+
+        Route::get('user/packages', [UserPackageController::class, 'userPackages'])->name('user.packages');
     });
 });
 
@@ -261,5 +264,14 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::get('get-appointment', [UserAuthController::class, 'getAppointment'])->name('appointment.get');
         Route::get('get-user-appointment', [UserAuthController::class, 'getUserAppointment'])->name('appointment.get.user');
         Route::get('video-tutorial', [UserAuthController::class, 'videoTutorial'])->name('video.tutorial');
+
+        Route::get('packages', [UserPackageController::class, 'packages'])->name('packages');
+        Route::get('packages/show', [UserPackageController::class, 'show'])->name('packages.show');
+        Route::post('packages/buy', [UserPackageController::class, 'buy'])->name('package.buy');
+        Route::get('payment/success', [UserPackageController::class, 'success'])->name('payment.success');
+        Route::get('payment/fail', [UserPackageController::class, 'paymentfail'])->name('payment.fail');
+
+        Route::get('my-packages', [UserPackageController::class, 'myPackages'])->name('my-packages');
+        Route::get('upgrade-options/{packageId}', [UserPackageController::class, 'getUpgradeOptions'])->name('upgrade.options');
     });
 });
