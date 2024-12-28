@@ -419,6 +419,18 @@
                                             </svg>
 
                                         </span>My Packages</a></li>
+                                        <li><a href="{{ route('appointment') }} " class="my-packages-active"><span>
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M21 8.5L12 3L3 8.5V16.5L12 22L21 16.5V8.5Z" stroke="#2CC374"
+                                                    stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M3.27 9L12 14L20.73 9" stroke="#2CC374" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M12 22V14" stroke="#2CC374" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </span>Book Appointment</a></li>
                                 <li><a href="{{ route('user.calendar') }}" class="calendar-active"><span><img
                                                 src="{{ asset('./assets/images/Calendar.png') }}"
                                                 alt=""></span>Calendar</a></li>
