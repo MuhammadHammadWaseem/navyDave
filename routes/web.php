@@ -75,7 +75,7 @@ Route::post('/mark-all-notifications-read', [CommunityController::class, 'markAl
 // Guest Route
 Route::get('/', [GuestController::class, 'home'])->name('home');
 Route::get('about', [GuestController::class, 'about'])->name('about');
-Route::get('pricing', [GuestController::class, 'pricing'])->name('pricing');
+Route::get('packages', [GuestController::class, 'pricing'])->name('pricing');
 Route::get('appointment', [GuestController::class, 'appointment'])->name('appointment');
 Route::post('appointment/create', [GuestController::class, 'appointmentCreate'])->name('appointment.create');
 // Route::get('mailCheck', [GuestController::class, 'mailCheck'])->name('appointment.mailCheck');

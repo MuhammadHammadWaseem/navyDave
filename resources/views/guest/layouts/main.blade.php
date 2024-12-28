@@ -43,7 +43,7 @@
                         <ul>
                             <li><a href="{{ route('home') }}" class="home-active">Home</a></li>
                             <li><a href="{{ route('about') }}" class="about-active">About</a></li>
-                            <li><a href="{{ route('pricing') }}" class="pricing-active">Pricings</a></li>
+                            <li><a href="{{ route('pricing') }}" class="pricing-active">Packages</a></li>
                             <li><a href="{{ route('appointment') }}" class="appointment-active">Appointments</a></li>
                             <li><a href="{{ route('blogs') }}" class="blog-active">Blogs</a></li>
                             <li><a href="{{ route('faq') }}" class="faq-active">FAQ</a></li>
@@ -100,7 +100,7 @@
                                 <ul>
                                     <li><a href="{{ route('home') }}" class="home-active">Home</a></li>
                                     <li><a href="{{ route('about') }}" class="about-active">About</a></li>
-                                    <li><a href="{{ route('pricing') }}" class="pricing-active">Pricings</a></li>
+                                    <li><a href="{{ route('pricing') }}" class="pricing-active">Packages</a></li>
                                     <li><a href="{{ route('appointment') }}"
                                             class="appointment-active">Appointments</a></li>
                                     <li><a href="{{ route('blogs') }}" class="blog-active">Blogs</a></li>
@@ -160,7 +160,7 @@
                     <div class="footer-links">
                         <ul>
                             <li><a href="{{ route('home') }}">Home</a></li>
-                            <li><a href="{{ route('pricing') }}">Pricings</a></li>
+                            <li><a href="{{ route('pricing') }}">Packages</a></li>
                             <li><a href="{{ route('about') }}">About</a></li>
                             <li><a href="{{ route('appointment') }}">Appointments</a></li>
                             <li><a href="{{ route('contact') }}">Contact Us</a></li>

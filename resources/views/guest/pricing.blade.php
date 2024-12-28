@@ -74,10 +74,10 @@
                                     @endif
                                 </p>
                                 @guest
-                                <a href="{{ route('login') }}">Book Now</a>
+                                <a href="{{ route('login') }}">Buy Now</a>
                                 @endguest
                                 @auth
-                                <a href="{{ route('user.packages') }}">Book Now</a>
+                                <a href="{{ route('user.packages') }}">Buy Now</a>
                                 @endauth
 
                                 @if ($s->discount > 0)
