@@ -58,7 +58,7 @@ class StaffAuthController extends Controller
 
         $userEmail = $appointment->email;
         $staffEmail = $appointment->staff->user->email;
-        $adminEmail = 'hw13604@gmail.com';
+        $adminEmail = 'info@navydavegolf.com';
 
         // Email Work
         SendStatusMail::dispatch($userEmail, $appointment, 'user');
