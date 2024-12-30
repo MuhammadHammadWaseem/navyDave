@@ -152,12 +152,12 @@
                                                     src="{{ asset('./assets/images/bx-list-plus.svg.png') }}"
                                                     alt="">    
                                                 </span>Buy a Package</a></li>
-                                        <li><a href="{{ route('user.my-packages') }} "
+                                        {{-- <li><a href="{{ route('user.my-packages') }} "
                                                 class="my-packages-active"><span>
                                                     <img
                                                         src="{{ asset('./assets/images/bxs-user-detail.svg.png') }}"
                                                         alt="">
-                                                </span>My Packages</a></li>
+                                                </span>My Packages</a></li> --}}
                                         <li><a href="{{ route('appointment') }}#main-steps-form"
                                                 class="book-appointment-active"><span>
                                                     <img
@@ -407,11 +407,11 @@
                                     alt="">   
 
                                         </span>Buy a Package</a></li>
-                                <li><a href="{{ route('user.my-packages') }} " class="my-packages-active"><span>
+                                {{-- <li><a href="{{ route('user.my-packages') }} " class="my-packages-active"><span>
                                     <img
                                     src="{{ asset('./assets/images/bxs-user-detail.svg.png') }}"
                                     alt="">
-                                        </span>My Packages</a></li>
+                                        </span>My Packages</a></li> --}}
                                 <li><a href="{{ route('appointment') }}#main-steps-form"
                                         class="book-appointment-active"><span>
                                             <img
