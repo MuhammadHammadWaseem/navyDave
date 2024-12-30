@@ -147,31 +147,22 @@
                                                         src="{{ asset('./assets/images/Profile.png') }}"
                                                         alt=""></span>Profile</a></li>
                                         <li><a href="{{ route('user.packages') }} "
-                                                class="packages-active"><span><svg width="19" height="19"
-                                                        viewBox="0 0 19 19" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M14.9338 12.0584V9.80843H13.4338V12.0584H11.1838V13.5584H13.4338V15.8084H14.9338V13.5584H17.1838V12.0584H16.4811H14.9338ZM3.68384 6.05843H11.9338V7.55843H3.68384V6.05843ZM3.68384 9.05843H11.9338V10.5584H3.68384V9.05843ZM3.68384 12.0584H9.68384V13.5584H3.68384V12.0584Z"
-                                                            fill="#2CC374" />
-                                                    </svg>
-                                                    </svg></span>Buy a Package</a></li>
+                                                class="packages-active"><span>
+                                                    <img
+                                                    src="{{ asset('./assets/images/bx-list-plus.svg.png') }}"
+                                                    alt="">    
+                                                </span>Buy a Package</a></li>
                                         <li><a href="{{ route('user.my-packages') }} "
                                                 class="my-packages-active"><span>
-                                                    <svg width="19" height="19" viewBox="0 0 19 19"
-                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M11.6544 8.38063H16.9044V9.88063H11.6544V8.38063ZM12.4044 11.3806H16.9044V12.8806H12.4044V11.3806ZM10.9044 5.38063H16.9044V6.88063H10.9044V5.38063ZM3.40442 14.3806H10.9044V13.6306C10.9044 11.5629 9.22217 9.88063 7.15442 9.88063H5.65442C3.58667 9.88063 1.90442 11.5629 1.90442 13.6306V14.3806H3.40442ZM6.40442 9.13063C7.90067 9.13063 9.02942 8.00188 9.02942 6.50563C9.02942 5.00938 7.90067 3.88063 6.40442 3.88063C4.90817 3.88063 3.77942 5.00938 3.77942 6.50563C3.77942 8.00188 4.90817 9.13063 6.40442 9.13063Z"
-                                                            fill="#2CC374" />
-                                                    </svg>
+                                                    <img
+                                                        src="{{ asset('./assets/images/bxs-user-detail.svg.png') }}"
+                                                        alt="">
                                                 </span>My Packages</a></li>
                                         <li><a href="{{ route('appointment') }}#main-steps-form"
                                                 class="book-appointment-active"><span>
-                                                    <svg width="19" height="19" viewBox="0 0 19 19"
-                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M3.40442 6.05843H11.6544V7.55843H3.40442V6.05843ZM3.40442 9.05843H11.6544V10.5584H3.40442V9.05843ZM3.40442 12.0584H8.65442V13.5584H3.40442V12.0584ZM14.8787 10.0274L11.6537 13.2457L10.6847 12.2774L9.62417 13.3387L11.6537 15.3667L15.9377 11.0894L14.8787 10.0274Z"
-                                                            fill="#2CC374" />
-                                                    </svg>
+                                                    <img
+                                                    src="{{ asset('./assets/images/bx-list-check.svg.png') }}"
+                                                    alt="">   
                                                 </span>Book Appointment</a></li>
                                         <li><a href="{{ route('user.calendar') }}" class="calendar-active"><span><img
                                                         src="{{ asset('./assets/images/Calendar.png') }}"
@@ -411,30 +402,21 @@
                                                 src="{{ asset('./assets/images/Profile.png') }}"
                                                 alt=""></span>Profile</a></li>
                                 <li><a href="{{ route('user.packages') }} " class="packages-active"><span>
-                                            <svg width="19" height="19" viewBox="0 0 19 19" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M14.9338 12.0584V9.80843H13.4338V12.0584H11.1838V13.5584H13.4338V15.8084H14.9338V13.5584H17.1838V12.0584H16.4811H14.9338ZM3.68384 6.05843H11.9338V7.55843H3.68384V6.05843ZM3.68384 9.05843H11.9338V10.5584H3.68384V9.05843ZM3.68384 12.0584H9.68384V13.5584H3.68384V12.0584Z"
-                                                    fill="#2CC374" />
-                                            </svg>
+                                    <img
+                                    src="{{ asset('./assets/images/bx-list-plus.svg.png') }}"
+                                    alt="">   
 
                                         </span>Buy a Package</a></li>
                                 <li><a href="{{ route('user.my-packages') }} " class="my-packages-active"><span>
-                                            <svg width="19" height="19" viewBox="0 0 19 19" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M11.6544 8.38063H16.9044V9.88063H11.6544V8.38063ZM12.4044 11.3806H16.9044V12.8806H12.4044V11.3806ZM10.9044 5.38063H16.9044V6.88063H10.9044V5.38063ZM3.40442 14.3806H10.9044V13.6306C10.9044 11.5629 9.22217 9.88063 7.15442 9.88063H5.65442C3.58667 9.88063 1.90442 11.5629 1.90442 13.6306V14.3806H3.40442ZM6.40442 9.13063C7.90067 9.13063 9.02942 8.00188 9.02942 6.50563C9.02942 5.00938 7.90067 3.88063 6.40442 3.88063C4.90817 3.88063 3.77942 5.00938 3.77942 6.50563C3.77942 8.00188 4.90817 9.13063 6.40442 9.13063Z"
-                                                    fill="#2CC374" />
-                                            </svg>
+                                    <img
+                                    src="{{ asset('./assets/images/bxs-user-detail.svg.png') }}"
+                                    alt="">
                                         </span>My Packages</a></li>
                                 <li><a href="{{ route('appointment') }}#main-steps-form"
                                         class="book-appointment-active"><span>
-                                            <svg width="19" height="19" viewBox="0 0 19 19" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M3.40442 6.05843H11.6544V7.55843H3.40442V6.05843ZM3.40442 9.05843H11.6544V10.5584H3.40442V9.05843ZM3.40442 12.0584H8.65442V13.5584H3.40442V12.0584ZM14.8787 10.0274L11.6537 13.2457L10.6847 12.2774L9.62417 13.3387L11.6537 15.3667L15.9377 11.0894L14.8787 10.0274Z"
-                                                    fill="#2CC374" />
-                                            </svg>
+                                            <img
+                                                    src="{{ asset('./assets/images/bx-list-check.svg.png') }}"
+                                                    alt="">   
                                         </span>Book Appointment</a></li>
                                 <li><a href="{{ route('user.calendar') }}" class="calendar-active"><span><img
                                                 src="{{ asset('./assets/images/Calendar.png') }}"

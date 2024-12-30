@@ -910,7 +910,7 @@ class GuestController extends Controller
                     $UserPackage->save();
                 }
 
-                if($UserPackage->used_sessions == $UserPackage->sessions) {
+                if($UserPackage && $UserPackage->used_sessions == $UserPackage->sessions) {
                     $UserPackage->status = 'inactive';
                     $UserPackage->save();
                 }
