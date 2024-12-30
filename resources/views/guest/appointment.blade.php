@@ -862,6 +862,10 @@
                 }
 
                 function nextPrev(n) {
+                    $("#prevBtn")[0].classList.remove("d-none");
+                    if (n == -1) {
+                        $("#prevBtn")[0].classList.add("d-none");
+                    }
                     var x = document.getElementsByClassName("tab");
 
                     // Hide the error tab when moving between tabs
