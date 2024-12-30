@@ -862,7 +862,10 @@
                 }
 
                 function nextPrev(n) {
-                    $("#prevBtn")[0].classList.remove("d-none");
+                    if(validateForm()){
+                        $("#prevBtn")[0].classList.remove("d-none");
+                    }
+                    
                     if (n == -1) {
                         $("#prevBtn")[0].classList.add("d-none");
                     }
