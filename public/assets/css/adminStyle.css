@@ -214,6 +214,11 @@
         color: #2cc374;
     }
 
+    .logout-setting-bell-all a:hover path, .logout-setting-bell-all a:hover svg {
+        fill: #2cc374 !important;
+        transition: .3s;
+    }
+
     header .header-logo::after {
         content: "";
         background: rgb(115, 115, 115);
