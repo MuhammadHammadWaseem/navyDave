@@ -225,6 +225,7 @@ class GuestController extends Controller
             }
 
             // dd($appointmentId);
+            // dd($service_id);
             return view('guest.appointment')->with(compact('lastName', 'phone', 'categories', 'user', 'remaining_slots', 'service_id', 'staff_id', 'appointmentId'));
         }
 

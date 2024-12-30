@@ -52,6 +52,7 @@
 
     .when-user-logout .tab-content {
         filter: blur(5px);
+        height: 60vh;
     }
 
     .when-user-logout a {
@@ -310,6 +311,35 @@
 
 
 
+.user-filter-box-login {
+    position: relative;
+    text-align: center;
+    height: 60vh;
+    align-content: center;
+}
+
+.user-filter-box-login::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: #0080006b;
+    position: absolute;
+    top: 0;
+    filter: blur(50px);
+    opacity: 50%;
+    z-index: 99;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.user-filter-box-login h2, .user-filter-box-login a {
+    z-index: 999999999;
+    position: relative;
+}
+
+
+
 @media only screen and (max-width: 575px){
 
 .main-check-box-click .input-radio-box label .main-label-content .discount_container {
@@ -363,10 +393,10 @@
             <div class="row">
 
                 <div class="col-md-12">
-                    <div class="main-steps-form">
+                    <div class="main-steps-form" id="main-steps-form">
                         <ul>
                             {{-- class="active-services" --}}
-                            <li><a>
+                            {{-- <li><a>
                                     <div class="svg-box">
                                         <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -380,7 +410,7 @@
                                     </div>
                                     <p>Packages</p>
                                 </a>
-                            </li>
+                            </li> --}}
                             {{-- <li><a>
                                     <div class="svg-box">
                                         <svg width="51" height="50" viewBox="0 0 51 50" fill="none"
@@ -450,13 +480,13 @@
                         @endif
                         <div class="tab d-none">
                             <div class="text">
-                                <h3>Category</h3>
+                                {{-- <h3>Category</h3> --}}
                                 @guest
                                     <div class="when-user-logout">
                                         <a href="{{ route('login') }}">Login</a>
                                         @endif
 
-                                        <ul class="nav nav-tabs" role="tablist">
+                                        {{-- <ul class="nav nav-tabs" role="tablist">
                                             <li class="nav-item">
                                                 <a class="nav-link active" onclick="getServices(0)" data-toggle="tab"
                                                     role="tab">All </a>
@@ -467,7 +497,8 @@
                                                         data-toggle="tab" role="tab">{{ $c->name }}</a>
                                                 </li>
                                             @endforeach
-                                        </ul>
+                                        </ul> --}}
+                                        
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                                 <div class="main-check-box-click">
@@ -1021,13 +1052,29 @@
                     });
                 @else
 
+                // Serialized form data
+                let formData = $(form).serialize();
+
+                // Convert serialized data into an object
+                let params = new URLSearchParams(formData);
+
+                // Remove all `service_id` entries
+                params.delete('service_id');
+
+                // Append new `service_id` (e.g., 10 as an example)
+                params.append('service_id', {{ $service_id }});
+
+                // Convert the updated parameters back to a string
+                let updatedFormData = params.toString();
+
+                console.log(updatedFormData);
                     $.ajax({
                         type: "POST",
                         url: "appointment/nextSlot",
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        data: $(form).serialize(),
+                        data: updatedFormData,
                         success: function(data) {
                             console.log(data);
 
@@ -1066,47 +1113,66 @@
 
                             if (data.length == 0) {
                                 $("#services-box").append(`
-                        <div class="input-radio-box">
-                            <label>
-                                <div class="main-label-content">
-                                    <div class="content p-3">
-                                        <h4>No Service Found</h4>
+                                    <div class="input-radio-box">
+                                        <label>
+                                            <div class="main-label-content">
+                                                <div class="content p-3">
+                                                    <h4>No Service Found</h4>
+                                                </div>
+                                            </div>
+                                        </label>
                                     </div>
-                                </div>
-                            </label>
-                        </div>
-                    `);
+                                `);
                                 return;
                             }
 
+                            $("#nextBtn")[0].classList.add("d-none");
+
+                            $("#services-box").append(`
+                                <div class="user-filter-box-login">
+                                    <h2>Please Buy Package First</h2>
+                                    <a href="{{ route('user.packages') }}" class="btn t-btn"> Buy Package </a>
+                                </div>
+                            `);
 
                             data.forEach(element => {
                                 let serviceID = {{ $service_id }};
                                 let checked = serviceID == element.id ? 'checked' : '';
                                 $("#services-box").append(`
-                            <div class="input-radio-box">
-                                <input type="radio" id="service_id-${element.id}" name="service_id" ${checked} onchange="getStaff(${element.id})" value="${element.id}">
-                                <label for="service_id-${element.id}">
-                                    <div class="main-label-content">
-                                        <div class="img-box">
-                                            <img src="{{ Storage::url('${element.image}') }}" width="50px" height="50px" alt="Service Image">
-                                        </div>
-                                        <div class="content">
-                                            <h4>${element.name}</h4>
-                                            <p>Duration <b>: ${element.duration} ${element.type_duration}</b> </p>
-                                            <p>Session <b>: ${element.slots}</b></p>
-                                            <p>Price <b>: ${(element.discount > 0 ? `<del> $${element.original_price} </del>` : '' )}$${element.price}</b></p>
-                                        </div>
-                                        ${element.discount > 0 ? `
-                                            <div class="discount_container">
-                                                <p>${element.discount}%</p>
-                                                <span>Discount</span>
-                                            </div>` : ''}
+                                    <div class="input-radio-box">
+                                        <input type="hidden" id="service_id-${element.id}" name="service_id" ${checked} onchange="getStaff(${element.id})" value="${element.id}">
                                     </div>
-                                </label>
-                            </div>
-                        `);
+                                `);
                             });
+
+
+                            // data.forEach(element => {
+                            //     let serviceID = {{ $service_id }};
+                            //     let checked = serviceID == element.id ? 'checked' : '';
+                            //     $("#services-box").append(`
+                            //         <div class="input-radio-box">
+                            //             <input type="radio" id="service_id-${element.id}" name="service_id" ${checked} onchange="getStaff(${element.id})" value="${element.id}">
+                            //             <label for="service_id-${element.id}">
+                            //                 <div class="main-label-content">
+                            //                     <div class="img-box">
+                            //                         <img src="{{ Storage::url('${element.image}') }}" width="50px" height="50px" alt="Service Image">
+                            //                     </div>
+                            //                     <div class="content">
+                            //                         <h4>${element.name}</h4>
+                            //                         <p>Duration <b>: ${element.duration} ${element.type_duration}</b> </p>
+                            //                         <p>Session <b>: ${element.slots}</b></p>
+                            //                         <p>Price <b>: ${(element.discount > 0 ? `<del> $${element.original_price} </del>` : '' )}$${element.price}</b></p>
+                            //                     </div>
+                            //                     ${element.discount > 0 ? `
+                            //                         <div class="discount_container">
+                            //                             <p>${element.discount}%</p>
+                            //                             <span>Discount</span>
+                            //                         </div>` : ''}
+                            //                 </div>
+                            //             </label>
+                            //         </div>
+                            //     `);
+                            // });
                         },
                         error: function(data) {
                             console.log(data);
@@ -1180,9 +1246,12 @@
                         url: "get-slots",
                         data: {
                             staff_id: staffID,
-                            service_id: serviceID
+                            service_id: {{ $service_id }}
+                            // service_id: serviceID
                         },
                         success: function(data) {
+                            $("#nextBtn")[0].classList.remove("d-none");
+                            $("#prevBtn")[0].classList.add("d-none");
                             $("#slots-box").empty(); // Clear existing slots
                             $("#appointment_date").val(null);
 
@@ -1264,6 +1333,7 @@
                 }
 
                 function getSlotsForDate(data) {
+
                     var staff_id = $("input[name='staff_id']:checked").val();
                     var service_id = $("input[name='service_id']:checked").val();
                     var date = data;
@@ -1273,10 +1343,13 @@
                         url: "get-slots-for-date",
                         data: {
                             staff_id: staff_id,
-                            service_id: service_id,
+                            // service_id: service_id,
+                            service_id: {{ $service_id }},
                             date: date
                         },
                         success: function(data) {
+                            $("#nextBtn")[0].classList.remove("d-none");
+
                             $("#slots-box").empty(); // Clear existing slots
 
                             if (data.length == 0) {

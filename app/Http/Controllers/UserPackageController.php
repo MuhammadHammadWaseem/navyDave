@@ -195,6 +195,11 @@ class UserPackageController extends Controller
             return redirect()->route('user.payment.fail')->with('error', 'Payment failed');
         }
     }
+
+    public function paymentfail()
+    {
+        return redirect()->route('user.packages')->with('error', 'Payment failed');
+    }
     public function myPackages()
     {
         $userId = auth()->user()->id;
