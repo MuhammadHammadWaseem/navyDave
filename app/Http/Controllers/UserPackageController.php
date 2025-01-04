@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\UserSession;
 use App\Models\Staff;
 use App\Models\Discount;
+use App\Models\Payment;
 
 class UserPackageController extends Controller
 {
@@ -189,6 +190,16 @@ class UserPackageController extends Controller
                 'slots_used' => $package->used_sessions,
                 'amount_paid' => $service->price,
             ]);
+
+            Payment::create([
+                'user_id' => auth()->user()->id,
+                'package_id' => $package->id,
+                'payment_id' => $stripeSession->payment_intent, // Payment Intent ID
+                'amount' => $stripeSession->amount_total, // Total amount in cents
+                'currency' => $stripeSession->currency, // Currency
+                'status' => $stripeSession->payment_status, // Payment status (e.g., 'paid')
+            ]);
+            
 
             return redirect()->route('user.packages')->with('success', 'Payment successful');
         } else {

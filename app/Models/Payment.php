@@ -10,6 +10,8 @@ class Payment extends Model
     use HasFactory;
     protected $fillable = [
         'appointment_id',
+        'user_id',
+        'package_id',
         'payment_id',
         'amount',
         'currency',
@@ -19,6 +21,16 @@ class Payment extends Model
     public function appointment()
     {
         return $this->belongsTo(Appointment::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function package()
+    {
+        return $this->belongsTo(UserPackage::class);
     }
 
 }

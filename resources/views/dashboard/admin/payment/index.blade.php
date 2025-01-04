@@ -58,7 +58,57 @@
             </div>
         </div>
         <div class="main-table-box main-table-box-list">
+
+
             <table id="Table1">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        {{-- <th>Staff Member</th> --}}
+                        <th>Service</th>
+                        <th>Transaction ID</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        {{-- <th>Appointment On</th> --}}
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach ($appointments2 as $payment2)
+                        @if ($payment2->package_id != null)
+                            <tr>
+                                <td>{{ $payment2->created_at }}</td>
+                                <td>{{ $payment2->user->name }} {{ $payment2->user->last_name }}</td>
+                                <td>{{ $payment2->package->service->name }}</td>
+                                <td>{{ $payment2->payment_id }}</td>
+                                <td>{{ $payment2->status }}</td>
+                                <td>{{ number_format($payment2->amount / 100, 2) }}
+                                </td>
+                            </tr>
+                        @endif
+                    @endforeach
+
+                    @foreach ($appointments as $payment)
+                        <tr>
+                            <td>{{ $payment->created_at }}</td>
+                            <td>{{ $payment->first_name }} {{ $payment->last_name }}</td>
+                            {{-- <td>{{ $payment->staff->user->name }}</td> --}}
+                            <td>{{ $payment->service->name }}</td>
+                            <td>{{ optional($payment->payment)->payment_id ?? 'No Payment' }}</td>
+                            <td>{{ optional($payment->payment)->status ?? 'No Payment' }}</td>
+                            <td>{{ optional($payment->payment)->amount ? number_format($payment->payment->amount / 100, 2) : '0.00' }}
+                            </td>
+                            {{-- <td>{{ $payment->appointment_date }}</td> --}}
+                        </tr>
+                    @endforeach
+
+                </tbody>
+            </table>
+
+
+
+            {{-- <table id="Table1">
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -86,7 +136,7 @@
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
+            </table> --}}
         </div>
     </div>
 
