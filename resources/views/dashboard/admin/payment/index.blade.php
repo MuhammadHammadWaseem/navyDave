@@ -79,8 +79,13 @@
                         @if ($payment2->package_id != null)
                             <tr>
                                 <td>{{ $payment2->created_at }}</td>
-                                <td>{{ $payment2->user->name }} {{ $payment2->user->last_name }}</td>
-                                <td>{{ $payment2->package->service->name }}</td>
+                                <td>
+                                    {{ $payment2->user->name ?? '' }} {{ $payment2->user->last_name ?? '' }}
+                                    @if($payment2->user == null)
+                                    User Deleted
+                                    @endif
+                                </td>
+                                <td>{{ $payment2->package ? $payment2->package->service->name : "Deleted" }}</td>
                                 <td>{{ $payment2->payment_id }}</td>
                                 <td>{{ $payment2->status }}</td>
                                 <td>{{ number_format($payment2->amount / 100, 2) }}
@@ -90,17 +95,16 @@
                     @endforeach
 
                     @foreach ($appointments as $payment)
-                        <tr>
-                            <td>{{ $payment->created_at }}</td>
-                            <td>{{ $payment->first_name }} {{ $payment->last_name }}</td>
-                            {{-- <td>{{ $payment->staff->user->name }}</td> --}}
-                            <td>{{ $payment->service->name }}</td>
-                            <td>{{ optional($payment->payment)->payment_id ?? 'No Payment' }}</td>
-                            <td>{{ optional($payment->payment)->status ?? 'No Payment' }}</td>
-                            <td>{{ optional($payment->payment)->amount ? number_format($payment->payment->amount / 100, 2) : '0.00' }}
-                            </td>
-                            {{-- <td>{{ $payment->appointment_date }}</td> --}}
-                        </tr>
+                        @if ($payment->package_id == null)
+                            <tr>
+                                <td>{{ $payment->created_at }}</td>
+                                <td>{{ $payment->first_name }} {{ $payment->last_name }}</td>
+                                <td>{{ $payment->service->name }}</td>
+                                <td>{{ optional($payment->payment)->payment_id ?? 'No Payment' }}</td>
+                                <td>{{ optional($payment->payment)->status ?? 'No Payment' }}</td>
+                                <td>{{ optional($payment->payment)->amount ? number_format($payment->payment->amount / 100, 2) : '0.00' }}</td>
+                            </tr>
+                        @endif
                     @endforeach
 
                 </tbody>

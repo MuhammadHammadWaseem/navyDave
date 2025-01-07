@@ -340,7 +340,7 @@
                 // Ask for confirmation before deleting
                 Swal.fire({
                     title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    text: "Please check this user's appointments before deactivating. Once deleted, appointments will no longer be accessible.",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Yes, delete it!',
@@ -355,7 +355,7 @@
                                 "_token": "{{ csrf_token() }}" // CSRF token for security
                             },
                             success: function(response) {
-                                Swal.fire('Deleted!', 'User has been deleted.',
+                                Swal.fire('Deleted!', 'User has been soft deleted.',
                                     'success');
                                 fetchUsers(); // Refresh the user table after deletion
                             },

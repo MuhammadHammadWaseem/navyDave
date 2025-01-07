@@ -77,13 +77,9 @@
                                                         src="{{ asset('./assets/images/Calendar.png') }}"
                                                         alt=""></span>Calendar</a></li>
                                         <li><a href="{{ route('admin.user.packages') }} "
-                                                class="packages-active"><span><svg width="19" height="19"
-                                                        viewBox="0 0 19 19" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M17.1821 6.12069C17.1894 6.06844 17.1894 6.01543 17.1821 5.96319V5.90319C17.1692 5.86132 17.1516 5.82107 17.1296 5.78319C17.1199 5.76158 17.1073 5.7414 17.0921 5.72319L17.0171 5.62569L16.9571 5.58069L16.8671 5.51319L10.1171 1.76319C10.0031 1.69736 9.87378 1.6627 9.74213 1.6627C9.61048 1.6627 9.48114 1.69736 9.36713 1.76319L2.61713 5.51319L2.54963 5.56569L2.46713 5.62569C2.44534 5.65021 2.42762 5.67806 2.41463 5.70819C2.39063 5.72971 2.37036 5.75505 2.35463 5.78319C2.33516 5.81609 2.32003 5.85139 2.30963 5.88819C2.30543 5.91301 2.30543 5.93836 2.30963 5.96319C2.25806 6.00765 2.21488 6.06099 2.18213 6.12069V12.1207C2.1831 12.2543 2.21977 12.3853 2.28834 12.5C2.3569 12.6147 2.45488 12.709 2.57213 12.7732L9.32213 16.5232C9.35312 16.5413 9.38577 16.5563 9.41963 16.5682H9.49463C9.61784 16.5981 9.74642 16.5981 9.86963 16.5682H9.94463L10.0496 16.5232L16.7996 12.7732C16.9155 12.7081 17.0119 12.6133 17.0792 12.4987C17.1464 12.384 17.1819 12.2536 17.1821 12.1207V6.12069ZM9.68213 9.02319L4.47713 6.12069L6.54713 4.98069L11.6696 7.90569L9.68213 9.02319ZM9.68213 3.23319L14.8871 6.12069L13.2071 7.05819L8.08463 4.12569L9.68213 3.23319ZM3.68213 7.39569L8.93213 10.3357V14.5957L3.68213 11.6782V7.39569ZM10.4321 14.5957V10.3357L12.6821 9.07569V11.3707L14.1821 10.6207V8.23569L15.6821 7.40319V11.6782L10.4321 14.5957Z"
-                                                            fill="#2CC374" />
-                                                    </svg></span>Packages</a></li>
+                                                class="packages-active"><span><img
+                                                    src="{{ asset('./assets/images/bxs-user-detail.svg.png') }}"
+                                                    alt=""></span>Packages</a></li>
                                         <li><a href="{{ route('admin.appointment') }}"
                                                 class="appointment-active"><span><img
                                                         src="{{ asset('./assets/images/appointment.png') }}"
@@ -91,6 +87,10 @@
                                         <li><a href="{{ route('admin.users') }}" class="users-active"><span><img
                                                         src="{{ asset('./assets/images/Customers.png') }}"
                                                         alt=""></span>Users</a></li>
+                                        <li><a href="{{ route('admin.users.restore') }}"
+                                                class="restore-active"><span><img
+                                                        src="{{ asset('./assets/images/Customers.png') }}"
+                                                        alt=""></span>Restore Deleted Users</a></li>
                                         <li><a href="{{ route('admin.users.session') }}"
                                                 class="user-session-active"><span><img
                                                         src="{{ asset('./assets/images/Customers.png') }}"
@@ -146,11 +146,9 @@
                                         <li><a href="{{ route('user.profile') }} " class="profile-active"><span><img
                                                         src="{{ asset('./assets/images/Profile.png') }}"
                                                         alt=""></span>Profile</a></li>
-                                        <li><a href="{{ route('user.packages') }} "
-                                                class="packages-active"><span>
-                                                    <img
-                                                    src="{{ asset('./assets/images/bx-list-plus.svg.png') }}"
-                                                    alt="">    
+                                        <li><a href="{{ route('user.packages') }} " class="packages-active"><span>
+                                                    <img src="{{ asset('./assets/images/bx-list-plus.svg.png') }}"
+                                                        alt="">
                                                 </span>Buy a Package</a></li>
                                         {{-- <li><a href="{{ route('user.my-packages') }} "
                                                 class="my-packages-active"><span>
@@ -160,9 +158,8 @@
                                                 </span>My Packages</a></li> --}}
                                         <li><a href="{{ route('appointment') }}#main-steps-form"
                                                 class="book-appointment-active"><span>
-                                                    <img
-                                                    src="{{ asset('./assets/images/bx-list-check.svg.png') }}"
-                                                    alt="">   
+                                                    <img src="{{ asset('./assets/images/bx-list-check.svg.png') }}"
+                                                        alt="">
                                                 </span>Book Appointment</a></li>
                                         <li><a href="{{ route('user.calendar') }}" class="calendar-active"><span><img
                                                         src="{{ asset('./assets/images/Calendar.png') }}"
@@ -338,19 +335,18 @@
                                 <li><a href="{{ route('admin.calendar') }}" class="calendar-active"><span><img
                                                 src="{{ asset('./assets/images/Calendar.png') }}"
                                                 alt=""></span>Calendar</a></li>
-                                <li><a href="{{ route('admin.user.packages') }} " class="packages-active"><span><svg
-                                                width="19" height="19" viewBox="0 0 19 19" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M17.1821 6.12069C17.1894 6.06844 17.1894 6.01543 17.1821 5.96319V5.90319C17.1692 5.86132 17.1516 5.82107 17.1296 5.78319C17.1199 5.76158 17.1073 5.7414 17.0921 5.72319L17.0171 5.62569L16.9571 5.58069L16.8671 5.51319L10.1171 1.76319C10.0031 1.69736 9.87378 1.6627 9.74213 1.6627C9.61048 1.6627 9.48114 1.69736 9.36713 1.76319L2.61713 5.51319L2.54963 5.56569L2.46713 5.62569C2.44534 5.65021 2.42762 5.67806 2.41463 5.70819C2.39063 5.72971 2.37036 5.75505 2.35463 5.78319C2.33516 5.81609 2.32003 5.85139 2.30963 5.88819C2.30543 5.91301 2.30543 5.93836 2.30963 5.96319C2.25806 6.00765 2.21488 6.06099 2.18213 6.12069V12.1207C2.1831 12.2543 2.21977 12.3853 2.28834 12.5C2.3569 12.6147 2.45488 12.709 2.57213 12.7732L9.32213 16.5232C9.35312 16.5413 9.38577 16.5563 9.41963 16.5682H9.49463C9.61784 16.5981 9.74642 16.5981 9.86963 16.5682H9.94463L10.0496 16.5232L16.7996 12.7732C16.9155 12.7081 17.0119 12.6133 17.0792 12.4987C17.1464 12.384 17.1819 12.2536 17.1821 12.1207V6.12069ZM9.68213 9.02319L4.47713 6.12069L6.54713 4.98069L11.6696 7.90569L9.68213 9.02319ZM9.68213 3.23319L14.8871 6.12069L13.2071 7.05819L8.08463 4.12569L9.68213 3.23319ZM3.68213 7.39569L8.93213 10.3357V14.5957L3.68213 11.6782V7.39569ZM10.4321 14.5957V10.3357L12.6821 9.07569V11.3707L14.1821 10.6207V8.23569L15.6821 7.40319V11.6782L10.4321 14.5957Z"
-                                                    fill="#2CC374" />
-                                            </svg></span>Packages</a></li>
+                                <li><a href="{{ route('admin.user.packages') }} " class="packages-active"><span><img
+                                    src="{{ asset('./assets/images/bxs-user-detail.svg.png') }}"
+                                    alt=""></span>Packages</a></li>
                                 <li><a href="{{ route('admin.appointment') }}" class="appointment-active"><span><img
                                                 src="{{ asset('./assets/images/appointment.png') }}"
                                                 alt=""></span>Appointments</a></li>
                                 <li><a href="{{ route('admin.users') }}" class="users-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>Users</a></li>
+                                <li><a href="{{ route('admin.users.restore') }}" class="restore-active"><span><img
+                                                src="{{ asset('./assets/images/Customers.png') }}"
+                                                alt=""></span>Restore Deleted Users</a></li>
                                 <li><a href="{{ route('admin.users.session') }}"
                                         class="user-session-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
@@ -402,9 +398,8 @@
                                                 src="{{ asset('./assets/images/Profile.png') }}"
                                                 alt=""></span>Profile</a></li>
                                 <li><a href="{{ route('user.packages') }} " class="packages-active"><span>
-                                    <img
-                                    src="{{ asset('./assets/images/bx-list-plus.svg.png') }}"
-                                    alt="">   
+                                            <img src="{{ asset('./assets/images/bx-list-plus.svg.png') }}"
+                                                alt="">
 
                                         </span>Buy a Package</a></li>
                                 {{-- <li><a href="{{ route('user.my-packages') }} " class="my-packages-active"><span>
@@ -414,9 +409,8 @@
                                         </span>My Packages</a></li> --}}
                                 <li><a href="{{ route('appointment') }}#main-steps-form"
                                         class="book-appointment-active"><span>
-                                            <img
-                                                    src="{{ asset('./assets/images/bx-list-check.svg.png') }}"
-                                                    alt="">   
+                                            <img src="{{ asset('./assets/images/bx-list-check.svg.png') }}"
+                                                alt="">
                                         </span>Book Appointment</a></li>
                                 <li><a href="{{ route('user.calendar') }}" class="calendar-active"><span><img
                                                 src="{{ asset('./assets/images/Calendar.png') }}"

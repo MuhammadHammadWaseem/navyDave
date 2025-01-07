@@ -239,7 +239,12 @@ class UserPackageController extends Controller
     public function userPackages()
     {
         // Fetch user packages
-        $packages = UserPackage::with('service')
+        $packages = UserPackage::with([
+            'user' => function ($query) {
+                $query->withTrashed(); // Include soft-deleted users
+            },
+            'service',
+        ])
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -256,6 +261,7 @@ class UserPackageController extends Controller
                 'status' => $package->status, // active/inactive
                 'is_upgraded' => $package->is_upgraded ?? false, // Check if upgraded
                 'can_upgrade' => $package->used_sessions < $package->sessions, // Show upgrade button if incomplete
+                'is_deleted' => $package->user ? ($package->user->deleted_at ? true : false) : null, // Check soft-delete
             ];
         });
 

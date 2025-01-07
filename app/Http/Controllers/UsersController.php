@@ -13,6 +13,7 @@ use App\Models\ServiceAssign;
 use App\Models\UserSession;
 use App\Models\Staff;
 use App\Models\UserPackage;
+use App\Models\Appointment;
 
 class UsersController extends Controller
 {
@@ -24,7 +25,15 @@ class UsersController extends Controller
     }
     public function getUsers()
     {
+        // Retrieve Only Active Users (Default Behavior)
         $users = User::with('sessions.service')->role('user')->get();
+
+        // // Retrieve All Users (Including Soft-Deleted)
+        // $users = User::with('sessions.service')->withTrashed()->role('user')->get();
+
+        // // Retrieve Only Soft-Deleted Users
+        // $users = User::with('sessions.service')->onlyTrashed()->role('user')->get();
+
         return response()->json([
             'users' => $users
         ]);
@@ -137,14 +146,14 @@ class UsersController extends Controller
         }
 
         // Check if the user has an image, and delete it if it exists
-        if ($user->image) {
-            $imagePath = storage_path('app/public/' . $user->image);
+        // if ($user->image) {
+        //     $imagePath = storage_path('app/public/' . $user->image);
 
-            // Delete the image from the storage if it exists
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
-            }
-        }
+        //     // Delete the image from the storage if it exists
+        //     if (file_exists($imagePath)) {
+        //         unlink($imagePath);
+        //     }
+        // }
 
         // Delete the user from the database
         $user->delete();
@@ -181,9 +190,9 @@ class UsersController extends Controller
 
         $ExistingUserSession = UserSession::where('user_id', $user->id)->first(); // Get the existing userSession
         if ($ExistingUserSession) {
-            $ExistingUserSession->sessions += $request->sessions; 
+            $ExistingUserSession->sessions += $request->sessions;
             $ExistingUserSession->save();
-        }else{
+        } else {
             $userSession = UserSession::updateOrCreate(
                 ['user_id' => $user->id],
                 [
@@ -207,5 +216,51 @@ class UsersController extends Controller
             'success' => 'Session Updated Successfully!',
         ]);
     }
+
+    public function restore()
+    {
+        $users = User::with('sessions.service')->onlyTrashed()->role('user')->get();
+        return view('dashboard.admin.users.restore', compact('users'));
+    }
+
+    public function restoreUser($id)
+    {
+        $user = User::onlyTrashed()->find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found or already active'], 404);
+        }
+
+        $user->restore();
+
+        return response()->json(['message' => 'User restored successfully!'], 200);
+    }
+    public function permanentlyDelete($id)
+    {
+        // Find the user in the soft-deleted records
+        $user = User::onlyTrashed()->find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found or already active'], 404);
+        }
+
+        // Update confirmed appointments
+        Appointment::where('user_id', $user->id)
+            ->where('status', 'confirmed')
+            ->update([
+                'status' => 'canceled',
+                'active' => 0,
+            ]);
+
+        // Delete all packages associated with the user
+        UserPackage::where('user_id', $user->id)->delete();
+
+        // Permanently delete the user
+        $user->forceDelete();
+
+        return response()->json(['message' => 'User permanently deleted successfully!'], 200);
+    }
+
+
 
 }

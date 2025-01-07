@@ -58,7 +58,7 @@
                     <h5> Appointments</h5>
                 </div>
             </div>
-            <div class="main-table-box main-table-box-list services-table">
+            <div class="main-table-box main-table-box-list services-table table-responsive">
                 <table class="table table-striped" id="Table1">
                     <thead>
                         <tr>
@@ -167,10 +167,18 @@
                         response.forEach(element => {
                             let createdAtFormatted = formatDate(element.created_at);
                             let isEditable = !["fully_completed", "awaiting_next_slot", "completed","canceled"].includes(element.status);
+                            let userBadge = "";
+                            if(element.user == null){
+                                userBadge =`<span class="badge bg-danger ms-1">Deleted User</span>`;
+                            }else{
+                                userBadge = ``;
+                            }
+
+
                             $('#Table').append(`
                                 <tr>
                                     <td class="text-center">${element.id}</td>
-                                    <td class="text-center">${element.first_name + ' ' + element.last_name}</td>
+                                    <td class="text-center">${element.first_name + ' ' + element.last_name} ${userBadge} </td>
                                     <td class="text-center">${element.email}</td>
                                     <td class="text-center">${element.staff.user.name}</td>
                                     <td class="text-center">${element.service.name}</td>

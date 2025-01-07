@@ -83,7 +83,12 @@
                     @foreach ($data as $package)
                         <tr>
                             <td>{{ $package['package_id'] }}</td>
-                            <td>{{ $package['user_name'] }}</td>
+                            <td>
+                                {{ $package['user_name'] }}
+                                @if ($package['is_deleted'])
+                                    <span class="badge bg-danger">Deleted User</span>
+                                @endif
+                            </td>
                             <td>{{ $package['user_email'] }}</td>
                             <td>{{ $package['service_name'] }}</td>
                             <td>{{ $package['sessions'] }}</td>

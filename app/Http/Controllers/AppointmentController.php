@@ -14,7 +14,7 @@ class AppointmentController extends Controller
 {
     public function index(Request $request)
     {
-        $appointment = Appointment::with('service.category', 'staff.user', 'slot', 'payment')->get();
+        $appointment = Appointment::with('user','service.category', 'staff.user', 'slot', 'payment')->get();
         return response()->json($appointment);
     }
     public function getAppointment(Request $request)
@@ -94,11 +94,11 @@ class AppointmentController extends Controller
                 if ($UserPackage) {
                     $UserPackage->used_sessions = $UserPackage->used_sessions - 1;
                     $UserPackage->save();
-                }
 
-                if(($UserPackage->sessions != $UserPackage->used_sessions) && ($UserPackage->status == 'inactive')){
-                    $UserPackage->status = 'active';
-                    $UserPackage->save();
+                    if(($UserPackage->sessions != $UserPackage->used_sessions) && ($UserPackage->status == 'inactive')){
+                        $UserPackage->status = 'active';
+                        $UserPackage->save();
+                    }
                 }
         }
 

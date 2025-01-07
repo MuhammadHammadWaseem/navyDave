@@ -196,6 +196,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('users/{user}', [UsersController::class, 'update'])->name('users.update');
         Route::delete('users/{user}', [UsersController::class, 'destroy'])->name('users.destroy');
         
+        Route::get('restore/users', [UsersController::class, 'restore'])->name('users.restore');
+        Route::post('user/{id}/restore', [UsersController::class, 'restoreUser'])->name('users.restore.user');
+        Route::post('user/{id}/permanently/delete', [UsersController::class, 'permanentlyDelete'])->name('users.permanently.user');
         
         // Users Sessions
         Route::get('user/sessions', [UsersController::class, 'usersSession'])->name('users.session');

@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Support\Facades\Log;
 
 class Handler extends ExceptionHandler
 {
@@ -44,5 +45,28 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        // Handle 404 Not Found Exception
+        if ($exception instanceof NotFoundHttpException) {
+            Log::warning('404 error encountered', ['url' => $request->url()]);
+            return response()->view('errors.404', [], 404);
+        }
+         // Handle 403 Forbidden Exception (Unauthorized Action)
+         if ($exception instanceof AccessDeniedHttpException) {
+            Log::warning('403 error encountered', ['url' => $request->url()]);
+            return response()->view('errors.403', [], 403);
+        }
+        // Handle Other HTTP Exceptions (e.g., 403, 500, etc.)
+        if ($exception instanceof HttpException) {
+            $status = $exception->getStatusCode();
+            if (view()->exists("errors.$status")) {
+                return response()->view("errors.$status", [], $status);
+            }
+        }
+        // Default exception handling
+        return parent::render($request, $exception);
     }
 }
