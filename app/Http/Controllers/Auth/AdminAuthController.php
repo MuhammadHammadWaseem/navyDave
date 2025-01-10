@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Password;
 use App\Notifications\ResetPasswordNotification;
 use App\Jobs\SendPasswordResetEmail;
 use App\Models\Staff;
+use App\Models\AppointmentChange;
 
 class AdminAuthController extends Controller
 {
@@ -191,6 +192,11 @@ class AdminAuthController extends Controller
     public function appointment()
     {
         return view('dashboard.admin.appointment.index');
+    }
+    public function printAppointmentChanges()
+    {
+        $changes = AppointmentChange::with(['appointment', 'changedBy', 'oldSlot', 'newSlot'])->orderBy('id', 'desc')->get();
+        return view('dashboard.admin.appointment.appointment_changes', compact('changes'));
     }
 
     public function profileupdate(Request $request)

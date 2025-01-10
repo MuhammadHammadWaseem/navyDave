@@ -76,8 +76,10 @@
                             <th class="text-center">Price</th>
                             <th class="text-center">Payment</th>
                             <th class="text-center">Status</th>
+                            <th class="text-center">Reschedule</th>
                             <th class="text-center">Created at</th>
                             <th class="text-center">Actions</th>
+                            <th class="text-center">Reschedule</th>
                         </tr>
                     </thead>
                     <tbody id="Table">
@@ -116,6 +118,52 @@
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" id="">Update Status</button>
+                            <button type="button" class="btn btn-secondary" id="cancel"
+                                data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="rescheduleModal" tabindex="-1" role="dialog" aria-labelledby="rescheduleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form id="rescheduleForm" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Reschedule Appointment</h5>
+                            <button type="button" class="close" id="close2" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            @csrf
+                            <div class="form-group">
+                                <input type="hidden" name="id" id="appo_id">
+                                <label for="date">Date</label>
+                                <input type="date" onchange="getSlotsForDate(this.value)" required min="{{ date('Y-m-d') }}" class="form-control" name="appointment_date" id="date">
+                                <input type="hidden" name="staff_id" id="staff_id">
+                                <input type="hidden" name="service_id" id="service_id">
+                                <input type="hidden" name="previous_date" id="previous_date">
+                                <input type="hidden" name="old_slot_id" id="old_slot_id">
+                                <input type="hidden" name="new_slot_id" id="new_slot_id">
+                            </div>
+                            <div class="form-group">
+                                <label>Available Slots</label>
+                                <div id="slotsContainer" class="d-flex flex-wrap gap-2">
+                                    <!-- Slots will be dynamically added here -->
+                                </div>
+                                <input type="hidden" name="slot_id" id="selectedSlot">
+                            </div>
+                            <div class="form-group">
+                                <label>Reason</label>
+                                <textarea class="form-control" name="reason" id="reason" cols="30" rows="10"></textarea>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="updateBtn">Update</button>
                             <button type="button" class="btn btn-secondary" id="cancel"
                                 data-dismiss="modal">Cancel</button>
                         </div>
@@ -166,11 +214,13 @@
                         $("#Table").empty();
                         response.forEach(element => {
                             let createdAtFormatted = formatDate(element.created_at);
-                            let isEditable = !["fully_completed", "awaiting_next_slot", "completed","canceled"].includes(element.status);
+                            let isEditable = !["fully_completed", "awaiting_next_slot", "completed",
+                                "canceled"
+                            ].includes(element.status);
                             let userBadge = "";
-                            if(element.user == null){
-                                userBadge =`<span class="badge bg-danger ms-1">Deleted User</span>`;
-                            }else{
+                            if (element.user == null) {
+                                userBadge = `<span class="badge bg-danger ms-1">Deleted User</span>`;
+                            } else {
                                 userBadge = ``;
                             }
 
@@ -194,11 +244,19 @@
                                     <td class="text-center">$${element.price}</td>
                                     <td class="text-center">${element.payment ? element.payment.status : '-' }</td>
                                     <td class="text-center">${element.status == "awaiting_next_slot" ? "Awaiting Next Slot" : element.status == "fully_completed" ? "Fully Completed" : element.status == "completed" ? "Completed" : element.status == "canceled" ? "Cancelled" : element.status == "pending" ? "Pending" : "Confirmed"}</td>
+                                    <td class="text-center">${element.is_rescheduled == 1 ? `<span class="badge bg-success ms-1">Rescheduled</span>` : `<span class="badge bg-danger ms-1">No</span>`}</td>
                                     <td class="text-center">${createdAtFormatted}</td>
                                     <td class="text-center">
                                         <div class="action-box mt-2">
                                             <ul>
                                                 ${isEditable ? `<li><a onclick="showEditModal(${element.id})"><img src="{{ asset('assets/images/pencil.png') }}" alt=""></a></li>` : "N/A"}
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="action-box mt-2">
+                                            <ul>
+                                                ${isEditable ? `<li><a onclick="reschedule(${element.id})"><img src="{{ asset('assets/images/pencil.png') }}" alt=""></a></li>` : "N/A"}
                                             </ul>
                                         </div>
                                     </td>
@@ -209,6 +267,124 @@
                     error: function(error) {
                         console.log(error);
                     }
+                });
+            }
+
+            function selectSlot(slot) {
+                // Highlight selected slot and store the value
+                $(".slot-button").removeClass("btn-primary");
+                $(".slot-button").addClass("btn-outline-primary");
+                $(`[data-slot="${slot}"]`).removeClass("btn-outline-primary");
+                $(`[data-slot="${slot}"]`).addClass("btn-primary");
+                $("#selectedSlot").val(slot);
+            }
+
+            $("#rescheduleForm").submit(function(e) {
+                e.preventDefault();
+                $("#updateBtn").attr("disabled", true);
+                $("#updateBtn").html("Updating...");
+                var formData = $(this).serialize();
+                $.ajax({
+                    url: "{{ route('admin.appointment.reschedule') }}",
+                    type: "post",
+                    data: formData,
+                    success: function(response) {
+                        console.log(response);
+                        if (response.success == true) {
+                            $("#rescheduleModal").modal('hide');
+                            toastr.success(response.message);
+                            $("#updateBtn").attr("disabled", false);
+                            $("#updateBtn").html("Update");
+                            getData();
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
+                        $("#updateBtn").attr("disabled", false);
+                        $("#updateBtn").html("Update");
+                    }
+                });
+            });
+
+            function reschedule(id) {
+                $.ajax({
+                    url: "{{ route('admin.appointment.change') }}",
+                    type: "get",
+                    data: {
+                        id: id
+                    },
+                    success: function(response) {
+                        $("#rescheduleModal").modal('show');
+                        $("#date").val(response.appointment_date);
+                        $("#staff_id").val(response.staff_id);
+                        $("#service_id").val(response.service_id);
+                        $("#appo_id").val(response.id);
+                        $("#previous_date").val(response.appointment_date);
+                        $("#old_slot_id").val(response.slot_id);
+                        getSlotsForDate(response.appointment_date);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            }
+
+            function getSlotsForDate(data) {
+
+                var staff_id = $("#staff_id").val();
+                var service_id = $("#service_id").val();
+                var date = data;
+
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('get-slots-for-date') }}",
+                    data: {
+                        staff_id: staff_id,
+                        service_id: service_id,
+                        date: date
+                    },
+                    success: function(data) {
+                        // Clear previous slots
+                        $("#slotsContainer").empty();
+
+                        console.log(data);
+
+                        if (data && data.length > 0) {
+                            // Create a document fragment
+                            const fragment = document.createDocumentFragment();
+
+                            // Loop through the slots and create buttons
+                            data.forEach(function(slot) {
+                                const button = document.createElement('button');
+                                button.type = 'button';
+                                button.className =
+                                    `btn ${slot.is_booked ? 'btn-outline-danger' : 'btn-outline-primary'} slot-button`;
+                                button.dataset.slot = slot.id;
+                                button.textContent =
+                                    `${formatTime(slot.available_from)} - ${formatTime(slot.available_to)}`;
+                                button.disabled = slot.is_booked;
+
+                                if (!slot.is_booked) {
+                                    button.onclick = () => selectSlot(slot.id);
+                                }
+
+                                // Append button to the fragment
+                                fragment.appendChild(button);
+                            });
+
+                            // Append the fragment to the container
+                            $("#slotsContainer").append(fragment);
+                        } else {
+                            // Handle no slots available
+                            $("#slotsContainer").html('<p class="text-muted">No slots available.</p>');
+                        }
+                    },
+                    error: function(error) {
+                        console.error(error);
+                        $("#slotsContainer").html(
+                            '<p class="text-danger">Failed to load slots. Please try again later.</p>');
+                    }
+
                 });
             }
 

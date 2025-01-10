@@ -9,6 +9,7 @@ class Appointment extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'google_event_id',
         'service_id',
         'package_id',
         'user_id',
@@ -26,6 +27,7 @@ class Appointment extends Model
         'price',
         'note',
         'status',
+        'is_rescheduled',
     ];
 
     // Relationships

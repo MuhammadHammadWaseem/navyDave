@@ -126,6 +126,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('profile/update/{id}', [AdminAuthController::class, 'profileupdate'])->name('profile.update');
         Route::get('calendar', [CalendarController::class, 'index'])->name('calendar');
         Route::get('appointment', [AdminAuthController::class, 'appointment'])->name('appointment');
+        Route::get('appointment-changes', [AdminAuthController::class, 'printAppointmentChanges'])->name('appointment-changes');
         // Store Staff
         Route::get('staff', [StaffController::class, 'index'])->name('staff');
         Route::post('staff/store', [StaffController::class, 'store'])->name('staff.store');
@@ -179,6 +180,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('index', [AppointmentController::class, 'index'])->name('appointment.index');
         Route::get('get-appointment', [AppointmentController::class, 'getAppointment'])->name('appointment.get');
         Route::post('edit-appointment', [AppointmentController::class, 'edit'])->name('appointment.edit');
+        Route::get('change-appointment', [AppointmentController::class, 'change'])->name('appointment.change');
+        Route::post('reschedule', [AppointmentController::class, 'reschedule'])->name('appointment.reschedule');
 
         // Setting
         Route::get('setting', [SettingController::class, 'index'])->name('setting');
@@ -266,6 +269,9 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::get('community', [UserAuthController::class, 'community'])->name('community');
         Route::get('get-appointment', [UserAuthController::class, 'getAppointment'])->name('appointment.get');
         Route::get('get-user-appointment', [UserAuthController::class, 'getUserAppointment'])->name('appointment.get.user');
+        Route::get('edit-appointment', [UserAuthController::class, 'editAppointment'])->name('appointment.edit');
+        Route::post('reschedule', [UserAuthController::class, 'reschedule'])->name('appointment.reschedule');
+
         Route::get('video-tutorial', [UserAuthController::class, 'videoTutorial'])->name('video.tutorial');
 
         Route::get('packages', [UserPackageController::class, 'packages'])->name('packages');

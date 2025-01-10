@@ -84,6 +84,10 @@
                                                 class="appointment-active"><span><img
                                                         src="{{ asset('./assets/images/appointment.png') }}"
                                                         alt=""></span>Appointments</a></li>
+                                        <li><a href="{{ route('admin.appointment-changes') }}"
+                                                class="appointment-changes-active"><span><img
+                                                        src="{{ asset('./assets/images/appointment.png') }}"
+                                                        alt=""></span>Appointments Changes</a></li>
                                         <li><a href="{{ route('admin.users') }}" class="users-active"><span><img
                                                         src="{{ asset('./assets/images/Customers.png') }}"
                                                         alt=""></span>Users</a></li>
@@ -341,6 +345,10 @@
                                 <li><a href="{{ route('admin.appointment') }}" class="appointment-active"><span><img
                                                 src="{{ asset('./assets/images/appointment.png') }}"
                                                 alt=""></span>Appointments</a></li>
+                                <li><a href="{{ route('admin.appointment-changes') }}"
+                                        class="appointment-changes-active"><span><img
+                                                    src="{{ asset('./assets/images/appointment.png') }}"
+                                                    alt=""></span>Appointments Changes</a></li>
                                 <li><a href="{{ route('admin.users') }}" class="users-active"><span><img
                                                 src="{{ asset('./assets/images/Customers.png') }}"
                                                 alt=""></span>Users</a></li>
