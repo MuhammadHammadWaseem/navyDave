@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\GoogleCredential;
 use App\Models\User;
 use Google_Client;
-use App\Jobs\SendUpdateMail;
+use App\Jobs\sendUpdateMail;
 use App\Services\GoogleCalendarService;
 
 class AppointmentController extends Controller
