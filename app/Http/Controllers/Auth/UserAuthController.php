@@ -22,7 +22,7 @@ use App\Notifications\AppointmentCreateNotification;
 use App\Events\PostCreateNoti;
 use App\Models\User;
 use App\Notifications\AppointmentUpdateNotification;
-use App\Jobs\SendUpdateMail;
+use App\Jobs\sendUpdateMail;
 use App\Models\AppointmentChange;
 
 class UserAuthController extends Controller
@@ -298,10 +298,10 @@ class UserAuthController extends Controller
 
                  // Send email
                 if ($userEmail) {
-                    SendUpdateMail::dispatch($userEmail, $appointment, 'user');
+                    sendUpdateMail::dispatch($userEmail, $appointment, 'user');
                 }
-                SendUpdateMail::dispatch($staffEmail, $appointment, 'staff');
-                SendUpdateMail::dispatch($adminEmail, $appointment, 'admin');
+                sendUpdateMail::dispatch($staffEmail, $appointment, 'staff');
+                sendUpdateMail::dispatch($adminEmail, $appointment, 'admin');
             
             DB::commit();
 

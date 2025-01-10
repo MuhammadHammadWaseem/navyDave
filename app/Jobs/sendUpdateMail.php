@@ -12,7 +12,7 @@ use App\Mail\AppointmentCreated;
 use App\Models\Appointment;
 use App\Mail\AppointmentUpdate;
 
-class SendUpdateMail implements ShouldQueue
+class sendUpdateMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
