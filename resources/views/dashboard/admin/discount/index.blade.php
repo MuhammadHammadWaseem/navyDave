@@ -182,6 +182,14 @@
         $("#editDiscountModal").modal("hide");
     });
 
+    function formatDate(inputDate) {
+        // Split the input date to handle it as a local date
+        const [year, month, day] = inputDate.split(" ")[0].split("-");
+        
+        // Format the date as mm/dd/yyyy
+        return `${month}/${day}/${year}`;
+    }
+
     function getData() {
         $.ajax({
             url: "{{ route('admin.discount.get') }}",
@@ -194,8 +202,8 @@
                         discount.id,
                         discount.service.name,
                         discount.percentage,
-                        discount.start_date,
-                        discount.expired_date,
+                        formatDate(discount.start_date),
+                        formatDate(discount.expired_date),
                         discount.status == 1 ? 'Active' : 'Expired',
                         `<div class="action-box">
                         <a href="#" class="edit"><img src="{{ asset('assets/images/pencil.png') }}" alt=""></a>

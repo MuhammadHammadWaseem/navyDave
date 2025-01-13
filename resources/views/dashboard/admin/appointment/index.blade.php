@@ -76,7 +76,8 @@
                             <th class="text-center">Price</th>
                             <th class="text-center">Payment</th>
                             <th class="text-center">Status</th>
-                            <th class="text-center">Reschedule</th>
+                            {{-- <th class="text-center">Reschedule</th> --}}
+                            {{-- <td class="text-center">${element.is_rescheduled == 1 ? `<span class="badge bg-success ms-1">Rescheduled</span>` : `<span class="badge bg-danger ms-1">No</span>`}</td> --}}
                             <th class="text-center">Created at</th>
                             <th class="text-center">Actions</th>
                             <th class="text-center">Reschedule</th>
@@ -200,11 +201,18 @@
                 });
             }
 
-            function formatDate(dateString) {
-                let date = new Date(dateString);
-                return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD
+             function formatDate(inputDate) {
+                // Split the input date to handle it as a local date
+                const [year, month, day] = inputDate.split(" ")[0].split("-");
+                
+                // Format the date as mm/dd/yyyy
+                return `${month}/${day}/${year}`;
             }
 
+            function formatDate2(dateString) {
+                let date = new Date(dateString);
+                return date.toLocaleDateString(); // Returns MM-DD-YYYY
+            }
 
             function getData() {
                 $.ajax({
@@ -238,16 +246,15 @@
                                     <td class="text-center">${element.completed_slots}</td>
                                     <td class="text-center">${element.total_slots - element.completed_slots}</td>
                                     <td class="text-center">${element.slot ? (element.slot.available_on ? element.slot.available_on : "") : ""}</td>
-                                    <td class="text-center">${element.appointment_date}</td>
+                                    <td class="text-center">${formatDate(element.appointment_date)}</td>
                                     <td class="text-center">
                                         ${element.slot ? (element.slot.available_from && element.slot.available_to ? 
                                         formatTime(element.slot.available_from) + ' - ' + formatTime(element.slot.available_to) : "") : ""}
                                     </td>
                                     <td class="text-center">$${element.price}</td>
                                     <td class="text-center">${element.payment ? element.payment.status : '-' }</td>
-                                    <td class="text-center">${element.status == "awaiting_next_slot" ? "Awaiting Next Slot" : element.status == "fully_completed" ? "Fully Completed" : element.status == "completed" ? "Completed" : element.status == "canceled" ? "Cancelled" : element.status == "pending" ? "Pending" : "Confirmed"}</td>
-                                    <td class="text-center">${element.is_rescheduled == 1 ? `<span class="badge bg-success ms-1">Rescheduled</span>` : `<span class="badge bg-danger ms-1">No</span>`}</td>
-                                    <td class="text-center">${createdAtFormatted}</td>
+                                    <td class="text-center">${element.status == "awaiting_next_slot" ? "Awaiting Next Slot" : element.status == "fully_completed" ? "Fully Completed" : element.status == "completed" ? "Completed" : element.status == "canceled" ? "Cancelled" : element.status == "pending" ? "Pending" : element.status == "rescheduled" ? "Rescheduled" : "Confirmed"}</td>
+                                    <td class="text-center">${formatDate2(element.created_at)}</td>
                                     <td class="text-center">
                                         <div class="action-box mt-2">
                                             <ul>
@@ -394,7 +401,7 @@
                 $("#statusModal").modal('hide');
             });
             $("#cancel11 , #close22").click(function() {
-                $("#statusModal").modal('hide');
+                $("#rescheduleModal").modal('hide');
             });
             $(document).ready(function() {
                 getData();

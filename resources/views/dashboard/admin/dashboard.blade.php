@@ -102,8 +102,8 @@
                             <div class="date-time-box">
                                 <h5>{{ \Carbon\Carbon::parse(optional($a->slot)->available_from)->format('h : i A') }} -
                                     {{ \Carbon\Carbon::parse(optional($a->slot)->available_to)->format('h : i A') }}
-                                </h5>                                
-                                <h6>{{ $a->appointment_date }}</h6>
+                                </h5>
+                                <h6>{{ \Carbon\Carbon::parse($a->appointment_date)->format('m/d/Y') }}</h6>
                             </div>
                         </td>
                         <td class="text-start">
@@ -129,6 +129,10 @@
 
                                         @case('pending')
                                             Pending
+                                        @break
+
+                                        @case('rescheduled')
+                                            Rescheduled
                                         @break
 
                                         @default

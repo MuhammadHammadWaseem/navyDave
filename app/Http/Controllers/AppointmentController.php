@@ -216,6 +216,7 @@ class AppointmentController extends Controller
             $appointment->update([
                 'slot_id' => $request->slot_id,
                 'appointment_date' => $request->appointment_date,
+                'status' => 'rescheduled',
                 'is_rescheduled' => true
             ]);
 

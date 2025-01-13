@@ -63,6 +63,7 @@
                     <thead>
                         <tr>
                             <th class="text-center">ID</th>
+                            <th class="text-center">User Name</th>
                             <th class="text-center">Appointment ID</th>
                             <th class="text-center">Previous Date</th>
                             <th class="text-center">New Date</th>
@@ -75,11 +76,13 @@
                     </thead>
                     <tbody id="Table">
                         @foreach ($changes as $change)
+                        {{-- {{ dd($change) }} --}}
                             <tr>
                                 <td class="text-center">{{ $change->id }}</td>
+                                <td class="text-center">{{ $change->appointment ? $change->appointment->first_name . ' ' . $change->appointment->last_name : 'N/A' }}</td>
                                 <td class="text-center">{{ $change->appointment_id }}</td>
                                 <td class="text-center">
-                                    {{ \Carbon\Carbon::parse($change->previous_date)->format('d-m-Y') }}
+                                    {{ \Carbon\Carbon::parse($change->previous_date)->format('m-d-Y') }}
                                     <br />
 
                                     <small>
@@ -87,7 +90,7 @@
                                     </small>
                                 </td>
                                 <td class="text-center">
-                                    {{ \Carbon\Carbon::parse($change->new_date)->format('d-m-Y') }}
+                                    {{ \Carbon\Carbon::parse($change->new_date)->format('m-d-Y') }}
                                     <br />
                                     <small>
                                         {{ $change->newSlot ? date('g:i a', strtotime($change->newSlot->available_from)) . ' to ' . date('g:i a', strtotime($change->newSlot->available_to)) : 'N/A' }}
@@ -97,7 +100,7 @@
                                 <td class="text-center">{{ $change->newSlot ? date('g:i a', strtotime($change->newSlot->available_from)) . ' to ' . date('g:i a', strtotime($change->newSlot->available_to)) : 'N/A' }}</td> --}}
                                 <td class="text-center">{{ $change->changedBy ? $change->changedBy->name : 'System' }}</td>
                                 <td class="text-center">{{ $change->reason ?? 'N/A' }}</td>
-                                <td class="text-center">{{ \Carbon\Carbon::parse($change->created_at)->format('d-m-Y H:i') }}</td>
+                                <td class="text-center">{{ \Carbon\Carbon::parse($change->created_at)->format('m-d-Y H:i') }}</td>
                             </tr>
                         @endforeach
                     </tbody>

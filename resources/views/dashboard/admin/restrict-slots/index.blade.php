@@ -154,6 +154,14 @@
             return `${hours}:${minute} ${ampm}`;
         }
 
+        function formatDate(inputDate) {
+            // Split the input date to handle it as a local date
+            const [year, month, day] = inputDate.split(" ")[0].split("-");
+            
+            // Format the date as mm/dd/yyyy
+            return `${month}/${day}/${year}`;
+        }
+
 
         function getData() {
             $.ajax({
@@ -167,7 +175,7 @@
                         $('#Table').append(`
                             <tr>
                                 <td class="text-center">${element.id}</td>
-                                <td class="text-center">${element.date}</td>
+                                <td class="text-center">${formatDate(element.date)}</td>
                                 <td class="text-center">
                                     <div class="action-box mt-2">
                                         <ul class="d-flex justify-content-center alidn-items-center">

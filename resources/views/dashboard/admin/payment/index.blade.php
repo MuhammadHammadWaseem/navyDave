@@ -78,7 +78,7 @@
                     @foreach ($appointments2 as $payment2)
                         @if ($payment2->package_id != null)
                             <tr>
-                                <td>{{ $payment2->created_at }}</td>
+                                <td>{{ \Carbon\Carbon::parse($payment2->created_at)->format('m-d-Y') }}</td>
                                 <td>
                                     {{ $payment2->user->name ?? '' }} {{ $payment2->user->last_name ?? '' }}
                                     @if($payment2->user == null)

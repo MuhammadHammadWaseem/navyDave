@@ -716,9 +716,13 @@ class GuestController extends Controller
                 $appointment = Appointment::with('slot')->findOrFail($appointmentNew->id);
 
                 if ($appointment->completed_slots == $appointment->total_slots) {
-                    $appointment->status = 'confirmed';
+                    if($appointment->status != 'rescheduled') {
+                        $appointment->status = 'confirmed';
+                    }
                 } else {
-                    $appointment->status = 'confirmed';
+                    if($appointment->status != 'rescheduled') {
+                        $appointment->status = 'confirmed';
+                    }
                 }
 
                 $appointment->save();
@@ -864,22 +868,30 @@ class GuestController extends Controller
             }
 
             if ($veryNewAppointment->completed_slots == $veryNewAppointment->total_slots) {
-                $veryNewAppointment->status = 'confirmed';
-                $veryNewAppointment->active = '0';
+                if($veryNewAppointment->status != 'rescheduled') {
+                    $veryNewAppointment->status = 'confirmed';
+                    $veryNewAppointment->active = '0';
+                }
             } else {
-                $veryNewAppointment->status = 'confirmed';
-                $veryNewAppointment->active = '1';
+                if($veryNewAppointment->status != 'rescheduled') {
+                    $veryNewAppointment->status = 'confirmed';
+                    $veryNewAppointment->active = '1';
+                }
             }
             $veryNewAppointment->save();
-
+            
             $appointment->active = '0';
-
+            
             if($appointment->status != 'canceled') {
-                if($appointment->total_slots > $appointment->completed_slots) {
-                    $appointment->status = 'awaiting_next_slot';
+                if($appointment->status != 'rescheduled') {
+                    if($appointment->total_slots > $appointment->completed_slots) {
+                        $appointment->status = 'confirmed';
+                    }
                 }
                 if($appointment->total_slots == $appointment->completed_slots) {
-                    $appointment->status = 'fully_completed';
+                    if($appointment->status != 'rescheduled') {
+                        $appointment->status = 'completed';
+                    }
                 }
             }
 
