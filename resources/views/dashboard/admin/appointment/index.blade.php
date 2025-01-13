@@ -217,6 +217,8 @@
                             let isEditable = !["fully_completed", "awaiting_next_slot", "completed",
                                 "canceled"
                             ].includes(element.status);
+                            let isEditable2 = !["fully_completed", "awaiting_next_slot", "completed"
+                            ].includes(element.status);
                             let userBadge = "";
                             if (element.user == null) {
                                 userBadge = `<span class="badge bg-danger ms-1">Deleted User</span>`;
@@ -256,7 +258,7 @@
                                     <td class="text-center">
                                         <div class="action-box mt-2">
                                             <ul>
-                                                ${isEditable ? `<li><a onclick="reschedule(${element.id})"><img src="{{ asset('assets/images/pencil.png') }}" alt=""></a></li>` : "N/A"}
+                                                ${isEditable2 ? `<li><a onclick="reschedule(${element.id})"><img src="{{ asset('assets/images/pencil.png') }}" alt=""></a></li>` : "N/A"}
                                             </ul>
                                         </div>
                                     </td>

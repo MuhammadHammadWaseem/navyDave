@@ -287,8 +287,7 @@
                     // $("#Table").empty();
                     response.forEach(element => {
                         let createdAtFormatted = formatDate(element.created_at);
-                        let isEditable = !["fully_completed", "awaiting_next_slot", "completed",
-                            "canceled"
+                        let isEditable = !["fully_completed", "awaiting_next_slot", "completed"
                         ].includes(element.status);
 
                         $('#Table').append(`
