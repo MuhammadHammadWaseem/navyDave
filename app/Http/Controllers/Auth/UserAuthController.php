@@ -294,7 +294,7 @@ class UserAuthController extends Controller
                  // Prepare email data
                  $userEmail = $appointment->email;
                  $staffEmail = $appointment->staff->user->email;
-                 $adminEmail = 'hw13604@gmail.com';
+                 $adminEmail = 'info@navydavegolf.com';
 
                  // Send email
                 if ($userEmail) {
