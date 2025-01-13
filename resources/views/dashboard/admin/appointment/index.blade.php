@@ -133,7 +133,7 @@
                     <form id="rescheduleForm" method="post">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Reschedule Appointment</h5>
-                            <button type="button" class="close" id="close2" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close" id="close22" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -164,7 +164,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" id="updateBtn">Update</button>
-                            <button type="button" class="btn btn-secondary" id="cancel"
+                            <button type="button" class="btn btn-secondary" id="cancel11"
                                 data-dismiss="modal">Cancel</button>
                         </div>
                     </form>
@@ -391,6 +391,9 @@
             }
 
             $("#cancel , #close2").click(function() {
+                $("#statusModal").modal('hide');
+            });
+            $("#cancel11 , #close22").click(function() {
                 $("#statusModal").modal('hide');
             });
             $(document).ready(function() {
