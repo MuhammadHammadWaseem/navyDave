@@ -47,7 +47,7 @@ class AppointmentController extends Controller
 
     //     $userEmail = $appointment->email;
     //     $staffEmail = $appointment->staff->user->email;
-    //     $adminEmail = 'info@navydavegolf.com';
+    //     $adminEmail = 'hw13604@gmail.com';
 
     //     // Email Work
     //     SendStatusMail::dispatch($userEmail, $appointment, 'user');
@@ -130,8 +130,8 @@ class AppointmentController extends Controller
         // Send emails notifying user, staff, and admin
         $userEmail = $appointment->email;
         $staffEmail = $appointment->staff->user->email;
-        $adminEmail = 'info@navydavegolf.com';
-        // $adminEmail = 'info@navydavegolf.com';
+        $adminEmail = 'hw13604@gmail.com';
+        // $adminEmail = 'hw13604@gmail.com';
 
         SendStatusMail::dispatch($userEmail, $appointment, 'user');
         SendStatusMail::dispatch($staffEmail, $appointment, 'staff');
@@ -248,7 +248,7 @@ class AppointmentController extends Controller
                  // Prepare email data
                  $userEmail = $appointment->email;
                  $staffEmail = $appointment->staff->user->email;
-                 $adminEmail = 'info@navydavegolf.com';
+                 $adminEmail = 'hw13604@gmail.com';
 
                  // Send email
                 if ($userEmail) {
