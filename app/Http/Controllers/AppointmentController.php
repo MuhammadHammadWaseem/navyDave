@@ -79,7 +79,8 @@ class AppointmentController extends Controller
 
             // If the appointment is not fully completed, allow the user to select the next slot later
             if ($appointment->completed_slots < $appointment->total_slots) {
-                $appointment->status = 'awaiting_next_slot'; // Set status to indicate waiting for the next slot selection
+                $appointment->status = 'confirmed'; // Set status to indicate waiting for the next slot selection
+                // $appointment->status = 'awaiting_next_slot'; // Set status to indicate waiting for the next slot selection
             } else {
                 // Mark as fully completed if all slots are done
                 $appointment->status = 'fully_completed';

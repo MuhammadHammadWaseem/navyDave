@@ -38,9 +38,9 @@ class AppointmentCompleted extends Command
         foreach ($appointments as $appointment) {
 
             if ($appointment->completed_slots < $appointment->total_slots) {
-                $appointment->status = 'awaiting_next_slot';
+                $appointment->status = 'completed';
             } else {
-                $appointment->status = 'fully_completed';
+                $appointment->status = 'completed';
             }
 
             if($appointment->completed_slots == $appointment->total_slots){

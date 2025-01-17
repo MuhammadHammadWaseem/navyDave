@@ -1023,7 +1023,8 @@ class GuestController extends Controller
                 if($validated['total_slots'] == $validated['completed_slots']) {
                     $validated['status'] = 'fully_completed';
                 }else if($validated['total_slots'] > $validated['completed_slots']) {
-                    $validated['status'] = 'awaiting_next_slot';
+                    $validated['status'] = 'confirmed';
+                    // $validated['status'] = 'awaiting_next_slot';
                 }else{
                     $validated['status'] = 'confirmed';
                 }
