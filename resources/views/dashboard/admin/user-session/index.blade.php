@@ -86,6 +86,39 @@
 
     </div>
 
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form id="updateForm" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Update Session</h5>
+                            <button type="button" class="close" id="close22" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            @csrf
+                            <div class="form-group">
+                                <label for="session">User</label>
+                                <input type="text" id="session_user" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="session">Sessions</label>
+                                <input type="number" placeholder="Sessions" class="form-control" name="session" id="session">
+                                <input type="hidden" name="session_id" id="session_id">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="updateBtn">Update</button>
+                            <button type="button" class="btn btn-secondary" id="cancel11"
+                                data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -108,10 +141,17 @@
                             `<img width="50px" src="/storage/${user.image}" />` :
                             `<img width="50px" src="{{ asset('./assets/images/default-user.webp') }}" alt="">`;
 
-                        var editUrl = "{{ route('admin.users.session.assign', ['id' => ':id']) }}"
-                            .replace(':id', user.id);
+                        var editUrl = "{{ route('admin.users.session.assign', ['id' => ':id']) }}".replace(':id', user.id);
 
                         var serviceName = user.sessions && user.sessions.length > 0 && user.sessions[0].service ? user.sessions[0].service.name : 'No service assigned';
+                        const userName = `${user.name} ${user.last_name}`;
+
+                        var btn = null;
+                        if(user.sessions && user.sessions.length > 0) {
+                            btn = `<a onclick="editModal(${user.id}, ${user.sessions[0]?.sessions}, '${userName}')" class="t-btn"><img src="{{ asset('assets/images/pencil.png') }}" width="20px"></a>`;
+                        }else{
+                            btn = `<a href="${editUrl}" class="t-btn"><img src="{{ asset('assets/images/duplicate.png') }}" width="20px"></a>`
+                        }
 
                         var row = [
                             user.id,
@@ -122,7 +162,7 @@
                             user.phone ? user.phone : 'NA',
                             serviceName,
                             user.sessions && user.sessions.length > 0 && user.sessions[0].sessions ? user.sessions[0].sessions : 0,
-                            `<a href="${editUrl}" class="t-btn"><img src="{{ asset('assets/images/pencil.png') }}" width="20px"></a>`
+                            btn
                         ];
 
                         table.row.add(row); // Add new row to the DataTable
@@ -138,6 +178,45 @@
         }
 
 
+        function editModal(id, sessions, name) {
+            $("#EditModal").modal("show");
+
+            $("#session_id").val(id);
+            $("#session").val(sessions);
+            $("#session_user").val(name);
+
+        }
+
+        $("#cancel11 , #close22").click(function() {
+            $("#EditModal").modal('hide');
+        });
+
+        $("#updateBtn").click(function() {
+
+            var session = $("#session").val();
+            var id = $("#session_id").val();
+
+            $.ajax({
+                url: "{{ route('admin.users.session.update') }}",
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    session: session,
+                    id: id
+                },
+                success: function(response) {
+
+                    if (response.success == true) {
+                        $("#EditModal").modal('hide');
+                        toastr.success(response.message);
+                        fetchUsers();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    toastr.error("An error occurred. Please try again.");
+                }
+            });
+        });
 
         $(document).ready(function() {
 
@@ -145,7 +224,8 @@
 
             $('#userTable').DataTable({
                 dom: 'Bfrtip',
-                buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+                ordering: false
             });
 
 

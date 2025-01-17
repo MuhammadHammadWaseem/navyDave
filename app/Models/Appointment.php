@@ -56,4 +56,9 @@ class Appointment extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function userPackage()
+    {
+        return $this->belongsTo(UserPackage::class);
+    }
+
 }

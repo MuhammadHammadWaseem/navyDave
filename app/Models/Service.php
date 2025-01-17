@@ -25,6 +25,7 @@ class Service extends Model
         'min_capacity',
         'max_capacity',
         'description',
+        'is_admin'
     ];
     protected $guarded = [];
 

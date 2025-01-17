@@ -54,7 +54,7 @@
                                 </option>
                             @endforeach
                         </select>
-                        <input type="number" placeholder="Sessions" id="session" readonly name="sessions">
+                        <input type="number" placeholder="Sessions" id="session" name="sessions">
                         <button type="submit">Set Session</button>
                     </form>
                 </div>

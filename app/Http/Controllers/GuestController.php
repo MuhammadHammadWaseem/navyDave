@@ -49,7 +49,7 @@ class GuestController extends Controller
     public function home()
     {
         $today = now();
-        $services = Service::with('category')->orderBy('id', 'desc')->take(2)->get();
+        $services = Service::with('category')->orderBy('id', 'desc')->where('is_admin', 0)->take(2)->get();
 
         foreach ($services as $s) {
             $discount = Discount::where('status', 1)
@@ -79,7 +79,7 @@ class GuestController extends Controller
     public function pricing()
     {
         $today = now();
-        $services = Service::with('category')->orderBy('id', 'desc')->get();
+        $services = Service::with('category')->where('is_admin', 0)->orderBy('id', 'desc')->get();
 
         foreach ($services as $s) {
             $discount = Discount::where('status', 1)
@@ -692,7 +692,8 @@ class GuestController extends Controller
                     'user_id' => $request->user_id,
                     'staff_id' => $request->staff_id,
                     'slot_id' => $request->slot_id,
-                    'total_slots' => $serviceN->slots,
+                    'total_slots' => $UserPackageNew->sessions,
+                    // 'total_slots' => $serviceN->slots,
                     'completed_slots' => 1,
                     'appointment_date' => $request->appointment_date,
                     'first_name' => $userN->name,
@@ -844,7 +845,8 @@ class GuestController extends Controller
                 'user_id' => $request->user_id,
                 'staff_id' => $request->staff_id,
                 'slot_id' => $nextSlot->id,
-                'total_slots' => $veryNewService->slots,
+                // 'total_slots' => $veryNewService->slots,
+                'total_slots' => $appointment->total_slots,
                 'completed_slots' => $appointment->completed_slots + 1,
                 'appointment_date' => $request->appointment_date,
                 'first_name' => $appointment->first_name,

@@ -76,6 +76,7 @@
                         <th>Sessions</th>
                         <th>Remaining Sessions</th>
                         <th>Used Sessions</th>
+                        <th>Source</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -94,6 +95,7 @@
                             <td>{{ $package['sessions'] }}</td>
                             <td>{{ $package['sessions'] - $package['used_sessions'] }}</td>
                             <td>{{ $package['used_sessions'] }}</td>
+                            <td>{{ $package['is_free'] == 1 ? 'Granted' : 'Purchased' }}</td>
                             <td>
                                 <span
                                     class="badge mt-1 {{ $package['status'] == 'active' ? 'bg-success' : 'bg-danger' }}">{{ $package['status'] }}</span>

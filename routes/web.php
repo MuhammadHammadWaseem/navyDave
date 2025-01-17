@@ -207,6 +207,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('user/sessions', [UsersController::class, 'usersSession'])->name('users.session');
         Route::get('sessions/assign/{id}', [UsersController::class, 'sessionAssign'])->name('users.session.assign');
         Route::post('sessions/assign/{id}', [UsersController::class, 'sessionAssignSet'])->name('users.session.assign.set');
+        Route::post('sessions/update', [UsersController::class, 'sessionUpdate'])->name('users.session.update');
 
         //Google API set
         Route::get('/google-credentials', [GoogleCredentialsController::class, 'showForm'])->name('google-credentials.form');

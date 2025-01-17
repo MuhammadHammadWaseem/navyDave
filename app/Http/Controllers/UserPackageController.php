@@ -22,7 +22,7 @@ class UserPackageController extends Controller
     public function show()
     {
         $today = now();
-        $services = Service::with('category')->get();
+        $services = Service::with('category')->where('is_admin',0)->get();
         foreach ($services as $s) {
             $discount = Discount::where('status', 1)
                 ->where('service_id', $s->id)
@@ -163,7 +163,7 @@ class UserPackageController extends Controller
                 'sessions' => $service->slots,
                 'used_sessions' => 0,
                 'status' => 'active',
-                'is_upgraded' => false,
+                'is_free' => 0,
             ]);
 
             $staff = Staff::where('status', 'Active')->first();
@@ -218,18 +218,18 @@ class UserPackageController extends Controller
         // Fetch user packages
         $packages = UserPackage::where('user_id', $userId)
             ->with('service')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
             ->get();
 
         // Prepare package data
         $data = $packages->map(function ($package) {
             return [
                 'package_id' => $package->id,
-                'service_name' => $package->service->name ?? 'Unknown Service',
+                'service_name' => $package->service->   name ?? 'Unknown Service',
                 'sessions' => $package->sessions,
                 'used_sessions' => $package->used_sessions,
                 'status' => $package->status, // active/inactive
-                'is_upgraded' => $package->is_upgraded ?? false, // Check if upgraded
+                'is_free' => $package->is_free ?? false, // Check if free
                 'can_upgrade' => $package->used_sessions < $package->sessions, // Show upgrade button if incomplete
             ];
         });
@@ -259,7 +259,7 @@ class UserPackageController extends Controller
                 'sessions' => $package->sessions,
                 'used_sessions' => $package->used_sessions,
                 'status' => $package->status, // active/inactive
-                'is_upgraded' => $package->is_upgraded ?? false, // Check if upgraded
+                'is_free' => $package->is_free ?? false, // Check if free
                 'can_upgrade' => $package->used_sessions < $package->sessions, // Show upgrade button if incomplete
                 'is_deleted' => $package->user ? ($package->user->deleted_at ? true : false) : null, // Check soft-delete
             ];

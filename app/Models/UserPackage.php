@@ -17,6 +17,7 @@ class UserPackage extends Model
         'sessions',
         'used_sessions',
         'status',
+        'is_free',
         'created_at',
         'updated_at',
     ];
