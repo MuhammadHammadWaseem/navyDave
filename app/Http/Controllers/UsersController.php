@@ -299,95 +299,104 @@ class UsersController extends Controller
     public function sessionUpdate(Request $request)
     {
         $service = Service::where('is_admin', 1)->first();
-
         $userSession = UserSession::where('user_id', $request->id)->first();
 
-        // Current sessions before update
-        $oldSessions = $userSession->sessions;
+        if ($service) {
 
-        // Calculate the difference
-        $sessionDifference = $request->session - $oldSessions;
 
-        // Check if the difference is negative
-        if ($sessionDifference < 0) {
+            // Current sessions before update
+            $oldSessions = $userSession->sessions;
 
-            $negativeDifference = abs($sessionDifference);
+            // Calculate the difference
+            $sessionDifference = $request->session - $oldSessions;
 
-            // Fetch admin-provided active packages for this user
-            $adminPackages = UserPackage::where('user_id', $request->id)
-                ->where('service_id', $service->id)
-                ->where('status', 'active')
-                ->get();
+            // Check if the difference is negative
+            if ($sessionDifference < 0) {
 
-            $totalAvailableSessions = $adminPackages->sum('sessions') - $adminPackages->sum('used_sessions');
+                $negativeDifference = abs($sessionDifference);
 
-            // Check if the reduction is possible
-            if ($negativeDifference > $totalAvailableSessions) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Session reduction exceeds available admin-provided sessions.',
-                ], 400);
-            }
+                // Fetch admin-provided active packages for this user
+                $adminPackages = UserPackage::where('user_id', $request->id)
+                    ->where('service_id', $service->id)
+                    ->where('status', 'active')
+                    ->get();
 
-            // Deduct sessions from admin-provided packages
-            foreach ($adminPackages as $package) {
-                $availableSessions = $package->sessions - $package->used_sessions;
+                $totalAvailableSessions = $adminPackages->sum('sessions') - $adminPackages->sum('used_sessions');
 
-                if ($negativeDifference <= 0) {
-                    break;
+                // Check if the reduction is possible
+                if ($negativeDifference > $totalAvailableSessions) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Session reduction exceeds available admin-provided sessions.',
+                    ], 400);
                 }
 
-                if ($availableSessions > 0) {
-                    $deducted = min($negativeDifference, $availableSessions);
-                    $package->sessions -= $deducted;
-                    $package->save();
-                    
-                    $negativeDifference -= $deducted;
+                // Deduct sessions from admin-provided packages
+                foreach ($adminPackages as $package) {
+                    $availableSessions = $package->sessions - $package->used_sessions;
 
-                    // Update appointments linked to this package
-                    $appointments = Appointment::where('package_id', $package->id)
-                        // ->where('status', '!=', 'completed')
-                        ->get();
+                    if ($negativeDifference <= 0) {
+                        break;
+                    }
 
-                    foreach ($appointments as $appointment) {
-                        // $appointment->total_slots = $appointment->total_slots-$deducted;
-                        $appointment->total_slots -= $deducted;
-                        $appointment->save();
+                    if ($availableSessions > 0) {
+                        $deducted = min($negativeDifference, $availableSessions);
+                        $package->sessions -= $deducted;
+                        $package->save();
+
+                        $negativeDifference -= $deducted;
+
+                        // Update appointments linked to this package
+                        $appointments = Appointment::where('package_id', $package->id)
+                            // ->where('status', '!=', 'completed')
+                            ->get();
+
+                        foreach ($appointments as $appointment) {
+                            // $appointment->total_slots = $appointment->total_slots-$deducted;
+                            $appointment->total_slots -= $deducted;
+                            $appointment->save();
+                        }
+                    }
+
+                    if ($package->sessions == $package->used_sessions) {
+                        $package->status = "inactive";
+                        $package->save();
+                    }
+                    // If the package's sessions reach 0, delete the package
+                    if ($package->sessions == 0) {
+                        $package->delete();
                     }
                 }
-
-                if($package->sessions == $package->used_sessions){
-                    $package->status = "inactive";
-                    $package->save();
-                }
-                // If the package's sessions reach 0, delete the package
-                if ($package->sessions == 0) {
-                    $package->delete();
-                }
             }
+
+            // Update sessions
+            $userSession->sessions = $request->session;
+            $userSession->save();
+
+            // Create package for positive difference
+            if ($sessionDifference > 0) {
+                $user_package = new UserPackage();
+                $user_package->user_id = $request->id;
+                $user_package->service_id = $service->id;
+                $user_package->sessions = $sessionDifference;
+                $user_package->used_sessions = 0;
+                $user_package->status = 'active';
+                $user_package->is_free = 1;
+                $user_package->save();
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Session Updated Successfully!',
+                'userSession' => $userSession,
+            ]);
         }
-
-        // Update sessions
-        $userSession->sessions = $request->session;
-        $userSession->save();
-
-        // Create package for positive difference
-        if ($sessionDifference > 0) {
-            $user_package = new UserPackage();
-            $user_package->user_id = $request->id;
-            $user_package->service_id = $service->id;
-            $user_package->sessions = $sessionDifference;
-            $user_package->used_sessions = 0;
-            $user_package->status = 'active';
-            $user_package->is_free = 1;
-            $user_package->save();
-        }
-
         return response()->json([
-            'success' => true,
-            'message' => 'Session Updated Successfully!',
+            'success' => false,
+            'message' => 'Something went wrong. Please try again later',
             'userSession' => $userSession,
         ]);
+
     }
 
 
