@@ -12,7 +12,7 @@
                     <div class="text">
                         <h2> Package Bought<br> Successfully </h2>
                         <p>Now Book your Appointment</p>
-                        <a href="{{ route('appointment') }}" class="t-btn">Book an Appointment</a>
+                        <a href="{{ route('appointment') }}#main-steps-form" class="t-btn">Book an Appointment</a>
                     </div>
                 </div>
             </div>
