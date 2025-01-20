@@ -201,7 +201,9 @@ class UserPackageController extends Controller
             ]);
             
 
-            return redirect()->route('user.packages')->with('success', 'Payment successful');
+            
+            return view('guest.packageBuySuccess');
+            // return redirect()->route('user.packages')->with('success', 'Payment successful');
         } else {
             return redirect()->route('user.payment.fail')->with('error', 'Payment failed');
         }
